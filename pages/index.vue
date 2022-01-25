@@ -7,6 +7,14 @@
       <v-app-bar-title style="flex: none">
         <div>DeepNotes</div>
       </v-app-bar-title>
+
+      <Gap width="16px"/>
+
+      <a href="https://deepnotes.app/">
+        <v-btn text>
+          Home
+        </v-btn>
+      </a>
       
     </v-app-bar>
 
@@ -15,6 +23,18 @@
     <v-navigation-drawer
     app clipped permanent touchless mini-variant
     width="300">
+
+      <v-toolbar>
+
+        <v-toolbar-title>
+          
+          <v-btn rounded icon>
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+
+        </v-toolbar-title>
+        
+      </v-toolbar>
 
     </v-navigation-drawer>
 
