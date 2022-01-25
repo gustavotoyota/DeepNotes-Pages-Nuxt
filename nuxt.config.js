@@ -5,8 +5,7 @@ import { defineNuxtConfig } from '@nuxt/bridge'
 export default defineNuxtConfig({
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - DeepNotes-Pages',
-    title: 'DeepNotes-Pages',
+    title: 'DeepNotes',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
