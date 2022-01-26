@@ -2,6 +2,8 @@ import colors from 'vuetify/es5/util/colors'
 
 import { defineNuxtConfig } from '@nuxt/bridge'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 export default defineNuxtConfig({
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -40,12 +42,63 @@ export default defineNuxtConfig({
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/auth-next',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'https://app-server.deepnotes.app/',
+  },
+
+  router: {
+    middleware: ['auth']
+  },
+
+  auth: {
+    cookie: {
+      options: {
+        domain: isDev ? null : 'deepnotes.app',
+      },
+    },
+    redirect: {
+      login: 'https://deepnotes.app/login',
+      logout: 'https://deepnotes.app/',
+      callback: 'https://deepnotes.app/login',
+      home: 'https://deepnotes.app/',
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth/login', method: 'post' },
+          refresh: { url: '/auth/refresh', method: 'post' },
+          user: { url: '/auth/user', method: 'post' },
+          logout: false,
+        },
+        token: {
+          property: 'token',
+          // global: true, // Default: true
+          // name: 'Authorization', // Default: 'Authorization'
+          // required: true, // Default: true
+          // type: 'Bearer', // Default: 'Bearer'
+          // maxAge: 60 * 30, // Default: 60 * 30
+        },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken', // Default: 'refresh_token'
+          // maxAge: 60 * 60 * 24 * 30, // Default: 60 * 60 * 24 * 30
+          // required: true, // Default: true
+          tokenRequired: false, // Default: false
+        },
+        user: {
+          property: 'user',
+          // autoFetch: true, // Default: true
+        },
+        // autoLogout: false, // Default: false
+
+        scheme: 'refresh',
+      },
+    },
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
