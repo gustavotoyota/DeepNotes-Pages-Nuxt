@@ -11,7 +11,7 @@
       <Gap width="16px"/>
 
       <v-btn text
-      href="https://deepnotes.app/">
+      :href="$root.context.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
         Home
       </v-btn>
       
