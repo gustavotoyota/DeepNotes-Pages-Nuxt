@@ -6,8 +6,6 @@
 export default {
 
   middleware(context) {
-    console.log(context.$auth.loggedIn)
-
     return context.redirect('/0')
   }
 
