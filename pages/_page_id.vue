@@ -2,11 +2,19 @@
   
   <v-app spellcheck="false">
 
-    <v-app-bar app clipped-left clipped-right dense>
-      
-      <v-app-bar-title style="flex: none">
-        <div>DeepNotes</div>
-      </v-app-bar-title>
+    <v-app-bar app clipped-left clipped-right>
+
+      <a href="/" style="display: flex">
+        <img src="/icon.png"
+        style="width: 24px; height: 24px;
+        position: relative; top: 4px"/>
+
+        <Gap width="7px" display="inline-block"/>
+          
+        <v-app-bar-title style="flex: none; display: flex">
+          DeepNotes
+        </v-app-bar-title>
+      </a>
 
       <Gap width="16px"/>
 
