@@ -5,8 +5,10 @@
 <script>
 export default {
 
-  middleware(context) {
-    return context.redirect('/0')
+  async middleware(context) {
+    const lastPageId = (await context.$axios.post('/api/users/last-page-id')).data
+
+    return context.redirect(`/${lastPageId}`)
   }
 
 }
