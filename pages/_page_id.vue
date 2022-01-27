@@ -1,6 +1,7 @@
 <template>
   
-  <v-app spellcheck="false">
+  <v-app v-show="mounted"
+  spellcheck="false">
 
     <v-app-bar app height="56"
     clipped-left clipped-right>
@@ -25,6 +26,11 @@
       </v-app-bar-title>
 
       <v-spacer/>
+
+      <v-btn depressed
+      :href="$root.context.isDev ? 'http://localhost:60379/' : 'https://deepnotes.app/'">
+        Home
+      </v-btn>
 
       <v-btn depressed
       :href="$root.context.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
@@ -133,6 +139,14 @@
 export default {
 
 }
+</script>
+
+<script setup>
+const mounted = useState('mounted', () => false)
+
+onMounted(() => {
+  mounted.value = true
+})
 </script>
 
 <style>
