@@ -135,12 +135,6 @@
 
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
 <script setup>
 const mounted = ref(false)
 
