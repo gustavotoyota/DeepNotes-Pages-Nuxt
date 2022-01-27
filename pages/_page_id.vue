@@ -2,9 +2,11 @@
   
   <v-app spellcheck="false">
 
-    <v-app-bar app clipped-left clipped-right>
+    <v-app-bar app height="56"
+    clipped-left clipped-right>
 
-      <a href="/" style="display: flex">
+      <a style="display: flex"
+      :href="$root.context.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
         <img src="/icon.png"
         style="width: 24px; height: 24px;
         position: relative; top: 4px"/>
@@ -16,11 +18,17 @@
         </v-app-bar-title>
       </a>
 
-      <Gap width="16px"/>
+      <v-spacer/>
 
-      <v-btn text
-      :href="$root.context.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
-        Home
+      <v-app-bar-title>
+        Main Page
+      </v-app-bar-title>
+
+      <v-spacer/>
+
+      <v-btn depressed
+      :href="$root.context.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
+        Account
       </v-btn>
       
     </v-app-bar>
@@ -28,20 +36,43 @@
     
 
     <v-navigation-drawer
-    app clipped permanent touchless mini-variant
+    app clipped permanent touchless
+    mini-variant
+    expand-on-hover
     width="300">
 
       <v-toolbar>
+        <v-btn icon rounded plain
+        :ripple="false" style="cursor: inherit">
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
 
         <v-toolbar-title>
-          
-          <v-btn rounded icon>
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-btn>
-
+          Page Path
         </v-toolbar-title>
-        
       </v-toolbar>
+
+      <v-list dense>
+
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-note</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            Main Page
+          </v-list-item-title>
+        </v-list-item>
+        
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-note</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            Page 1
+          </v-list-item-title>
+        </v-list-item>
+
+      </v-list>
 
     </v-navigation-drawer>
 
@@ -54,8 +85,43 @@
     
 
     <v-navigation-drawer
-    app clipped permanent touchless mini-variant right
+    app clipped permanent touchless right
+    mini-variant
+    expand-on-hover
     width="300">
+
+      <v-toolbar>
+        <v-btn icon rounded plain
+        :ripple="false" style="cursor: inherit">
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
+
+        <v-toolbar-title>
+          Page Path
+        </v-toolbar-title>
+      </v-toolbar>
+
+      <v-list dense>
+
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-note</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            Main Page
+          </v-list-item-title>
+        </v-list-item>
+        
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-note</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            Page 1
+          </v-list-item-title>
+        </v-list-item>
+
+      </v-list>
 
     </v-navigation-drawer>
 
