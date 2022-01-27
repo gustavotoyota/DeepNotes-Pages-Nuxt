@@ -36,6 +36,11 @@
       :href="$root.context.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
         Account
       </v-btn>
+
+      <v-btn depressed
+      @click="$auth.logout()">
+        Logout
+      </v-btn>
       
     </v-app-bar>
 
