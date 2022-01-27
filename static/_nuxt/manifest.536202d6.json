@@ -1,0 +1,10 @@
+{
+  "name": "DeepNotes",
+  "short_name": "DeepNotes",
+  "description": "",
+  "icons": [],
+  "start_url": "/?standalone=true",
+  "display": "standalone",
+  "background_color": "#272727",
+  "lang": "en"
+}

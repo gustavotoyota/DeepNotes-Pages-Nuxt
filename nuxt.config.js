@@ -4,14 +4,25 @@ import { defineNuxtConfig } from '@nuxt/bridge'
 
 const isDev = process.env.NODE_ENV === 'development'
 
+
+
+
+// Content and description
+
+const title = 'DeepNotes'
+const description = ''
+
+
+
+
 export default defineNuxtConfig({
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'DeepNotes',
+    title: title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: description },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
@@ -101,11 +112,21 @@ export default defineNuxtConfig({
     },
   },
 
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
+
   pwa: {
+    icon: {
+      fileName: 'pwa-icon.png',
+    },
+    meta: {
+      name: title,
+    },
     manifest: {
-      lang: 'en'
-    }
+      name: title,
+      short_name: title,
+      description: description,
+      background_color: '#272727',
+      lang: 'en',
+    },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
