@@ -12,12 +12,16 @@
         style="width: 24px; height: 24px;
         position: relative; top: 4px"/>
 
-        <Gap width="7px" display="inline-block"/>
+        <Gap width="7px" inline-block/>
           
-        <v-app-bar-title style="flex: none; display: flex">
+        <v-app-bar-title
+        style="display: flex;
+        color: white">
           DeepNotes
         </v-app-bar-title>
       </a>
+
+      <Gap width="16px" inline-block/>
 
       <v-spacer/>
 
