@@ -47,29 +47,21 @@
     
 
     <v-navigation-drawer
-    app clipped permanent touchless
-    :mini-variant.sync="collapsedLeft"
+    app
+    clipped
+    permanent
+    touchless
+    expand-on-hover
     width="300">
 
       <v-toolbar>
-        <v-btn v-if="collapsedLeft" icon
-        @click.stop="collapsedLeft = !collapsedLeft">
-          <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
-        <v-list-item-icon v-else>
+        <v-list-item-icon>
           <v-icon>mdi-menu</v-icon>
         </v-list-item-icon>
 
         <v-toolbar-title>
           Page Path
         </v-toolbar-title>
-
-        <v-spacer/>
-        
-        <v-btn icon
-        @click.stop="collapsedLeft = !collapsedLeft">
-          <v-icon>mdi-chevron-{{ collapsedLeft ? 'right' : 'left' }}</v-icon>
-        </v-btn>
       </v-toolbar>
 
       <v-list dense>
@@ -105,25 +97,22 @@
     
 
     <v-navigation-drawer
-    app clipped permanent touchless right
-    :mini-variant.sync="collapsedRight"
+    app   
+    clipped
+    permanent
+    touchless
+    expand-on-hover
+    right
     width="300">
 
       <v-toolbar>
-        <v-btn icon
-        @click.stop="collapsedRight = !collapsedRight">
-          <v-icon>mdi-chevron-{{ collapsedRight ? 'left' : 'right' }}</v-icon>
-        </v-btn>
+        <v-list-item-icon>
+          <v-icon>mdi-menu</v-icon>
+        </v-list-item-icon>
 
         <v-toolbar-title>
           Page Path
         </v-toolbar-title>
-
-        <v-spacer/>
-
-        <v-list-item-icon>
-          <v-icon>mdi-menu</v-icon>
-        </v-list-item-icon>
       </v-toolbar>
 
       <v-list dense>
