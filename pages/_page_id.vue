@@ -61,7 +61,7 @@
 
       <v-toolbar>
         <v-list-item-icon>
-          <v-icon>mdi-menu</v-icon>
+          <v-icon>mdi-animation</v-icon>
         </v-list-item-icon>
 
         <v-toolbar-title>
@@ -113,35 +113,13 @@
 
       <v-toolbar>
         <v-list-item-icon>
-          <v-icon>mdi-menu</v-icon>
+          <v-icon>mdi-chart-box</v-icon>
         </v-list-item-icon>
 
         <v-toolbar-title>
-          Page Path
+          Properties
         </v-toolbar-title>
       </v-toolbar>
-
-      <v-list dense>
-
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-note</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>
-            Main Page
-          </v-list-item-title>
-        </v-list-item>
-        
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-note</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>
-            Page 1
-          </v-list-item-title>
-        </v-list-item>
-
-      </v-list>
 
     </v-navigation-drawer>
 
