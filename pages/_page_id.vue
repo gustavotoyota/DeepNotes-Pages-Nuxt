@@ -55,6 +55,7 @@
     clipped
     permanent
     touchless
+    mini-variant
     expand-on-hover
     width="300">
 
@@ -105,6 +106,7 @@
     clipped
     permanent
     touchless
+    mini-variant
     expand-on-hover
     right
     width="300">
