@@ -164,6 +164,10 @@ const collapsedRight = ref(true)
 </script>
 
 <style>
+html {
+  overflow: auto;
+}
+
 a {
   text-decoration: none;
 }
