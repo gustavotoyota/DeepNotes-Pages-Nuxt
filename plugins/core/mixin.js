@@ -8,6 +8,8 @@ const mixin = {
     // Globals
 
     globalThis.$nuxt = this
+
+    globalThis.$context = $nuxt.$options.context
     
     globalThis.$nextTick = $nuxt.$nextTick
     globalThis.$set = $nuxt.$set
@@ -43,6 +45,8 @@ const mixin = {
 
 
     // Instance properties
+
+    Vue.prototype.$context = $context
 
     if (!Vue.prototype.$state) {
       Object.defineProperty(Vue.prototype, '$state', {

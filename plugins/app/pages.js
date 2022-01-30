@@ -37,9 +37,8 @@ pages.create = (name) => {
 
   if (globalThis.window) {
     const doc = getYjsValue(store);
-    const websocketProvider = new WebsocketProvider(
-      //"wss://yjs-server.deepnotes.app/",
-      "ws://localhost:1234",
+    new WebsocketProvider(
+      $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
       `page-${store.page.id}`,
       doc);
   }

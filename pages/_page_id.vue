@@ -7,7 +7,7 @@
     clipped-left clipped-right>
 
       <a style="display: flex"
-      :href="$root.context.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
+      :href="$context.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
         <img src="/icon.png"
         style="width: 24px; height: 24px;
         position: relative; top: 4px"/>
@@ -32,12 +32,12 @@
       <v-spacer/>
 
       <v-btn depressed
-      :href="$root.context.isDev ? 'http://localhost:60379/' : 'https://deepnotes.app/'">
+      :href="$context.isDev ? 'http://localhost:60379/' : 'https://deepnotes.app/'">
         Home
       </v-btn>
 
       <v-btn depressed
-      :href="$root.context.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
+      :href="$context.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
         Account
       </v-btn>
 
