@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { syncedStore, getYjsValue, boxed } from "@syncedstore/core";
-import { WebsocketProvider } from "y-websocket";
+import { syncedStore, getYjsValue, boxed } from "@syncedstore/core"
+import { WebsocketProvider } from "y-websocket"
+import { IndexeddbPersistence } from 'y-indexeddb'
 
 
 const pages = {}
@@ -11,13 +12,18 @@ export default pages
 
 
 pages.create = (name) => {
-  const store = syncedStore({ page: {} });
+  const store = syncedStore({ page: {} })
 
-  store.page.id = uuidv4()
 
-  store.page.name = name
 
-  store.page.elems = {
+  
+  const page = store.page
+
+  page.id = uuidv4()
+
+  page.name = name
+
+  page.elems = {
     blocks: [],
     arrows: [],
     
@@ -27,7 +33,7 @@ pages.create = (name) => {
     editing: false,
   }
 
-  store.page.camera = {
+  page.camera = {
     pos: { x: 0, y: 0 },
     zoom: 1,
 
@@ -35,17 +41,22 @@ pages.create = (name) => {
     lockZoom: false,
   }
 
-  if (globalThis.window) {
+  if (process.client) {
     const doc = getYjsValue(store);
+
+    const name = `page-${store.page.id}`
+
     new WebsocketProvider(
       $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
-      `page-${store.page.id}`,
-      doc);
+      name, doc)
+
+    new IndexeddbPersistence(name, doc)
   }
 
 
+  
 
-  $state.project.pages.list.push(store.page)
+  $state.project.pages.list.push(page)
 
-  return store
+  return page
 }
