@@ -10,6 +10,8 @@ const mixin = {
     globalThis.$nuxt = this
 
     globalThis.$context = $nuxt.$options.context
+
+    globalThis.$watch = $nuxt.$watch
     
     globalThis.$nextTick = $nuxt.$nextTick
     globalThis.$set = $nuxt.$set
