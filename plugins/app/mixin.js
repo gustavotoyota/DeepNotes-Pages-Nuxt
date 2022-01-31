@@ -1,3 +1,8 @@
+import { onMounted, onUnmounted } from "@nuxtjs/composition-api"
+
+
+
+
 const mixin = {
   setup() {
     $app.reset()

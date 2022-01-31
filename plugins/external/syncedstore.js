@@ -1,4 +1,4 @@
-import * as Vue from "vue";
+import * as Nuxt from '@nuxtjs/composition-api';
 import { enableVueBindings } from "@syncedstore/core"
 
-enableVueBindings(Vue)
+enableVueBindings(Nuxt)

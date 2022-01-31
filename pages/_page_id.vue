@@ -135,6 +135,11 @@ export default {
 </script>
 
 <script setup>
+import { ref, onMounted } from "@nuxtjs/composition-api"
+
+
+
+
 // Loading
 
 const mounted = ref(false)

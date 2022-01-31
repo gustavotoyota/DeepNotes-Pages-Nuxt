@@ -1,7 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
 
-import { defineNuxtConfig } from '@nuxt/bridge'
-
 const isDev = process.env.NODE_ENV === 'development'
 
 
@@ -15,7 +13,7 @@ const description = ''
 
 
 
-export default defineNuxtConfig({
+export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: title,
@@ -52,6 +50,7 @@ export default defineNuxtConfig({
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/composition-api/module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -158,4 +157,8 @@ export default defineNuxtConfig({
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
-})
+
+  server: {
+    port: 24579,
+  },
+}
