@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { syncedStore, getYjsValue, boxed } from "@syncedstore/core"
+import { syncedStore, getYjsValue } from "@syncedstore/core"
 import { WebsocketProvider } from "y-websocket"
 import { IndexeddbPersistence } from 'y-indexeddb'
 
@@ -19,7 +19,7 @@ page.reset = (id) => {
   page.id = id ?? uuidv4()
   
   page.elems = {
-    blocks: [],
+    notes: [],
     arrows: [],
   
     regionId: null,
@@ -46,7 +46,7 @@ page.reset = (id) => {
   $merge(page.collab, {
     name: 'Main page',
   
-    blockIds: [],
+    noteIds: [],
     arrowIds: [],
   })
   
@@ -64,4 +64,6 @@ page.reset = (id) => {
 
 
   $state.page = page
+
+  return page
 }

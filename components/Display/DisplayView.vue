@@ -10,8 +10,8 @@
         `translate(${-$state.page.camera.pos.x}px, ${-$state.page.camera.pos.y}px)`,
     }">
       
-      <DisplayBlock
-      v-for="elem in $state.page.elems.blocks" :key="elem.id"
+      <DisplayNote
+      v-for="elem in $state.page.elems.notes" :key="elem.id"
       :elem="elem"/>
 
     </div>
