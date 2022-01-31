@@ -42,6 +42,7 @@ export default defineNuxtConfig({
 
     { src: '~/plugins/app/app.js' },
     { src: '~/plugins/app/mixin.js' },
+    { src: '~/plugins/app/utils.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -105,7 +106,7 @@ export default defineNuxtConfig({
           data: 'refreshToken', // Default: 'refresh_token'
           // maxAge: 60 * 60 * 24 * 30, // Default: 60 * 60 * 24 * 30
           // required: true, // Default: true
-          tokenRequired: true, // Default: false
+          // tokenRequired: false, // Default: false
         },
         user: {
           property: 'user',

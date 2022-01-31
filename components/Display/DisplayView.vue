@@ -11,8 +11,8 @@
     }">
       
       <DisplayBlock
-      v-for="block in $state.page.elems.blocks" :key="block.id"
-      :block="block"/>
+      v-for="elem in $state.page.elems.blocks" :key="elem.id"
+      :elem="elem"/>
 
     </div>
 

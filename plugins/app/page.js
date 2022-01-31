@@ -19,9 +19,7 @@ page.reset = (id) => {
   page.id = id ?? uuidv4()
   
   page.elems = {
-    blocks: [
-      { id: 0 }
-    ],
+    blocks: [],
     arrows: [],
   
     regionId: null,

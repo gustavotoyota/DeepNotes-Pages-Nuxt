@@ -17,9 +17,11 @@
 
 <script setup>
 function onWheel(event) {
+  $app.zooming.perform(event)
 }
 
 function onPointerDown(event) {
+  $app.panning.start(event)
 }
 </script>
 

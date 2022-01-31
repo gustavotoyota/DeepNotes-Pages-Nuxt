@@ -20,7 +20,7 @@ coords.getWorldPos = (event) => {
 
 
 coords.clientToDisplay = (clientPos) => {
-  const displayRect = $app.display.getClientRect()
+  const displayRect = $app.rects.fromDisplay()
 
   return {
     x: clientPos.x - displayRect.start.x,
@@ -28,7 +28,7 @@ coords.clientToDisplay = (clientPos) => {
   }
 }
 coords.displayToClient = (displayPos) => {
-  const displayRect = $app.display.getClientRect()
+  const displayRect = $app.rects.fromDisplay()
 
   return {
     x: displayPos.x + displayRect.start.x,
@@ -40,7 +40,7 @@ coords.displayToClient = (displayPos) => {
 
 
 coords.displayToWorld = (displayPos) => {
-  const displayRect = $app.display.getClientRect()
+  const displayRect = $app.rects.fromDisplay()
 
   return {
     x: $state.page.camera.pos.x + (displayPos.x - displayRect.size.x / 2) / $state.page.camera.zoom,
@@ -48,7 +48,7 @@ coords.displayToWorld = (displayPos) => {
   }
 }
 coords.worldToDisplay = (worldPos) => {
-  const displayRect = $app.display.getClientRect()
+  const displayRect = $app.rects.fromDisplay()
 
   return {
     x: displayRect.size.x / 2 + (worldPos.x - $state.page.camera.pos.x) * $state.page.camera.zoom,
