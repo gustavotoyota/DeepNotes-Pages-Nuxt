@@ -16,6 +16,8 @@ $app.panning = require('./camera/panning').default
 
 $app.boxSelection = require('./selection/box-selection').default
 
+$app.elems = require('./elems/elems').default
+
 $app.notes = require('./notes/notes').default
 
 

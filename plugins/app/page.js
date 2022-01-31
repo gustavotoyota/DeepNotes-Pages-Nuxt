@@ -14,7 +14,7 @@ export default page
 
 
 page.reset = (id) => {
-  const page = {}
+  const page = $state.page = {}
   
   page.id = id ?? uuidv4()
   
@@ -41,8 +41,12 @@ page.reset = (id) => {
 
   // Realtime collaboration
   
-  const store = new syncedStore({ collab: {} })
+  const store = new syncedStore({ collab: {}, test: [] })
+
+  page.store = store
+
   page.collab = store.collab
+
   $merge(page.collab, {
     name: 'Main page',
   
@@ -58,12 +62,28 @@ page.reset = (id) => {
       $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
       name, doc)
     new IndexeddbPersistence(name, doc)
+
+    getYjsValue(store.collab.noteIds).observe(event => {
+      console.log(event)
+    })
+    getYjsValue(store.collab.arrowIds).observe(event => {
+      console.log(event)
+    })
   }
 
 
 
-
-  $state.page = page
-
   return page
+}
+
+
+
+
+page.addNote = (note) => {
+  page.elems.notes.push(note)
+  page.collab.noteIds.push(note.id)
+}
+page.addArrow = (arrow) => {
+  page.elems.arrows.push(arrow)
+  page.collab.arrowIds.push(arrow.id)
 }
