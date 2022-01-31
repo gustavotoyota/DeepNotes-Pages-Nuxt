@@ -25,8 +25,6 @@ $app.boxSelection = require('./selection/box-selection')
 
 
 $app.reset = () => {
-  $app.page.reset()
-
   $app.panning.reset()
   
   $app.boxSelection.reset()

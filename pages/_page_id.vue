@@ -131,11 +131,21 @@
 
 <script>
 export default {
+  auth: false,
 }
 </script>
 
 <script setup>
-import { ref, onMounted } from "@nuxtjs/composition-api"
+import { ref, onMounted, useRoute } from "@nuxtjs/composition-api"
+
+
+
+
+// Reset page
+
+const route = useRoute()
+
+$app.page.reset(route.value.params.page_id)
 
 
 
