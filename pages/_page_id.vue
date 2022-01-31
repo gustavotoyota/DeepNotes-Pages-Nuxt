@@ -26,7 +26,7 @@
       <v-spacer/>
 
       <v-app-bar-title>
-        Main Page
+        {{ $state.page.collab.name }}
       </v-app-bar-title>
 
       <v-spacer/>

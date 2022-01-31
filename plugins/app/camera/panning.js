@@ -1,4 +1,5 @@
-const panning = module.exports = {}
+const panning = {}
+export default panning
 
 
 

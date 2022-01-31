@@ -1,4 +1,5 @@
-const boxSelection = module.exports = {}
+const boxSelection = {}
+export default boxSelection
 
 
 

@@ -6,20 +6,19 @@ export default (context, inject) => inject('app', $app)
 
 $app.page = require('./page').default
 
-$app.coords = require('./space/coords')
-$app.sizes = require('./space/sizes')
-$app.rects = require('./space/rects')
+$app.coords = require('./space/coords').default
+$app.sizes = require('./space/sizes').default
+$app.rects = require('./space/rects').default
+
+$app.camera = require('./camera/camera').default
+$app.zooming = require('./camera/zooming').default
+$app.panning = require('./camera/panning').default
+
+$app.boxSelection = require('./selection/box-selection').default
+
+$app.notes = require('./notes/notes').default
 
 
-
-$app.camera = require('./camera/camera')
-$app.zooming = require('./camera/zooming')
-$app.panning = require('./camera/panning')
-
-
-
-
-$app.boxSelection = require('./selection/box-selection')
 
 
 

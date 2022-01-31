@@ -1,4 +1,5 @@
-const coords = module.exports = {}
+const coords = {}
+export default coords
 
 
 

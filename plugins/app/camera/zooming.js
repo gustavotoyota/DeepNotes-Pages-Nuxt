@@ -1,4 +1,5 @@
-const zooming = module.exports = {}
+const zooming = {}
+export default zooming
 
 
 

@@ -1,4 +1,5 @@
-const sizes = module.exports = {}
+const sizes = {}
+export default sizes
 
 
 

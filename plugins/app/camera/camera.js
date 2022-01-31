@@ -1,4 +1,5 @@
-const camera = module.exports = {}
+const camera = {}
+export default camera
 
 
 

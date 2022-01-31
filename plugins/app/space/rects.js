@@ -1,4 +1,5 @@
-const rects = module.exports = {}
+const rects = {}
+export default rects
 
 
 

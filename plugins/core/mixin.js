@@ -48,12 +48,7 @@ const mixin = {
 
     Vue.prototype.$context = $context
 
-    if (!Vue.prototype.$state) {
-      Object.defineProperty(Vue.prototype, '$state', {
-        get() { return $state },
-        set(value) { $state = value },
-      })
-    }
+    Vue.prototype.$state = $state
 
     Vue.prototype.$assign = $assign
     Vue.prototype.$merge = $merge
