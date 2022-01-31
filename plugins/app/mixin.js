@@ -32,6 +32,8 @@ const mixin = {
 
     function onPointerMove(event) {
       $app.panning.update(event)
+      
+      $app.boxSelection.update(event)
     }
 
     onUnmounted(() => {
@@ -50,6 +52,8 @@ const mixin = {
 
     function onPointerUp(event) {
       $app.panning.finish(event)
+      
+      $app.boxSelection.finish(event)
     }
 
     onUnmounted(() => {

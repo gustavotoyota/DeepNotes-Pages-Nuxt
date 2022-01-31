@@ -11,6 +11,7 @@
 
 <script setup>
 function onPointerDown(event) {
+  $app.boxSelection.start(event)
 }
 
 function onDoubleClick(event) {
