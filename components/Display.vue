@@ -2,17 +2,26 @@
 
   <div id="display"
   style="height: 100%;
-  overflow: hidden">
+  overflow: hidden"
+  @wheel="onWheel"
+  @pointerdown.middle.prevent="onPointerDown">
+
+    <DisplayBackground/>
+    <DisplayView/>
+    <DisplayBoxSelection/>
+    <DisplayButtons/>
 
   </div>
 
 </template>
 
 <script setup>
-</script>
+function onWheel(event) {
+}
 
-<style scoped>
-</style>
+function onPointerDown(event) {
+}
+</script>
 
 <style>
 #display * {

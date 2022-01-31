@@ -5,50 +5,57 @@ import { WebsocketProvider } from "y-websocket"
 import { IndexeddbPersistence } from 'y-indexeddb'
 
 
-const pages = {}
-export default pages
+
+
+const page = {}
+export default page
 
 
 
 
-pages.create = (name) => {
+page.reset = (id) => {
   const page = {}
-
-  page.id = uuidv4()
-
-  const store = new syncedStore({ collab: {} })
-  page.collab = store.collab
-  $merge(page.collab, {
-    name: 'Main page',
-
-    lockPos: false,
-    lockZoom: false,
-
-    blockIds: [],
-    arrowIds: [],
-  })
-
+  
+  page.id = id ?? uuidv4()
+  
   page.elems = {
-    blocks: [],
+    blocks: [
+      { id: 0 }
+    ],
     arrows: [],
-
+  
     regionId: null,
     selected: {},
     activeId: null,
     editing: false,
   }
-
+  
   page.camera = {
     pos: { x: 0, y: 0 },
     zoom: 1,
+  
+    lockPos: false,
+    lockZoom: false,
   }
+  
+  
+  
 
-
-
+  // Realtime collaboration
+  
+  const store = new syncedStore({ collab: {} })
+  page.collab = store.collab
+  $merge(page.collab, {
+    name: 'Main page',
+  
+    blockIds: [],
+    arrowIds: [],
+  })
+  
   if (process.client) {
     const name = `page-${page.id}`
     const doc = getYjsValue(store)
-
+  
     new WebsocketProvider(
       $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
       name, doc)
@@ -58,7 +65,5 @@ pages.create = (name) => {
 
 
 
-  $state.project.pages.list.push(page)
-
-  return page
+  $state.page = page
 }

@@ -97,6 +97,8 @@
 
     <v-main>
 
+      <Display/>
+
     </v-main>
 
     
@@ -127,18 +129,19 @@
 
 </template>
 
+<script>
+export default {
+}
+</script>
+
 <script setup>
+// Loading
+
 const mounted = ref(false)
 
 onMounted(() => {
   mounted.value = true
 })
-
-
-
-
-const collapsedLeft = ref(true)
-const collapsedRight = ref(true)
 </script>
 
 <style>

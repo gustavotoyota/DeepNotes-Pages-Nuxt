@@ -6,13 +6,13 @@
     <!-- Viewbox -->
     <div style="width: 0; height: 0; position: relative"
     :style="{
-      'transform': `scale(${$getters.page.camera.zoom}) ` +
-        `translate(${-$getters.page.camera.pos.x}px, ${-$getters.page.camera.pos.y}px)`,
+      'transform': `scale(${$state.page.camera.zoom}) ` +
+        `translate(${-$state.page.camera.pos.x}px, ${-$state.page.camera.pos.y}px)`,
     }">
       
-      <DisplayElement
-      v-for="elem in $getters.page.elems.blocks" :key="elem.id"
-      :elem="elem"/>
+      <DisplayBlock
+      v-for="block in $state.page.elems.blocks" :key="block.id"
+      :block="block"/>
 
     </div>
 

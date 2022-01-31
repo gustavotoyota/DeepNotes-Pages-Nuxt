@@ -105,7 +105,7 @@ export default defineNuxtConfig({
           data: 'refreshToken', // Default: 'refresh_token'
           // maxAge: 60 * 60 * 24 * 30, // Default: 60 * 60 * 24 * 30
           // required: true, // Default: true
-          tokenRequired: false, // Default: false
+          tokenRequired: true, // Default: false
         },
         user: {
           property: 'user',

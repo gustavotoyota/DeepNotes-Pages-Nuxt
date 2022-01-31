@@ -1,6 +1,6 @@
 const mixin = {
   setup() {
-    $app.project.reset()
+    $app.reset()
   }
 }
 
