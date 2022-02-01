@@ -1,3 +1,10 @@
+import { syncedStore, getYjsValue } from "@syncedstore/core"
+import { WebsocketProvider } from "y-websocket"
+import { IndexeddbPersistence } from 'y-indexeddb'
+
+
+
+
 const notes = {}
 export default notes
 
@@ -5,7 +12,7 @@ export default notes
 
 
 notes.create = (clientPos) => {
-  const note = $app.elems.create('note')
+  const note = $app.elems.create({ type: 'note' })
 
   $utils.merge(note, {
     children: [],
@@ -73,10 +80,19 @@ notes.create = (clientPos) => {
     const name = `note-${note.id}`
     const doc = getYjsValue(store)
   
-    new WebsocketProvider(
-      $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
-      name, doc)
-    new IndexeddbPersistence(name, doc)
+    const indexedDbProvider = new IndexeddbPersistence(name, doc)
+
+    indexedDbProvider.on('synced', () => {
+      const websocketProvider = new WebsocketProvider(
+        $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
+        name, doc)
+
+      websocketProvider.on('status', event => {
+        getYjsValue(store.collab.childrenIds).observe(event => {
+          console.log(event)
+        })
+      })
+    })
   }
   
   getYjsValue(note.collab.childrenIds).observe(event => {

@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
+import { reactive } from '@nuxtjs/composition-api'
+
 
 
 
@@ -9,10 +11,10 @@ export default elems
 
 
 
-elems.create = (type) => {
-  return {
-    id: uuidv4(),
+elems.create = (values) => {
+  return reactive({
+    id: values.id ?? uuidv4(),
 
-    type: type,
-  }
+    type: values.type,
+  })
 }

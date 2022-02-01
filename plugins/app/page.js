@@ -4,6 +4,8 @@ import { syncedStore, getYjsValue } from "@syncedstore/core"
 import { WebsocketProvider } from "y-websocket"
 import { IndexeddbPersistence } from 'y-indexeddb'
 
+import { reactive } from '@nuxtjs/composition-api'
+
 
 
 
@@ -14,36 +16,34 @@ export default page
 
 
 page.reset = (id) => {
-  const page = $state.page = {}
-  
-  page.id = id ?? uuidv4()
-  
-  page.elems = {
-    notes: [],
-    arrows: [],
-  
-    regionId: null,
-    selected: {},
-    activeId: null,
-    editing: false,
-  }
-  
-  page.camera = {
-    pos: { x: 0, y: 0 },
-    zoom: 1,
-  
-    lockPos: false,
-    lockZoom: false,
-  }
+  const page = reactive({
+    id: id ?? uuidv4(),
+    
+    elems: {
+      notes: [],
+      arrows: [],
+    
+      regionId: null,
+      selected: {},
+      activeId: null,
+      editing: false,
+    },
+    
+    camera: {
+      pos: { x: 0, y: 0 },
+      zoom: 1,
+    
+      lockPos: false,
+      lockZoom: false,
+    },
+  })
   
   
   
 
   // Realtime collaboration
   
-  const store = new syncedStore({ collab: {}, test: [] })
-
-  page.store = store
+  const store = new syncedStore({ collab: {} })
 
   page.collab = store.collab
 
@@ -58,20 +58,28 @@ page.reset = (id) => {
     const name = `page-${page.id}`
     const doc = getYjsValue(store)
   
-    new WebsocketProvider(
-      $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
-      name, doc)
-    new IndexeddbPersistence(name, doc)
+    const indexedDbProvider = new IndexeddbPersistence(name, doc)
 
-    getYjsValue(store.collab.noteIds).observe(event => {
-      console.log(event)
-    })
-    getYjsValue(store.collab.arrowIds).observe(event => {
-      console.log(event)
+    indexedDbProvider.on('synced', () => {
+      const websocketProvider = new WebsocketProvider(
+        $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
+        name, doc)
+
+      websocketProvider.on('status', event => {
+        getYjsValue(store.collab.noteIds).observe(event => {
+          console.log(event)
+        })
+        getYjsValue(store.collab.arrowIds).observe(event => {
+          console.log(event)
+        })
+      })
     })
   }
 
 
+
+  
+  $state.page = page
 
   return page
 }
@@ -80,10 +88,10 @@ page.reset = (id) => {
 
 
 page.addNote = (note) => {
-  page.elems.notes.push(note)
-  page.collab.noteIds.push(note.id)
+  $state.page.elems.notes.push(note)
+  $state.page.collab.noteIds.push(note.id)
 }
 page.addArrow = (arrow) => {
-  page.elems.arrows.push(arrow)
-  page.collab.arrowIds.push(arrow.id)
+  $state.page.elems.arrows.push(arrow)
+  $state.page.collab.arrowIds.push(arrow.id)
 }

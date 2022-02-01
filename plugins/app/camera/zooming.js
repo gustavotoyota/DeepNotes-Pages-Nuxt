@@ -4,6 +4,12 @@ export default zooming
 
 
 
+zooming.minZoom = 0 // Math.pow(1 / 1.2, 16)
+zooming.maxZoom = Infinity // Math.pow(1.2, 12)
+
+
+
+
 zooming.perform = (event) => {
   if ($state.page.camera.lockZoom)
     return
@@ -33,5 +39,5 @@ zooming.perform = (event) => {
 
   $state.page.camera.zoom = Math.min(Math.max(
     $state.page.camera.zoom * multiplier,
-    $app.configs.minZoom), $app.configs.maxZoom)
+    $app.zooming.minZoom), $app.zooming.maxZoom)
 }

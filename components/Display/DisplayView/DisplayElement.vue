@@ -3,8 +3,8 @@
   <DisplayNote v-if="elem.type === 'note'"
   :elem="elem" :target-width="targetWidth"/>
   
-  <DisplayArrow v-else-if="elem.type === 'arrow'"
-  :elem="elem"/>
+  <!--<DisplayArrow v-else-if="elem.type === 'arrow'"
+  :elem="elem"/>-->
     
 </template>
 
