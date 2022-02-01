@@ -61,18 +61,34 @@ page.reset = (id) => {
     const indexedDbProvider = new IndexeddbPersistence(name, doc)
 
     indexedDbProvider.on('synced', () => {
+      for (const noteId of page.collab.noteIds)
+        page.elems.notes.push($app.notes.create({ noteId }))
+
+      getYjsValue(page.collab.noteIds).observe(event => {
+        let index = 0
+
+        for (const delta of event.changes.delta) {
+          if (delta.retain != null)
+            index += delta.retain
+          if (delta.delete != null)
+            page.elems.notes.splice(index, delta.delete)
+          if (delta.insert != null) {
+            const inserted = []
+            for (const noteId of delta.insert)
+              inserted.push($app.notes.create({ noteId }))
+            page.elems.notes.splice(index, 0, ...inserted)
+          }
+        }
+        
+        console.log(event)
+      })
+      // getYjsValue(page.collab.arrowIds).observe(event => {
+      //   console.log(event)
+      // })
+
       const websocketProvider = new WebsocketProvider(
         $context.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
         name, doc)
-
-      websocketProvider.on('status', event => {
-        getYjsValue(store.collab.noteIds).observe(event => {
-          console.log(event)
-        })
-        getYjsValue(store.collab.arrowIds).observe(event => {
-          console.log(event)
-        })
-      })
     })
   }
 
@@ -88,10 +104,8 @@ page.reset = (id) => {
 
 
 page.addNote = (note) => {
-  $state.page.elems.notes.push(note)
   $state.page.collab.noteIds.push(note.id)
 }
 page.addArrow = (arrow) => {
-  $state.page.elems.arrows.push(arrow)
   $state.page.collab.arrowIds.push(arrow.id)
 }
