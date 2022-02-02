@@ -1,6 +1,22 @@
+import { computed } from '@nuxtjs/composition-api'
+
+
+
+
 globalThis.$utils = {}
 export default (context, inject) => inject('utils', $utils)
 
+
+
+
+$utils.makeComputed = (obj, key, options) => {
+  const aux = computed(options)
+
+  Object.defineProperty(obj, key, {
+    get() { return aux.value },
+    set(value) { aux.value = value }, 
+  })
+}
 
 
 

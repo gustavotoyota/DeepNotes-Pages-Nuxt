@@ -1,11 +1,12 @@
-const camera = {}
-export default camera
+export const init = ({ $app }) => {
+  const camera = $app.camera = {}
 
 
 
+  
+  camera.resetZoom = () => {
+  }
 
-camera.resetZoom = () => {
-}
-
-camera.fitToScreen = () => {
+  camera.fitToScreen = () => {
+  }
 }

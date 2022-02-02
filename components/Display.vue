@@ -16,6 +16,13 @@
 </template>
 
 <script setup>
+import { useContext } from "@nuxtjs/composition-api"
+
+const { $app } = useContext()
+
+
+
+
 function onWheel(event) {
   $app.zooming.perform(event)
 }

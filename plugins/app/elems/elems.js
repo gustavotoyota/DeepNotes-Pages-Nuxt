@@ -5,16 +5,17 @@ import { reactive } from '@nuxtjs/composition-api'
 
 
 
-const elems = {}
-export default elems
+export const init = ({ $app }) => {
+  const elems = $app.elems = {}
+  
 
 
 
+  elems.create = (values) => {
+    return reactive({
+      id: values.id ?? uuidv4(),
 
-elems.create = (values) => {
-  return reactive({
-    id: values.id ?? uuidv4(),
-
-    type: values.type,
-  })
+      type: values.type,
+    })
+  }
 }

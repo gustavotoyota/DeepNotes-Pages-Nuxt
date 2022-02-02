@@ -1,32 +1,44 @@
-globalThis.$app = {}
-export default (context, inject) => inject('app', $app)
+import { defineNuxtPlugin } from '@nuxtjs/composition-api'
 
 
 
 
-$app.page = require('./page').default
-
-$app.coords = require('./space/coords').default
-$app.sizes = require('./space/sizes').default
-$app.rects = require('./space/rects').default
-
-$app.camera = require('./camera/camera').default
-$app.zooming = require('./camera/zooming').default
-$app.panning = require('./camera/panning').default
-
-$app.boxSelection = require('./selection/box-selection').default
-
-$app.elems = require('./elems/elems').default
-
-$app.notes = require('./notes/notes').default
+export default defineNuxtPlugin((ctx, inject) => {
+  const $app = {}
 
 
 
 
+  inject('app', $app)
+  inject('state', ctx.store.state)
 
 
-$app.reset = () => {
-  $app.panning.reset()
+
+
+  require('./page').init(ctx)
   
-  $app.boxSelection.reset()
-}
+  require('./elems/elems').init(ctx)
+
+  require('./notes/notes').init(ctx)
+
+  require('./space/pos').init(ctx)
+  require('./space/sizes').init(ctx)
+  require('./space/rects').init(ctx)
+
+  require('./camera/camera').init(ctx)
+  require('./camera/panning').init(ctx)
+  require('./camera/zooming').init(ctx)
+
+  require('./selection/selection').init(ctx)
+  require('./selection/active-elem').init(ctx)
+  require('./selection/box-selection').init(ctx)
+
+
+
+
+  $app.reset = (root) => {
+    $app.panning.reset()
+    
+    $app.boxSelection.reset()
+  }
+})

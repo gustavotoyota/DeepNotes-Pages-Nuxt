@@ -1295,9 +1295,9 @@
     webpackbar "^4.0.0"
 
 "@nuxtjs/auth-next@^5.0.0-1643626889.31bf6df":
-  version "5.0.0-1643626889.31bf6df"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/auth-next/-/auth-next-5.0.0-1643626889.31bf6df.tgz#88c6d9d296d7245223f468739f89b88e483f12af"
-  integrity sha512-5XoU7Qi4tAsbhp/zHPbSS1gYXv6YIYhHwBV0rj6UuCbJDcri9mpvic/biMezlDW+xmeIrx7tij2W+9b9shB/4g==
+  version "5.0.0-1643705077.3d7afbe"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/auth-next/-/auth-next-5.0.0-1643705077.3d7afbe.tgz#7577e0ee7e8336854c06da390a6581737fbb366c"
+  integrity sha512-BWqxq84kOU6yif4EmTf3pfg1mEVYVVIKbjFCLW052xigIbsYQKuCEVjVrhuD1D8s307edO9f7BOMNTyfNqjrcQ==
   dependencies:
     "@nuxtjs/axios" "^5.13.6"
     axios "^0.25.0"
@@ -1395,18 +1395,18 @@
     picomatch "^2.2.2"
 
 "@syncedstore/core@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/@syncedstore/core/-/core-0.3.5.tgz#b550b5ba15bf977e9b33bc9c8a6084c007778119"
-  integrity sha512-wKPBR/FmttqW920MZ0bnznSurdR6yG3zPsRpWFPmuytovDu3TNCWEjDHFx/A91eipFgN/4e+ehmFPMYhMqAWgA==
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@syncedstore/core/-/core-0.3.7.tgz#c29187b9722e246b3dc1114865375aef618067f4"
+  integrity sha512-uxer5y/2RpMVzPbTvRik6EsjPNRd+LhrX3paSTzNFvuc4SedT+GnJ3VMGDPLXkdhVA65F+E+2IkNrAEb+WAo3Q==
   dependencies:
     "@reactivedata/reactive" "0.1.16"
-    "@syncedstore/yjs-reactive-bindings" "^0.3.4"
+    "@syncedstore/yjs-reactive-bindings" "^0.3.7"
     "@types/eslint" "6.8.0"
 
-"@syncedstore/yjs-reactive-bindings@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@syncedstore/yjs-reactive-bindings/-/yjs-reactive-bindings-0.3.4.tgz#f5328c48b3e34b1d89e084b407dbd9e16d22cf80"
-  integrity sha512-TU0WhjOmRm1U4JiOoNdFSIFNF5mm8IRCH9M/fS2FYNThwHTONYwJU0qoCayNe0Fd4EQ2/4Mlwnd5l80TqpzF/A==
+"@syncedstore/yjs-reactive-bindings@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@syncedstore/yjs-reactive-bindings/-/yjs-reactive-bindings-0.3.7.tgz#607da835559863eec29f4f6862481a46a90a88b8"
+  integrity sha512-qWZ6rwif7A+Ft9iOyWi4yqeu2BgxDIa3trRJHcmTsuxNd7HERpUuY4vFmQGHUlRMvYt8QlKxBjU5UrwAGxvdYA==
   dependencies:
     "@types/eslint" "6.8.0"
 
@@ -1441,9 +1441,9 @@
   integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
 
 "@types/node@*":
-  version "17.0.13"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.13.tgz#5ed7ed7c662948335fcad6c412bb42d99ea754e3"
-  integrity sha512-Y86MAxASe25hNzlDbsviXl8jQHb0RDvKt4c40ZJQ1Don0AAL0STLZSs4N+6gLEO55pedy7r2cLwS+ZDxPm/2Bw==
+  version "17.0.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.14.tgz#33b9b94f789a8fedd30a68efdbca4dbb06b61f20"
+  integrity sha512-SbjLmERksKOGzWzPNuW7fJM7fk3YXVTFiZWB/Hs99gwhk+/dnrQRPBQjPW9aO+fi1tAffi9PrwFvsmOKmDTyng==
 
 "@types/q@^1.5.1":
   version "1.5.5"
@@ -2835,9 +2835,9 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.12.1, core-js-compat@^3.20.0, core-js-compat@^3.20.2:
-  version "3.20.3"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.20.3.tgz#d71f85f94eb5e4bea3407412e549daa083d23bd6"
-  integrity sha512-c8M5h0IkNZ+I92QhIpuSijOxGAcj3lgpsWdkCqmUTZNwidujF4r3pi6x1DCN+Vcs5qTS2XWWMfWSuCqyupX8gw==
+  version "3.21.0"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.21.0.tgz#bcc86aa5a589cee358e7a7fa0a4979d5a76c3885"
+  integrity sha512-OSXseNPSK2OPJa6GdtkMz/XxeXx8/CJvfhQWTqd6neuUraujcL4jVsjkLQz1OWnax8xVQJnRPe0V2jqNWORA+A==
   dependencies:
     browserslist "^4.19.1"
     semver "7.0.0"
@@ -2848,9 +2848,9 @@ core-js@^2.6.5:
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 core-js@^3.19.3:
-  version "3.20.3"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.20.3.tgz#c710d0a676e684522f3db4ee84e5e18a9d11d69a"
-  integrity sha512-vVl8j8ph6tRS3B8qir40H7yw7voy17xL0piAjlbBUsH7WIfzoedL/ZOr1OV9FyZQLWXsayOJyV4tnRyXR85/ag==
+  version "3.21.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.21.0.tgz#f479dbfc3dffb035a0827602dd056839a774aa71"
+  integrity sha512-YUdI3fFu4TF/2WykQ2xzSiTQdldLB4KVuL9WeAy5XONZYt5Cun/fpQvctoKbCgvPhmzADeesTk/j2Rdx77AcKQ==
 
 core-util-is@~1.0.0:
   version "1.0.3"
@@ -3410,9 +3410,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.4.17:
-  version "1.4.57"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.57.tgz#2b2766df76ac8dbc0a1d41249bc5684a31849892"
-  integrity sha512-FNC+P5K1n6pF+M0zIK+gFCoXcJhhzDViL3DRIGy2Fv5PohuSES1JHR7T+GlwxSxlzx4yYbsuzCZvHxcBSRCIOw==
+  version "1.4.60"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.60.tgz#2b824d862f068a9794b2b75d66ad40ff44745f18"
+  integrity sha512-h53hbEiKC6hijelDgxgkgAUC3PKyR7TmIfvjHnBjUGPMg/3sBuTyG6eDormw+lY24uUJvHkUPzB8dpK8b2u3Sw==
 
 elliptic@^6.5.3:
   version "6.5.4"

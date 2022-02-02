@@ -10,12 +10,22 @@
 </template>
 
 <script setup>
+import { useContext } from "@nuxtjs/composition-api"
+
+
+
+
+const { $app } = useContext()
+
+
+
+
 function onPointerDown(event) {
   $app.boxSelection.start(event)
 }
 
 function onDoubleClick(event) {
-  const clientPos = $app.coords.getClientPos(event)
+  const clientPos = $app.pos.getClientPos(event)
 
   const note = $app.notes.create({ clientPos })
 
