@@ -62,40 +62,44 @@ export const init = (ctx) => {
     if (process.client) {
       const name = `page-${page.id}`
       const doc = getYjsValue(store)
-    
+
       const indexedDbProvider = new IndexeddbPersistence(name, doc)
 
       indexedDbProvider.on('synced', () => {
-        for (const noteId of page.collab.noteIds)
-          page.elems.notes.push($app.notes.create({ id: noteId }))
-
-        getYjsValue(page.collab.noteIds).observe(event => {
-          let index = 0
-
-          for (const delta of event.changes.delta) {
-            if (delta.retain != null)
-              index += delta.retain
-            if (delta.delete != null)
-              page.elems.notes.splice(index, delta.delete)
-            if (delta.insert != null) {
-              const inserted = []
-              
-              for (const noteId of delta.insert)
-                inserted.push($app.notes.create({ id: noteId }))
-
-              page.elems.notes.splice(index, 0, ...inserted)
-            }
-          }
-          
-          console.log(event)
-        })
-        // getYjsValue(page.collab.arrowIds).observe(event => {
-        //   console.log(event)
-        // })
-
         const websocketProvider = new WebsocketProvider(
           ctx.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
           name, doc)
+        
+        websocketProvider.on('sync', () => {
+          for (const noteId of page.collab.noteIds)
+            page.elems.notes.push($app.notes.create({ id: noteId }))
+  
+          getYjsValue(page.collab.noteIds).observe(event => {
+            let index = 0
+  
+            for (const delta of event.changes.delta) {
+              if (delta.retain != null)
+                index += delta.retain
+              if (delta.delete != null)
+                page.elems.notes.splice(index, delta.delete)
+              if (delta.insert != null) {
+                if (page.elems.notes[index]?.id == delta.insert[0]) {
+                  console.log('Skipped')
+                  return
+                }
+                  
+                const inserted = []
+                
+                for (const noteId of delta.insert)
+                  inserted.push($app.notes.create({ id: noteId }))
+  
+                page.elems.notes.splice(index, 0, ...inserted)
+              }
+            }
+            
+            console.log(event)
+          })
+        })
       })
     }
 
@@ -111,9 +115,11 @@ export const init = (ctx) => {
 
 
   page.addNote = (note) => {
+    $state.page.elems.notes.push(note)
     $state.page.collab.noteIds.push(note.id)
   }
   page.addArrow = (arrow) => {
+    $state.page.elems.arrows.push(arrow)
     $state.page.collab.arrowIds.push(arrow.id)
   }
 }

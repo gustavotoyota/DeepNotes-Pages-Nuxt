@@ -23,7 +23,7 @@ export const init = (ctx) => {
 
 
 
-  notes.create = ({ id, parentId, clientPos }) => {
+  notes.create = ({ id, parentId, clientPos, local }) => {
     const note = $app.elems.create({ type: 'note' })
 
     $static.utils.merge(note, {
@@ -44,94 +44,65 @@ export const init = (ctx) => {
     const store = new syncedStore({ collab: {} })
 
     note.collab = store.collab
+    
+    if (local) {
+      $static.utils.merge(note.collab, {
+        linkedPageId: null,
 
-    $static.utils.merge(note.collab, {
-      linkedPageId: null,
+        anchor: { x: 0.5, y: 0.5 },
 
-      anchor: { x: 0.5, y: 0.5 },
+        pos: clientPos ?
+          $app.pos.clientToWorld(clientPos) : { x: 0, y: 0 },
 
-      pos: clientPos ?
-        $app.pos.clientToWorld(clientPos) : { x: 0, y: 0 },
-
-      hasTitle: false,
-      hasBody: true,
-      
-      title: '',
-      body: '',
-
-      collapsible: false,
-      collapsed: false,
-
-      expandedSize: {
-        x: 'auto',
-
-        y: {
-          title: 'auto',
-          body: 'auto',
-          container: 'auto',
-        },
-      },
-      collapsedSize: {
-        x: 'expanded',
+        hasTitle: false,
+        hasBody: true,
         
-        y: {
-          title: 'auto',
-          body: 'auto',
-          container: 'auto',
+        title: '',
+        body: '',
+
+        collapsible: false,
+        collapsed: false,
+
+        expandedSize: {
+          x: 'auto',
+
+          y: {
+            title: 'auto',
+            body: 'auto',
+            container: 'auto',
+          },
         },
-      },
+        collapsedSize: {
+          x: 'expanded',
+          
+          y: {
+            title: 'auto',
+            body: 'auto',
+            container: 'auto',
+          },
+        },
 
-      movable: true,
-      resizable: true,
+        movable: true,
+        resizable: true,
 
-      wrapTitle: true,
-      wrapBody: true,
-      
-      readOnly: false,
+        wrapTitle: true,
+        wrapBody: true,
+        
+        readOnly: false,
 
-      container: false,
-      childrenIds: [],
-    })
+        container: false,
+        childrenIds: [],
+      })
+    }
     
     if (process.client) {
       const name = `note-${note.id}`
       const doc = getYjsValue(store)
-    
+      
+
       const indexedDbProvider = new IndexeddbPersistence(name, doc)
 
       indexedDbProvider.on('synced', () => {
-        for (const noteId of note.collab.childrenIds) {
-          note.children.push($app.notes.create({
-            id: noteId,
-            parentId: note.id,
-          }))
-        }
-
-        getYjsValue(note.collab.childrenIds).observe(event => {
-          let index = 0
-
-          for (const delta of event.changes.delta) {
-            if (delta.retain != null)
-              index += delta.retain
-            if (delta.delete != null)
-              note.children.splice(index, delta.delete)
-            if (delta.insert != null) {
-              const inserted = []
-
-              for (const noteId of delta.insert) {
-                inserted.push($app.notes.create({
-                  id: noteId,
-                  parentId: note.id,
-                }))
-              }
-
-              note.children.splice(index, 0, ...inserted)
-            }
-          }
-          
-          console.log(event)
-        })
-
         const websocketProvider = new WebsocketProvider(
           ctx.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
           name, doc)

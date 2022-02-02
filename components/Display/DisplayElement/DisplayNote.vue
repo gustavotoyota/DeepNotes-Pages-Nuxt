@@ -1,8 +1,11 @@
 <template>
 
-  <NoteAnchor :elem="elem">
+  <NoteAnchor v-if="elem.collab.pos != null"
+  :elem="elem">
 
-    
+    <div style="width: 100px; height: 100px; background-color: white">
+      
+    </div>
 
   </NoteAnchor>
 
