@@ -6,13 +6,13 @@ import {
 
 
 
-export default async function (ctx, inject) {
-  const { $app, app } = ctx
+export default async function (context, inject) {
+  const { $app, app } = context
 
 
 
 
-  inject('ctx', ctx)
+  inject('context', context)
 
 
 
@@ -20,11 +20,11 @@ export default async function (ctx, inject) {
 	app.mixins = app.mixins ?? []
   app.mixins.push({
     setup(_, { root }) {
-      ctx.$root = root
-      ctx.$set = root.$set
-      ctx.$delete = root.$delete
-      ctx.$watch = root.$watch
-      ctx.$nextTick = root.$nextTick
+      context.$root = root
+      context.$set = root.$set
+      context.$delete = root.$delete
+      context.$watch = root.$watch
+      context.$nextTick = root.$nextTick
 
 
 

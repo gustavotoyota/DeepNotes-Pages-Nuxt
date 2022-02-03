@@ -6,13 +6,9 @@
     <!-- Viewbox -->
     <div style="width: 0; height: 0; position: relative"
     :style="{
-      'transform': `scale(${$state.page.camera.zoom}) ` +
-        `translate(${-$state.page.camera.pos.x}px, ${-$state.page.camera.pos.y}px)`,
+      'transform': `scale(${$app.page.camera.zoom}) ` +
+        `translate(${-$app.page.camera.pos.x}px, ${-$app.page.camera.pos.y}px)`,
     }">
-      
-      <DisplayNote
-      v-for="elem in $state.page.elems.notes" :key="elem.id"
-      :elem="elem"/>
 
     </div>
 

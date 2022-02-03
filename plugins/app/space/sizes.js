@@ -1,14 +1,14 @@
-export const init = ({ $app, $state }) => {
+export const init = ({ $app }) => {
   const sizes = $app.sizes = {}
 
 
   
   
   sizes.screenToWorld1D = (screenSize) => {
-    return screenSize / $state.page.camera.zoom
+    return screenSize / $app.page.camera.zoom
   }
   sizes.worldToScreen1D = (worldSize) => {
-    return worldSize * $state.page.camera.zoom
+    return worldSize * $app.page.camera.zoom
   }
 
 

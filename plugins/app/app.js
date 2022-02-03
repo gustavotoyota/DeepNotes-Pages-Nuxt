@@ -3,35 +3,46 @@ import { defineNuxtPlugin } from '@nuxtjs/composition-api'
 
 
 
-export default defineNuxtPlugin((ctx, inject) => {
+export default defineNuxtPlugin((context, inject) => {
   const $app = {}
 
 
 
 
   inject('app', $app)
-  inject('state', ctx.store.state)
+  inject('state', context.store.state)
 
 
 
 
-  require('./page').init(ctx)
+  require('./utils').init(context)
+
+  require('./collab').init(context)
+  require('./page').init(context)
   
-  require('./elems/elems').init(ctx)
+  require('./elems/elems').init(context)
+  require('./elems/region').init(context)
+  require('./elems/clipboard').init(context)
+  require('./elems/deleting').init(context)
 
-  require('./notes/notes').init(ctx)
+  require('./notes/notes').init(context)
+  require('./notes/cloning').init(context)
+  require('./notes/dragging').init(context)
+  require('./notes/dropping').init(context)
+  require('./notes/editing').init(context)
+  require('./notes/resizing').init(context)
 
-  require('./space/pos').init(ctx)
-  require('./space/sizes').init(ctx)
-  require('./space/rects').init(ctx)
+  require('./space/pos').init(context)
+  require('./space/sizes').init(context)
+  require('./space/rects').init(context)
 
-  require('./camera/camera').init(ctx)
-  require('./camera/panning').init(ctx)
-  require('./camera/zooming').init(ctx)
+  require('./camera/camera').init(context)
+  require('./camera/panning').init(context)
+  require('./camera/zooming').init(context)
 
-  require('./selection/selection').init(ctx)
-  require('./selection/active-elem').init(ctx)
-  require('./selection/box-selection').init(ctx)
+  require('./selection/selection').init(context)
+  require('./selection/active-elem').init(context)
+  require('./selection/box-selection').init(context)
 
 
 

@@ -1,4 +1,4 @@
-export const init = ({ $app, $state }) => {
+export const init = ({ $app }) => {
   const pos = $app.pos = {}
 
 
@@ -44,16 +44,16 @@ export const init = ({ $app, $state }) => {
     const displayRect = $app.rects.fromDisplay()
 
     return {
-      x: $state.page.camera.pos.x + (displayPos.x - displayRect.size.x / 2) / $state.page.camera.zoom,
-      y: $state.page.camera.pos.y + (displayPos.y - displayRect.size.y / 2) / $state.page.camera.zoom,
+      x: $app.page.camera.pos.x + (displayPos.x - displayRect.size.x / 2) / $app.page.camera.zoom,
+      y: $app.page.camera.pos.y + (displayPos.y - displayRect.size.y / 2) / $app.page.camera.zoom,
     }
   }
   pos.worldToDisplay = (worldPos) => {
     const displayRect = $app.rects.fromDisplay()
 
     return {
-      x: displayRect.size.x / 2 + (worldPos.x - $state.page.camera.pos.x) * $state.page.camera.zoom,
-      y: displayRect.size.y / 2 + (worldPos.y - $state.page.camera.pos.y) * $state.page.camera.zoom,
+      x: displayRect.size.x / 2 + (worldPos.x - $app.page.camera.pos.x) * $app.page.camera.zoom,
+      y: displayRect.size.y / 2 + (worldPos.y - $app.page.camera.pos.y) * $app.page.camera.zoom,
     }
   }
 

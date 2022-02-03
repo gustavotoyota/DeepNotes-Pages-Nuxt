@@ -7,6 +7,9 @@ export const init = ({ $app }) => {
   camera.resetZoom = () => {
   }
 
+
+
+  
   camera.fitToScreen = () => {
   }
 }

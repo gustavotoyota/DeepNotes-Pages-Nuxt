@@ -4,7 +4,7 @@ export const init = () => {
 
 
   
-  nuxt.makeComputed = (obj, key, options) => {
+  nuxt.computed = (obj, key, options) => {
     const aux = computed(options)
 
     Object.defineProperty(obj, key, {

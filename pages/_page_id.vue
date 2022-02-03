@@ -7,7 +7,7 @@
     clipped-left clipped-right>
 
       <a style="display: flex"
-      :href="$ctx.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
+      :href="$context.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
         <img src="/icon.png"
         style="width: 24px; height: 24px;
         position: relative; top: 4px"/>
@@ -26,18 +26,18 @@
       <v-spacer/>
 
       <v-app-bar-title>
-        {{ $state.page.collab.name }}
+        Page name
       </v-app-bar-title>
 
       <v-spacer/>
 
       <v-btn depressed
-      :href="$ctx.isDev ? 'http://localhost:60379/' : 'https://deepnotes.app/'">
+      :href="$context.isDev ? 'http://localhost:60379/' : 'https://deepnotes.app/'">
         Home
       </v-btn>
 
       <v-btn depressed
-      :href="$ctx.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
+      :href="$context.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
         Account
       </v-btn>
 
@@ -96,8 +96,6 @@
 
 
     <v-main>
-
-      <Display/>
 
     </v-main>
 

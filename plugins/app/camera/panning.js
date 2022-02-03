@@ -1,47 +1,47 @@
-export const init = (ctx) => {
-  const { $app, $state } = ctx
-
+export const init = ({ $app }) => {
   const panning = $app.panning = {}
+
+
+
+
+  $app.utils.ref(panning, 'active', 'panning.active', () => false)
+  $app.utils.ref(panning, 'currentPos', 'panning.currentPos', () => null)
 
 
 
   
   panning.reset = () => {
-    ctx.$set($state, 'panning', {
-      active: false,
-    })
+    $app.panning.active = false
+    $app.panning.currentPos = null
   }
 
   panning.start = (event) => {
     if (event.button !== 1)
       return
 
-    if ($state.page.camera.lockPos)
+    if ($app.page.camera.lockPos)
       return
 
     const clientPos = $app.pos.getClientPos(event)
 
-    $state.panning = {
-      active: true,
-
-      currentPos: $static.utils.shallowCopy(clientPos),
-    }
+    $app.panning.active = true
+    $app.currentPos = $static.utils.shallowCopy(clientPos)
   }
 
   panning.update = (event) => {
-    if (!$state.panning.active)
+    if (!$app.panning.active)
       return
 
     const clientPos = $app.pos.getClientPos(event)
 
-    $state.page.camera.pos.x -= (clientPos.x - $state.panning.currentPos.x) / $state.page.camera.zoom
-    $state.page.camera.pos.y -= (clientPos.y - $state.panning.currentPos.y) / $state.page.camera.zoom
+    $app.page.camera.pos.x -= (clientPos.x - $app.panning.currentPos.x) / $app.page.camera.zoom
+    $app.page.camera.pos.y -= (clientPos.y - $app.panning.currentPos.y) / $app.page.camera.zoom
 
-    $state.panning.currentPos = $static.utils.shallowCopy(clientPos)
+    $app.panning.currentPos = $static.utils.shallowCopy(clientPos)
   }
 
   panning.finish = (event) => {
-    if (!$state.panning.active || event.button !== 1)
+    if (!$app.panning.active || event.button !== 1)
       return
 
     $app.panning.reset()

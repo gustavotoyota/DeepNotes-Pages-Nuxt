@@ -1,6 +1,6 @@
 globalThis.$static = {}
 
-export default (ctx, inject) => {
+export default (context, inject) => {
   inject('static', $static)
 }
 

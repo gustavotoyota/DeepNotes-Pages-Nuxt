@@ -1,10 +1,10 @@
 <template>
-  <div v-if="$state.boxSelection.active" class="selection"
+  <div v-if="$app.boxSelection.active" class="selection"
   :style="{
-    'left': `${Math.min($state.boxSelection.startPos.x, $state.boxSelection.endPos.x)}px`,
-    'top': `${Math.min($state.boxSelection.startPos.y, $state.boxSelection.endPos.y)}px`,
-    'width': `${Math.abs($state.boxSelection.endPos.x - $state.boxSelection.startPos.x)}px`,
-    'height': `${Math.abs($state.boxSelection.endPos.y - $state.boxSelection.startPos.y)}px`,
+    'left': `${Math.min($app.boxSelection.startPos.x, $app.boxSelection.endPos.x)}px`,
+    'top': `${Math.min($app.boxSelection.startPos.y, $app.boxSelection.endPos.y)}px`,
+    'width': `${Math.abs($app.boxSelection.endPos.x - $app.boxSelection.startPos.x)}px`,
+    'height': `${Math.abs($app.boxSelection.endPos.y - $app.boxSelection.startPos.y)}px`,
   }">
   </div>
 </template>
