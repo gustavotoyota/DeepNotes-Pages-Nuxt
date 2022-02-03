@@ -165,7 +165,7 @@ onMounted(() => {
 
 <style>
 html {
-  overflow: auto;
+  overflow: hidden;
 }
 
 a {
