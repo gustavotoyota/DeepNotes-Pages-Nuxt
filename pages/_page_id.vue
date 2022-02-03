@@ -97,6 +97,8 @@
 
     <v-main>
 
+      <Display/>
+
     </v-main>
 
     
