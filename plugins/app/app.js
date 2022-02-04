@@ -26,11 +26,12 @@ export default defineNuxtPlugin((context, inject) => {
   require('./elems/deleting').init(context)
 
   require('./notes/notes').init(context)
-  require('./notes/cloning').init(context)
+  require('./notes/creating').init(context)
   require('./notes/dragging').init(context)
-  require('./notes/dropping').init(context)
+  require('./notes/cloning').init(context)
   require('./notes/editing').init(context)
   require('./notes/resizing').init(context)
+  require('./notes/dropping').init(context)
 
   require('./space/pos').init(context)
   require('./space/sizes').init(context)
