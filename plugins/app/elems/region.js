@@ -14,7 +14,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.computed(region, 'elem', () => {
+  $app.utils.computed(region, 'parent', () => {
     return $app.elems.getById($app.region.id)
   })
 
@@ -23,8 +23,8 @@ export const init = ({ $app }) => {
 
   $app.utils.computed(region, 'noteIds', () => {
     if ($app.region.id == null)
-      return $app.collab.page.noteIds
+      return $app.collab.store.page.noteIds
     else
-      return $app.region.elem.collab.childIds
+      return $app.collab.store.notes[$app.region.id].childIds
   })
 }

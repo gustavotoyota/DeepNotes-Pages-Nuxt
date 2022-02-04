@@ -1,10 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { syncedStore, getYjsValue } from "@syncedstore/core"
-import { WebsocketProvider } from "y-websocket"
-import { IndexeddbPersistence } from 'y-indexeddb'
-
-import { reactive, ssrRef } from '@nuxtjs/composition-api'
+import { reactive } from '@nuxtjs/composition-api'
 
 
 
@@ -15,7 +11,7 @@ export const init = ({ $app }) => {
 
 
 
-  page.id = null
+  $app.utils.ref(page, 'id', 'page.id', () => null)
   
   page.camera = reactive({
     pos: { x: 0, y: 0 },
@@ -28,6 +24,21 @@ export const init = ({ $app }) => {
 
 
 
-  page.reset = (id) => {
+  page.reset = ({ id, pageName }) => {
+    $app.page.id = id
+
+
+
+    
+    if (id == null) {
+      $app.page.id = uuidv4()
+
+      $static.utils.merge($app.collab.store.page, {
+        name: pageName,
+      
+        noteIds: [],
+        arrowIds: [],
+      })
+    }
   }
 }

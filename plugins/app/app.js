@@ -18,7 +18,7 @@ export default defineNuxtPlugin((context, inject) => {
   require('./utils').init(context)
 
   require('./collab').init(context)
-  
+
   require('./project').init(context)
   require('./page').init(context)
   
@@ -28,7 +28,6 @@ export default defineNuxtPlugin((context, inject) => {
   require('./elems/deleting').init(context)
 
   require('./notes/notes').init(context)
-  require('./notes/creating').init(context)
   require('./notes/dragging').init(context)
   require('./notes/cloning').init(context)
   require('./notes/editing').init(context)
@@ -50,9 +49,16 @@ export default defineNuxtPlugin((context, inject) => {
 
 
 
-  $app.reset = (root) => {
+  $app.reset = () => {
+    $app.collab.reset()
+
+    $app.project.reset()
+
+    $app.page.reset()
+
     $app.panning.reset()
-    
     $app.boxSelection.reset()
+    $app.dragging.reset()
+    $app.resizing.reset()
   }
 })
