@@ -18,6 +18,8 @@ export default defineNuxtPlugin((context, inject) => {
   require('./utils').init(context)
 
   require('./collab').init(context)
+  
+  require('./project').init(context)
   require('./page').init(context)
   
   require('./elems/elems').init(context)
