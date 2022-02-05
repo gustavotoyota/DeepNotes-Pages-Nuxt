@@ -6,14 +6,9 @@ export const init = ({ $app }) => {
 
   $app.utils.ref(panning, 'active', 'panning.active', () => false)
   $app.utils.ref(panning, 'currentPos', 'panning.currentPos', () => null)
-
-
-
   
-  panning.reset = () => {
-    $app.panning.active = false
-    $app.panning.currentPos = null
-  }
+
+
 
   panning.start = (event) => {
     if (event.button !== 1)
@@ -25,7 +20,7 @@ export const init = ({ $app }) => {
     const clientPos = $app.pos.getClientPos(event)
 
     $app.panning.active = true
-    $app.currentPos = $static.utils.shallowCopy(clientPos)
+    $app.panning.currentPos = $static.utils.shallowCopy(clientPos)
   }
 
   panning.update = (event) => {
@@ -44,6 +39,6 @@ export const init = ({ $app }) => {
     if (!$app.panning.active || event.button !== 1)
       return
 
-    $app.panning.reset()
+    $app.panning.active = false
   }
 }

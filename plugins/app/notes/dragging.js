@@ -5,12 +5,8 @@ export const init = ({ $app  }) => {
 
 
   dragging.minDistance = 5
-
-
-
-
-  dragging.reset = () => {
-  }
+  
+  
 
 
   dragging.start = (event, sourceElem) => {

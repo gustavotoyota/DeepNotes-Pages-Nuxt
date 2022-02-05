@@ -51,10 +51,6 @@ export default defineNuxtPlugin((context, inject) => {
 
   $app.init = () => {
     $app.camera.reset()
-    $app.panning.reset()
-    $app.boxSelection.reset()
-    $app.dragging.reset()
-    $app.resizing.reset()
     
     console.log('App initialized')
   }

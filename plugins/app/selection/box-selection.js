@@ -16,10 +16,6 @@ export const init = (context) => {
 
 
 
-  
-  boxSelection.reset = () => {
-    $app.boxSelection.active = false
-  }
 
   boxSelection.start = (event) => {
     if (event.button !== 0)
@@ -46,6 +42,6 @@ export const init = (context) => {
     if (!$app.boxSelection.active || event.button !== 0)
       return
     
-    $app.boxSelection.reset()
+    $app.boxSelection.active = false
   }
 }

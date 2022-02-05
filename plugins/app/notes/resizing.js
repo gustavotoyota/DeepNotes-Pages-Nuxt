@@ -3,12 +3,6 @@ export const init = ({ $app }) => {
 
 
 
-
-  resizing.reset = () => {
-  }
-
-
-
   
   resizing.start = (event, elem, side, section) => {
   }
