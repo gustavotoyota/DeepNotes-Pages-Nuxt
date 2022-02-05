@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { reactive } from '@nuxtjs/composition-api'
-
 
 
 
@@ -10,15 +8,17 @@ export const init = ({ $app }) => {
 
 
 
-
+  
   $app.utils.ref(page, 'id', 'page.id', () => null)
-  
-  page.camera = reactive({
-    pos: { x: 0, y: 0 },
-    zoom: 1,
-  
-    lockPos: false,
-    lockZoom: false,
+  $app.utils.ref(page, 'camera', 'page.camera', () => null)
+
+
+
+
+  $app.utils.computed(page, 'name', () => {
+    const pathPage = $app.project.path.find(item => item.id == $app.page.id)
+
+    return pathPage?.name ?? ''
   })
 
 
@@ -26,7 +26,15 @@ export const init = ({ $app }) => {
 
   page.reset = ({ id, pageName }) => {
     $app.page.id = id
-
+  
+    $app.page.camera = {
+      pos: { x: 0, y: 0 },
+      zoom: 1,
+    
+      lockPos: false,
+      lockZoom: false,
+    }
+    
 
 
     
@@ -39,6 +47,7 @@ export const init = ({ $app }) => {
         noteIds: [],
         arrowIds: [],
       })
+    } else {
     }
   }
 }

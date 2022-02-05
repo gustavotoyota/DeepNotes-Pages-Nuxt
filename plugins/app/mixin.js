@@ -17,19 +17,13 @@ export default async function (context, inject) {
 
 
 
-	app.mixins = app.mixins ?? []
-  app.mixins.push({
-    setup(_, { root }) {
+	app.mixins = (app.mixins ?? []).concat({
+    async setup(_, { root }) {
       context.$root = root
       context.$set = root.$set
       context.$delete = root.$delete
       context.$watch = root.$watch
       context.$nextTick = root.$nextTick
-
-
-
-  
-      $app.reset()
   
       
   
@@ -87,6 +81,13 @@ export default async function (context, inject) {
       onUnmounted(() => {
         document.removeEventListener('pointerup', onPointerUp)
       })
+
+
+
+
+      // Initialize app
+
+      await $app.init()
     }
   })
 }

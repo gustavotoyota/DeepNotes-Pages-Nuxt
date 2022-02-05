@@ -1,5 +1,3 @@
-import { reactive } from "@nuxtjs/composition-api"
-
 export const init = ({ $app }) => {
   const selection = $app.selection = {}
 

@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { reactive } from '@nuxtjs/composition-api'
-
 
 
 
@@ -21,7 +19,7 @@ export const init = (context) => {
 
 
 
-  notes.map = reactive({})
+  $app.utils.ref(notes, 'map', 'notes.map', () => {})
 
 
 

@@ -1,7 +1,8 @@
 <template>
 
   <!-- Centralizer -->
-  <div style="position: absolute; left: 50%; top: 50%">
+  <div v-if="$app.page.camera != null"
+  style="position: absolute; left: 50%; top: 50%">
 
     <!-- Viewbox -->
     <div style="width: 0; height: 0; position: relative"

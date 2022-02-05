@@ -1,6 +1,6 @@
 <template>
   
-  <v-app v-show="mounted"
+  <v-app
   spellcheck="false">
 
     <v-app-bar app height="56"
@@ -26,7 +26,7 @@
       <v-spacer/>
 
       <v-app-bar-title>
-        Page name
+        {{ $app.page.name }}
       </v-app-bar-title>
 
       <v-spacer/>
@@ -71,21 +71,15 @@
 
       <v-list dense>
 
-        <v-list-item link>
+        <v-list-item
+        v-for="page in $app.project.path" :key="page.id"
+        :input-value="page.id == $app.page.id"
+        link>
           <v-list-item-icon>
             <v-icon>mdi-note</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            Main Page
-          </v-list-item-title>
-        </v-list-item>
-        
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-note</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>
-            Page 1
+            {{ page.name }}
           </v-list-item-title>
         </v-list-item>
 
@@ -135,21 +129,7 @@ export default {
 </script>
 
 <script setup>
-import { ref, onMounted, useRoute, useContext } from "@nuxtjs/composition-api"
-
-
-
-
-const { $app } = useContext()
-
-
-
-
-// Reset page
-
-const route = useRoute()
-
-$app.page.reset(route.value.params.page_id)
+import { ref, onMounted, useContext } from "@nuxtjs/composition-api"
 
 
 
@@ -160,6 +140,19 @@ const mounted = ref(false)
 
 onMounted(() => {
   mounted.value = true
+});
+
+
+
+
+// Reset page
+
+onMounted(() => {
+  const { $app, route } = useContext()
+
+  $app.collab.reset()
+  $app.page.reset({ id: route.value.params.page_id })
+  $app.collab.startSync()
 })
 </script>
 

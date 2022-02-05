@@ -1,4 +1,4 @@
-import { computed, ssrRef } from "@nuxtjs/composition-api"
+import { ssrRef } from "@nuxtjs/composition-api"
 
 
 

@@ -1,5 +1,4 @@
-import { useRoute } from "@nuxtjs/composition-api"
-import syncedStore from "@syncedstore/core"
+import { syncedStore, getYjsValue } from "@syncedstore/core"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
 
@@ -13,7 +12,7 @@ export const init = ({ $app, isDev }) => {
   
 
   collab.reset = () => {
-    $app.collab.store = $app.collab.store = syncedStore({
+    $app.collab.store = syncedStore({
       page: {},
       notes: {},
       arrows: {},
@@ -24,9 +23,7 @@ export const init = ({ $app, isDev }) => {
 
 
   collab.startSync = () => {
-    const route = useRoute()
-    
-    const name = `page-${route.value.params.page_id}`
+    const name = `page-${$app.page.id}`
     const doc = getYjsValue($app.collab.store)
 
     new IndexeddbPersistence(name, doc).on('synced', () => {
