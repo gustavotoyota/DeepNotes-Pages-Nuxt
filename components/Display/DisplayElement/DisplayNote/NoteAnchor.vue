@@ -1,10 +1,10 @@
 <template>
 
-  <div :id="`elem-${elem.id}-anchor`"
-  :class="{ anchor: elem.parentId == null }"
+  <div :id="`note-${note.id}-anchor`"
+  :class="{ anchor: note.parentId == null }"
   :style="{
-    'left': `${collab.pos.x}px`,
-    'top': `${collab.pos.y}px`,
+    'left': `${note.collab.pos.x}px`,
+    'top': `${note.collab.pos.y}px`,
   }">
 
     <slot/>
@@ -17,8 +17,7 @@
 export default {
 
   props: {
-    elem: { type: Object },
-    collab: { type: Object },
+    note: { type: Object },
   },
 
 }

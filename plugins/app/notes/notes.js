@@ -37,6 +37,8 @@ export const init = (context) => {
 
 
 
+    // Add private information
+
     $static.utils.merge(note, {
       parentId: parentId ?? null,
 
@@ -45,6 +47,8 @@ export const init = (context) => {
 
 
 
+
+    // Add collaboration information
 
     if (local) {
       $set($app.collab.store.notes, note.id, {
@@ -100,6 +104,12 @@ export const init = (context) => {
       else
         $set($app.collab.store.notes[parentId].childIds, note.id, true)
     }
+
+
+
+    // Add "collab" helper
+
+    $app.utils.computed(note, 'collab', () => $app.collab.store.notes[note.id])
 
 
 

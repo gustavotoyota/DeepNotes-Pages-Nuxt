@@ -1,12 +1,11 @@
 <template>
 
   <NoteAnchor
-  v-if="elem != null"
-  :elem="elem"
-  :collab="collab">
+  v-if="note != null"
+  :note="note">
 
-    <div style="width: 100px; height: 100px; background-color: white">
-    </div>
+    <NoteFrame
+    :note="note"/>
 
   </NoteAnchor>
 
@@ -16,8 +15,7 @@
 export default {
 
   props: {
-    elem: { type: Object },
-    collab: { type: Object },
+    note: { type: Object },
   },
 
 }
