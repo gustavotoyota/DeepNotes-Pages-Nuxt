@@ -1,0 +1,167 @@
+<template>
+  
+  <v-app
+  spellcheck="false">
+
+    <v-app-bar app height="56"
+    clipped-left clipped-right>
+
+      <a style="display: flex"
+      :href="$context.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
+        <img src="/icon.png"
+        style="width: 24px; height: 24px;
+        position: relative; top: 4px"/>
+
+        <Gap width="7px" inline-block/>
+          
+        <v-app-bar-title
+        style="display: flex;
+        color: white">
+          DeepNotes
+        </v-app-bar-title>
+      </a>
+
+      <Gap width="16px" inline-block/>
+
+      <v-spacer/>
+
+      <v-app-bar-title v-if="$app.collab.store != null">
+        {{ $app.collab.store.page.name }}
+      </v-app-bar-title>
+
+      <v-spacer/>
+
+      <v-btn depressed
+      :href="$context.isDev ? 'http://localhost:60379/' : 'https://deepnotes.app/'">
+        Home
+      </v-btn>
+
+      <v-btn depressed
+      :href="$context.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
+        Account
+      </v-btn>
+
+      <v-btn depressed
+      @click="$auth.logout()">
+        Logout
+      </v-btn>
+      
+    </v-app-bar>
+
+    
+
+    <v-navigation-drawer
+    app
+    clipped
+    permanent
+    touchless
+    mini-variant
+    expand-on-hover
+    width="300">
+
+      <v-toolbar>
+        <v-list-item-icon>
+          <v-icon>mdi-animation</v-icon>
+        </v-list-item-icon>
+
+        <v-toolbar-title>
+          Page Path
+        </v-toolbar-title>
+      </v-toolbar>
+
+      <v-list dense>
+
+        <v-list-item
+        v-for="page in $app.project.path" :key="page.id"
+        :input-value="page.id == $app.page.id"
+        link>
+          <v-list-item-icon>
+            <v-icon>mdi-note</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            {{ page.id == $app.page.id ? $app.collab.store.page.name : page.name }}
+          </v-list-item-title>
+        </v-list-item>
+
+      </v-list>
+
+    </v-navigation-drawer>
+
+
+
+    <v-main>
+
+      <Display/>
+
+    </v-main>
+
+    
+
+    <v-navigation-drawer
+    app   
+    clipped
+    permanent
+    touchless
+    mini-variant
+    expand-on-hover
+    right
+    width="300">
+
+      <v-toolbar>
+        <v-list-item-icon>
+          <v-icon>mdi-chart-box</v-icon>
+        </v-list-item-icon>
+
+        <v-toolbar-title>
+          Properties
+        </v-toolbar-title>
+      </v-toolbar>
+
+    </v-navigation-drawer>
+
+  </v-app>
+
+</template>
+
+<script>
+export default {
+}
+</script>
+
+<script setup>
+import { ref, onMounted, useContext } from "@nuxtjs/composition-api"
+
+
+
+
+// Loading
+
+const mounted = ref(false)
+
+onMounted(() => {
+  mounted.value = true
+});
+
+
+
+
+// Reset page
+
+onMounted(() => {
+  const { $app, route } = useContext()
+
+  $app.collab.reset()
+  $app.page.reset({ id: route.value.params.page_id })
+  $app.collab.startSync()
+})
+</script>
+
+<style>
+html {
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+</style>

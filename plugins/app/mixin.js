@@ -24,6 +24,13 @@ export default async function (context, inject) {
       context.$delete = root.$delete
       context.$watch = root.$watch
       context.$nextTick = root.$nextTick
+
+
+
+
+      // Initialize app
+
+      $app.init()
   
       
   
@@ -81,13 +88,6 @@ export default async function (context, inject) {
       onUnmounted(() => {
         document.removeEventListener('pointerup', onPointerUp)
       })
-
-
-
-
-      // Initialize app
-
-      await $app.init()
     }
   })
 }

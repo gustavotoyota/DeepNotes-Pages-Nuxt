@@ -15,15 +15,6 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.computed(page, 'name', () => {
-    const pathPage = $app.project.path.find(item => item.id == $app.page.id)
-
-    return pathPage?.name ?? ''
-  })
-
-
-
-
   page.reset = ({ id, pageName }) => {
     $app.page.id = id
   
@@ -47,7 +38,6 @@ export const init = ({ $app }) => {
         noteIds: [],
         arrowIds: [],
       })
-    } else {
     }
   }
 }

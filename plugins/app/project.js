@@ -17,5 +17,7 @@ export const init = (context) => {
 
     $app.project.path = data.path
     $app.project.recent = data.recent
+
+    console.log('Project initialized')
   }
 }

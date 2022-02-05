@@ -7,6 +7,11 @@ import { WebsocketProvider } from "y-websocket"
 
 export const init = ({ $app, isDev }) => {
   const collab = $app.collab = {}
+
+
+
+
+  $app.utils.ref(collab, 'store', 'collab.store', () => null)
   
 
   
@@ -33,6 +38,18 @@ export const init = ({ $app, isDev }) => {
       isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
       name, doc).on('sync', () => {
         console.log('Websocket synced.')
+
+        if ($app.collab.store.page.name != null)
+          return
+          
+        const pathPage = $app.project.path.find(item => item.id == $app.page.id)
+
+        $static.utils.merge($app.collab.store.page, {
+          name: pathPage.name,
+        
+          noteIds: [],
+          arrowIds: [],
+        })
       })
     })
   }

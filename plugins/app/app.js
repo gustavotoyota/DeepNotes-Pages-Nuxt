@@ -49,12 +49,12 @@ export default defineNuxtPlugin((context, inject) => {
 
 
 
-  $app.init = async () => {
+  $app.init = () => {
     $app.panning.reset()
     $app.boxSelection.reset()
     $app.dragging.reset()
     $app.resizing.reset()
     
-    await $app.project.init()
+    console.log('App initialized')
   }
 })
