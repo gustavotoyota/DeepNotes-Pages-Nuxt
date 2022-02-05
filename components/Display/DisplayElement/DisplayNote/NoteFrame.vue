@@ -4,7 +4,6 @@
   :style="{
     'width': '100px',
     'height': '100px',
-    'background-color': '#424242',
 
     'position': note.parentId == null ? 'absolute' : 'relative',
     'transform': note.parentId == null ? `translate(` +

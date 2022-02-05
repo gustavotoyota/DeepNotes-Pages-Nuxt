@@ -63,6 +63,7 @@ export default async function (context, inject) {
         $app.panning.update(event)
         
         $app.boxSelection.update(event)
+        $app.dragging.update(event)
       }
   
       onUnmounted(() => {
@@ -83,6 +84,7 @@ export default async function (context, inject) {
         $app.panning.finish(event)
         
         $app.boxSelection.finish(event)
+        $app.dragging.finish(event)
       }
   
       onUnmounted(() => {

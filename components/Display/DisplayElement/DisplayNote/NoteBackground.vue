@@ -1,6 +1,11 @@
 <template>
 
-  <div style="height: 100%">
+  <div style="height: 100%"
+  :style="{
+    'background-color': '#424242',
+    'border-radius': '7px',
+  }"
+  @pointerdown.left.stop="onPointerDown">
 
   </div>
   
@@ -25,7 +30,7 @@ const { $app } = useContext()
 
 
 function onPointerDown(event) {
-  $app.dragging.start(event, this.note)
+  $app.dragging.start(event)
 }
 </script>
 
