@@ -1,3 +1,4 @@
+import { getYjsValue } from '@syncedstore/core'
 import { v4 as uuidv4 } from 'uuid'
 
 
@@ -16,7 +17,7 @@ export const init = ({ $app }) => {
 
 
   page.reset = ({ id, pageName }) => {
-    $app.page.id = id
+    $app.page.id = id ?? uuidv4()
   
     $app.page.camera = {
       pos: { x: 0, y: 0 },
@@ -29,15 +30,19 @@ export const init = ({ $app }) => {
 
 
     
-    if (id == null) {
-      $app.page.id = uuidv4()
+    if (id == null)
+      $app.page.resetCollab(pageName)
+  }
 
-      $static.utils.merge($app.collab.store.page, {
-        name: pageName,
-      
-        noteIds: [],
-        arrowIds: [],
-      })
-    }
+
+
+
+  page.resetCollab = (pageName) => {
+    $static.utils.merge($app.collab.store.page, {
+      name: pageName,
+    
+      noteIds: {},
+      arrowIds: {},
+    })
   }
 }

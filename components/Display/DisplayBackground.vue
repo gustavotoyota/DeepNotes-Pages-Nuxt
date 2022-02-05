@@ -27,9 +27,7 @@ function onPointerDown(event) {
 function onDoubleClick(event) {
   const clientPos = $app.pos.getClientPos(event)
 
-  const note = $app.notes.create({ clientPos, local: true })
-
-  $app.page.addNote(note)
+  $app.notes.create({ clientPos, local: true })
 }
 </script>
 

@@ -5,7 +5,9 @@ import { WebsocketProvider } from "y-websocket"
 
 
 
-export const init = ({ $app, isDev }) => {
+export const init = (context) => {
+  const { $app, isDev } = context
+
   const collab = $app.collab = {}
 
 
@@ -39,17 +41,24 @@ export const init = ({ $app, isDev }) => {
       name, doc).on('sync', () => {
         console.log('Websocket synced.')
 
-        if ($app.collab.store.page.name != null)
-          return
-          
-        const pathPage = $app.project.path.find(item => item.id == $app.page.id)
 
-        $static.utils.merge($app.collab.store.page, {
-          name: pathPage.name,
-        
-          noteIds: [],
-          arrowIds: [],
-        })
+
+
+        // Initialize store if not already initialized
+
+        if ($app.collab.store.page.name == null) {
+          const pathPage = $app.project.path.find(item => item.id == $app.page.id)
+
+          $app.page.resetCollab(pathPage.name)
+        }
+
+
+
+
+        // Start observing changes
+
+        $app.notes.createFromMap($app.collab.store.page.noteIds)
+        $app.notes.observeMap($app.collab.store.page.noteIds)
       })
     })
   }

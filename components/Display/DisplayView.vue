@@ -10,6 +10,10 @@
       'transform': `scale(${$app.page.camera.zoom}) ` +
         `translate(${-$app.page.camera.pos.x}px, ${-$app.page.camera.pos.y}px)`,
     }">
+      
+      <DisplayNote
+      v-for="(_, noteId) in $app.collab.store.page.noteIds" :key="noteId"
+      :elem="$app.notes.map[noteId]"/>
 
     </div>
 
