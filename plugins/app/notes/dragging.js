@@ -9,7 +9,11 @@ export const init = ({ $app  }) => {
   
 
 
-  dragging.start = (event, sourceElem) => {
+  $app.utils.ref(dragging, 'dragging.data', () => null)
+  
+  
+
+
   }
   dragging.update = (event) => {
   }

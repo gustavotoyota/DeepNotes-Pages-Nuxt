@@ -4,8 +4,8 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref(panning, 'active', 'panning.active', () => false)
-  $app.utils.ref(panning, 'currentPos', 'panning.currentPos', () => null)
+  $app.utils.ref(panning, 'panning.active', () => false)
+  $app.utils.ref(panning, 'panning.currentPos', () => null)
   
 
 

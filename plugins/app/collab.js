@@ -13,7 +13,7 @@ export const init = (context) => {
 
 
 
-  $app.utils.ref(collab, 'store', 'collab.store', () => null)
+  $app.utils.ref(collab, 'collab.store', () => null)
   
 
   
