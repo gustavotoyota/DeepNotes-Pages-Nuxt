@@ -47,11 +47,6 @@ export const init = (context) => {
 
 
     if (local) {
-      if (parentId == null)
-        $set($app.collab.store.page.noteIds, note.id, true)
-      else
-        $set($app.collab.store.notes[parentId].childIds, note.id, true)
-
       $set($app.collab.store.notes, note.id, {
         linkedPageId: null,
 
@@ -99,6 +94,11 @@ export const init = (context) => {
         container: false,
         childIds: {},
       })
+
+      if (parentId == null)
+        $set($app.collab.store.page.noteIds, note.id, true)
+      else
+        $set($app.collab.store.notes[parentId].childIds, note.id, true)
     }
 
 
