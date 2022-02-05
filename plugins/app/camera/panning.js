@@ -19,7 +19,7 @@ export const init = ({ $app }) => {
     if (event.button !== 1)
       return
 
-    if ($app.page.camera.lockPos)
+    if ($app.camera.lockPos)
       return
 
     const clientPos = $app.pos.getClientPos(event)
@@ -34,8 +34,8 @@ export const init = ({ $app }) => {
 
     const clientPos = $app.pos.getClientPos(event)
 
-    $app.page.camera.pos.x -= (clientPos.x - $app.panning.currentPos.x) / $app.page.camera.zoom
-    $app.page.camera.pos.y -= (clientPos.y - $app.panning.currentPos.y) / $app.page.camera.zoom
+    $app.camera.pos.x -= (clientPos.x - $app.panning.currentPos.x) / $app.camera.zoom
+    $app.camera.pos.y -= (clientPos.y - $app.panning.currentPos.y) / $app.camera.zoom
 
     $app.panning.currentPos = $static.utils.shallowCopy(clientPos)
   }

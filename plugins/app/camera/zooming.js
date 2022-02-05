@@ -11,7 +11,7 @@ export const init = ({ $app }) => {
 
 
   zooming.perform = (event) => {
-    if ($app.page.camera.lockZoom)
+    if ($app.camera.lockZoom)
       return
     
 
@@ -37,8 +37,8 @@ export const init = ({ $app }) => {
 
     const multiplier = event.deltaY > 0 ? (1 / 1.2) : 1.2
 
-    $app.page.camera.zoom = Math.min(Math.max(
-      $app.page.camera.zoom * multiplier,
+    $app.camera.zoom = Math.min(Math.max(
+      $app.camera.zoom * multiplier,
       $app.zooming.minZoom), $app.zooming.maxZoom)
   }
 }

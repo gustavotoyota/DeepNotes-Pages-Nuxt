@@ -19,6 +19,11 @@ export const init = (context) => {
   let zIndex = 0
 
   notes.create = ({ id, parentId, clientPos, local }) => {
+    const { $set } = context
+    
+
+
+
     if (id in $app.notes.map)
       return
 
@@ -27,7 +32,7 @@ export const init = (context) => {
 
     const note = $app.elems.create({ id, type: 'note' })
 
-    $app.notes.map[note.id] = note
+    $set($app.notes.map, note.id, note)
 
 
 
@@ -43,11 +48,11 @@ export const init = (context) => {
 
     if (local) {
       if (parentId == null)
-        $app.collab.store.page.noteIds[note.id] = true
+        $set($app.collab.store.page.noteIds, note.id, true)
       else
-        $app.collab.store.notes[parentId].childIds[note.id] = true
+        $set($app.collab.store.notes[parentId].childIds, note.id, true)
 
-      $app.collab.store.notes[note.id] = {
+      $set($app.collab.store.notes, note.id, {
         linkedPageId: null,
 
         anchor: { x: 0.5, y: 0.5 },
@@ -93,7 +98,7 @@ export const init = (context) => {
 
         container: false,
         childIds: {},
-      }
+      })
     }
 
 

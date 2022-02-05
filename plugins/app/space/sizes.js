@@ -5,10 +5,10 @@ export const init = ({ $app }) => {
   
   
   sizes.screenToWorld1D = (screenSize) => {
-    return screenSize / $app.page.camera.zoom
+    return screenSize / $app.camera.zoom
   }
   sizes.worldToScreen1D = (worldSize) => {
-    return worldSize * $app.page.camera.zoom
+    return worldSize * $app.camera.zoom
   }
 
 

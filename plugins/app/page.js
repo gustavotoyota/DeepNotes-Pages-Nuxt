@@ -11,21 +11,12 @@ export const init = ({ $app }) => {
 
   
   $app.utils.ref(page, 'id', 'page.id', () => null)
-  $app.utils.ref(page, 'camera', 'page.camera', () => null)
 
 
 
 
   page.reset = ({ id, pageName }) => {
     $app.page.id = id ?? uuidv4()
-  
-    $app.page.camera = {
-      pos: { x: 0, y: 0 },
-      zoom: 1,
-    
-      lockPos: false,
-      lockZoom: false,
-    }
     
 
 

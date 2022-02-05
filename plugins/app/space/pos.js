@@ -44,16 +44,16 @@ export const init = ({ $app }) => {
     const displayRect = $app.rects.fromDisplay()
 
     return {
-      x: $app.page.camera.pos.x + (displayPos.x - displayRect.size.x / 2) / $app.page.camera.zoom,
-      y: $app.page.camera.pos.y + (displayPos.y - displayRect.size.y / 2) / $app.page.camera.zoom,
+      x: $app.camera.pos.x + (displayPos.x - displayRect.size.x / 2) / $app.camera.zoom,
+      y: $app.camera.pos.y + (displayPos.y - displayRect.size.y / 2) / $app.camera.zoom,
     }
   }
   pos.worldToDisplay = (worldPos) => {
     const displayRect = $app.rects.fromDisplay()
 
     return {
-      x: displayRect.size.x / 2 + (worldPos.x - $app.page.camera.pos.x) * $app.page.camera.zoom,
-      y: displayRect.size.y / 2 + (worldPos.y - $app.page.camera.pos.y) * $app.page.camera.zoom,
+      x: displayRect.size.x / 2 + (worldPos.x - $app.camera.pos.x) * $app.camera.zoom,
+      y: displayRect.size.y / 2 + (worldPos.y - $app.camera.pos.y) * $app.camera.zoom,
     }
   }
 
