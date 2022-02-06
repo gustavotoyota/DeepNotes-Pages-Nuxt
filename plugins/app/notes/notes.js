@@ -1,4 +1,4 @@
-import { getYjsValue } from "@syncedstore/core"
+import { getYjsValue, SyncedXml } from "@syncedstore/core"
 
 export const init = (context) => {
   const { $app } = context
@@ -62,8 +62,8 @@ export const init = (context) => {
         hasTitle: false,
         hasBody: true,
         
-        title: '',
-        body: '',
+        title: new SyncedXml(),
+        body: new SyncedXml(),
 
         collapsible: false,
         collapsed: false,
