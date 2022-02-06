@@ -1,39 +1,63 @@
 <template>
 
-  <div style="height: 100%"
+  <div class="note-background"
   :style="{
-    'background-color': '#424242',
-    'border-radius': '7px',
+    'background-color': backgroundColor,
   }"
   @pointerdown.left.stop="onPointerDown">
+
+    <slot/>
 
   </div>
   
 </template>
 
-<script>
-export default {
-
-  props: {
-    note: { type: Object },
-  },
-
-}
-</script>
-
 <script setup>
-import { useContext } from '@nuxtjs/composition-api'
+import { computed, useContext } from '@nuxtjs/composition-api'
 
 const { $app } = useContext()
 
+const props = defineProps({
+  note: { type: Object },
+  active: { type: Boolean },
+  selected: { type: Boolean },
+})
 
 
+
+
+
+const backgroundColor = computed(() => {
+  if (props.active)
+    return `#757575`
+  else if (props.selected)
+    return `#616161`
+  else
+    return `#424242`
+})
+
+
+
+
+// Pointer down
 
 function onPointerDown(event) {
-  $app.dragging.start(event)
+  $app.clickSelection.perform(props.note, event)
+
+  if ($app.selection.has(props.note))
+    $app.dragging.start(event)
 }
 </script>
 
-<style>
+<style scoped>
+.note-background {
+  border-radius: 7px;
+  border: 1px solid #212121;
+  border-left-color: #757575;
+  border-top-color: #757575;
 
+  height: 100%;
+
+  overflow: hidden;
+}
 </style>

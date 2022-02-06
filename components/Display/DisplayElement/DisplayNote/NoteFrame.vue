@@ -9,9 +9,8 @@
     'transform': note.parentId == null ? `translate(` +
       `${-note.collab.anchor.x * 100}%, ${-note.collab.anchor.y * 100}%)` : null,
   }">
-    
-    <NoteBackground
-    :note="note"/>
+
+    <slot/>
 
   </div>
   
