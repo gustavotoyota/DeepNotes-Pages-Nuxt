@@ -23,7 +23,6 @@ export default defineNuxtPlugin((context, inject) => {
   require('./page').init(context)
   
   require('./elems/elems').init(context)
-  require('./elems/region').init(context)
   require('./elems/clipboard').init(context)
   require('./elems/deleting').init(context)
 
@@ -43,6 +42,7 @@ export default defineNuxtPlugin((context, inject) => {
   require('./camera/zooming').init(context)
 
   require('./selection/selection').init(context)
+  require('./selection/region').init(context)
   require('./selection/active-elem').init(context)
   require('./selection/box-selection').init(context)
 

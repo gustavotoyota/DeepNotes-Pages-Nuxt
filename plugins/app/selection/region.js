@@ -21,9 +21,9 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.computed(region, 'noteIds', () => {
+  $app.utils.computed(region, 'notes', () => {
     if ($app.region.id == null)
-      return $app.collab.store.page.noteIds
+      return $app.collab.store.page.notes
     else
       return $app.collab.store.notes[$app.region.id].childIds
   })
