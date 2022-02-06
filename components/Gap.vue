@@ -12,11 +12,13 @@
 <script>
 export default {
   inheritAttrs: false,
-
-  props: {
-    inlineBlock: { type: Boolean },
-  },
 }
+</script>
+
+<script setup>
+const props = defineProps({
+  inlineBlock: { type: Boolean },
+})
 </script>
 
 <style>

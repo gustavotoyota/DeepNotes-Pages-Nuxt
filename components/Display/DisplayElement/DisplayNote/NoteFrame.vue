@@ -17,14 +17,10 @@
   
 </template>
 
-<script>
-export default {
-
-  props: {
-    note: { type: Object },
-  },
-
-}
+<script setup>
+const props = defineProps({
+  note: { type: Object },
+})
 </script>
 
 <style>
