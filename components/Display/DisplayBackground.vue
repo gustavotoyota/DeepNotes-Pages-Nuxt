@@ -21,6 +21,9 @@ const { $app } = useContext()
 
 
 function onPointerDown(event) {
+  if (!event.ctrlKey && !event.shiftKey)
+    $app.selection.clear(null)
+    
   $app.boxSelection.start(event)
 }
 

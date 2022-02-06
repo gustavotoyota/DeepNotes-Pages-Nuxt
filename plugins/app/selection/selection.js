@@ -21,6 +21,8 @@ export const init = ({ $app }) => {
     Object.keys($app.selection.noteIds).map(noteId => $app.elems.map[noteId]))
   $app.utils.computed(selection, 'arrows', () => 
     Object.keys($app.selection.arrowIds).map(arrowId => $app.elems.map[arrowId]))
+  $app.utils.computed(selection, 'elems', () => 
+    Object.keys($app.selection.elemIds).map(elemId => $app.elems.map[elemId]))
   
 
 
@@ -47,12 +49,8 @@ export const init = ({ $app }) => {
 
 
   selection.add = (elem) => {
-    $app.selection[`${elem.type}Ids`][elem.id] = true
+    Vue.set($app.selection[`${elem.type}Ids`], elem.id, true)
   }
-
-
-
-
   selection.remove = (elem) => {
     Vue.delete($app.selection[`${elem.type}Ids`], elem.id)
   }

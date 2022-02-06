@@ -53,14 +53,12 @@ export const init = ({ $app  }) => {
 
 
 
-    for (const note of Object.values($app.collab.store.notes)) {
-      if (!note.movable)
+    for (const note of $app.selection.notes) {
+      if (!note.collab.movable)
         continue
 
-      if (note.pos) {
-        note.pos.x += (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom
-        note.pos.y += (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom
-      }
+      note.collab.pos.x += (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom
+      note.collab.pos.y += (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom
     }
 
 
