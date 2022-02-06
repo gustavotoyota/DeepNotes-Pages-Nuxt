@@ -11,11 +11,11 @@ export const init = ({ $app  }) => {
 
 
 
-  $app.utils.ref(dragging, 'dragging.down', () => false)
-  $app.utils.ref(dragging, 'dragging.active', () => false)
+  $app.utils.ref('dragging.down', () => false)
+  $app.utils.ref('dragging.active', () => false)
 
-  $app.utils.ref(dragging, 'dragging.startPos', () => null)
-  $app.utils.ref(dragging, 'dragging.currentPos', () => null)
+  $app.utils.ref('dragging.startPos', () => null)
+  $app.utils.ref('dragging.currentPos', () => null)
   
   
 

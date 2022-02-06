@@ -6,8 +6,8 @@ export const init = (context) => {
 
 
 
-  $app.utils.ref(project, 'project.path', () => [])
-  $app.utils.ref(project, 'project.recent', () => [])
+  $app.utils.ref('project.path', () => [])
+  $app.utils.ref('project.recent', () => [])
 
 
 

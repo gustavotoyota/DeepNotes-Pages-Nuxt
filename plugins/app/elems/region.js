@@ -9,7 +9,7 @@ export const init = ({ $app }) => {
 
 
   
-  $app.utils.ref(region, 'region.id', () => null)
+  $app.utils.ref('region.id', () => null)
 
 
 

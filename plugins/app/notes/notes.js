@@ -11,7 +11,7 @@ export const init = (context) => {
 
 
 
-  $app.utils.ref(notes, 'notes.map', () => ({}))
+  $app.utils.ref('notes.map', () => ({}))
 
 
 

@@ -9,10 +9,10 @@ export const init = (context) => {
 
 
 
-  $app.utils.ref(boxSelection, 'boxSelection.active', () => false)
+  $app.utils.ref('boxSelection.active', () => false)
 
-  $app.utils.ref(boxSelection, 'boxSelection.startPos', () => null)
-  $app.utils.ref(boxSelection, 'boxSelection.endPos', () => null)
+  $app.utils.ref('boxSelection.startPos', () => null)
+  $app.utils.ref('boxSelection.endPos', () => null)
 
 
 

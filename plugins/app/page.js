@@ -10,7 +10,7 @@ export const init = ({ $app }) => {
 
 
   
-  $app.utils.ref(page, 'page.id', () => null)
+  $app.utils.ref('page.id', () => null)
 
 
 

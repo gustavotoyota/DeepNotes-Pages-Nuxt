@@ -4,11 +4,11 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref(camera, 'camera.pos', () => ({ x: 0, y: 0 }))
-  $app.utils.ref(camera, 'camera.zoom', () => 1)
+  $app.utils.ref('camera.pos', () => ({ x: 0, y: 0 }))
+  $app.utils.ref('camera.zoom', () => 1)
 
-  $app.utils.ref(camera, 'camera.lockPos', () => false)
-  $app.utils.ref(camera, 'camera.lockZoom', () => false)
+  $app.utils.ref('camera.lockPos', () => false)
+  $app.utils.ref('camera.lockZoom', () => false)
 
 
 

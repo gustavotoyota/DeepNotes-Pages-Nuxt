@@ -9,9 +9,10 @@ export const init = ({ $app }) => {
 
 
 
-  utils.ref = (obj, refKey, refValue) => {
+  utils.ref = (refKey, refValue) => {
     const auxRef = ssrRef(refValue, refKey)
 
+    const obj = $app[refKey.split('.')[0]]
     const key = refKey.split('.').at(-1)
 
     Object.defineProperty(obj, key, {
