@@ -9,32 +9,27 @@ export const init = ({ $app }) => {
 
 
 
-  const activeElemRef = ssrRef(() => null, 'activeElem')
+  $app.utils.ref('activeElem.id', () => null)
 
-
-
-
-  $app.utils.computed(activeElem, 'get', () => {
-    return activeElemRef.value
-  })
   
   
   
   activeElem.is = (elem) => {
-    return elem.id == $app.activeElem.get
+    return elem.id == $app.activeElem.id
   }
 
 
 
 
   activeElem.clear = () => {
-    activeElemRef.value = null
+    $app.activeElem.id = null
   }
 
 
 
 
   activeElem.set = (elem, bringToTop) => {
+    $app.activeElem.id = elem.id
   }
   activeElem.setExclusive = (elem) => {
   }

@@ -32,8 +32,8 @@ export const init = ({ $app }) => {
     $static.utils.merge($app.collab.store.page, {
       name: pageName,
     
-      noteIds: {},
-      arrowIds: {},
+      noteIds: [],
+      arrowIds: [],
     })
   }
 }

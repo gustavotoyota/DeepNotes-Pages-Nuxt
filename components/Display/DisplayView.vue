@@ -12,7 +12,7 @@
     }">
 
       <DisplayNote
-      v-for="(_, noteId) in $app.collab.store.page.noteIds" :key="noteId"
+      v-for="noteId in $app.collab.store.page.noteIds" :key="noteId"
       :note="$app.notes.map[noteId]"/>
 
     </div>

@@ -57,8 +57,8 @@ export const init = (context) => {
 
         // Start observing changes
 
-        $app.notes.createFromMap($app.collab.store.page.noteIds)
-        $app.notes.observeMap($app.collab.store.page.noteIds)
+        $app.notes.createFromIds($app.collab.store.page.noteIds)
+        $app.notes.observeIds($app.collab.store.page.noteIds)
       })
     })
   }

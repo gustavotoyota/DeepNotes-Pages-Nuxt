@@ -96,13 +96,13 @@ export const init = (context) => {
         readOnly: false,
 
         container: false,
-        childIds: {},
+        childIds: [],
       })
 
       if (parentId == null)
-        $set($app.collab.store.page.noteIds, note.id, true)
+        $app.collab.store.page.noteIds.push(note.id)
       else
-        $set($app.collab.store.notes[parentId].childIds, note.id, true)
+        $app.collab.store.notes[parentId].childIds.push(note.id)
     }
 
 
@@ -114,7 +114,7 @@ export const init = (context) => {
 
 
 
-    $app.notes.observeMap($app.collab.store.notes[note.id].childIds, note.id)
+    $app.notes.observeIds($app.collab.store.notes[note.id].childIds, note.id)
 
 
 
@@ -125,13 +125,29 @@ export const init = (context) => {
 
 
 
-  notes.observeMap = (map, parentId) => {
-    getYjsValue(map).observe(event => {
-      for (const [id, operation] of event.keys) {
-        if (operation.action === 'add')
-          $app.notes.create({ id, parentId })
-        else if (operation.action === 'delete')
-          context.$delete($app.notes.map, id)
+  notes.observeIds = (ids, parentId) => {
+    const mirror = ids.slice()
+
+    getYjsValue(ids).observe(event => {
+      let index = 0
+    
+      for (const delta of event.changes.delta) {
+        if (delta.retain != null)
+          index += delta.retain
+    
+        if (delta.insert != null) {
+          mirror.splice(index, 0, ...delta.insert)
+
+          for (const id of delta.insert)
+            $app.notes.create({ id, parentId })
+        }
+    
+        if (delta.delete != null) {
+          const deleted = mirror.splice(index, delta.delete)
+
+          for (const id of deleted)
+            context.$delete($app.notes.map, id)
+        }
       }
     })
   }
@@ -139,11 +155,18 @@ export const init = (context) => {
 
 
 
-  notes.createFromMap = (map, parentId) => {
-    for (const id of Object.keys(map)) {
+  notes.createFromIds = (ids, parentId) => {
+    for (const id of ids) {
       $app.notes.create({ id, parentId })
 
-      $app.notes.createFromMap($app.collab.store.notes[id].childIds, id)
+      $app.notes.createFromIds($app.collab.store.notes[id].childIds, id)
     }
+  }
+
+
+
+
+  notes.bringToTop = (note) => {
+    note.zIndex = zIndex++
   }
 }
