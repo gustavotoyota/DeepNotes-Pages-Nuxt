@@ -1,8 +1,3 @@
-import { ssrRef } from "@nuxtjs/composition-api"
-
-
-
-
 export const init = ({ $app }) => {
   const activeElem = $app.activeElem = {}
 
@@ -11,11 +6,17 @@ export const init = ({ $app }) => {
 
   $app.utils.ref('activeElem.id', () => null)
 
+
+
+
+  $app.utils.computed(activeElem, 'exists',
+    () => $app.activeElem.id != null)
+
   
   
   
   activeElem.is = (elem) => {
-    return elem.id == $app.activeElem.id
+    return elem.id === $app.activeElem.id
   }
 
 
@@ -28,9 +29,9 @@ export const init = ({ $app }) => {
 
 
 
-  activeElem.set = (elem, bringToTop) => {
+  activeElem.set = (elem) => {
+    $app.selection.add(elem)
+    
     $app.activeElem.id = elem.id
-  }
-  activeElem.setExclusive = (elem) => {
   }
 }

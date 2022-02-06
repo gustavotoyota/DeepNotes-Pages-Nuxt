@@ -13,7 +13,7 @@
 
       <DisplayNote
       v-for="noteId in $app.collab.store.page.noteIds" :key="noteId"
-      :note="$app.notes.map[noteId]"/>
+      :note="$app.elems.map[noteId]"/>
 
     </div>
 

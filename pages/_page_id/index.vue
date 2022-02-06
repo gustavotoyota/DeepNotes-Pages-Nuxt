@@ -73,13 +73,13 @@
 
         <v-list-item
         v-for="page in $app.project.path" :key="page.id"
-        :input-value="page.id == $app.page.id"
+        :input-value="page.id === $app.page.id"
         link>
           <v-list-item-icon>
             <v-icon>mdi-note</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            {{ page.id == $app.page.id ? $app.collab.store.page.name : page.name }}
+            {{ (page.id === $app.page.id) ? $app.collab.store.page.name : page.name }}
           </v-list-item-title>
         </v-list-item>
 

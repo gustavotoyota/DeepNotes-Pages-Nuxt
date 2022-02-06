@@ -1,17 +1,11 @@
+import Vue from 'vue'
 import { getYjsValue, SyncedXml } from "@syncedstore/core"
 
-export const init = (context) => {
-  const { $app } = context
 
 
 
-
+export const init = ({ $app }) => {
   const notes = $app.notes = {}
-
-
-
-
-  $app.utils.ref('notes.map', () => ({}))
 
 
 
@@ -19,20 +13,10 @@ export const init = (context) => {
   let zIndex = 0
 
   notes.create = ({ id, parentId, clientPos, local }) => {
-    const { $set } = context
-    
-
-
-
-    if (id in $app.notes.map)
+    if (id in $app.elems.map)
       return
 
-
-
-
     const note = $app.elems.create({ id, type: 'note' })
-
-    $set($app.notes.map, note.id, note)
 
 
 
@@ -51,7 +35,7 @@ export const init = (context) => {
     // Add collaboration information
 
     if (local) {
-      $set($app.collab.store.notes, note.id, {
+      Vue.set($app.collab.store.notes, note.id, {
         linkedPageId: null,
 
         anchor: { x: 0.5, y: 0.5 },
@@ -146,7 +130,7 @@ export const init = (context) => {
           const deleted = mirror.splice(index, delta.delete)
 
           for (const id of deleted)
-            context.$delete($app.notes.map, id)
+            Vue.delete($app.elems.map, id)
         }
       }
     })

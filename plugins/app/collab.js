@@ -47,7 +47,8 @@ export const init = (context) => {
         // Initialize store if not already initialized
 
         if ($app.collab.store.page.name == null) {
-          const pathPage = $app.project.path.find(item => item.id == $app.page.id)
+          const pathPage = $app.project.path.find(
+            item => item.id === $app.page.id)
 
           $app.page.resetCollab(pathPage.name)
         }

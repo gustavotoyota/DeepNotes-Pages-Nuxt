@@ -18,16 +18,7 @@ export default async function (context, inject) {
 
 
 	app.mixins = (app.mixins ?? []).concat({
-    async setup(_, { root }) {
-      context.$root = root
-      context.$set = root.$set
-      context.$delete = root.$delete
-      context.$watch = root.$watch
-      context.$nextTick = root.$nextTick
-
-
-
-
+    async setup() {
       // Initialize app
 
       $app.init()

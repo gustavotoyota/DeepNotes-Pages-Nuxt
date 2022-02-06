@@ -1,8 +1,3 @@
-import { ssrRef } from "@nuxtjs/composition-api"
-
-
-
-
 export const init = ({ $app }) => {
   const region = $app.region = {}
 
@@ -15,7 +10,7 @@ export const init = ({ $app }) => {
 
 
   $app.utils.computed(region, 'parent', () => {
-    return $app.notes.map[$app.region.id] ?? null
+    return $app.elems.map[$app.region.id] ?? null
   })
 
 
