@@ -21,6 +21,9 @@ export const init = ({ $app }) => {
     if (id in $app.elems.map)
       return
 
+
+
+      
     const note = $app.elems.create({
       id: id,
       type: 'note',
@@ -100,14 +103,61 @@ export const init = ({ $app }) => {
 
 
 
-    // Add "collab" helper
+
+    // Observe children
+
+    $app.notes.observeIds($app.notes.collab[note.id].childIds, note.id)
+
+
+
 
     $app.utils.computed(note, 'collab', () => $app.notes.collab[note.id])
 
+    $app.utils.computed(note, 'selected', () => $app.selection.has(note))
+    $app.utils.computed(note, 'active', () => $app.activeElem.is(note))
+    $app.utils.computed(note, 'dragging', () => $app.dragging.active && note.selected)
+    $app.utils.computed(note, 'editing', () => $app.editing.active && note.active)
+
+    $app.utils.computed(note, 'sizeProp', () =>
+      note.collapsed ? 'collapsedSize' : 'expandedSize')
 
 
 
-    $app.notes.observeIds($app.notes.collab[note.id].childIds, note.id)
+
+    $app.utils.computed(note, 'topSection', () => {
+      if (note.hasTitle)
+        return 'title'
+      else if (note.hasBody)
+        return 'body'
+      else if (note.container)
+        return 'container'
+    })
+    $app.utils.computed(note, 'bottomSection', () => {
+      if (note.collapsed)
+        return note.topSection
+      else if (note.container)
+        return 'container'
+      else if (note.hasBody)
+        return 'body'
+      else if (note.hasTitle)
+        return 'title'
+    })
+
+
+
+    
+    $app.utils.computed(note, 'numSections', () => {
+      let numSections = 0
+    
+      if (note.hasTitle)
+        ++numSections
+      if (note.hasBody)
+        ++numSections
+      if (note.container)
+        ++numSections
+    
+      return numSections
+    })
 
 
 

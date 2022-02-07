@@ -8,9 +8,7 @@
     :note="note">
 
       <NoteBackground
-      :note="note"
-      :active="active"
-      :selected="selected"/>
+      :note="note"/>
 
     </NoteFrame>
 
@@ -30,12 +28,6 @@ const { $app } = useContext()
 const props = defineProps({
   note: { type: Object },
 })
-
-
-
-
-const active = computed(() => props.note.id === $app.activeElem.id)
-const selected = computed(() => $app.selection.has(props.note))
 </script>
 
 <style scoped>

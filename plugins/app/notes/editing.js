@@ -4,6 +4,11 @@ export const init = ({ $app }) => {
 
 
 
+  $app.utils.ref('editing.active', () => false)
+
+
+
+
   editing.start = (elem, section) => {
   }
 

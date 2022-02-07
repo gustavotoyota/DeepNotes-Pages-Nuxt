@@ -19,8 +19,6 @@ const { $app } = useContext()
 
 const props = defineProps({
   note: { type: Object },
-  active: { type: Boolean },
-  selected: { type: Boolean },
 })
 
 
@@ -28,9 +26,9 @@ const props = defineProps({
 
 
 const backgroundColor = computed(() => {
-  if (props.active)
+  if (props.note.active)
     return `#757575`
-  else if (props.selected)
+  else if (props.note.selected)
     return `#616161`
   else
     return `#424242`
