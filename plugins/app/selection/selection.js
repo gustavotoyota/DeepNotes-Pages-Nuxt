@@ -12,7 +12,8 @@ export const init = ({ $app }) => {
   $app.utils.ref('selection.arrowIds', () => ({}))
 
   $app.utils.computed(selection, 'elemIds', () =>
-    $app.selection.noteIds.concat($app.selection.arrowIds))
+    Object.keys($app.selection.noteIds).concat(
+      Object.keys($app.selection.arrowIds)))
 
 
 
