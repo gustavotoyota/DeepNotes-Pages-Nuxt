@@ -12,7 +12,7 @@ export const init = ({ $app }) => {
       for (const noteId of Object.keys($app.selection.noteIds)) {
         Vue.delete($app.elems.map, noteId)
 
-        $static.utils.removeFromArray($app.region.noteIds, noteId)
+        $static.utils.removeFromArray($app.activeRegion.noteIds, noteId)
         Vue.delete($app.collab.store.notes, noteId)
       }
     })

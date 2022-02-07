@@ -4,6 +4,6 @@ export const init = ({ $app }) => {
 
 
 
-  dropping.perform = (event, regionElem, dropIndex) => {
+  dropping.perform = (event, activeRegionElem, dropIndex) => {
   }
 }
