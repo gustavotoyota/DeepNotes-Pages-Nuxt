@@ -16,9 +16,6 @@ export const init = ({ $app  }) => {
 
   $app.utils.ref('dragging.down', () => false)
   $app.utils.ref('dragging.active', () => false)
-
-  $app.utils.ref('dragging.startPos', () => null)
-  $app.utils.ref('dragging.currentPos', () => null)
   
   
 
@@ -56,13 +53,25 @@ export const init = ({ $app  }) => {
 
 
 
+    // Calculate delta
+
+    const delta = {
+      x: (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom,
+      y: (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom,
+    }
+
+
+
+
+    // Move selected notes
+
     getYjsValue($app.collab.store).transact(() => {
       for (const note of $app.selection.notes) {
         if (!note.collab.movable)
           continue
   
-        note.collab.pos.x += (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom
-        note.collab.pos.y += (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom
+        note.collab.pos.x += delta.x
+        note.collab.pos.y += delta.y
       }
     })
 
