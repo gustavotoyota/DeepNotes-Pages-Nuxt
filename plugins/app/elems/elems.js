@@ -12,6 +12,14 @@ export const init = ({ $app }) => {
 
 
   $app.utils.ref('elems.map', () => ({}))
+
+
+
+
+  $app.utils.computed(elems, 'ids',
+    () => Object.keys($app.elems.map))
+  $app.utils.computed(elems, 'array',
+    () => Object.values($app.elems.map))
   
 
 

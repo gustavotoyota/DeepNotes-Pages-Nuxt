@@ -45,6 +45,8 @@ export const init = ({ $app }) => {
 
 
 
+  $app.utils.computed(page, 'notes', () =>
+    $app.page.collab.noteIds.map(noteId => $app.elems.map[noteId]))
   $app.utils.computed(page, 'arrows', () =>
     $app.page.collab.arrowIds.map(arrowId => $app.elems.map[arrowId]))
 }

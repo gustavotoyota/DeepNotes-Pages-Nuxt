@@ -41,6 +41,44 @@ export const init = (context) => {
   boxSelection.finish = (event) => {
     if (!$app.boxSelection.active || event.button !== 0)
       return
+
+
+
+    const startPos = $app.pos.displayToClient($app.boxSelection.startPos)
+    const endPos = $app.pos.displayToClient($app.boxSelection.endPos)
+  
+  
+  
+    const topLeft = {
+      x: Math.min(startPos.x, endPos.x),
+      y: Math.min(startPos.y, endPos.y),
+    }
+    const bottomRight = {
+      x: Math.max(startPos.x, endPos.x),
+      y: Math.max(startPos.y, endPos.y),
+    }
+    
+  
+  
+    for (const elem of $app.elems.array) {
+      const clientRect = $app.notes.getClientRect(elem)
+  
+      if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
+      || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)
+        continue
+  
+      if ($app.selection.has(elem) && !event.shiftKey)
+        $app.selection.remove(elem)
+      else
+        $app.selection.add(elem)
+    }
+  
+  
+  
+    // Activate highest selected element
+    
+    if ($app.elems.array.length > 0)
+      $app.activeElem.set($app.selection.elems.at(-1))
     
     $app.boxSelection.active = false
   }
