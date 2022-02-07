@@ -10,6 +10,11 @@ export const init = ({ $app }) => {
 
 
 
+  $app.utils.computed(notes, 'collab', () => $app.collab.store.notes)
+
+
+
+
   let zIndex = 0
 
   notes.create = ({ id, parentId, clientPos, local }) => {
@@ -37,70 +42,72 @@ export const init = ({ $app }) => {
     // Add collaboration information
 
     if (local) {
-      Vue.set($app.collab.store.notes, note.id, {
-        linkedPageId: null,
-
-        anchor: { x: 0.5, y: 0.5 },
-
-        pos: clientPos ?
-          $app.pos.clientToWorld(clientPos) : { x: 0, y: 0 },
-
-        hasTitle: false,
-        hasBody: true,
-        
-        title: new SyncedXml(),
-        body: new SyncedXml(),
-
-        collapsible: false,
-        collapsed: false,
-
-        expandedSize: {
-          x: 'auto',
-
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-        collapsedSize: {
-          x: 'expanded',
+      getYjsValue($app.collab.store).transact(() => {
+        Vue.set($app.notes.collab, note.id, {
+          linkedPageId: null,
+  
+          anchor: { x: 0.5, y: 0.5 },
+  
+          pos: clientPos ?
+            $app.pos.clientToWorld(clientPos) : { x: 0, y: 0 },
+  
+          hasTitle: false,
+          hasBody: true,
           
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
+          title: '',
+          body: '',
+  
+          collapsible: false,
+          collapsed: false,
+  
+          expandedSize: {
+            x: 'auto',
+  
+            y: {
+              title: 'auto',
+              body: 'auto',
+              container: 'auto',
+            },
           },
-        },
-
-        movable: true,
-        resizable: true,
-
-        wrapTitle: true,
-        wrapBody: true,
-        
-        readOnly: false,
-
-        container: false,
-        childIds: [],
+          collapsedSize: {
+            x: 'expanded',
+            
+            y: {
+              title: 'auto',
+              body: 'auto',
+              container: 'auto',
+            },
+          },
+  
+          movable: true,
+          resizable: true,
+  
+          wrapTitle: true,
+          wrapBody: true,
+          
+          readOnly: false,
+  
+          container: false,
+          childIds: [],
+        })
+  
+        if (parentId == null)
+          $app.page.collab.noteIds.push(note.id)
+        else
+          $app.notes.collab[parentId].childIds.push(note.id)
       })
-
-      if (parentId == null)
-        $app.page.collab.noteIds.push(note.id)
-      else
-        $app.collab.store.notes[parentId].childIds.push(note.id)
     }
 
 
 
     // Add "collab" helper
 
-    $app.utils.computed(note, 'collab', () => $app.collab.store.notes[note.id])
+    $app.utils.computed(note, 'collab', () => $app.notes.collab[note.id])
 
 
 
 
-    $app.notes.observeIds($app.collab.store.notes[note.id].childIds, note.id)
+    $app.notes.observeIds($app.notes.collab[note.id].childIds, note.id)
 
 
 
@@ -145,7 +152,7 @@ export const init = ({ $app }) => {
     for (const id of ids) {
       $app.notes.create({ id, parentId })
 
-      $app.notes.createFromIds($app.collab.store.notes[id].childIds, id)
+      $app.notes.createFromIds($app.notes.collab[id].childIds, id)
     }
   }
 

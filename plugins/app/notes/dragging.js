@@ -1,4 +1,7 @@
-import app from "../app"
+import { getYjsValue } from '@syncedstore/core'
+
+
+
 
 export const init = ({ $app  }) => {
   const dragging = $app.dragging = {}
@@ -53,13 +56,15 @@ export const init = ({ $app  }) => {
 
 
 
-    for (const note of $app.selection.notes) {
-      if (!note.collab.movable)
-        continue
-
-      note.collab.pos.x += (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom
-      note.collab.pos.y += (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom
-    }
+    getYjsValue($app.collab.store).transact(() => {
+      for (const note of $app.selection.notes) {
+        if (!note.collab.movable)
+          continue
+  
+        note.collab.pos.x += (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom
+        note.collab.pos.y += (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom
+      }
+    })
 
 
 

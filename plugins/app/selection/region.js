@@ -20,7 +20,7 @@ export const init = ({ $app }) => {
     if ($app.region.id == null)
       return $app.page.collab.noteIds
     else
-      return $app.collab.store.notes[$app.region.id].childIds
+      return $app.notes.collab[$app.region.id].childIds
   })
 
 

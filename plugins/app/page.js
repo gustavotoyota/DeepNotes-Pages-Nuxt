@@ -1,5 +1,5 @@
-import { getYjsValue } from '@syncedstore/core'
 import { v4 as uuidv4 } from 'uuid'
+import { getYjsValue } from '@syncedstore/core'
 
 
 
@@ -20,6 +20,14 @@ export const init = ({ $app }) => {
 
 
 
+  $app.utils.computed(page, 'notes', () =>
+    $app.page.collab.noteIds.map(noteId => $app.elems.map[noteId]))
+  $app.utils.computed(page, 'arrows', () =>
+    $app.page.collab.arrowIds.map(arrowId => $app.elems.map[arrowId]))
+
+
+
+
   page.reset = ({ id, pageName }) => {
     $app.page.id = id ?? uuidv4()
     
@@ -34,19 +42,13 @@ export const init = ({ $app }) => {
 
 
   page.resetCollab = (pageName) => {
-    $static.utils.merge($app.page.collab, {
-      name: pageName,
-    
-      noteIds: [],
-      arrowIds: [],
+    getYjsValue($app.collab.store).transact(() => {
+      $static.utils.merge($app.page.collab, {
+        name: pageName,
+      
+        noteIds: [],
+        arrowIds: [],
+      })
     })
   }
-
-
-
-
-  $app.utils.computed(page, 'notes', () =>
-    $app.page.collab.noteIds.map(noteId => $app.elems.map[noteId]))
-  $app.utils.computed(page, 'arrows', () =>
-    $app.page.collab.arrowIds.map(arrowId => $app.elems.map[arrowId]))
 }
