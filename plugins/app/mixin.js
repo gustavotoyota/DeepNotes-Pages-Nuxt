@@ -81,6 +81,29 @@ export default async function (context, inject) {
       onUnmounted(() => {
         document.removeEventListener('pointerup', onPointerUp)
       })
+
+
+
+
+      // Shortcuts
+
+      onMounted(() => {
+        document.addEventListener('keydown', onKeyDown)
+      })
+
+      function onKeyDown(event) {
+        if (event.target.nodeName === 'INPUT'
+        || event.target.nodeName === 'TEXTAREA'
+        || event.target.isContentEditable)
+          return
+        
+        if (event.code === 'Delete')
+          $app.deleting.perform(event)
+      }
+
+      onUnmounted(() => {
+        document.removeEventListener('keydown', onKeyDown)
+      })
     }
   })
 }
