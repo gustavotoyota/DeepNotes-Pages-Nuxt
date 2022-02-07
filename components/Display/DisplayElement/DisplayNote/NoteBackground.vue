@@ -17,6 +17,9 @@ import { computed, useContext } from '@nuxtjs/composition-api'
 
 const { $app } = useContext()
 
+
+
+
 const props = defineProps({
   note: { type: Object },
 })

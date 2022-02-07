@@ -1,6 +1,6 @@
 <template>
 
-  <div :id="`note-${note.id}-anchor`"
+  <div :id="`note-${note.id}`"
   :class="{ anchor: note.parentId == null }"
   :style="{
     'left': `${note.collab.pos.x}px`,

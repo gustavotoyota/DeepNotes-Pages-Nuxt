@@ -8,7 +8,13 @@
     :note="note">
 
       <NoteBackground
-      :note="note"/>
+      :note="note">
+      
+        <NoteTextSection
+        :note="note"
+        section="title"/>
+
+      </NoteBackground>
 
     </NoteFrame>
 
@@ -17,14 +23,6 @@
 </template>
 
 <script setup>
-import { computed, useContext } from '@nuxtjs/composition-api'
-
-
-
-const { $app } = useContext()
-
-
-
 const props = defineProps({
   note: { type: Object },
 })

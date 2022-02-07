@@ -56,7 +56,7 @@ export const init = ({ $app }) => {
   
   
     for (const elem of $app.elems.array) {
-      const clientRect = $app.notes.getClientRect(elem)
+      const clientRect = $app.notes.getClientRect(elem, 'frame')
   
       if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
       || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)

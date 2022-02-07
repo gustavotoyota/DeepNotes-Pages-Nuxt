@@ -104,12 +104,7 @@ export const init = ({ $app }) => {
 
 
 
-    // Observe children
-
-    $app.notes.observeIds($app.notes.collab[note.id].childIds, note.id)
-
-
-
+    // Computed properties
 
     $app.utils.computed(note, 'collab', () => $app.notes.collab[note.id])
 
@@ -125,21 +120,21 @@ export const init = ({ $app }) => {
 
 
     $app.utils.computed(note, 'topSection', () => {
-      if (note.hasTitle)
+      if (note.collab.hasTitle)
         return 'title'
-      else if (note.hasBody)
+      else if (note.collab.hasBody)
         return 'body'
-      else if (note.container)
+      else if (note.collab.container)
         return 'container'
     })
     $app.utils.computed(note, 'bottomSection', () => {
-      if (note.collapsed)
+      if (note.collab.collapsed)
         return note.topSection
-      else if (note.container)
+      else if (note.collab.container)
         return 'container'
-      else if (note.hasBody)
+      else if (note.collab.hasBody)
         return 'body'
-      else if (note.hasTitle)
+      else if (note.collab.hasTitle)
         return 'title'
     })
 
@@ -149,15 +144,28 @@ export const init = ({ $app }) => {
     $app.utils.computed(note, 'numSections', () => {
       let numSections = 0
     
-      if (note.hasTitle)
+      if (note.collab.hasTitle)
         ++numSections
-      if (note.hasBody)
+      if (note.collab.hasBody)
         ++numSections
-      if (note.container)
+      if (note.collab.container)
         ++numSections
     
       return numSections
     })
+
+
+
+    
+    $app.utils.computed(note, 'parent', () =>
+      $app.elems.map[note.parentId] ?? null)
+
+
+
+
+    // Observe children
+
+    $app.notes.observeIds(note.collab.childIds, note.id)
 
 
 
@@ -220,14 +228,14 @@ export const init = ({ $app }) => {
     if (part == null)
       return document.getElementById(`note-${note.id}`)
     else
-      return document.getElementById(`note-${note.id}-${part}`)
+      return document.querySelector(`#note-${note.id} .${part}`)
   }
 
 
 
 
   notes.getClientRect = (note, part) => {
-    const node = $app.notes.getNode(note, part ?? 'frame')
+    const node = $app.notes.getNode(note, part)
 
     const domClientRect = node.getBoundingClientRect()
   
