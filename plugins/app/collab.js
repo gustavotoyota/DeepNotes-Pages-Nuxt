@@ -5,9 +5,7 @@ import { WebsocketProvider } from "y-websocket"
 
 
 
-export const init = (context) => {
-  const { $app, isDev } = context
-
+export const init = ({ $app, isDev }) => {
   const collab = $app.collab = {}
 
 

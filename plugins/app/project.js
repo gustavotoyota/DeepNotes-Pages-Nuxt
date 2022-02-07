@@ -1,6 +1,4 @@
-export const init = (context) => {
-  const { $app, $axios } = context
-
+export const init = ({ $app, $axios }) => {
   const project = $app.project = {}
 
 

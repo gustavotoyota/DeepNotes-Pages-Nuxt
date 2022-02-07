@@ -1,9 +1,4 @@
-export const init = (context) => {
-  const { $app } = context
-
-
-
-
+export const init = ({ $app }) => {
   const boxSelection = $app.boxSelection = {}
 
 

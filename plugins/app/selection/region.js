@@ -22,9 +22,6 @@ export const init = ({ $app }) => {
     else
       return $app.notes.collab[$app.region.id].childIds
   })
-
-
-  
   $app.utils.computed(region, 'notes', () => 
     $app.region.noteIds.map(noteId => $app.elems.map[noteId]))
 }
