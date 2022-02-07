@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { getYjsValue, SyncedXml } from "@syncedstore/core"
+import { getYjsValue, SyncedText } from "@syncedstore/core"
 
 
 
@@ -54,8 +54,8 @@ export const init = ({ $app }) => {
           hasTitle: false,
           hasBody: true,
           
-          title: '',
-          body: '',
+          title: new SyncedText(),
+          body: new SyncedText(),
   
           collapsible: false,
           collapsed: false,
