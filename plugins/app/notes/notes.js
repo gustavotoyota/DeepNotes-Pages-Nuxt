@@ -16,7 +16,11 @@ export const init = ({ $app }) => {
     if (id in $app.elems.map)
       return
 
-    const note = $app.elems.create({ id, type: 'note' })
+    const note = $app.elems.create({
+      id: id,
+      type: 'note',
+      parentId: parentId,
+    })
 
 
 
@@ -24,8 +28,6 @@ export const init = ({ $app }) => {
     // Add private information
 
     $static.utils.merge(note, {
-      parentId: parentId ?? null,
-
       zIndex: zIndex++,
     })
 
@@ -84,7 +86,7 @@ export const init = ({ $app }) => {
       })
 
       if (parentId == null)
-        $app.collab.store.page.noteIds.push(note.id)
+        $app.page.collab.noteIds.push(note.id)
       else
         $app.collab.store.notes[parentId].childIds.push(note.id)
     }
@@ -152,5 +154,26 @@ export const init = ({ $app }) => {
 
   notes.bringToTop = (note) => {
     note.zIndex = zIndex++
+  }
+
+
+
+
+  notes.getNode = (note, part) => {
+    if (part == null)
+      return document.getElementById(`note-${note.id}`)
+    else
+      return document.getElementById(`note-${note.id}-${part}`)
+  }
+
+
+
+
+  notes.getClientRect = (note, part) => {
+    const node = $app.notes.getNode(note, part ?? 'frame')
+
+    const domClientRect = node.getBoundingClientRect()
+  
+    return $app.rects.fromDOM(domClientRect)
   }
 }

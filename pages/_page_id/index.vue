@@ -26,7 +26,7 @@
       <v-spacer/>
 
       <v-app-bar-title v-if="$app.collab.store != null">
-        {{ $app.collab.store.page.name }}
+        {{ $app.page.collab.name }}
       </v-app-bar-title>
 
       <v-spacer/>
@@ -79,7 +79,7 @@
             <v-icon>mdi-note</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            {{ (page.id === $app.page.id) ? $app.collab.store.page.name : page.name }}
+            {{ (page.id === $app.page.id) ? $app.page.collab.name : page.name }}
           </v-list-item-title>
         </v-list-item>
 

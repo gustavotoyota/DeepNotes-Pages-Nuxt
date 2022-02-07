@@ -46,7 +46,7 @@ export const init = (context) => {
 
         // Initialize store if not already initialized
 
-        if ($app.collab.store.page.name == null) {
+        if ($app.page.collab.name == null) {
           const pathPage = $app.project.path.find(
             item => item.id === $app.page.id)
 
@@ -58,8 +58,8 @@ export const init = (context) => {
 
         // Start observing changes
 
-        $app.notes.createFromIds($app.collab.store.page.noteIds)
-        $app.notes.observeIds($app.collab.store.page.noteIds)
+        $app.notes.createFromIds($app.page.collab.noteIds)
+        $app.notes.observeIds($app.page.collab.noteIds)
       })
     })
   }

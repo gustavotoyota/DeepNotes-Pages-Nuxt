@@ -18,11 +18,11 @@ export const init = ({ $app }) => {
 
 
   $app.utils.computed(selection, 'notes', () => 
-    Object.keys($app.selection.noteIds).map(noteId => $app.elems.map[noteId]))
+    $app.region.notes.filter(note => $app.selection.has(note)))
   $app.utils.computed(selection, 'arrows', () => 
-    Object.keys($app.selection.arrowIds).map(arrowId => $app.elems.map[arrowId]))
+    $app.page.arrows.filter(arrow => $app.selection.has(arrow)))
   $app.utils.computed(selection, 'elems', () => 
-    Object.keys($app.selection.elemIds).map(elemId => $app.elems.map[elemId]))
+    $app.selection.arrows.concat($app.selection.notes))
   
 
 
@@ -49,10 +49,25 @@ export const init = ({ $app }) => {
 
 
   selection.add = (elem) => {
+    if ($app.selection.has(elem))
+      return
+
+    if (elem.parentId != $app.region.id)
+      $app.selection.clear(elem.parentId)
+
     Vue.set($app.selection[`${elem.type}Ids`], elem.id, true)
+    
+    if (!$app.activeElem.exists)
+      $app.activeElem.set(elem)
   }
   selection.remove = (elem) => {
+    if (!$app.selection.has(elem))
+      return
+
     Vue.delete($app.selection[`${elem.type}Ids`], elem.id)
+
+    if ($app.activeElem.is(elem))
+      $app.activeElem.set($app.selection.elems.at(-1))
   }
 
 

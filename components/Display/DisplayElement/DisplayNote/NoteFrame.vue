@@ -1,6 +1,6 @@
 <template>
 
-  <div :id="`elem-${note.id}-frame`"
+  <div :id="`note-${note.id}-frame`"
   :style="{
     'width': '100px',
     'height': '100px',

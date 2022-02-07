@@ -30,6 +30,11 @@ export const init = ({ $app }) => {
 
 
   activeElem.set = (elem) => {
+    if (elem == null) {
+      $app.activeElem.clear()
+      return
+    }
+
     $app.selection.add(elem)
     
     $app.activeElem.id = elem.id

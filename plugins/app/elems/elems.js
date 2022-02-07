@@ -16,11 +16,13 @@ export const init = ({ $app }) => {
 
 
 
-  elems.create = (values) => {
+  elems.create = ({ id, type, parentId }) => {
     const elem = reactive({
-      id: values.id ?? uuidv4(),
+      id: id ?? uuidv4(),
 
-      type: values.type,
+      type: type,
+
+      parentId: parentId ?? null,
     })
 
     Vue.set($app.elems.map, elem.id, elem)
