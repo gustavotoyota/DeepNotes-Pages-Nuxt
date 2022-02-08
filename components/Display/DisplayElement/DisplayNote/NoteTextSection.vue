@@ -1,8 +1,23 @@
 <template>
 
-  <div>
+  <div v-if="note.collab[`has${capitalizedSection}`]"
+  :class="section"
+  style="display: flex; min-height: 36.453px">
+  
+    <div style="flex: 1 /* Section content is horizontally flexible */;
+    overflow: auto"
+    :style="{ 'width': note.targetWidth }"
+    @dblclick.left="$app.editing.start(note, section)">
 
-    <NoteEditor :text="note.collab[section]"/>
+      <NoteSmartEditor
+      :text="note.collab[section]"
+      :editing="note.editing"/>
+
+    </div>
+
+    <NoteCollapseButton
+    :note="note"
+    :section="section"/>
 
   </div>
   

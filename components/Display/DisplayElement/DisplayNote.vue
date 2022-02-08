@@ -13,6 +13,10 @@
         <NoteTextSection
         :note="note"
         section="title"/>
+      
+        <NoteTextSection
+        :note="note"
+        section="body"/>
 
       </NoteBackground>
 

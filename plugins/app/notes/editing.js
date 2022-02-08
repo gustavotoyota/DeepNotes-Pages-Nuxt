@@ -1,3 +1,8 @@
+import Vue from 'vue'
+
+
+
+
 export const init = ({ $app }) => {
   const editing = $app.editing = {}
 
@@ -9,12 +14,33 @@ export const init = ({ $app }) => {
 
 
 
-  editing.start = (elem, section) => {
+  editing.start = (note, section) => {
+    if (note.editing)
+      return
+
+    if (note.collab.readOnly)
+      return
+
+
+
+    $app.selection.clear()
+    $app.activeElem.set(note)
+
+
+
+    $app.editing.active = true
+    
+
+    
+    Vue.nextTick(() => {
+      
+    })
   }
 
 
 
   
   editing.stop = () => {
+    $app.editing.active = false
   }
 }

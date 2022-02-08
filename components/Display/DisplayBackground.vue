@@ -21,6 +21,8 @@ const { $app } = useContext()
 
 
 function onPointerDown(event) {
+  $app.editing.stop()
+
   if (!event.ctrlKey && !event.shiftKey)
     $app.selection.clear(null)
     
