@@ -1,11 +1,9 @@
 <template>
 
-  <div v-if="!note.collab.editing"
+  <div v-if="!note.editing"
   class="ql-container ql-bubble"
   :class="{ collapsible: note.collab.collapsible }">
-    <div class="ql-editor facade"
-    v-html="html">
-    </div>
+    <div class="ql-editor" v-html="html"/>
   </div>
 
   <NoteEditor v-else
@@ -16,7 +14,8 @@
 
 <script setup>
 import { SyncedText } from "@syncedstore/core";
-import { computed } from "@nuxtjs/composition-api";
+import { ref } from "@nuxtjs/composition-api";
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
 
 
 
@@ -29,17 +28,32 @@ const props = defineProps({
 
 
 
-const html = computed(() => props.text.toString())
-</script>
+const html = ref(null)
 
-<style scoped>
-.collapsible .ql-editor {
-  padding-right: 0 !important;
+function updateHTML() {
+  const delta = props.text.toDelta()
+
+  const converter = new QuillDeltaToHtmlConverter(delta, {})
+
+  html.value = converter.convert()
+
+  if (html.value === '<p><br/></p>')
+    html.value = ''
+
+  html.value = html.value.replaceAll('<br/></p>', '<br/><br/></p>')
 }
-</style>
+
+updateHTML()
+
+props.text.observe(updateHTML)
+</script>
 
 <style>
 .ql-editor {
   padding: 9px !important;
+}
+
+.collapsible .ql-editor {
+  padding-right: 0 !important;
 }
 </style>

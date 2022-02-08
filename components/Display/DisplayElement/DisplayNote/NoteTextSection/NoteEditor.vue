@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, useContext } from "@nuxtjs/composition-api";
+import { onMounted, onUnmounted, ref, useContext } from "@nuxtjs/composition-api";
 import { SyncedText } from "@syncedstore/core";
 
 import { QuillBinding } from 'y-quill'
@@ -74,14 +74,25 @@ const quillOptions = {
   },
 }
 
+
+
+
+let quill = null
+
 onMounted(() => {
   const Quill = require('quill')
 
-  const quill = new Quill(editor.value, quillOptions)
+  quill = new Quill(editor.value, quillOptions)
 
   const binding = new QuillBinding(props.text, quill,
     $app.collab.websocketProvider.awareness)
 })
+
+onUnmounted(() => {
+  document.body.removeChild(quill.theme.tooltip.root.parentNode)
+})
+
+defineExpose({ quill })
 </script>
 
 <style>
