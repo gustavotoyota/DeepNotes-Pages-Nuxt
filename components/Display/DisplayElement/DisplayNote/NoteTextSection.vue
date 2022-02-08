@@ -10,8 +10,8 @@
     @dblclick.left="$app.editing.start(note, section)">
 
       <NoteSmartEditor
-      :text="note.collab[section]"
-      :editing="note.editing"/>
+      :note="note"
+      :text="note.collab[section]"/>
 
     </div>
 

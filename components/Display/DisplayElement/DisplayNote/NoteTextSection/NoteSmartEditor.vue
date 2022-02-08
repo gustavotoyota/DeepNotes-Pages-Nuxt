@@ -1,13 +1,15 @@
 <template>
 
-  <div v-if="!editing"
-  class="ql-container ql-bubble">
+  <div v-if="!note.collab.editing"
+  class="ql-container ql-bubble"
+  :class="{ collapsible: note.collab.collapsible }">
     <div class="ql-editor facade"
     v-html="html">
     </div>
   </div>
 
   <NoteEditor v-else
+  :class="{ collapsible: note.collab.collapsible }"
   :text="text"/>
 
 </template>
@@ -20,8 +22,8 @@ import { computed } from "@nuxtjs/composition-api";
 
 
 const props = defineProps({
+  note: { type: Object },
   text: { type: SyncedText },
-  editing: { type: Boolean },
 })
 
 
@@ -29,6 +31,12 @@ const props = defineProps({
 
 const html = computed(() => props.text.toString())
 </script>
+
+<style scoped>
+.collapsible .ql-editor {
+  padding-right: 0 !important;
+}
+</style>
 
 <style>
 .ql-editor {

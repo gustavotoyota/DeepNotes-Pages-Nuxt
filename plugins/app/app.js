@@ -30,6 +30,7 @@ export default defineNuxtPlugin((context, inject) => {
   require('./notes/dragging').init(context)
   require('./notes/cloning').init(context)
   require('./notes/editing').init(context)
+  require('./notes/collapsing').init(context)
   require('./notes/resizing').init(context)
   require('./notes/dropping').init(context)
 

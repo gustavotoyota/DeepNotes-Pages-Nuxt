@@ -4,18 +4,35 @@ export const init = ({ $app }) => {
 
 
 
-  collapsing.expand = (elem) => {
+  collapsing.expand = (note) => {
+    note.collab.collapsed = false
+    
+    $app.notes.bringToTop(note)
   }
-  collapsing.collapse = (elem) => {
+  collapsing.collapse = (note) => {
+    if (!note.collab.collapsible)
+      return
+  
+    note.collab.collapsed = true
+    
+    $app.notes.bringToTop(note)
   }
 
 
 
-  collapsing.setCollapsed = (elem, collapsed) => {
+  collapsing.set = (note, collapsed) => {
+    if (collapsed === note.collab.collapsed)
+      return
+  
+    if (collapsed)
+      $app.collapsing.collapse(note)
+    else
+      $app.collapsing.expand(note)
   }
 
 
 
-  collapsing.toggleCollapsed = (elem) => {
+  collapsing.toggle = (note) => {
+    $app.collapsing.set(note, !note.collab.collapsed)
   }
 }

@@ -7,7 +7,7 @@
     class="note-collapse-button"
     :style="{ 'height': note.numSections === 1 ? '38.45px' : '100%' }"
     @pointerdown.left.stop
-    @click.left.stop="$app.collapsing.toggleCollapsed(elem)"
+    @click.left.stop="$app.collapsing.toggle(note)"
     @dblclick.left.stop>
 
       <v-icon v-if="note.collab.collapsed">mdi-chevron-down</v-icon>
@@ -22,6 +22,7 @@
 <script setup>
 const props = defineProps({
   note: { type: Object },
+  section: { type: String },
 })
 </script>
 
