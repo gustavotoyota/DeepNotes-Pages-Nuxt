@@ -45,6 +45,11 @@ const backgroundColor = computed(() => {
 // Pointer down
 
 function onPointerDown(event) {
+  if ($app.editing.active && $app.activeElem.is(props.note))
+    return
+
+  $app.editing.stop()
+
   $app.clickSelection.perform(props.note, event)
 
   if ($app.selection.has(props.note))
