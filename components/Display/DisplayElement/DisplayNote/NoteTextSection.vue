@@ -2,6 +2,8 @@
 
   <div>
 
+    <NoteEditor :text="note.collab[section]"/>
+
   </div>
   
 </template>

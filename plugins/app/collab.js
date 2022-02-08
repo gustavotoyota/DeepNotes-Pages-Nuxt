@@ -31,12 +31,19 @@ export const init = ({ $app, isDev }) => {
     const name = `page-${$app.page.id}`
     const doc = getYjsValue($app.collab.store)
 
-    new IndexeddbPersistence(name, doc).on('synced', () => {
+    $app.collab.indexedDbProvider = new IndexeddbPersistence(name, doc)
+
+    $app.collab.indexedDbProvider.on('synced', () => {
       console.log('IndexedDB synced.')
 
-      new WebsocketProvider(
+
+
+      
+      $app.collab.websocketProvider = new WebsocketProvider(
       isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
-      name, doc).on('sync', () => {
+      name, doc)
+
+      $app.collab.websocketProvider.on('sync', () => {
         console.log('Websocket synced.')
 
 
