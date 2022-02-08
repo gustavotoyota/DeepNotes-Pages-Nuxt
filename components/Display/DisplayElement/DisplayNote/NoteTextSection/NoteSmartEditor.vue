@@ -56,4 +56,29 @@ props.text.observe(updateHTML)
 .collapsible .ql-editor {
   padding-right: 0 !important;
 }
+
+
+
+
+/* Tooltip */
+
+.ql-tooltip {
+  z-index: 9999;
+
+  background-color: #303030 !important;
+  border-radius: 12px !important;
+}
+
+.ql-toolbar {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.ql-formats {
+  margin: 8px !important;
+}
+.ql-formats:not(:first-child) {
+  margin-top: 0 !important;
+}
 </style>
