@@ -1,14 +1,16 @@
 <template>
 
-  <div class="note-background"
+  <v-sheet class="note-background"
+  elevation="6"
   :style="{
+    'cursor': (note.collab.linkedPageId == null || note.selected) ? null : 'pointer',
     'background-color': backgroundColor,
   }"
   @pointerdown.left.stop="onPointerDown">
 
     <slot/>
 
-  </div>
+  </v-sheet>
   
 </template>
 

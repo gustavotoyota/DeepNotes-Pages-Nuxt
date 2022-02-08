@@ -106,12 +106,17 @@ export const init = ({ $app }) => {
 
     // Computed properties
 
-    $app.utils.computed(note, 'collab', () => $app.notes.collab[note.id])
+    $app.utils.computed(note, 'collab', () =>
+      $app.notes.collab[note.id])
 
-    $app.utils.computed(note, 'selected', () => $app.selection.has(note))
-    $app.utils.computed(note, 'active', () => $app.activeElem.is(note))
-    $app.utils.computed(note, 'dragging', () => $app.dragging.active && note.selected)
-    $app.utils.computed(note, 'editing', () => $app.editing.active && note.active)
+    $app.utils.computed(note, 'selected', () =>
+      $app.selection.has(note))
+    $app.utils.computed(note, 'active', () =>
+      $app.activeElem.is(note))
+    $app.utils.computed(note, 'dragging', () =>
+      $app.dragging.active && note.selected)
+    $app.utils.computed(note, 'editing', () =>
+      $app.editing.active && note.active)
 
     $app.utils.computed(note, 'sizeProp', () =>
       note.collapsed ? 'collapsedSize' : 'expandedSize')
@@ -159,6 +164,41 @@ export const init = ({ $app }) => {
     
     $app.utils.computed(note, 'parent', () =>
       $app.elems.map[note.parentId] ?? null)
+    $app.utils.computed(note, 'siblingIds', () => {
+      if (note.parentId == null)
+        return $app.page.collab.noteIds
+      else
+        return note.collab.childIds
+    })
+    $app.utils.computed(note, 'index', () =>
+      note.siblingIds.findIndex(noteId => noteId === note.id))
+
+
+
+    
+    $app.utils.computed(note, 'minWidth', () => {
+      if (note.collab.container && note.collab.childIds.length === 0)
+        return '165px'
+
+      if (note.collab.container)
+        return '41px'
+
+      return '21px'
+    })
+    $app.utils.computed(note, 'width', () => {
+      if (note.parentId != null)
+        return 'auto'
+      else if (note.collab[note.sizeProp].x === 'expanded')
+        return note.collab.expandedSize.x
+      else
+        return note.collab[note.sizeProp].x
+    })
+    $app.utils.computed(note, 'targetWidth', () => {
+      if (note.width === 'auto')
+        return 'auto'
+      else
+        return '0px'
+    })
 
 
 
