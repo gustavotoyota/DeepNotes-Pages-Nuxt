@@ -5,6 +5,7 @@
   :style="{
     'left': `${note.collab.pos.x}px`,
     'top': `${note.collab.pos.y}px`,
+    'z-index': note.zIndex,
   }">
 
     <slot/>
