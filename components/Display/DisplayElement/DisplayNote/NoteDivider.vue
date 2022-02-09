@@ -3,6 +3,8 @@
   <div style="position: relative">
 
     <v-divider/>
+    
+    <slot/>
 
   </div>
   

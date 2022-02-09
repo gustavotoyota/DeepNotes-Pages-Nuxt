@@ -1,44 +1,37 @@
 <template>
 
-  <NoteAnchor
-  v-if="note != null"
-  :note="note">
+  <NoteAnchor v-if="note != null" :note="note">
 
-    <NoteFrame
-    :note="note">
+    <NoteFrame :note="note">
 
-      <NoteBackground
-      :note="note">
+      <NoteHandles :note="note"/>
+
+      <NoteContent :note="note">
       
-        <NoteTextSection
-        :note="note"
-        section="title"/>
+        <NoteTextSection :note="note" section="title"/>
 
-        <div v-if="!(note.collab.collapsed && note.topSection === 'title'
-        && note.collab.collapsedSize.x === 'auto')"
-        :style="{ 'height': note.topSection === 'title' && note.collab.collapsed ? '0' : null }">
+        <NoteSectionGroup :note="note" section="title">
 
-          <NoteDivider v-if="note.collab.hasTitle && note.collab.hasBody"/>
+          <NoteDivider v-if="note.collab.hasTitle && note.collab.hasBody">
+            <NoteHandle :note="note" side="s" section="title"/>
+          </NoteDivider>
       
-          <NoteTextSection
-          :note="note"
-          section="body"/>
-          
-          <div v-if="note.collab.container
-          && !(note.collab.collapsed && note.topSection === 'body'
-          && note.collab.collapsedSize.x === 'auto')"
-          :style="{ 'height': note.topSection === 'body' && note.collab.collapsed ? '0' : null }">
+          <NoteTextSection :note="note" section="body"/>
 
-            <NoteDivider v-if="note.collab.hasTitle || note.collab.hasBody"/>
+          <NoteSectionGroup v-if="note.collab.container"
+          :note="note" section="body">
 
-            <NoteContainerSection
-            :note="note"/>
+            <NoteDivider v-if="note.collab.hasTitle || note.collab.hasBody">
+              <NoteHandle :note="note" side="s" section="body"/>
+            </NoteDivider>
 
-          </div>
+            <NoteContainerSection :note="note"/>
 
-        </div>
+          </NoteSectionGroup>
+        
+        </NoteSectionGroup>
 
-      </NoteBackground>
+      </NoteContent>
 
     </NoteFrame>
 
