@@ -6,7 +6,6 @@ Quill.register('modules/cursors', QuillCursors)
 
 
 
-import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.bubble.css' // for bubble theme
 
 
