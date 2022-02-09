@@ -153,6 +153,10 @@ watch(() => props.note.editing, onEditToggle)
 .note-editor.padding-fix /deep/ .ql-editor {
   padding-right: 0 !important;
 }
+
+.note-editor.ql-disabled /deep/ .ql-editor > * {
+  cursor: auto;
+}
 </style>
 
 
