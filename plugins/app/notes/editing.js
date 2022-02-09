@@ -28,13 +28,8 @@ export const init = ({ $app }) => {
 
 
 
+    $app.editing.section = section
     $app.editing.active = true
-    
-
-    
-    Vue.nextTick(() => {
-      
-    })
   }
 
 

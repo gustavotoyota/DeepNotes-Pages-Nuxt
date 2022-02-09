@@ -34,8 +34,7 @@ function onDoubleClick(event) {
 
   const note = $app.notes.create({ clientPos, local: true })
 
-  $app.selection.clear()
-  $app.activeElem.set(note)
+  $app.editing.start(note, note.topSection)
 }
 </script>
 

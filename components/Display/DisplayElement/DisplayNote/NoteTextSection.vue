@@ -9,9 +9,9 @@
     :style="{ 'width': note.targetWidth }"
     @dblclick.left="$app.editing.start(note, section)">
 
-      <NoteSmartEditor
+      <NoteEditor
       :note="note"
-      :text="note.collab[section]"/>
+      :section="section"/>
 
     </div>
 
