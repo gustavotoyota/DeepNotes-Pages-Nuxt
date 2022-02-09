@@ -1,5 +1,7 @@
 <template>
+
   <NuxtChild/>
+
 </template>
 
 <script>
