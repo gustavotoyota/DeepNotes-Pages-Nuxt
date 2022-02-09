@@ -118,8 +118,12 @@ export const init = ({ $app }) => {
     $static.vue.computed(note, 'editing', () =>
       $app.editing.active && note.active)
 
+
+
     $static.vue.computed(note, 'sizeProp', () =>
-      note.collapsed ? 'collapsedSize' : 'expandedSize')
+      note.collab.collapsed ? 'collapsedSize' : 'expandedSize')
+    $static.vue.computed(note, 'size', () =>
+      note.collab[note.sizeProp])
 
 
 
@@ -188,10 +192,10 @@ export const init = ({ $app }) => {
     $static.vue.computed(note, 'width', () => {
       if (note.parentId != null)
         return 'auto'
-      else if (note.collab[note.sizeProp].x === 'expanded')
+      else if (note.size.x === 'expanded')
         return note.collab.expandedSize.x
       else
-        return note.collab[note.sizeProp].x
+        return note.size.x
     })
     $static.vue.computed(note, 'targetWidth', () => {
       if (note.width === 'auto')

@@ -1,7 +1,10 @@
 <template>
-  <div ref="editor"
-  class="note-editor"
-  :class="{ 'padding-fix': fixPadding }"/>
+
+  <div class="note-editor"
+  :class="{ 'padding-fix': fixPadding }">
+    <div ref="editor"/>
+  </div>
+  
 </template>
 
 <script setup>

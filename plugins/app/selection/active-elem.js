@@ -11,6 +11,8 @@ export const init = ({ $app }) => {
 
   $static.vue.computed(activeElem, 'exists',
     () => $app.activeElem.id != null)
+  $static.vue.computed(activeElem, 'get',
+    () => $app.elems.map[$app.activeElem.id])
 
   
   
