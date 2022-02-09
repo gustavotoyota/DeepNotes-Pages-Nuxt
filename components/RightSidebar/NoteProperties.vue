@@ -48,11 +48,7 @@
 
         <Gap height="12px"/>
 
-        <v-btn @click="changeProp($event, (note, value) => {
-          const aux = note.collab.title.clone()
-          note.collab.title = note.collab.body.clone()
-          note.collab.body = aux
-        })">
+        <v-btn @click="swapTitleAndBody">
           Swap title and body
         </v-btn>
       </div>
@@ -85,6 +81,24 @@ function changeProp(value, func) {
 // Active note
 
 const activeNote = computed(() => $app.activeElem.get)
+
+
+
+
+// Swap title and body
+
+function swapTitleAndBody() {
+  changeProp(null, (note, value) => {
+    const titleDelta = note.collab.title.toDelta()
+    const bodyDelta = note.collab.body.toDelta()
+
+    note.collab.title.delete(0, note.collab.title.length)
+    note.collab.body.delete(0, note.collab.body.length)
+
+    note.collab.title.applyDelta(bodyDelta)
+    note.collab.body.applyDelta(titleDelta)
+  })
+}
 
 
 

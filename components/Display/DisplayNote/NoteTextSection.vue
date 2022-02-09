@@ -4,7 +4,7 @@
   :class="`${section}-section`"
   style="display: flex; min-height: 36.453px">
   
-    <div style="flex: 1 /* Section content is horizontally flexible */;
+    <div style="flex: 1;
     overflow: auto"
     :style="{ 'width': note.targetWidth }"
     @dblclick.left="$app.editing.start(note, section)">
