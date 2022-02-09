@@ -1,4 +1,4 @@
-import { computed, ssrRef } from '@nuxtjs/composition-api'
+import { ssrRef } from '@nuxtjs/composition-api'
 
 
 
@@ -18,18 +18,6 @@ export const init = ({ $app }) => {
     Object.defineProperty(obj, key, {
       get() { return auxRef.value },
       set(value) { return auxRef.value = value },
-    })
-  }
-
-
-
-
-  utils.computed = (obj, key, options) => {
-    const auxComputed = computed(options)
-  
-    Object.defineProperty(obj, key, {
-      get() { return auxComputed.value },
-      set(value) { auxComputed.value = value }, 
     })
   }
 }

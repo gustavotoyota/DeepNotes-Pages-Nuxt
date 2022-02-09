@@ -11,18 +11,18 @@ export const init = ({ $app }) => {
   $app.utils.ref('selection.noteIds', () => ({}))
   $app.utils.ref('selection.arrowIds', () => ({}))
 
-  $app.utils.computed(selection, 'elemIds', () =>
+  $static.vue.computed(selection, 'elemIds', () =>
     Object.keys($app.selection.noteIds).concat(
       Object.keys($app.selection.arrowIds)))
 
 
 
 
-  $app.utils.computed(selection, 'notes', () => 
+  $static.vue.computed(selection, 'notes', () => 
     $app.activeRegion.notes.filter(note => $app.selection.has(note)))
-  $app.utils.computed(selection, 'arrows', () => 
+  $static.vue.computed(selection, 'arrows', () => 
     $app.page.arrows.filter(arrow => $app.selection.has(arrow)))
-  $app.utils.computed(selection, 'elems', () => 
+  $static.vue.computed(selection, 'elems', () => 
     $app.selection.arrows.concat($app.selection.notes))
   
 

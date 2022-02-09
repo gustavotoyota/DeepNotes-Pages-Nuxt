@@ -6,4 +6,4 @@ export default (context, inject) => {
 
 require('./utils').init()
 require('./clipboard').init()
-require('./nuxt').init()
+require('./vue').init()

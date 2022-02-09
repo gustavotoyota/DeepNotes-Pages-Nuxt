@@ -10,7 +10,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.computed(notes, 'collab', () => $app.collab.store.notes)
+  $static.vue.computed(notes, 'collab', () => $app.collab.store.notes)
 
 
 
@@ -35,7 +35,7 @@ export const init = ({ $app }) => {
 
     // Add private information
 
-    $static.utils.merge(note, {
+    $static.vue.merge(note, {
       zIndex: zIndex++,
     })
 
@@ -106,25 +106,25 @@ export const init = ({ $app }) => {
 
     // Computed properties
 
-    $app.utils.computed(note, 'collab', () =>
+    $static.vue.computed(note, 'collab', () =>
       $app.notes.collab[note.id])
 
-    $app.utils.computed(note, 'selected', () =>
+    $static.vue.computed(note, 'selected', () =>
       $app.selection.has(note))
-    $app.utils.computed(note, 'active', () =>
+    $static.vue.computed(note, 'active', () =>
       $app.activeElem.is(note))
-    $app.utils.computed(note, 'dragging', () =>
+    $static.vue.computed(note, 'dragging', () =>
       $app.dragging.active && note.selected)
-    $app.utils.computed(note, 'editing', () =>
+    $static.vue.computed(note, 'editing', () =>
       $app.editing.active && note.active)
 
-    $app.utils.computed(note, 'sizeProp', () =>
+    $static.vue.computed(note, 'sizeProp', () =>
       note.collapsed ? 'collapsedSize' : 'expandedSize')
 
 
 
 
-    $app.utils.computed(note, 'topSection', () => {
+    $static.vue.computed(note, 'topSection', () => {
       if (note.collab.hasTitle)
         return 'title'
       else if (note.collab.hasBody)
@@ -132,7 +132,7 @@ export const init = ({ $app }) => {
       else if (note.collab.container)
         return 'container'
     })
-    $app.utils.computed(note, 'bottomSection', () => {
+    $static.vue.computed(note, 'bottomSection', () => {
       if (note.collab.collapsed)
         return note.topSection
       else if (note.collab.container)
@@ -146,7 +146,7 @@ export const init = ({ $app }) => {
 
 
     
-    $app.utils.computed(note, 'numSections', () => {
+    $static.vue.computed(note, 'numSections', () => {
       let numSections = 0
     
       if (note.collab.hasTitle)
@@ -162,21 +162,21 @@ export const init = ({ $app }) => {
 
 
     
-    $app.utils.computed(note, 'parent', () =>
+    $static.vue.computed(note, 'parent', () =>
       $app.elems.map[note.parentId] ?? null)
-    $app.utils.computed(note, 'siblingIds', () => {
+    $static.vue.computed(note, 'siblingIds', () => {
       if (note.parentId == null)
         return $app.page.collab.noteIds
       else
         return note.collab.childIds
     })
-    $app.utils.computed(note, 'index', () =>
+    $static.vue.computed(note, 'index', () =>
       note.siblingIds.findIndex(noteId => noteId === note.id))
 
 
 
     
-    $app.utils.computed(note, 'minWidth', () => {
+    $static.vue.computed(note, 'minWidth', () => {
       if (note.collab.container && note.collab.childIds.length === 0)
         return '165px'
 
@@ -185,7 +185,7 @@ export const init = ({ $app }) => {
 
       return '21px'
     })
-    $app.utils.computed(note, 'width', () => {
+    $static.vue.computed(note, 'width', () => {
       if (note.parentId != null)
         return 'auto'
       else if (note.collab[note.sizeProp].x === 'expanded')
@@ -193,7 +193,7 @@ export const init = ({ $app }) => {
       else
         return note.collab[note.sizeProp].x
     })
-    $app.utils.computed(note, 'targetWidth', () => {
+    $static.vue.computed(note, 'targetWidth', () => {
       if (note.width === 'auto')
         return 'auto'
       else

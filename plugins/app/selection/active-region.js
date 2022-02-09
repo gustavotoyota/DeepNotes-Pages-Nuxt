@@ -9,19 +9,19 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.computed(activeRegion, 'parent', () => {
+  $static.vue.computed(activeRegion, 'parent', () => {
     return $app.elems.map[$app.activeRegion.id] ?? null
   })
 
 
 
 
-  $app.utils.computed(activeRegion, 'noteIds', () => {
+  $static.vue.computed(activeRegion, 'noteIds', () => {
     if ($app.activeRegion.id == null)
       return $app.page.collab.noteIds
     else
       return $app.notes.collab[$app.activeRegion.id].childIds
   })
-  $app.utils.computed(activeRegion, 'notes', () => 
+  $static.vue.computed(activeRegion, 'notes', () => 
     $app.activeRegion.noteIds.map(noteId => $app.elems.map[noteId]))
 }

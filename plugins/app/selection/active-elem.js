@@ -9,7 +9,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.computed(activeElem, 'exists',
+  $static.vue.computed(activeElem, 'exists',
     () => $app.activeElem.id != null)
 
   
@@ -29,7 +29,10 @@ export const init = ({ $app }) => {
 
 
 
-  activeElem.set = (elem) => {
+  activeElem.set = (elem, bringToTop) => {
+    if ($app.activeElem.is(elem))
+      return
+      
     if (elem == null) {
       $app.activeElem.clear()
       return
@@ -38,5 +41,8 @@ export const init = ({ $app }) => {
     $app.selection.add(elem)
     
     $app.activeElem.id = elem.id
+  
+    if (bringToTop !== false)
+      $app.notes.bringToTop(elem)
   }
 }

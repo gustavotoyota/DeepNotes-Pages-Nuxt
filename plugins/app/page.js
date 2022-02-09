@@ -15,14 +15,14 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.computed(page, 'collab', () => $app.collab.store.page)
+  $static.vue.computed(page, 'collab', () => $app.collab.store.page)
 
 
 
 
-  $app.utils.computed(page, 'notes', () =>
+  $static.vue.computed(page, 'notes', () =>
     $app.page.collab.noteIds.map(noteId => $app.elems.map[noteId]))
-  $app.utils.computed(page, 'arrows', () =>
+  $static.vue.computed(page, 'arrows', () =>
     $app.page.collab.arrowIds.map(arrowId => $app.elems.map[arrowId]))
 
 
@@ -43,7 +43,7 @@ export const init = ({ $app }) => {
 
   page.resetCollab = (pageName) => {
     getYjsValue($app.collab.store).transact(() => {
-      $static.utils.merge($app.page.collab, {
+      $static.vue.merge($app.page.collab, {
         name: pageName,
       
         noteIds: [],
