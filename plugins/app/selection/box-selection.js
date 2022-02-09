@@ -72,7 +72,7 @@ export const init = ({ $app }) => {
   
     // Activate highest selected element
     
-    if ($app.elems.array.length > 0)
+    if ($app.selection.elems.length > 0)
       $app.activeElem.set($app.selection.elems.at(-1))
     
     $app.boxSelection.active = false
