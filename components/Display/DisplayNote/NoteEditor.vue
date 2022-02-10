@@ -4,7 +4,7 @@
   :class="{ 'padding-fix': fixPadding }">
     <div ref="editor"/>
   </div>
-  
+
 </template>
 
 <script setup>
@@ -157,7 +157,7 @@ watch(() => props.note.editing, onEditToggle)
   padding-right: 0 !important;
 }
 
-.note-editor.ql-disabled /deep/ .ql-editor > * {
+.note-editor > .ql-disabled /deep/ .ql-editor > * {
   cursor: auto;
 }
 </style>
