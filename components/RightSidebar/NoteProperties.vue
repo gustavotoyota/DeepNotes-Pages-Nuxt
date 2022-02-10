@@ -18,7 +18,8 @@
 
 
     <div style="flex: 1;
-    overflow-y: auto">
+    overflow-y: auto"
+    class="pb-4">
 
       <!-- Title/Body -->
 
@@ -159,6 +160,104 @@
 
 
 
+      <!-- Width -->
+
+      <v-divider class="mt-4"/>
+        
+      <div class="mx-5 mt-4" style="display: flex">
+        
+        <div style="flex: 1; width: 0">
+          <div>
+            <div class="body-2 grey--text text--lighten-1"
+            style="margin-left: 1px">
+              Width:
+            </div>
+
+            <Gap height="2px"/>
+
+            <v-select dense outlined hide-details
+            background-color="#181818"
+            :items="[
+              { text: 'Auto', value: 'auto' },
+              ...(activeNote.collab.collapsed ? [{ text: 'Expanded', value: 'expanded' }] : []),
+              { text: 'Custom', value: 'custom' },
+            ]" item-text="text" item-value="value"
+            :menu-props="{ top: false, offsetY: true }"
+            v-model="width">
+            </v-select>
+          </div>
+
+          <Gap height="12px"/>
+
+          <div>
+            <div class="body-2 grey--text text--lighten-1"
+            style="margin-left: 1px">
+              Body height:
+            </div>
+
+            <Gap height="2px"/>
+
+            <v-select dense outlined hide-details
+            background-color="#181818"
+            :items="[
+              { text: 'Auto', value: 'auto' },
+              { text: 'Custom', value: 'custom' },
+            ]" item-text="text" item-value="value"
+            :menu-props="{ top: false, offsetY: true }"
+            v-model="bodyHeight">
+            </v-select>
+          </div>
+        </div>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <div style="flex: 1; width: 0">
+          <div>
+            <div class="body-2 grey--text text--lighten-1"
+            style="margin-left: 1px">
+              Title height:
+            </div>
+
+            <Gap height="2px"/>
+
+            <v-select dense outlined hide-details
+            background-color="#181818"
+            :items="[
+              { text: 'Auto', value: 'auto' },
+              { text: 'Custom', value: 'custom' },
+            ]" item-text="text" item-value="value"
+            :menu-props="{ top: false, offsetY: true }"
+            v-model="titleHeight">
+            </v-select>
+          </div>
+
+          <Gap height="12px"/>
+
+          <div>
+            <div class="body-2 grey--text text--lighten-1"
+            style="margin-left: 1px">
+              Container height:
+            </div>
+
+            <Gap height="2px"/>
+
+            <v-select dense outlined hide-details
+            background-color="#181818"
+            :items="[
+              { text: 'Auto', value: 'auto' },
+              { text: 'Custom', value: 'custom' },
+            ]" item-text="text" item-value="value"
+            :menu-props="{ top: false, offsetY: true }"
+            v-model="containerHeight">
+            </v-select>
+          </div>
+        </div>
+        
+      </div>
+
+
+
+
       <!-- Movable/Resizable -->
 
       <v-divider class="mt-4"/>
@@ -279,10 +378,10 @@ function swapTitleAndBody() {
 
 const width = computed({
   get() {
-    if (activeNote.size.x.endsWith('px'))
+    if (activeNote.value.size.x.endsWith('px'))
       return 'custom'
     else
-      return activeNote.size.x
+      return activeNote.value.size.x
   },
   set(value) {
     for (const note of $app.selection.notes) {
@@ -304,10 +403,10 @@ const width = computed({
 function sectionHeight(section) {
   return computed({
     get() {
-      if (note.size.y[section].endsWith('px'))
+      if (activeNote.value.size.y[section].endsWith('px'))
         return 'custom'
       else
-        return note.size.y[section]
+        return activeNote.value.size.y[section]
     },
     set(value) {
       changeProp(value, (note, value) => {
