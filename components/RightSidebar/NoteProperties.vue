@@ -53,6 +53,178 @@
         </v-btn>
       </div>
 
+
+
+
+      <!-- Container -->
+
+      <v-divider class="mt-4"/>
+        
+      <div class="mx-5 mt-4"
+      style="display: flex">
+        <v-checkbox hide-details label="Container"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.container"
+        @change="changeProp($event, (note, value) => {
+          note.collab.container = value
+          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+        })"/>
+      </div>
+
+
+
+
+      <!-- Collapsible/Collapsed -->
+
+      <v-divider class="mt-4"/>
+        
+      <div class="mx-5 mt-4"
+      style="display: flex">
+        <v-checkbox hide-details label="Collapsible"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.collapsible"
+        @change="changeProp($event, (note, value) => {
+          note.collab.collapsible = value
+          note.collab.collapsed = note.collab.collapsed && value
+        })">
+        </v-checkbox>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <v-checkbox hide-details label="Collapsed"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :disabled="!activeNote.collab.collapsible"
+        :input-value="activeNote.collab.collapsed"
+        @change="changeProp($event, (note, value) => {
+          $app.collapsing.set(note, value)
+        })">
+        </v-checkbox>
+      </div>
+
+
+
+
+      <!-- Anchor -->
+
+      <v-divider class="mt-4"/>
+        
+      <div class="mx-5 mt-4" style="display: flex">
+        <div style="flex: 1">
+          <div class="body-2 grey--text text--lighten-1"
+          style="margin-left: 1px">
+            X anchor:
+          </div>
+
+          <Gap height="2px"/>
+
+          <v-select dense outlined hide-details
+          background-color="#181818"
+          :items="[
+            { text: 'Left', value: 0 },
+            { text: 'Center', value: 0.5 },
+            { text: 'Right', value: 1 },
+          ]" item-text="text" item-value="value"
+          :menu-props="{ top: false, offsetY: true }"
+          :value="activeNote.collab.anchor.x"
+          @change="changeProp($event, (note, value) => {
+            note.collab.anchor.x = value
+          })"/>
+        </div>
+
+        <Gap width="16px" style="flex: none"/>
+
+        <div style="flex: 1">
+          <div class="body-2 grey--text text--lighten-1"
+          style="margin-left: 1px">
+            Y anchor:
+          </div>
+
+          <Gap height="2px"/>
+
+          <v-select dense outlined hide-details
+          background-color="#181818"
+          :items="[
+            { text: 'Top', value: 0 },
+            { text: 'Center', value: 0.5 },
+            { text: 'Bottom', value: 1 },
+          ]" item-text="text" item-value="value"
+          :menu-props="{ top: false, offsetY: true }"
+          :value="activeNote.collab.anchor.y"
+          @change="changeProp($event, (note, value) => {
+            note.collab.anchor.y = value
+          })"/>
+        </div>
+      </div>
+
+
+
+
+      <!-- Movable/Resizable -->
+
+      <v-divider class="mt-4"/>
+        
+      <div class="mx-5 mt-4"
+      style="display: flex">
+        <v-checkbox hide-details label="Movable"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.movable"
+        @change="changeProp($event, (note, value) => {
+          note.collab.movable = value
+        })"/>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <v-checkbox hide-details label="Resizable"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.resizable"
+        @change="changeProp($event, (note, value) => {
+          note.collab.resizable = value
+        })"/>
+      </div>
+
+
+
+
+      <!-- Wrapping -->
+
+      <v-divider class="mt-4"/>
+        
+      <div class="mx-5 mt-4"
+      style="display: flex">
+        <v-checkbox hide-details label="Wrap title"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.wrapTitle"
+        @change="changeProp($event, (note, value) => {
+          note.collab.wrapTitle = value
+        })"/>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <v-checkbox hide-details label="Wrap body"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.wrapBody"
+        @change="changeProp($event, (note, value) => {
+          note.collab.wrapBody = value
+        })"/>
+      </div>
+
+
+
+
+      <!-- Read-only -->
+
+      <v-divider class="mt-4"/>
+        
+      <div class="mx-5 mt-4"
+      style="display: flex">
+        <v-checkbox hide-details label="Read-only"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.readOnly"
+        @change="changeProp($event, (note, value) => {
+          note.collab.readOnly = value
+        })"/>
+      </div>
+
     </div>
 
   </div>
