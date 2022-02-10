@@ -141,6 +141,7 @@ watch(() => props.note.editing, onEditToggle)
   padding: 9px !important;
   
   min-width: 100%;
+  max-width: 100%;
   
   width: max-content;
   height: max-content;
