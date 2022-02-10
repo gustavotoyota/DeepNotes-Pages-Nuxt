@@ -21,6 +21,34 @@
     overflow-y: auto"
     class="pb-4">
 
+      <!-- Linked page -->
+      
+      <div class="mx-5 mt-4">
+        <div class="body-2 grey--text text--lighten-1"
+        style="margin-left: 1px">
+          Linked page:
+        </div>
+
+        <Gap height="2px"/>
+
+        <v-select dense outlined hide-details
+        background-color="#181818" clearable
+        :items="$app.project.recent" item-text="text" item-value="value"
+        :menu-props="{ top: false, offsetY: true }"
+        :value="activeNote.collab.linkedPageId"
+        @change="changeProp($event, (note, value) => {
+          note.collab.linkedPageId = value
+        })"/>
+
+        <Gap height="10px"/>
+        
+        
+        <NewPageDialog/>
+      </div>
+
+
+
+
       <!-- Title/Body -->
 
       <v-divider class="mt-4"/>

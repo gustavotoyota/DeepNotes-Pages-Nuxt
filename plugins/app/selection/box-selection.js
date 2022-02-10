@@ -4,10 +4,17 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('boxSelection.active', () => false)
+  $app.utils.ref('boxSelection.active')
 
-  $app.utils.ref('boxSelection.startPos', () => null)
-  $app.utils.ref('boxSelection.endPos', () => null)
+  $app.utils.ref('boxSelection.startPos')
+  $app.utils.ref('boxSelection.endPos')
+
+
+
+
+  boxSelection.reset = () => {
+    $app.boxSelection.active = false
+  }
 
 
 

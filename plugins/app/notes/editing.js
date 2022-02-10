@@ -9,7 +9,14 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('editing.active', () => false)
+  $app.utils.ref('editing.active')
+
+
+
+
+  editing.reset = () => {
+    $app.editing.active = false
+  }
 
 
 

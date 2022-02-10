@@ -4,7 +4,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('activeElem.id', () => null)
+  $app.utils.ref('activeElem.id')
 
 
 
@@ -13,6 +13,13 @@ export const init = ({ $app }) => {
     () => $app.activeElem.id != null)
   $static.vue.computed(activeElem, 'get',
     () => $app.elems.map[$app.activeElem.id])
+
+
+
+  
+  activeElem.reset = () => {
+    $app.activeElem.id = null
+  }
 
   
   

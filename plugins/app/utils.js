@@ -10,7 +10,7 @@ export const init = ({ $app }) => {
 
 
   utils.ref = (refKey, refValue) => {
-    const auxRef = ssrRef(refValue, refKey)
+    const auxRef = ssrRef(refValue ?? (() => null), refKey)
 
     const obj = $app[refKey.split('.')[0]]
     const key = refKey.split('.').at(-1)

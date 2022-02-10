@@ -22,6 +22,8 @@
 <script setup>
 import { ref, onMounted, useContext } from "@nuxtjs/composition-api"
 
+const { $app, route } = useContext()
+
 
 
 
@@ -39,11 +41,7 @@ onMounted(() => {
 // Reset page
 
 onMounted(() => {
-  const { $app, route } = useContext()
-
-  $app.collab.reset()
   $app.page.reset({ id: route.value.params.page_id })
-  $app.collab.startSync()
 })
 </script>
 

@@ -11,7 +11,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('elems.map', () => ({}))
+  $app.utils.ref('elems.map')
 
 
 
@@ -20,6 +20,13 @@ export const init = ({ $app }) => {
     () => Object.keys($app.elems.map))
   $static.vue.computed(elems, 'array',
     () => Object.values($app.elems.map))
+
+
+
+
+  elems.reset = () => {
+    $app.elems.map = {}
+  }
   
 
 

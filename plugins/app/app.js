@@ -52,8 +52,6 @@ export default defineNuxtPlugin((context, inject) => {
 
 
   $app.init = () => {
-    $app.camera.reset()
-    
     console.log('App initialized')
   }
 })

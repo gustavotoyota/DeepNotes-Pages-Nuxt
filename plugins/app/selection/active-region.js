@@ -4,7 +4,14 @@ export const init = ({ $app }) => {
 
 
   
-  $app.utils.ref('activeRegion.id', () => null)
+  $app.utils.ref('activeRegion.id')
+
+
+
+
+  activeRegion.reset = () => {
+    $app.activeRegion.id = null
+  }
 
 
 

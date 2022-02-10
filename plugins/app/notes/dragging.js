@@ -14,8 +14,16 @@ export const init = ({ $app  }) => {
 
 
 
-  $app.utils.ref('dragging.down', () => false)
-  $app.utils.ref('dragging.active', () => false)
+  $app.utils.ref('dragging.down')
+  $app.utils.ref('dragging.active')
+
+
+
+
+  dragging.reset = () => {
+    $app.dragging.down = false
+    $app.dragging.active = false
+  }
   
   
 

@@ -4,8 +4,15 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('panning.active', () => false)
-  $app.utils.ref('panning.currentPos', () => null)
+  $app.utils.ref('panning.active')
+  $app.utils.ref('panning.currentPos')
+
+
+
+
+  panning.reset = () => {
+    $app.panning.active = false
+  }
   
 
 

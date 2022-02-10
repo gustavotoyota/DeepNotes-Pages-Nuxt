@@ -10,7 +10,7 @@ export const init = ({ $app }) => {
 
 
   
-  $app.utils.ref('page.id', () => null)
+  $app.utils.ref('page.id')
 
 
 
@@ -30,12 +30,35 @@ export const init = ({ $app }) => {
 
   page.reset = ({ id, pageName }) => {
     $app.page.id = id ?? uuidv4()
+
+
+
+
+    $app.collab.reset()
+
+    $app.camera.reset()
+    $app.panning.reset()
+
+    $app.elems.reset()
+
+    $app.dragging.reset()
+    $app.editing.reset()
+
+    $app.activeElem.reset()
+    $app.activeRegion.reset()
+    $app.boxSelection.reset()
+    $app.selection.reset()
     
 
 
-    
+
     if (id == null)
       $app.page.resetCollab(pageName)
+
+
+
+
+    $app.collab.startSync()
   }
 
 

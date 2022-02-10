@@ -11,7 +11,7 @@ export const init = ({ $app, isDev }) => {
 
 
 
-  $app.utils.ref('collab.store', () => null)
+  $app.utils.ref('collab.store')
   
 
   
