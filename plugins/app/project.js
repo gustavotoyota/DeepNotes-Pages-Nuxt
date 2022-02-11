@@ -15,7 +15,5 @@ export const init = ({ $app, $axios }) => {
 
     $app.project.path = data.path
     $app.project.recent = data.recent
-
-    console.log('Project initialized')
   }
 }
