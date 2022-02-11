@@ -33,7 +33,7 @@
 
         <v-select dense outlined hide-details
         background-color="#181818" clearable
-        :items="$app.project.recent" item-text="text" item-value="value"
+        :items="$app.project.recent" item-text="name" item-value="id"
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.linkedPageId"
         @change="changeProp($event, (note, value) => {

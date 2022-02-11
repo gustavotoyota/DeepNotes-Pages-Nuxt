@@ -1,4 +1,4 @@
-export const init = ({ $app, $axios }) => {
+export const init = async ({ $app, $axios, $auth }) => {
   const project = $app.project = {}
 
 

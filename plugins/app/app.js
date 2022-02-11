@@ -10,7 +10,6 @@ export default defineNuxtPlugin((context, inject) => {
 
 
   inject('app', $app)
-  inject('state', context.store.state)
 
 
 
