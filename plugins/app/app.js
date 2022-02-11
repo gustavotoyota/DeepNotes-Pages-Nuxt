@@ -47,11 +47,4 @@ export default defineNuxtPlugin((context, inject) => {
   require('./selection/active-elem').init(context)
   require('./selection/click-selection').init(context)
   require('./selection/box-selection').init(context)
-
-
-
-
-  $app.init = () => {
-    console.log('App initialized')
-  }
 })

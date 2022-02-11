@@ -19,13 +19,6 @@ export default async function (context, inject) {
 
 	app.mixins = (app.mixins ?? []).concat({
     async setup() {
-      // Initialize app
-
-      $app.init()
-  
-      
-  
-      
       // Release pointer down for touchscreen
   
       onMounted(() => {
