@@ -16,4 +16,15 @@ export const init = ({ $app, $axios }) => {
     $app.project.path = data.path
     $app.project.recent = data.recent
   }
+
+
+
+
+  project.bumpRecentPage = (page) => {
+    const index = $app.project.recent.findIndex(item => item.id === page.id)
+    if (index >= 0)
+      $app.project.recent.splice(index, 1)
+
+    $app.project.recent.push(page)
+  }
 }

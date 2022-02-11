@@ -69,12 +69,12 @@ export default {
     onSubmit() {
       this.active = false
 
-      const selectedElems = $app.selection.getElems()
+      const selectedNotes = this.$app.selection.notes
       
-      const page = $app.pages.create(this.name)
+      this.$app.page.reset({ name: this.name })
 
-      for (const selectedElem of selectedElems)
-        selectedElem.linkedPageId = page.id
+      for (const selectedNote of selectedNotes)
+        selectedNote.linkedPageId = this.$app.page.id
     },
 
   },
@@ -88,15 +88,13 @@ export default {
         return
 
       setTimeout(() => {
-        let editorNode
-        if ($getters.elem.hasTitle)
-          editorNode = $app.elems.getNode($getters.elem, 'title-editor')
-        else if ($getters.elem.hasBody)
-          editorNode = $app.elems.getNode($getters.elem, 'body-editor')
-        else
+        const activeNote = this.$app.activeElem.get
+
+        const text = activeNote.collab[activeNote.topSection]
+        if (!text)
           return
 
-        this.name = editorNode.innerText.split('\n')[0]
+        this.name = text.toString().split('\n')[0]
         this.$refs.name.focus()
       })
     }

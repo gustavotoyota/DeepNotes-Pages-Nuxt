@@ -28,7 +28,7 @@ export const init = ({ $app }) => {
 
 
 
-  page.reset = ({ id, pageName }) => {
+  page.reset = ({ id, name }) => {
     $app.page.id = id ?? uuidv4()
 
 
@@ -52,8 +52,14 @@ export const init = ({ $app }) => {
 
 
 
-    if (id == null)
-      $app.page.resetCollab(pageName)
+    if (id == null) {
+      $app.project.path.push({ 
+        id: $app.page.id,
+        name: name,
+      })
+
+      $app.page.resetCollab(name)
+    }
 
 
 

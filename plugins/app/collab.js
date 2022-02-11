@@ -49,14 +49,12 @@ export const init = ({ $app, isDev }) => {
 
 
 
-        // Initialize store if not already initialized
+        // Bump recent page
 
-        if ($app.page.collab.name == null) {
-          const pathPage = $app.project.path.find(
-            item => item.id === $app.page.id)
-
-          $app.page.resetCollab(pathPage.name)
-        }
+        $app.project.bumpRecentPage({
+          id: $app.page.id,
+          name: $app.page.collab.name,
+        })
 
 
 
