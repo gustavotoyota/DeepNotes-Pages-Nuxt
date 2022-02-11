@@ -34,14 +34,14 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/external/highlight.js', mode: 'client' },
-    { src: '~/plugins/external/quill-editor.js', mode: 'client' },
-    { src: '~/plugins/external/syncedstore.js' },
+    { src: '~/plugins/external/highlight', mode: 'client' },
+    { src: '~/plugins/external/quill-editor', mode: 'client' },
+    { src: '~/plugins/external/syncedstore' },
     
-    { src: '~/plugins/static/static.js' },
+    { src: '~/plugins/static/static' },
 
-    { src: '~/plugins/app/app.js' },
-    { src: '~/plugins/app/mixin.js' },
+    { src: '~/plugins/app/app' },
+    { src: '~/plugins/app/mixin' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -63,6 +63,7 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
+    '@nuxt/typescript-build',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -159,6 +160,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, { isClient }) {
+      config.resolve.extensions.push('ts', 'tsx')
+    },
   },
 
   server: {
