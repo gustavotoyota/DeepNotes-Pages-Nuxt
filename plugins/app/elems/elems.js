@@ -11,7 +11,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('elems.map')
+  $static.vue.ref(elems, 'elems.map')
 
 
 

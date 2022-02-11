@@ -8,8 +8,8 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('selection.noteIds')
-  $app.utils.ref('selection.arrowIds')
+  $static.vue.ref(selection, 'selection.noteIds')
+  $static.vue.ref(selection, 'selection.arrowIds')
 
 
 

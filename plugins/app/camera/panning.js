@@ -4,8 +4,8 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('panning.active')
-  $app.utils.ref('panning.currentPos')
+  $static.vue.ref(panning, 'panning.active')
+  $static.vue.ref(panning, 'panning.currentPos')
 
 
 

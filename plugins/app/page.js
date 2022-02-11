@@ -10,7 +10,7 @@ export const init = ({ $app }) => {
 
 
   
-  $app.utils.ref('page.id')
+  $static.vue.ref(page, 'page.id')
 
 
 

@@ -9,7 +9,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('editing.active')
+  $static.vue.ref(editing, 'editing.active')
 
 
 

@@ -4,7 +4,7 @@ export const init = ({ $app }) => {
 
 
   
-  $app.utils.ref('activeRegion.id')
+  $static.vue.ref(activeRegion, 'activeRegion.id')
 
 
 

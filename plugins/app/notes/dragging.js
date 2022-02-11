@@ -14,8 +14,8 @@ export const init = ({ $app  }) => {
 
 
 
-  $app.utils.ref('dragging.down')
-  $app.utils.ref('dragging.active')
+  $static.vue.ref(dragging, 'dragging.down')
+  $static.vue.ref(dragging, 'dragging.active')
 
 
 

@@ -4,7 +4,7 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('activeElem.id')
+  $static.vue.ref(activeElem, 'activeElem.id')
 
 
 

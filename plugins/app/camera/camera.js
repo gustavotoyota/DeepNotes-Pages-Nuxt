@@ -4,11 +4,11 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('camera.pos')
-  $app.utils.ref('camera.zoom')
+  $static.vue.ref(camera, 'camera.pos')
+  $static.vue.ref(camera, 'camera.zoom')
 
-  $app.utils.ref('camera.lockPos')
-  $app.utils.ref('camera.lockZoom')
+  $static.vue.ref(camera, 'camera.lockPos')
+  $static.vue.ref(camera, 'camera.lockZoom')
 
 
 

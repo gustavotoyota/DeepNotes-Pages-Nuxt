@@ -4,8 +4,8 @@ export const init = ({ $app, $axios }) => {
 
 
 
-  $app.utils.ref('project.path')
-  $app.utils.ref('project.recent')
+  $static.vue.ref(project, 'project.path')
+  $static.vue.ref(project, 'project.recent')
 
 
 

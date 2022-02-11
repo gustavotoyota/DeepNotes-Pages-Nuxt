@@ -4,10 +4,10 @@ export const init = ({ $app }) => {
 
 
 
-  $app.utils.ref('boxSelection.active')
+  $static.vue.ref(boxSelection, 'boxSelection.active')
 
-  $app.utils.ref('boxSelection.startPos')
-  $app.utils.ref('boxSelection.endPos')
+  $static.vue.ref(boxSelection, 'boxSelection.startPos')
+  $static.vue.ref(boxSelection, 'boxSelection.endPos')
 
 
 

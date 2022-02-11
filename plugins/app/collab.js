@@ -11,7 +11,7 @@ export const init = ({ $app, isDev }) => {
 
 
 
-  $app.utils.ref('collab.store')
+  $static.vue.ref(collab, 'collab.store')
   
 
   
