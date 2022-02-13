@@ -6,7 +6,8 @@
     'cursor': (note.collab.linkedPageId == null || note.selected) ? null : 'pointer',
     'background-color': backgroundColor,
   }"
-  @pointerdown.left.stop="onPointerDown">
+  @pointerdown.left.stop="onPointerDown"
+  @click="onClick">
 
     <slot/>
 
@@ -42,9 +43,12 @@ const backgroundColor = computed(() => {
 
 
 
-// Pointer down
-
 function onPointerDown(event) {
+  if (props.note.collab.linkedPageId != null
+  && !event.ctrlKey && !event.altKey && !event.shiftKey
+  && !props.note.selected)
+    return
+
   if ($app.editing.active && $app.activeElem.is(props.note))
     return
 
@@ -54,6 +58,20 @@ function onPointerDown(event) {
 
   if ($app.selection.has(props.note))
     $app.dragging.start(event)
+}
+
+
+
+
+function onClick(event) {
+  if (props.note.collab.linkedPageId == null
+  || event.ctrlKey || event.shiftKey || props.note.selected)
+    return
+
+  $app.page.navigateTo({
+    id: props.note.collab.linkedPageId,
+    fromParent: true,
+  })
 }
 </script>
 

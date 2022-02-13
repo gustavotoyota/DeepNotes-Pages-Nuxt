@@ -76,6 +76,8 @@ export const init = ({ $app, $axios }) => {
     const id = (await $axios.post('/api/page/create', { name })).data
 
     $app.page.navigateTo({ id, fromParent: true })
+
+    return id
   }
 
 

@@ -71,10 +71,10 @@ export default {
 
       const selectedNotes = this.$app.selection.notes
       
-      await this.$app.page.create(this.name)
+      const pageId = await this.$app.page.create(this.name)
 
       for (const selectedNote of selectedNotes)
-        selectedNote.linkedPageId = this.$app.page.id
+        selectedNote.collab.linkedPageId = pageId
     },
 
   },
