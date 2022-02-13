@@ -97,6 +97,11 @@ export default async function (context, inject) {
       onUnmounted(() => {
         document.removeEventListener('keydown', onKeyDown)
       })
+
+
+
+      
+      await $app.project.init()
     }
   })
 }

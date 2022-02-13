@@ -48,21 +48,13 @@ export const init = ({ $app, isDev, $axios, route }) => {
 
 
 
-
-        // Start observing changes
-
-        $app.notes.createFromIds($app.page.collab.noteIds)
-        $app.notes.observeIds($app.page.collab.noteIds)
-
-
-
         
         // Update project
 
-        const pageName = await $axios.post('/api/project/update', {
+        const pageName = (await $axios.post('/api/project/update', {
           pageId: $app.page.id,
-          parentPageId: route.params.parentId ?? null,
-        })
+          parentPageId: $app.page.parentId ?? null,
+        })).data
 
 
 
@@ -77,17 +69,17 @@ export const init = ({ $app, isDev, $axios, route }) => {
 
         // Update page path
     
-        if ($app.project.path.find(item => item.id === $app.page.id) != null) {
+        if ($app.project.path.find(item => item.id === $app.page.id) == null) {
           const index = $app.project.path.findIndex(
-            item => item.id === $app.page.id)
+            item => item.id === $app.page.parentId)
     
-          $app.project.path.splice(index, 1)
+          $app.project.path.splice(index + 1, 1)
+    
+          $app.project.path.push({
+            id: $app.page.id,
+            name: $app.page.collab.name,
+          })
         }
-    
-        $app.project.path.push({
-          id: $app.page.id,
-          name: $app.page.collab.name,
-        })
 
 
 
@@ -98,6 +90,14 @@ export const init = ({ $app, isDev, $axios, route }) => {
           id: $app.page.id,
           name: $app.page.collab.name,
         })
+
+
+
+
+        // Start observing changes
+
+        $app.notes.createFromIds($app.page.collab.noteIds)
+        $app.notes.observeIds($app.page.collab.noteIds)
       })
     })
   }

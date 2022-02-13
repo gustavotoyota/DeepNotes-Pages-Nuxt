@@ -4,7 +4,7 @@ import { getYjsValue } from '@syncedstore/core'
 
 
 
-export const init = ({ $app, $router, $axios }) => {
+export const init = ({ $app, $axios }) => {
   const page = $app.page = {}
 
 
@@ -73,7 +73,7 @@ export const init = ({ $app, $router, $axios }) => {
 
 
   page.create = async (name) => {
-    const id = await $axios.post('/api/page/create', { name })
+    const id = (await $axios.post('/api/page/create', { name })).data
 
     $app.page.navigateTo({ id, fromParent: true })
   }
@@ -82,9 +82,8 @@ export const init = ({ $app, $router, $axios }) => {
 
 
   page.navigateTo = ({ id, fromParent }) => {
-    $router.push({
-      path: `/${id}`,
-      ...(fromParent ? { params: { parentId: $app.page.id } } : {}),
-    })
+    $app.page.parentId = fromParent ? $app.page.id : null
+
+    $nuxt.$router.push({ path: `/${id}` })
   }
 }
