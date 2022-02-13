@@ -6,9 +6,9 @@
 export default {
 
   async middleware(context) {
-    const startingData = (await context.$axios.post('/api/projects/data')).data
+    const startingPageId = (await context.$axios.post('/api/project/starting-page-id')).data
 
-    return context.redirect(`/${startingData.startingPageId}`)
+    return context.redirect(`/${startingPageId}`)
   }
 
 }

@@ -20,20 +20,9 @@
 
 
 <script setup>
-import { ref, onMounted, useContext } from "@nuxtjs/composition-api"
+import { onMounted, useContext } from "@nuxtjs/composition-api"
 
 const { $app, route } = useContext()
-
-
-
-
-// Loading
-
-const mounted = ref(false)
-
-onMounted(() => {
-  mounted.value = true
-})
 
 
 

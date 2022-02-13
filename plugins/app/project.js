@@ -1,4 +1,4 @@
-export const init = async ({ $app, $axios, $auth }) => {
+export const init = async ({ $app, $axios, route }) => {
   const project = $app.project = {}
 
 
@@ -11,7 +11,9 @@ export const init = async ({ $app, $axios, $auth }) => {
 
 
   project.init = async () => {
-    const data = (await $axios.post('/api/projects/data')).data
+    const data = (await $axios.post('/api/project/data', {
+      pageId: route.params.page_id,
+    })).data
 
     $app.project.path = data.path
     $app.project.recent = data.recent

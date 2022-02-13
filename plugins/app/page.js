@@ -4,7 +4,7 @@ import { getYjsValue } from '@syncedstore/core'
 
 
 
-export const init = ({ $app }) => {
+export const init = ({ $app, $router, $axios }) => {
   const page = $app.page = {}
 
 
@@ -48,18 +48,6 @@ export const init = ({ $app }) => {
     $app.activeRegion.reset()
     $app.boxSelection.reset()
     $app.selection.reset()
-    
-
-
-
-    if (id == null) {
-      $app.project.path.push({ 
-        id: $app.page.id,
-        name: name,
-      })
-
-      $app.page.resetCollab(name)
-    }
 
 
 
@@ -78,6 +66,25 @@ export const init = ({ $app }) => {
         noteIds: [],
         arrowIds: [],
       })
+    })
+  }
+
+
+
+
+  page.create = async (name) => {
+    const id = await $axios.post('/api/page/create', { name })
+
+    $app.page.navigateTo({ id, fromParent: true })
+  }
+
+
+
+
+  page.navigateTo = ({ id, fromParent }) => {
+    $router.push({
+      path: `/${id}`,
+      ...(fromParent ? { params: { parentId: $app.page.id } } : {}),
     })
   }
 }

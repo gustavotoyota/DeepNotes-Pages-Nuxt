@@ -66,12 +66,12 @@ export default {
 
   methods: {
 
-    onSubmit() {
+    async onSubmit() {
       this.active = false
 
       const selectedNotes = this.$app.selection.notes
       
-      this.$app.page.reset({ name: this.name })
+      await this.$app.page.create(this.name)
 
       for (const selectedNote of selectedNotes)
         selectedNote.linkedPageId = this.$app.page.id
