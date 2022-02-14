@@ -33,7 +33,7 @@
 
         <v-select dense outlined hide-details
         background-color="#181818" clearable
-        :items="$app.project.recent" item-text="name" item-value="id"
+        :items="ctx.$app.project.recent" item-text="name" item-value="id"
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.linkedPageId"
         @change="changeProp($event, (note, value) => {
@@ -125,7 +125,7 @@
         :disabled="!activeNote.collab.collapsible"
         :input-value="activeNote.collab.collapsed"
         @change="changeProp($event, (note, value) => {
-          $app.collapsing.set(note, value)
+          ctx.$app.collapsing.set(note, value)
         })">
         </v-checkbox>
       </div>
@@ -362,14 +362,14 @@
 import { computed, useContext } from "@nuxtjs/composition-api"
 import { getYjsValue } from "@syncedstore/core"
 
-const { $app } = useContext()
+const ctx = useContext()
 
 
 
 
 function changeProp(value, func) {
-  getYjsValue($app.collab.store).transact(() => {
-    for (const note of $app.selection.notes)
+  getYjsValue(ctx.$app.collab.store).transact(() => {
+    for (const note of ctx.$app.selection.notes)
       func(note, value)
   })
 }
@@ -379,7 +379,7 @@ function changeProp(value, func) {
 
 // Active note
 
-const activeNote = computed(() => $app.activeElem.get)
+const activeNote = computed(() => ctx.$app.activeElem.get)
 
 
 
@@ -412,11 +412,11 @@ const width = computed({
       return activeNote.value.size.x
   },
   set(value) {
-    for (const note of $app.selection.notes) {
+    for (const note of ctx.$app.selection.notes) {
       if (value === 'custom') {
-        const clientRect = $app.notes.getClientRect(note, 'frame')
+        const clientRect = ctx.$app.notes.getClientRect(note, 'frame')
 
-        note.size.x = `${$app.sizes.screenToWorld1D(clientRect.size.x)}px`
+        note.size.x = `${ctx.$app.sizes.screenToWorld1D(clientRect.size.x)}px`
       } else
         note.size.x = value
     }
@@ -439,10 +439,10 @@ function sectionHeight(section) {
     set(value) {
       changeProp(value, (note, value) => {
         if (value === 'custom') {
-          const node = $app.notes.getNode(note, `${section}-section`)
+          const node = ctx.$app.notes.getNode(note, `${section}-section`)
           const clientRect = node.getBoundingClientRect()
 
-          note.size.y[section] = `${$app.sizes.screenToWorld1D(clientRect.height)}px`
+          note.size.y[section] = `${ctx.$app.sizes.screenToWorld1D(clientRect.height)}px`
         } else
           note.size.y[section] = value
       })
