@@ -68,10 +68,7 @@ function onClick(event) {
   || event.ctrlKey || event.shiftKey || props.note.selected)
     return
 
-  $app.page.navigateTo({
-    id: props.note.collab.linkedPageId,
-    fromParent: true,
-  })
+  $app.page.navigateTo(props.note.collab.linkedPageId, true)
 }
 </script>
 

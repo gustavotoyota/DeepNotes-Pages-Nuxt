@@ -1,13 +1,15 @@
-export const init = () => {
-  const utils = $static.utils = {}
+export type {
+  StaticUtils,
+}
 
 
 
-  
-  utils.deepCopy = (obj) => {
+
+class StaticUtils {
+  deepCopy(obj: any) {
     return JSON.parse(JSON.stringify(obj))
   }
-  utils.shallowCopy = (obj) => {
+  shallowCopy(obj: object) {
     if (Array.isArray(obj))
       return obj.slice()
 
@@ -20,11 +22,11 @@ export const init = () => {
 
 
 
-  utils.merge = (target, ...objs) => {
+  merge(target: any, ...objs: object[]) {
     for (const obj of objs) {
       for (const [key, value] of Object.entries(obj)) {
         if (value != null && value.constructor === Object)
-          target[key] = utils.merge(target[key] ?? {}, value)
+          target[key] = $static.utils.merge(target[key] ?? {}, value)
         else
           target[key] = value
       }
@@ -32,13 +34,13 @@ export const init = () => {
 
     return target
   }
-  utils.merged = (...objs) => {
-    const result = {}
+  merged(...objs: object[]) {
+    const result = {} as any
     
     for (const obj of objs) {
       for (const [key, value] of Object.entries(obj)) {
         if (value != null && value.constructor === Object)
-          result[key] = utils.merged(result[key] ?? {}, value)
+          result[key] = $static.utils.merged(result[key] ?? {}, value)
         else
           result[key] = value
       }
@@ -50,7 +52,7 @@ export const init = () => {
 
 
 
-  utils.removeFromArray = (array, item) => {
+  removeFromArray(array: any[], item: any) {
     const index = array.indexOf(item)
     return array.splice(index, 1)[0]
   }
@@ -58,11 +60,11 @@ export const init = () => {
 
 
 
-  utils.hasVertScrollbar = (node) => {
+  hasVertScrollbar(node: HTMLElement) {
     return node.scrollHeight > node.clientHeight
       && node.offsetWidth > node.clientWidth
   }
-  utils.hasHorizScrollbar = (node) => {
+  hasHorizScrollbar(node: HTMLElement) {
     return node.scrollWidth > node.clientWidth
       && node.offsetHeight > node.clientHeight
   }
@@ -70,7 +72,14 @@ export const init = () => {
 
 
 
-  utils.capitalizeFirst = (text) => {
+  capitalizeFirst(text: string) {
     return text.charAt(0).toUpperCase() + text.slice(1)
   }
+}
+
+
+
+
+export const init = () => {
+  return new StaticUtils()
 }

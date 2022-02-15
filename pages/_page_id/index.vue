@@ -30,7 +30,7 @@ const { $app, route } = useContext()
 // Reset page
 
 onMounted(() => {
-  $app.page.reset({ id: route.value.params.page_id })
+  $app.page.reset(route.value.params.page_id)
 })
 </script>
 

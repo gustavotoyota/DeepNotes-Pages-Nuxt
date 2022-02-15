@@ -1,3 +1,5 @@
+import { Context } from "@nuxt/types"
+import { Inject } from "@nuxt/types/app"
 import {
   onMounted,
   onUnmounted,
@@ -6,7 +8,7 @@ import {
 
 
 
-export default async function (context, inject) {
+export default async function (context: Context, inject: Inject) {
   const { $app, app } = context
 
 
@@ -18,6 +20,7 @@ export default async function (context, inject) {
 
 
 	app.mixins = (app.mixins ?? []).concat({
+    // @ts-ignore
     async setup() {
       // Release pointer down for touchscreen
   
@@ -25,8 +28,8 @@ export default async function (context, inject) {
         document.addEventListener('pointerdown', onPointerDownCapture, true)
       })
   
-      function onPointerDownCapture(event) {
-        event.target.releasePointerCapture(event.pointerId)
+      function onPointerDownCapture(event: PointerEvent) {
+        (event.target as Element).releasePointerCapture(event.pointerId)
       }
   
       onUnmounted(() => {
@@ -43,7 +46,7 @@ export default async function (context, inject) {
         document.addEventListener('pointermove', onPointerMove)
       })
   
-      function onPointerMove(event) {
+      function onPointerMove(event: PointerEvent) {
         $app.panning.update(event)
         
         $app.boxSelection.update(event)
@@ -64,7 +67,7 @@ export default async function (context, inject) {
         document.addEventListener('pointerup', onPointerUp)
       })
   
-      function onPointerUp(event) {
+      function onPointerUp(event: PointerEvent) {
         $app.panning.finish(event)
         
         $app.boxSelection.finish(event)
@@ -84,10 +87,10 @@ export default async function (context, inject) {
         document.addEventListener('keydown', onKeyDown)
       })
 
-      function onKeyDown(event) {
-        if (event.target.nodeName === 'INPUT'
-        || event.target.nodeName === 'TEXTAREA'
-        || event.target.isContentEditable)
+      function onKeyDown(event: KeyboardEvent) {
+        if ((event.target as HTMLElement).nodeName === 'INPUT'
+        || (event.target as HTMLElement).nodeName === 'TEXTAREA'
+        || (event.target as HTMLElement).isContentEditable)
           return
         
         if (event.code === 'Delete')

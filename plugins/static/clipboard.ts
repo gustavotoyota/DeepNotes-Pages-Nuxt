@@ -1,10 +1,12 @@
-export const init = () => {
-  const clipboard = $static.clipboard = {}
+export type {
+  StaticClipboard,
+}
 
 
 
-  
-  clipboard.get = async function () {
+
+class StaticClipboard {
+  async get () {
     if (navigator.clipboard && navigator.clipboard.readText)
       return await navigator.clipboard.readText()
   
@@ -34,7 +36,7 @@ export const init = () => {
 
 
 
-  clipboard.set = function (text) {
+  set(text: string) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text)
       return
@@ -59,16 +61,23 @@ export const init = () => {
     
       const selection = window.getSelection()
       const range = document.createRange()
-      selection.removeAllRanges()
+      selection?.removeAllRanges()
       range.selectNode(elem)
-      selection.addRange(range)
+      selection?.addRange(range)
   
       document.execCommand('copy')
   
-      selection.removeAllRanges()
+      selection?.removeAllRanges()
       document.body.removeChild(elem)
       
       return
     }
   }
+}
+
+
+
+
+export const init = () => {
+  return new StaticClipboard()
 }
