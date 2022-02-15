@@ -1,5 +1,7 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
+import { IElem } from "../elems/elems";
+import { INote } from "./notes";
 
 
 
@@ -16,7 +18,7 @@ interface IAppEditing {
   section: string
 
   reset(): void;
-  start(note, section: string): void;
+  start(note: INote, section: string): void;
   stop(): void;
 }
 
@@ -25,8 +27,8 @@ interface IAppEditing {
 
 export const init = <T>({ $app }: Context) => 
 new class implements IAppEditing {
-  active: boolean;
-  section: string;
+  active: boolean = false;
+  section: string = '';
 
 
 
@@ -45,7 +47,7 @@ new class implements IAppEditing {
 
 
 
-  start(note, section: string) {
+  start(note: INote, section: string) {
     if (note.editing)
       return
 
@@ -55,7 +57,7 @@ new class implements IAppEditing {
 
 
     $app.selection.clear()
-    $app.activeElem.set(note)
+    $app.activeElem.set(note as IElem)
 
 
 

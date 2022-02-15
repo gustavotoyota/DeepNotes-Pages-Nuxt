@@ -1,6 +1,8 @@
 import * as utils from "./utils"
 import * as clipboard from "./clipboard"
 import * as vue from "./vue"
+import { Context } from "@nuxt/types"
+import { Inject } from "@nuxt/types/app"
 
 
 
@@ -20,6 +22,6 @@ globalThis.$static = new Static()
 
 
 
-export default (context, inject) => {
+export default (context: Context, inject: Inject) => {
   inject('static', $static)
 }

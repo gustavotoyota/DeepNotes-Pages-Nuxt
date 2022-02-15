@@ -8,8 +8,10 @@ import { INote } from '../notes/notes'
 
 
 interface IAppSelection {
-  noteIds: object
-  arrowIds: object
+  [key: string]: any
+
+  noteIds: { [key: string]: boolean }
+  arrowIds: { [key: string]: boolean }
   elemIds: string[]
 
   notes: INote[]
@@ -18,10 +20,10 @@ interface IAppSelection {
 
   reset(): void
   clear(activeRegionId?: string): void
-  has(elem): boolean
-  add(elem): void
-  remove(elem): void
-  set(elem): void
+  has(elem: IElem): boolean
+  add(elem: IElem): void
+  remove(elem: IElem): void
+  set(elem: IElem): void
 }
 
 export type {
@@ -33,13 +35,13 @@ export type {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppSelection {
-  noteIds: object
-  arrowIds: object
-  elemIds: string[]
+  noteIds: { [key: string]: boolean } = {}
+  arrowIds: { [key: string]: boolean } = {}
+  elemIds: string[] = []
 
-  notes: INote[]
-  arrows: IArrow[]
-  elems: IElem[]
+  notes: INote[] = []
+  arrows: IArrow[] = []
+  elems: IElem[] = []
 
 
 
@@ -86,14 +88,14 @@ new class implements IAppSelection {
 
 
 
-  has(elem) {
+  has(elem: IElem) {
     return elem.id in $app.selection[`${elem.type}Ids`]
   }
 
 
 
 
-  add(elem) {
+  add(elem: IElem) {
     if ($app.selection.has(elem))
       return
 
@@ -105,7 +107,7 @@ new class implements IAppSelection {
     if (!$app.activeElem.exists)
       $app.activeElem.set(elem)
   }
-  remove(elem) {
+  remove(elem: IElem) {
     if (!$app.selection.has(elem))
       return
 
@@ -118,7 +120,7 @@ new class implements IAppSelection {
 
 
 
-  set(elem) {
+  set(elem: IElem) {
     $app.selection.clear()
     $app.selection.add(elem)
   }

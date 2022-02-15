@@ -1,11 +1,12 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
+import { IElem } from "../elems/elems"
 
 
 
 
 interface IAppClickSelection {
-  perform(elem, event): void
+  perform(elem: IElem, event: MouseEvent): void
 }
 
 export type {
@@ -17,7 +18,7 @@ export type {
 
 export const init = <T>({ $app }: Context) => 
 new class implements IAppClickSelection {
-  perform(elem, event) {
+  perform(elem: IElem, event: MouseEvent) {
     // Clear selection if not holding Ctrl or Shift
     // And the clicked element is not selected
 

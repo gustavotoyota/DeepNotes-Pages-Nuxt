@@ -23,8 +23,8 @@ export type {
 
 export const init = <T>({ $app, $axios, route }: Context) =>
 new class implements IAppProject {
-  path = []
-  recent = []
+  path: IPageRef[] = []
+  recent: IPageRef[] = []
 
 
 
@@ -49,7 +49,7 @@ new class implements IAppProject {
 
 
 
-  bumpRecentPage(page) {
+  bumpRecentPage(page: IPageRef) {
     const index = $app.project.recent.findIndex(item => item.id === page.id)
     if (index >= 0)
       $app.project.recent.splice(index, 1)

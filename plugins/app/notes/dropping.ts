@@ -1,5 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
+import { IElem } from "../elems/elems"
 
 
 
@@ -12,7 +13,7 @@ export type {
 
 
 interface IAppDropping {
-  perform(event, activeRegionElem, dropIndex): void;
+  perform(event: MouseEvent, activeRegionElem: IElem, dropIndex: number): void;
 }
 
 
@@ -20,6 +21,6 @@ interface IAppDropping {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppDropping {
-  perform(event, activeRegionElem, dropIndex) {
+  perform(event: MouseEvent, activeRegionElem: IElem, dropIndex: number) {
   }
 } as Exact<IAppDropping, T>

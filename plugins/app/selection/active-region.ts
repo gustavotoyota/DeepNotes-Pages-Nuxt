@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
+import { Exact, Nullable } from "~/types/deep-notes"
 import { INote } from "../notes/notes";
 
 
@@ -13,8 +13,8 @@ export type {
 
 
 interface IAppActiveRegion {
-  id?: string
-  parent: INote
+  id: Nullable<string>
+  parent: Nullable<INote>
   noteIds: string[]
   notes: INote[]
 
@@ -26,10 +26,10 @@ interface IAppActiveRegion {
 
 export const init = <T>({ $app }: Context) => 
 new class implements IAppActiveRegion {
-  id?: string;
-  parent: INote;
-  noteIds: string[];
-  notes: INote[];
+  id: Nullable<string> = null
+  parent: Nullable<INote> = null
+  noteIds: string[] = []
+  notes: INote[] = []
 
 
 
@@ -41,7 +41,7 @@ new class implements IAppActiveRegion {
 
 
     $static.vue.computed(this, 'parent', () => {
-      return $app.elems.map[$app.activeRegion.id] ?? null
+      return $app.elems.map[$app.activeRegion.id ?? ''] ?? null
     })
 
 

@@ -3,6 +3,7 @@ import { syncedStore, getYjsValue } from "@syncedstore/core"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
 import { Doc } from "yjs"
+import { Nullable } from "~/types/deep-notes"
 import { IPageCollab } from "./page"
 
 
@@ -32,9 +33,9 @@ export type {
 
 export const init = ({ $app, isDev, $axios }: Context): IAppCollab => {
   return new class implements IAppCollab {
-    store = null
-    indexedDbProvider: IndexeddbPersistence = null
-    websocketProvider: WebsocketProvider = null
+    store!: IAppCollabStore
+    indexedDbProvider!: IndexeddbPersistence
+    websocketProvider!: WebsocketProvider
 
 
 

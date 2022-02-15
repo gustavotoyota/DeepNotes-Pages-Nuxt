@@ -1,6 +1,7 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
+import { Exact, Nullable } from "~/types/deep-notes"
 import { IElem } from "../elems/elems"
+import { INote } from "../notes/notes"
 
 
 
@@ -13,14 +14,14 @@ export type {
 
 
 interface IAppActiveElem {
-  id: string
+  id: Nullable<string>
   exists: boolean
-  get: IElem
+  get: Nullable<IElem>
 
   reset(): void
-  is(elem): boolean
+  is(elem: IElem): boolean
   clear(): void
-  set(elem, bringToTop?: boolean): void
+  set(elem: Nullable<IElem>, bringToTop?: boolean): void
 }
 
 
@@ -28,9 +29,9 @@ interface IAppActiveElem {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppActiveElem {
-  id: string
-  exists: boolean
-  get: IElem
+  id: Nullable<string> = null
+  exists: boolean = false
+  get: Nullable<IElem> = null
 
 
 
@@ -44,7 +45,7 @@ new class implements IAppActiveElem {
     $static.vue.computed(this, 'exists',
       () => $app.activeElem.id != null)
     $static.vue.computed(this, 'get',
-      () => $app.elems.map[$app.activeElem.id])
+      () => $app.elems.map[$app.activeElem.id ?? ''])
   }
 
 
@@ -57,7 +58,7 @@ new class implements IAppActiveElem {
   
   
   
-  is(elem) {
+  is(elem: IElem) {
     return elem.id === $app.activeElem.id
   }
 
@@ -71,20 +72,20 @@ new class implements IAppActiveElem {
 
 
 
-  set(elem, bringToTop) {
-    if ($app.activeElem.is(elem))
-      return
-      
+  set(elem: Nullable<IElem>, bringToTop?: boolean) {
     if (elem == null) {
       $app.activeElem.clear()
       return
     }
+
+    if ($app.activeElem.is(elem))
+      return
 
     $app.selection.add(elem)
     
     $app.activeElem.id = elem.id
   
     if (bringToTop !== false)
-      $app.notes.bringToTop(elem)
+      $app.notes.bringToTop(elem as INote)
   }
 } as Exact<IAppActiveElem, T>

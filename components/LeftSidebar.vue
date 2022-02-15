@@ -24,7 +24,7 @@
       <v-list-item
       v-for="page in $app.project.path" :key="page.id"
       :input-value="page.id === $app.page.id"
-      @click="$app.page.navigateTo({ id: page.id })"
+      @click="$app.page.navigateTo(page.id)"
       link>
         <v-list-item-icon>
           <v-icon>mdi-note</v-icon>

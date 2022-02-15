@@ -15,16 +15,22 @@ export type {
 
 
 interface IAppElems {
-  map: object
+  map: { [key: string]: IElem }
   ids: string[]
   array: IElem[]
   
   reset(): void;
-  create(args): IElem;
+  create(args: {
+    id?: string;
+    type: string;
+    parentId?: string;
+  }): IElem;
 }
 
 interface IElem {
   id: string
+  type: string
+  parentId?: string
 }
 
 
@@ -32,9 +38,9 @@ interface IElem {
 
 export const init = ({ $app }: Context) => {
   return new class implements IAppElems {
-    map: object;
-    ids: string[];
-    array: IElem[];
+    map: { [key: string]: IElem } = {};
+    ids: string[] = [];
+    array: IElem[] = [];
 
 
 
@@ -61,13 +67,17 @@ export const init = ({ $app }: Context) => {
   
   
   
-    create({ id, type, parentId }) {
+    create({ id, type, parentId }: {
+      id?: string;
+      type: string;
+      parentId?: string;
+    }): IElem {
       const elem = reactive({
         id: id ?? uuidv4(),
   
         type: type,
   
-        parentId: parentId ?? null,
+        parentId: parentId ?? undefined,
       })
   
       Vue.set($app.elems.map, elem.id, elem)

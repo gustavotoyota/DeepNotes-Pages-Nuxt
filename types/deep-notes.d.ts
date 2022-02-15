@@ -8,14 +8,11 @@ import type { Static } from '~/plugins/static/static'
 
 export type {
   IArrow,
-
-  $static,
-  clipboardData,
   
   IVec2,
-  IRect,
 
   Exact,
+  Nullable,
 }
 
 
@@ -27,6 +24,7 @@ interface IArrow extends IElem {
 
 
 
+type Nullable<T> = T | undefined | null;
 
 type Exact<T, Shape = T> = T extends Shape ?
   (Exclude<keyof T, keyof Shape> extends never ?
@@ -35,12 +33,6 @@ type Exact<T, Shape = T> = T extends Shape ?
 interface IVec2 {
   x: number;
   y: number;
-}
-
-interface IRect {
-  start: { x: number, y: number }
-  end: { x: number, y: number }
-  size: { x: number, y: number }
 }
 
 declare module '@nuxt/types' {
@@ -53,4 +45,5 @@ declare global {
   var $static: Static
   var $nuxt: Vue
   var clipboardData: any
+  var hljs: any
 }

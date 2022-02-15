@@ -29,7 +29,7 @@ class StaticClipboard {
 
 
 
-  set(text) {
+  set(text: string) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text)
       return
@@ -54,13 +54,13 @@ class StaticClipboard {
     
       const selection = window.getSelection()
       const range = document.createRange()
-      selection.removeAllRanges()
+      selection?.removeAllRanges()
       range.selectNode(elem)
-      selection.addRange(range)
+      selection?.addRange(range)
   
       document.execCommand('copy')
   
-      selection.removeAllRanges()
+      selection?.removeAllRanges()
       document.body.removeChild(elem)
       
       return

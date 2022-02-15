@@ -1,5 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Exact, IVec2 } from "~/types/deep-notes"
+import { INote } from "../notes/notes"
 
 
 
@@ -69,11 +70,12 @@ new class implements IAppCamera {
 
   
   fitToScreen() {
-    let notes
+    let notes: INote[]
+
     if ($app.selection.notes.length > 0)
       notes = $app.selection.notes
     else
-      notes = $app.elems.array
+      notes = $app.page.notes
       
   
   

@@ -25,9 +25,9 @@ export type {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppBoxSelection {
-  active: boolean;
-  startPos: IVec2;
-  endPos: IVec2;
+  active: boolean = false;
+  startPos: IVec2 = { x: 0, y: 0 };
+  endPos: IVec2 = { x: 0, y: 0 };
 
 
 
@@ -49,7 +49,7 @@ new class implements IAppBoxSelection {
 
 
 
-  start(event) {
+  start(event: MouseEvent) {
     if (event.button !== 0)
       return
 
@@ -57,20 +57,20 @@ new class implements IAppBoxSelection {
 
     $app.boxSelection.active = true
 
-    $app.boxSelection.startPos = $static.utils.shallowCopy(displayPos)
-    $app.boxSelection.endPos = $static.utils.shallowCopy(displayPos)
+    $app.boxSelection.startPos = $static.utils.deepCopy(displayPos)
+    $app.boxSelection.endPos = $static.utils.deepCopy(displayPos)
   }
 
-  update(event) {
+  update(event: MouseEvent) {
     if (!$app.boxSelection.active)
       return
 
     const displayPos = $app.pos.getDisplayPos(event)
 
-    $app.boxSelection.endPos = $static.utils.shallowCopy(displayPos)
+    $app.boxSelection.endPos = $static.utils.deepCopy(displayPos)
   }
 
-  finish(event) {
+  finish(event: MouseEvent) {
     if (!$app.boxSelection.active || event.button !== 0)
       return
 

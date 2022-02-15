@@ -1,14 +1,15 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
+import { INote } from "./notes"
 
 
 
 
 interface IAppCollapsing {
-  expand(note): void;
-  collapse(note): void;
-  set(note, collapsed): void;
-  toggle(note): void;
+  expand(note: INote): void;
+  collapse(note: INote): void;
+  set(note: INote, collapsed: boolean): void;
+  toggle(note: INote): void;
 }
 
 export type {
@@ -20,12 +21,12 @@ export type {
 
 export const init = <T>({ $app }: Context) => 
 new class implements IAppCollapsing {
-  expand(note) {
+  expand(note: INote) {
     note.collab.collapsed = false
     
     $app.notes.bringToTop(note)
   }
-  collapse(note) {
+  collapse(note: INote) {
     if (!note.collab.collapsible)
       return
   
@@ -36,7 +37,7 @@ new class implements IAppCollapsing {
 
 
 
-  set(note, collapsed) {
+  set(note: INote, collapsed: boolean) {
     if (collapsed === note.collab.collapsed)
       return
   
@@ -48,7 +49,7 @@ new class implements IAppCollapsing {
 
 
 
-  toggle(note) {
+  toggle(note: INote) {
     $app.collapsing.set(note, !note.collab.collapsed)
   }
 } as Exact<IAppCollapsing, T>

@@ -1,5 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
+import { IElem } from "../elems/elems"
 
 
 
@@ -13,9 +14,9 @@ export type {
 
 interface IAppResizing {
   reset(): void;
-  start(event, elem, side, section): void;
-  update(event): void;
-  finish(event): void;
+  start(event: MouseEvent, elem: IElem, side: string, section: string): void;
+  update(event: MouseEvent): void;
+  finish(event: MouseEvent): void;
 }
 
 
@@ -29,18 +30,18 @@ new class implements IAppResizing {
 
 
 
-  start(event, elem, side, section) {
+  start(event: MouseEvent, elem: IElem, side: string, section: string) {
   }
 
 
 
 
-  update(event) {
+  update(event: MouseEvent) {
   }
 
 
 
 
-  finish(event) {
+  finish(event: MouseEvent) {
   }
 } as Exact<IAppResizing, T>

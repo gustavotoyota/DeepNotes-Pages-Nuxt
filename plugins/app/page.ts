@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { getYjsValue } from '@syncedstore/core'
-import { Exact } from "~/types/deep-notes"
+import { Exact, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { Doc } from 'yjs'
 import { INote } from './notes/notes'
@@ -25,14 +25,14 @@ interface IAppPage {
   notes: INote[]
   arrows: any[]
 
-  parentId: string
+  parentId: Nullable<string>
 
 
 
-  reset(args): void;
+  reset(id?: string): void;
   resetCollab(pageName: string): void;
-  create(name: string);
-  navigateTo(args): void;
+  create(name: string): Promise<string>;
+  navigateTo(id: string, fromParent?: boolean): void;
 }
 
 interface IPageCollab {
@@ -52,14 +52,14 @@ interface IPageRef {
 
 export const init = <T>({ $app, $axios }: Context) => 
 new class implements IAppPage {
-  id: string = null
+  id!: string
   
-  collab: any = null
+  collab!: IPageCollab
 
-  notes: any[] = null
-  arrows: any[] = null
+  notes!: INote[]
+  arrows!: any[]
 
-  parentId: string = null
+  parentId: Nullable<string>
 
 
 
@@ -70,21 +70,21 @@ new class implements IAppPage {
   
   
   
-    $static.vue.computed(this, 'collab', () => $app.collab.store.page)
+    $static.vue.computed(this, 'collab', () => $app.collab.store?.page)
   
   
   
   
     $static.vue.computed(this, 'notes', () =>
-      $app.page.collab.noteIds.map(noteId => $app.elems.map[noteId]))
+      $app.page.collab?.noteIds.map(noteId => $app.elems.map[noteId]))
     $static.vue.computed(this, 'arrows', () =>
-      $app.page.collab.arrowIds.map(arrowId => $app.elems.map[arrowId]))
+      $app.page.collab?.arrowIds.map(arrowId => $app.elems.map[arrowId]))
   }
 
 
 
 
-  reset(id) {
+  reset(id?: string) {
     $app.page.id = id ?? uuidv4()
 
 
@@ -128,10 +128,10 @@ new class implements IAppPage {
 
 
 
-  async create(name) {
+  async create(name: string) {
     const id = (await $axios.post('/api/page/create', { name })).data
 
-    $app.page.navigateTo({ id, fromParent: true })
+    $app.page.navigateTo(id, true)
 
     return id
   }
@@ -139,7 +139,7 @@ new class implements IAppPage {
 
 
 
-  navigateTo({ id, fromParent }) {
+  navigateTo(id: string, fromParent?: boolean) {
     $app.page.parentId = fromParent ? $app.page.id : null
 
     $nuxt.$router.push({ path: `/${id}` })

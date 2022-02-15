@@ -21,7 +21,7 @@ export const init = ({ $app }: Context) => {
   return new class implements IAppDeleting {
     perform() {
       (getYjsValue($app.collab.store) as Doc).transact(() => {
-        if ($app.activeElem.id in $app.selection.noteIds)
+        if (($app.activeElem.id ?? '') in $app.selection.noteIds)
           $app.activeElem.clear()
   
         for (const noteId of Object.keys($app.selection.noteIds)) {

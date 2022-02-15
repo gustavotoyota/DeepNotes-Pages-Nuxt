@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { Exact, IVec2 } from "~/types/deep-notes"
+import { Exact, IVec2, Nullable } from "~/types/deep-notes"
 
 
 
@@ -17,9 +17,9 @@ interface IAppPanning {
 
 
   reset(): void
-  start(event): void
-  update(event): void
-  finish(event): void
+  start(event: MouseEvent): void
+  update(event: MouseEvent): void
+  finish(event: MouseEvent): void
 }
 
 
@@ -27,8 +27,8 @@ interface IAppPanning {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppPanning {
-  active: boolean;
-  currentPos: IVec2;
+  active: boolean = false
+  currentPos: IVec2 = { x: 0, y: 0}
 
 
 
@@ -48,7 +48,7 @@ new class implements IAppPanning {
 
 
 
-  start(event) {
+  start(event: MouseEvent) {
     if (event.button !== 1)
       return
 
@@ -58,10 +58,10 @@ new class implements IAppPanning {
     const clientPos = $app.pos.getClientPos(event)
 
     $app.panning.active = true
-    $app.panning.currentPos = $static.utils.shallowCopy(clientPos)
+    $app.panning.currentPos = $static.utils.deepCopy(clientPos)
   }
 
-  update(event) {
+  update(event: MouseEvent) {
     if (!$app.panning.active)
       return
 
@@ -70,10 +70,10 @@ new class implements IAppPanning {
     $app.camera.pos.x -= (clientPos.x - $app.panning.currentPos.x) / $app.camera.zoom
     $app.camera.pos.y -= (clientPos.y - $app.panning.currentPos.y) / $app.camera.zoom
 
-    $app.panning.currentPos = $static.utils.shallowCopy(clientPos)
+    $app.panning.currentPos = $static.utils.deepCopy(clientPos)
   }
 
-  finish(event) {
+  finish(event: MouseEvent) {
     if (!$app.panning.active || event.button !== 1)
       return
 

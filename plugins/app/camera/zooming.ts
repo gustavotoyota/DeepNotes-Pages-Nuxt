@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
+import { Exact, Nullable } from "~/types/deep-notes"
 
 
 
@@ -8,7 +8,7 @@ interface IAppZooming {
   minZoom: number
   maxZoom: number
 
-  perform(event: MouseEvent): void
+  perform(event: WheelEvent): void
 }
 
 export type {
@@ -20,13 +20,13 @@ export type {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppZooming {
-  minZoom = 0 // Math.pow(1 / 1.2, 16)
-  maxZoom = Infinity // Math.pow(1.2, 12)
+  minZoom: number = 0 // Math.pow(1 / 1.2, 16)
+  maxZoom: number = Infinity // Math.pow(1.2, 12)
 
 
 
 
-  perform(event) {
+  perform(event: WheelEvent) {
     if ($app.camera.lockZoom)
       return
     
@@ -38,10 +38,10 @@ new class implements IAppZooming {
     if (event.altKey)
       event.preventDefault()
     else {
-      let node = event.target
+      let node = event.target as Nullable<Node>
 
       while (node != null) {
-        if ($static.utils.hasVertScrollbar(node))
+        if ($static.utils.hasVertScrollbar(node as HTMLElement))
           return
 
         node = node.parentNode

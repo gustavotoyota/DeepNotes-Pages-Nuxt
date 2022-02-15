@@ -1,8 +1,8 @@
 class StaticUtils {
-  deepCopy(obj) {
+  deepCopy(obj: any) {
     return JSON.parse(JSON.stringify(obj))
   }
-  shallowCopy(obj) {
+  shallowCopy(obj: object) {
     if (Array.isArray(obj))
       return obj.slice()
 
@@ -15,7 +15,7 @@ class StaticUtils {
 
 
 
-  merge(target, ...objs) {
+  merge(target: any, ...objs: object[]) {
     for (const obj of objs) {
       for (const [key, value] of Object.entries(obj)) {
         if (value != null && value.constructor === Object)
@@ -27,8 +27,8 @@ class StaticUtils {
 
     return target
   }
-  merged(...objs) {
-    const result = {}
+  merged(...objs: object[]) {
+    const result = {} as any
     
     for (const obj of objs) {
       for (const [key, value] of Object.entries(obj)) {
@@ -45,7 +45,7 @@ class StaticUtils {
 
 
 
-  removeFromArray(array, item) {
+  removeFromArray(array: any[], item: any) {
     const index = array.indexOf(item)
     return array.splice(index, 1)[0]
   }
@@ -53,11 +53,11 @@ class StaticUtils {
 
 
 
-  hasVertScrollbar(node) {
+  hasVertScrollbar(node: HTMLElement) {
     return node.scrollHeight > node.clientHeight
       && node.offsetWidth > node.clientWidth
   }
-  hasHorizScrollbar(node) {
+  hasHorizScrollbar(node: HTMLElement) {
     return node.scrollWidth > node.clientWidth
       && node.offsetHeight > node.clientHeight
   }
@@ -65,7 +65,7 @@ class StaticUtils {
 
 
 
-  capitalizeFirst(text) {
+  capitalizeFirst(text: string) {
     return text.charAt(0).toUpperCase() + text.slice(1)
   }
 }

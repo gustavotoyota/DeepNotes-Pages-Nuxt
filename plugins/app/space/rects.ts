@@ -1,16 +1,29 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
-import { IRect } from "~/types/deep-notes"
+import { Exact, IVec2, Nullable } from "~/types/deep-notes"
 
 
 
+
+export type {
+  IRect,
+  IAppRects,
+}
+
+
+
+
+interface IRect {
+  start: { x: number, y: number }
+  end: { x: number, y: number }
+  size: { x: number, y: number }
+}
 
 interface IAppRects {
   fromDisplay(): IRect
   
   fromDOM(domRect: DOMRect): IRect
-  fromStartEnd(start, end): IRect
-  fromStartSize(start, size): IRect
+  fromStartEnd(start: IVec2, end: IVec2): IRect
+  fromStartSize(start: IVec2, size: IVec2): IRect
 
   clientToWorld(clientRect: IRect): IRect
   worldToClient(clientRect: IRect): IRect
@@ -25,10 +38,6 @@ interface IAppRects {
   updateEnd(rect: IRect): void
 }
 
-export type {
-  IAppRects,
-}
-
 
 
 
@@ -37,7 +46,7 @@ new class implements IAppRects {
   fromDisplay() {
     const node = document.getElementById('display')
 
-    const domClientRect = node.getBoundingClientRect()
+    const domClientRect = node!.getBoundingClientRect()
 
     return $app.rects.fromDOM(domClientRect)
   }
@@ -45,21 +54,21 @@ new class implements IAppRects {
 
 
 
-  fromDOM(domRect) {
+  fromDOM(domRect: DOMRect) {
     return {
       start: { x: domRect.left, y: domRect.top },
       end: { x: domRect.right, y: domRect.bottom },
       size: { x: domRect.width, y: domRect.height },
     }
   }
-  fromStartEnd(start, end) {
+  fromStartEnd(start: IVec2, end: IVec2) {
     return {
       start: $static.utils.deepCopy(start),
       end: $static.utils.deepCopy(end),
       size: { x: end.x - start.x, y: end.y - start.y },
     }
   }
-  fromStartSize(start, size) {
+  fromStartSize(start: IVec2, size: IVec2) {
     return {
       start: $static.utils.deepCopy(start),
       end: { x: start.x + size.x, y: start.y + size.y },

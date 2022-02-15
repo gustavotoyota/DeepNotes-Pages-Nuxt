@@ -1,5 +1,6 @@
 import { defineNuxtPlugin } from '@nuxtjs/composition-api'
 import { Context } from '@nuxt/types'
+import { Inject } from '@nuxt/types/app'
 
 
 
@@ -34,6 +35,7 @@ import * as activeRegion from './selection/active-region'
 import * as activeElem from './selection/active-elem'
 import * as clickSelection from './selection/click-selection'
 import * as boxSelection from './selection/box-selection'
+
 
 
 
@@ -73,7 +75,7 @@ class IApp {
 
 
 
-  constructor(context: Context, inject) {
+  constructor(context: Context, inject: Inject) {
     inject('app', this)
 
 

@@ -19,7 +19,7 @@ class StaticVue {
 
   
 
-  computed<T>(obj, key, options) {
+  computed(obj: object, key: string, options: any) {
     const auxComputed = computed(options) as any
   
     Object.defineProperty(obj, key, {
@@ -31,7 +31,7 @@ class StaticVue {
 
 
 
-  assign(target, source) {
+  assign(target: object, source: any) {
     for (const key of Object.keys(source))
       Vue.set(target, key, source[key])
   }
@@ -39,10 +39,10 @@ class StaticVue {
 
 
   
-  merge(target, ...sources) {
+  merge(target: any, ...sources: any[]) {
     for (const source of sources) {
       for (const [key, value] of Object.entries(source)) {
-        if (value != null && value.constructor === Object)
+        if (value != null && (value as any).constructor === Object)
           Vue.set(target, key, $static.vue.merge(target[key] ?? {}, value))
         else
           Vue.set(target, key, value)

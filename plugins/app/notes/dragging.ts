@@ -16,9 +16,9 @@ interface IAppDragging {
   currentPos: IVec2
 
   reset(): void;
-  start(event): void;
-  update(event): void;
-  finish(event): void;
+  start(event: MouseEvent): void;
+  update(event: MouseEvent): void;
+  finish(event: MouseEvent): void;
 }
 
 export type {
@@ -32,11 +32,11 @@ export const init = <T>({ $app }: Context) =>
 new class implements IAppDragging {
   minDistance: number = 5;
 
-  down: boolean;
-  active: boolean;
+  down: boolean = false;
+  active: boolean = false;
 
-  startPos: IVec2;
-  currentPos: IVec2;
+  startPos: IVec2 = { x: 0, y: 0 };
+  currentPos: IVec2 = { x: 0, y: 0 };
 
 
 
@@ -57,7 +57,7 @@ new class implements IAppDragging {
   
 
 
-  start(event) {
+  start(event: MouseEvent) {
     if (event.button !== 0)
       return
     
@@ -67,7 +67,7 @@ new class implements IAppDragging {
     $app.dragging.startPos = $app.pos.getClientPos(event)
     $app.dragging.currentPos = $app.pos.getClientPos(event)
   }
-  update(event) {
+  update(event: MouseEvent) {
     if (!$app.dragging.down)
       return
 
@@ -117,7 +117,7 @@ new class implements IAppDragging {
 
     $app.dragging.currentPos = clientMousePos
   }
-  finish(event) {
+  finish(event: MouseEvent) {
     if (!$app.dragging.down || event.button !== 0)
       return
   
