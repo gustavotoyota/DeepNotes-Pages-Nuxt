@@ -20,7 +20,7 @@
 
 
 <script setup>
-import { onMounted, useContext } from "@nuxtjs/composition-api"
+import { useContext } from "@nuxtjs/composition-api"
 
 const { $app, route } = useContext()
 
@@ -29,9 +29,7 @@ const { $app, route } = useContext()
 
 // Reset page
 
-onMounted(() => {
-  $app.page.reset(route.value.params.page_id)
-})
+$app.page.reset(route.value.params.page_id)
 </script>
 
 

@@ -68,6 +68,9 @@ export const init = ({ $app, isDev, $axios }: Context): IAppCollab => {
   
   
     startSync() {
+      if (!process.client)
+        return
+
       const name = `page-${$app.page.id}`
   
       $app.collab.indexedDbProvider = new IndexeddbPersistence(name, this.doc)
