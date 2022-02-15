@@ -20,7 +20,6 @@ export type {
 
 interface IAppNotes {
   collab: { [key: string]: INoteCollab };
-  zIndex: number;
 
 
 
@@ -38,8 +37,6 @@ interface IAppNotes {
 }
 
 interface INote extends IElem {
-  zIndex: number
-
   collab: INoteCollab
 
   selected: boolean
@@ -96,6 +93,8 @@ interface INoteCollab {
   childIds: string[]
 
   dragging: boolean
+
+  zIndex: number
 }
 
 interface INoteSize {
@@ -114,15 +113,12 @@ interface INoteSize {
 export const init = <T>({ $app }: Context): IAppNotes => 
 new class implements IAppNotes {
   collab: any;
-  zIndex: number;
 
 
 
 
   constructor() {
     $static.vue.computed(this, 'collab', () => $app.collab.store.notes)
-
-    this.zIndex = 0
   }
 
 
@@ -139,15 +135,6 @@ new class implements IAppNotes {
       type: 'note',
       parentId: parentId,
     }) as INote
-
-
-
-
-    // Add private information
-
-    $static.vue.merge(note, {
-      zIndex: this.zIndex++,
-    })
 
 
 
@@ -204,6 +191,8 @@ new class implements IAppNotes {
           childIds: [],
 
           dragging: false,
+
+          zIndex: $app.page.collab.nextZIndex++
         } as INoteCollab)
   
         if (parentId == null)
@@ -372,7 +361,10 @@ new class implements IAppNotes {
 
 
   bringToTop(note: INote) {
-    note.zIndex = this.zIndex++
+    if (note.collab.zIndex === $app.page.collab.nextZIndex - 1)
+      return
+
+    note.collab.zIndex = $app.page.collab.nextZIndex++
   }
 
 

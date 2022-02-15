@@ -38,6 +38,8 @@ interface IPageCollab {
 
   noteIds: string[],
   arrowIds: string[],
+
+  nextZIndex: number
 }
 
 interface IPageRef {
@@ -119,7 +121,9 @@ new class implements IAppPage {
       
         noteIds: [],
         arrowIds: [],
-      })
+
+        nextZIndex: 0,
+      } as IPageCollab)
     })
   }
 
