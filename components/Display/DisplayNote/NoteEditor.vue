@@ -154,12 +154,12 @@ watch(() => props.note.editing, onEditToggle)
   overflow: visible;
 }
 
-.note-editor.padding-fix /deep/ .ql-editor {
-  padding-right: 0 !important;
+.note-editor /deep/ .ql-editor > * {
+  cursor: inherit;
 }
 
-.note-editor > .ql-disabled /deep/ .ql-editor > * {
-  cursor: auto;
+.note-editor.padding-fix /deep/ .ql-editor {
+  padding-right: 0 !important;
 }
 </style>
 
