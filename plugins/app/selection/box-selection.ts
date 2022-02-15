@@ -108,12 +108,7 @@ new class implements IAppBoxSelection {
         $app.selection.add(note)
     }
   
-  
-  
-    // Activate highest selected element
     
-    if ($app.selection.elems.length > 0)
-      $app.activeElem.set($app.selection.elems.at(-1))
     
     $app.boxSelection.active = false
   }
