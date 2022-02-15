@@ -1,23 +1,54 @@
-export const init = ({ $app }) => {
-  const panning = $app.panning = {}
+import { Context } from "@nuxt/types"
+import { Exact, IVec2 } from "~/types/deep-notes"
 
 
 
 
-  $static.vue.ref(panning, 'panning.active')
-  $static.vue.ref(panning, 'panning.currentPos')
+export type {
+  IAppPanning,
+}
 
 
 
 
-  panning.reset = () => {
+interface IAppPanning {
+  active: boolean
+  currentPos: IVec2
+
+
+  reset(): void
+  start(event): void
+  update(event): void
+  finish(event): void
+}
+
+
+
+
+export const init = <T>({ $app }: Context) =>
+new class implements IAppPanning {
+  active: boolean;
+  currentPos: IVec2;
+
+
+
+
+  constructor() {
+    $static.vue.ref(this, 'panning.active')
+    $static.vue.ref(this, 'panning.currentPos')
+  }
+
+
+
+
+  reset() {
     $app.panning.active = false
   }
   
 
 
 
-  panning.start = (event) => {
+  start(event) {
     if (event.button !== 1)
       return
 
@@ -30,7 +61,7 @@ export const init = ({ $app }) => {
     $app.panning.currentPos = $static.utils.shallowCopy(clientPos)
   }
 
-  panning.update = (event) => {
+  update(event) {
     if (!$app.panning.active)
       return
 
@@ -42,10 +73,10 @@ export const init = ({ $app }) => {
     $app.panning.currentPos = $static.utils.shallowCopy(clientPos)
   }
 
-  panning.finish = (event) => {
+  finish(event) {
     if (!$app.panning.active || event.button !== 1)
       return
 
     $app.panning.active = false
   }
-}
+} as Exact<IAppPanning, T>

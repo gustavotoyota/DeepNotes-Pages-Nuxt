@@ -1,25 +1,55 @@
-export const init = ({ $app }) => {
-  const boxSelection = $app.boxSelection = {}
+import { Context } from "@nuxt/types"
+import { Exact } from "~/types/deep-notes"
+import { IVec2 } from "~/types/deep-notes"
 
 
 
 
-  $static.vue.ref(boxSelection, 'boxSelection.active')
+interface IAppBoxSelection {
+  active: boolean
+  startPos: IVec2
+  endPos: IVec2
 
-  $static.vue.ref(boxSelection, 'boxSelection.startPos')
-  $static.vue.ref(boxSelection, 'boxSelection.endPos')
+  reset(): void
+  start(event: MouseEvent): void
+  update(event: MouseEvent): void
+  finish(event: MouseEvent): void
+}
+
+export type {
+  IAppBoxSelection,
+}
 
 
 
 
-  boxSelection.reset = () => {
+export const init = <T>({ $app }: Context) =>
+new class implements IAppBoxSelection {
+  active: boolean;
+  startPos: IVec2;
+  endPos: IVec2;
+
+
+
+
+  constructor() {
+    $static.vue.ref(this, 'boxSelection.active')
+  
+    $static.vue.ref(this, 'boxSelection.startPos')
+    $static.vue.ref(this, 'boxSelection.endPos')
+  }
+
+
+
+
+  reset() {
     $app.boxSelection.active = false
   }
 
 
 
 
-  boxSelection.start = (event) => {
+  start(event) {
     if (event.button !== 0)
       return
 
@@ -31,7 +61,7 @@ export const init = ({ $app }) => {
     $app.boxSelection.endPos = $static.utils.shallowCopy(displayPos)
   }
 
-  boxSelection.update = (event) => {
+  update(event) {
     if (!$app.boxSelection.active)
       return
 
@@ -40,7 +70,7 @@ export const init = ({ $app }) => {
     $app.boxSelection.endPos = $static.utils.shallowCopy(displayPos)
   }
 
-  boxSelection.finish = (event) => {
+  finish(event) {
     if (!$app.boxSelection.active || event.button !== 0)
       return
 
@@ -62,17 +92,17 @@ export const init = ({ $app }) => {
     
   
   
-    for (const elem of $app.elems.array) {
-      const clientRect = $app.notes.getClientRect(elem, 'frame')
+    for (const note of $app.page.notes) {
+      const clientRect = $app.notes.getClientRect(note, 'frame')
   
       if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
       || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)
         continue
   
-      if ($app.selection.has(elem) && !event.shiftKey)
-        $app.selection.remove(elem)
+      if ($app.selection.has(note) && !event.shiftKey)
+        $app.selection.remove(note)
       else
-        $app.selection.add(elem)
+        $app.selection.add(note)
     }
   
   
@@ -84,4 +114,4 @@ export const init = ({ $app }) => {
     
     $app.boxSelection.active = false
   }
-}
+} as Exact<IAppBoxSelection, T>

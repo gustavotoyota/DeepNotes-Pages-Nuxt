@@ -1,26 +1,55 @@
+import { Context } from '@nuxt/types'
 import { getYjsValue } from '@syncedstore/core'
+import { Doc } from 'yjs'
+import { Exact, IVec2 } from "~/types/deep-notes"
 
 
 
 
-export const init = ({ $app  }) => {
-  const dragging = $app.dragging = {}
+interface IAppDragging {
+  minDistance: number;
+
+  down: boolean
+  active: boolean
+
+  startPos: IVec2
+  currentPos: IVec2
+
+  reset(): void;
+  start(event): void;
+  update(event): void;
+  finish(event): void;
+}
+
+export type {
+  IAppDragging,
+}
 
 
 
 
-  dragging.minDistance = 5
+export const init = <T>({ $app }: Context) =>
+new class implements IAppDragging {
+  minDistance: number = 5;
+
+  down: boolean;
+  active: boolean;
+
+  startPos: IVec2;
+  currentPos: IVec2;
 
 
 
 
-  $static.vue.ref(dragging, 'dragging.down')
-  $static.vue.ref(dragging, 'dragging.active')
+  constructor() {
+    $static.vue.ref(this, 'dragging.down')
+    $static.vue.ref(this, 'dragging.active')
+  }
 
 
 
 
-  dragging.reset = () => {
+  reset() {
     $app.dragging.down = false
     $app.dragging.active = false
   }
@@ -28,7 +57,7 @@ export const init = ({ $app  }) => {
   
 
 
-  dragging.start = (event) => {
+  start(event) {
     if (event.button !== 0)
       return
     
@@ -38,7 +67,7 @@ export const init = ({ $app  }) => {
     $app.dragging.startPos = $app.pos.getClientPos(event)
     $app.dragging.currentPos = $app.pos.getClientPos(event)
   }
-  dragging.update = (event) => {
+  update(event) {
     if (!$app.dragging.down)
       return
 
@@ -63,17 +92,17 @@ export const init = ({ $app  }) => {
 
     // Calculate delta
 
-    const delta = {
+    const delta: IVec2 = {
       x: (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom,
       y: (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom,
-    }
+    };
 
 
 
 
     // Move selected notes
 
-    getYjsValue($app.collab.store).transact(() => {
+    (getYjsValue($app.collab.store) as Doc).transact(() => {
       for (const note of $app.selection.notes) {
         if (!note.collab.movable)
           continue
@@ -88,11 +117,11 @@ export const init = ({ $app  }) => {
 
     $app.dragging.currentPos = clientMousePos
   }
-  dragging.finish = (event) => {
+  finish(event) {
     if (!$app.dragging.down || event.button !== 0)
       return
   
     $app.dragging.down = false
     $app.dragging.active = false
   }
-}
+} as Exact<IAppDragging, T>

@@ -1,16 +1,32 @@
-export const init = ({ $app }) => {
-  const zooming = $app.zooming = {}
-
-
-
-  
-  zooming.minZoom = 0 // Math.pow(1 / 1.2, 16)
-  zooming.maxZoom = Infinity // Math.pow(1.2, 12)
+import { Context } from "@nuxt/types"
+import { Exact } from "~/types/deep-notes"
 
 
 
 
-  zooming.perform = (event) => {
+interface IAppZooming {
+  minZoom: number
+  maxZoom: number
+
+  perform(event: MouseEvent): void
+}
+
+export type {
+  IAppZooming,
+}
+
+
+
+
+export const init = <T>({ $app }: Context) =>
+new class implements IAppZooming {
+  minZoom = 0 // Math.pow(1 / 1.2, 16)
+  maxZoom = Infinity // Math.pow(1.2, 12)
+
+
+
+
+  perform(event) {
     if ($app.camera.lockZoom)
       return
     
@@ -41,4 +57,4 @@ export const init = ({ $app }) => {
       $app.camera.zoom * multiplier,
       $app.zooming.minZoom), $app.zooming.maxZoom)
   }
-}
+} as Exact<IAppZooming, T>

@@ -1,10 +1,23 @@
-export const init = ({ $app }) => {
-  const clickSelection = $app.clickSelection = {}
+import { Context } from "@nuxt/types"
+import { Exact } from "~/types/deep-notes"
 
 
 
 
-  clickSelection.perform = (elem, event) => {
+interface IAppClickSelection {
+  perform(elem, event): void
+}
+
+export type {
+  IAppClickSelection,
+}
+
+
+
+
+export const init = <T>({ $app }: Context) => 
+new class implements IAppClickSelection {
+  perform(elem, event) {
     // Clear selection if not holding Ctrl or Shift
     // And the clicked element is not selected
 
@@ -22,4 +35,4 @@ export const init = ({ $app }) => {
     else
       $app.activeElem.set(elem)
   }
-}
+} as Exact<IAppClickSelection, T>

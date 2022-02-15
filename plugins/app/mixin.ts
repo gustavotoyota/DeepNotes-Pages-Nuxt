@@ -1,3 +1,4 @@
+import { Context } from "@nuxt/types"
 import {
   onMounted,
   onUnmounted,
@@ -6,7 +7,7 @@ import {
 
 
 
-export default async function (context, inject) {
+export default async function (context: Context, inject) {
   const { $app, app } = context
 
 
@@ -18,6 +19,7 @@ export default async function (context, inject) {
 
 
 	app.mixins = (app.mixins ?? []).concat({
+    // @ts-ignore
     async setup() {
       // Release pointer down for touchscreen
   

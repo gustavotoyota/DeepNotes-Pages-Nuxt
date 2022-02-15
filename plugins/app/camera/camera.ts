@@ -1,30 +1,64 @@
-export const init = ({ $app }) => {
-  const camera = $app.camera = {}
+import { Context } from "@nuxt/types"
+import { Exact, IVec2 } from "~/types/deep-notes"
 
 
 
 
-  $static.vue.ref(camera, 'camera.pos')
-  $static.vue.ref(camera, 'camera.zoom')
+interface IAppCamera {
+  pos: IVec2
+  zoom: number
 
-  $static.vue.ref(camera, 'camera.lockPos')
-  $static.vue.ref(camera, 'camera.lockZoom')
+  lockPos: boolean
+  lockZoom: boolean
+
+
+
+  reset(): void
+  resetZoom(): void
+  fitToScreen(): void
+}
+
+export type {
+  IAppCamera,
+}
 
 
 
 
-  camera.reset = () => {
-    $app.camera.pos = { x: 0, y: 0 }
-    $app.camera.zoom = 1
+export const init = <T>({ $app }: Context) =>
+new class implements IAppCamera {
+  pos: IVec2 = { x: 0, y: 0 }
+  zoom: number = 1
+
+  lockPos = false
+  lockZoom = false
+
+
+
+
+  constructor() {
+    $static.vue.ref(this, 'camera.pos')
+    $static.vue.ref(this, 'camera.zoom')
+
+    $static.vue.ref(this, 'camera.lockPos')
+    $static.vue.ref(this, 'camera.lockZoom')
+  }
+
+
+
+
+  reset() {
+    this.pos = { x: 0, y: 0 }
+    this.zoom = 1
   
-    $app.camera.lockPos = false
-    $app.camera.lockZoom = false
+    this.lockPos = false
+    this.lockZoom = false
   }
 
 
 
   
-  camera.resetZoom = () => {
+  resetZoom() {
     if ($app.camera.lockZoom)
       return
       
@@ -34,7 +68,7 @@ export const init = ({ $app }) => {
 
 
   
-  camera.fitToScreen = () => {
+  fitToScreen() {
     let notes
     if ($app.selection.notes.length > 0)
       notes = $app.selection.notes
@@ -95,4 +129,4 @@ export const init = ({ $app }) => {
       $app.camera.zoom = Math.min(Math.max($app.camera.zoom, $app.zooming.minZoom), 1)
     }
   }
-}
+} as Exact<IAppCamera, T>

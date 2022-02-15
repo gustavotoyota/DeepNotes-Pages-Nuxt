@@ -1,13 +1,8 @@
-export const init = () => {
-  const utils = $static.utils = {}
-
-
-
-  
-  utils.deepCopy = (obj) => {
+class StaticUtils {
+  deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj))
   }
-  utils.shallowCopy = (obj) => {
+  shallowCopy(obj) {
     if (Array.isArray(obj))
       return obj.slice()
 
@@ -20,11 +15,11 @@ export const init = () => {
 
 
 
-  utils.merge = (target, ...objs) => {
+  merge(target, ...objs) {
     for (const obj of objs) {
       for (const [key, value] of Object.entries(obj)) {
         if (value != null && value.constructor === Object)
-          target[key] = utils.merge(target[key] ?? {}, value)
+          target[key] = $static.utils.merge(target[key] ?? {}, value)
         else
           target[key] = value
       }
@@ -32,13 +27,13 @@ export const init = () => {
 
     return target
   }
-  utils.merged = (...objs) => {
+  merged(...objs) {
     const result = {}
     
     for (const obj of objs) {
       for (const [key, value] of Object.entries(obj)) {
         if (value != null && value.constructor === Object)
-          result[key] = utils.merged(result[key] ?? {}, value)
+          result[key] = $static.utils.merged(result[key] ?? {}, value)
         else
           result[key] = value
       }
@@ -50,7 +45,7 @@ export const init = () => {
 
 
 
-  utils.removeFromArray = (array, item) => {
+  removeFromArray(array, item) {
     const index = array.indexOf(item)
     return array.splice(index, 1)[0]
   }
@@ -58,11 +53,11 @@ export const init = () => {
 
 
 
-  utils.hasVertScrollbar = (node) => {
+  hasVertScrollbar(node) {
     return node.scrollHeight > node.clientHeight
       && node.offsetWidth > node.clientWidth
   }
-  utils.hasHorizScrollbar = (node) => {
+  hasHorizScrollbar(node) {
     return node.scrollWidth > node.clientWidth
       && node.offsetHeight > node.clientHeight
   }
@@ -70,7 +65,18 @@ export const init = () => {
 
 
 
-  utils.capitalizeFirst = (text) => {
+  capitalizeFirst(text) {
     return text.charAt(0).toUpperCase() + text.slice(1)
   }
+}
+
+export type {
+  StaticUtils,
+}
+
+
+
+
+export const init = () => {
+  return new StaticUtils()
 }

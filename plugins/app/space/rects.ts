@@ -1,10 +1,40 @@
-export const init = ({ $app }) => {
-  const rects = $app.rects = {}
+import { Context } from "@nuxt/types"
+import { Exact } from "~/types/deep-notes"
+import { IRect } from "~/types/deep-notes"
 
 
 
 
-  rects.fromDisplay = () => {
+interface IAppRects {
+  fromDisplay(): IRect
+  
+  fromDOM(domRect: DOMRect): IRect
+  fromStartEnd(start, end): IRect
+  fromStartSize(start, size): IRect
+
+  clientToWorld(clientRect: IRect): IRect
+  worldToClient(clientRect: IRect): IRect
+
+  displayToWorld(displayRect: IRect): IRect
+  worldToDisplay(displayRect: IRect): IRect
+
+  displayToClient(displayRect: IRect): IRect
+  clientToDisplay(displayRect: IRect): IRect
+
+  updateSize(rect: IRect): void
+  updateEnd(rect: IRect): void
+}
+
+export type {
+  IAppRects,
+}
+
+
+
+
+export const init = <T>({ $app }: Context) =>
+new class implements IAppRects {
+  fromDisplay() {
     const node = document.getElementById('display')
 
     const domClientRect = node.getBoundingClientRect()
@@ -15,21 +45,21 @@ export const init = ({ $app }) => {
 
 
 
-  rects.fromDOM = (domRect) => {
+  fromDOM(domRect) {
     return {
       start: { x: domRect.left, y: domRect.top },
       end: { x: domRect.right, y: domRect.bottom },
       size: { x: domRect.width, y: domRect.height },
     }
   }
-  rects.fromStartEnd = (start, end) => {
+  fromStartEnd(start, end) {
     return {
       start: $static.utils.deepCopy(start),
       end: $static.utils.deepCopy(end),
       size: { x: end.x - start.x, y: end.y - start.y },
     }
   }
-  rects.fromStartSize = (start, size) => {
+  fromStartSize(start, size) {
     return {
       start: $static.utils.deepCopy(start),
       end: { x: start.x + size.x, y: start.y + size.y },
@@ -40,14 +70,14 @@ export const init = ({ $app }) => {
 
 
 
-  rects.clientToWorld = (clientRect) => {
+  clientToWorld(clientRect: IRect): IRect {
     return {
       start: $app.pos.clientToWorld(clientRect.start),
       end: $app.pos.clientToWorld(clientRect.end),
       size: $app.sizes.screenToWorld2D(clientRect.size),
     }
   }
-  rects.worldToClient = (clientRect) => {
+  worldToClient(clientRect: IRect): IRect {
     return {
       start: $app.pos.worldToClient(clientRect.start),
       end: $app.pos.worldToClient(clientRect.end),
@@ -58,14 +88,14 @@ export const init = ({ $app }) => {
 
 
 
-  rects.displayToWorld = (displayRect) => {
+  displayToWorld(displayRect: IRect): IRect {
     return {
       start: $app.pos.displayToWorld(displayRect.start),
       end: $app.pos.displayToWorld(displayRect.end),
       size: $app.sizes.screenToWorld2D(displayRect.size),
     }
   }
-  rects.worldToDisplay = (displayRect) => {
+  worldToDisplay(displayRect: IRect): IRect {
     return {
       start: $app.pos.worldToDisplay(displayRect.start),
       end: $app.pos.worldToDisplay(displayRect.end),
@@ -76,14 +106,14 @@ export const init = ({ $app }) => {
 
 
 
-  rects.displayToClient = (displayRect) => {
+  displayToClient(displayRect: IRect): IRect {
     return {
       start: $app.pos.displayToClient(displayRect.start),
       end: $app.pos.displayToClient(displayRect.end),
       size: $static.utils.deepCopy(displayRect.size),
     }
   }
-  rects.clientToDisplay = (displayRect) => {
+  clientToDisplay(displayRect: IRect): IRect {
     return {
       start: $app.pos.clientToDisplay(displayRect.start),
       end: $app.pos.clientToDisplay(displayRect.end),
@@ -94,16 +124,16 @@ export const init = ({ $app }) => {
 
 
 
-  rects.updateSize = (rect) => {
+  updateSize(rect: IRect): void {
     rect.size = {
       x: rect.end.x - rect.start.x,
       y: rect.end.y - rect.start.y,
     }
   }
-  rects.updateEnd = (rect) => {
+  updateEnd(rect: IRect): void {
     rect.end = {
       x: rect.start.x + rect.size.x,
       y: rect.start.y + rect.size.y,
     }
   }
-}
+} as Exact<IAppRects, T>

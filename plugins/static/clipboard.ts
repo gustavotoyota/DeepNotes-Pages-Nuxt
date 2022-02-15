@@ -1,10 +1,5 @@
-export const init = () => {
-  const clipboard = $static.clipboard = {}
-
-
-
-  
-  clipboard.get = async function () {
+class StaticClipboard {
+  async get () {
     if (navigator.clipboard && navigator.clipboard.readText)
       return await navigator.clipboard.readText()
   
@@ -34,7 +29,7 @@ export const init = () => {
 
 
 
-  clipboard.set = function (text) {
+  set(text) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text)
       return
@@ -71,4 +66,15 @@ export const init = () => {
       return
     }
   }
+}
+
+export type {
+  StaticClipboard,
+}
+
+
+
+
+export const init = () => {
+  return new StaticClipboard()
 }

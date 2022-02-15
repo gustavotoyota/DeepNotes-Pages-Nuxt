@@ -1,23 +1,126 @@
 import Vue from 'vue'
-import { getYjsValue, SyncedText } from "@syncedstore/core"
+import { getYjsValue, SyncedArray, SyncedText } from "@syncedstore/core"
+import { Exact, IVec2 } from "~/types/deep-notes"
+import { Context } from '@nuxt/types'
+import { IElem } from '../elems/elems'
+import { Doc } from 'yjs'
 
 
 
 
-export const init = ({ $app }) => {
-  const notes = $app.notes = {}
+export type {
+  IAppNotes,
+  INote,
+  INoteCollab,
+  INoteSize,
+}
 
 
 
 
-  $static.vue.computed(notes, 'collab', () => $app.collab.store.notes)
+interface IAppNotes {
+  collab: any;
+  zIndex: number;
+
+
+
+  create(args): INote;
+  observeIds(ids: string[], parentId?: string): void;
+  createFromIds(ids: string[], parentId?: string): void;
+  bringToTop(note: INote): void;
+  getNode(note: INote, part: string);
+  getClientRect(note: INote, part: string);
+}
+
+interface INote extends IElem {
+  parentId?: string
+
+  collab: INoteCollab
+
+  selected: boolean
+  active: boolean
+  dragging: boolean
+  editing: boolean
+
+  sizeProp: string
+  size: INoteSize
+
+  topSection: string
+  bottomSection: string
+
+  numSections: number
+
+  parent?: INote
+  siblingIds: string[]
+  index: number
+
+  minWidth: string
+  width: string
+  targetWidth: string
+}
+
+interface INoteCollab {
+  linkedPageId?: string
+
+  anchor: IVec2
+
+  pos: IVec2
+
+  hasTitle: boolean
+  hasBody: boolean
+  
+  title: SyncedText
+  body: SyncedText
+
+  collapsible: boolean
+  collapsed: boolean
+
+  expandedSize: INoteSize,
+  collapsedSize: INoteSize,
+
+  movable: boolean
+  resizable: boolean
+
+  wrapTitle: boolean
+  wrapBody: boolean
+  
+  readOnly: boolean
+
+  container: boolean
+  childIds: string[]
+}
+
+interface INoteSize {
+  x: string,
+
+  y: {
+    title: string,
+    body: string,
+    container: string,
+  },
+}
 
 
 
 
-  let zIndex = 0
+export const init = <T>({ $app }: Context): IAppNotes => 
+new class implements IAppNotes {
+  collab: any;
+  zIndex: number;
 
-  notes.create = ({ id, parentId, clientPos, local }) => {
+
+
+
+  constructor() {
+    $static.vue.computed(this, 'collab', () => $app.collab.store.notes)
+
+    this.zIndex = 0
+  }
+
+
+
+
+  create({ id, parentId, clientPos, local }): INote {
     if (id in $app.elems.map)
       return
 
@@ -28,7 +131,7 @@ export const init = ({ $app }) => {
       id: id,
       type: 'note',
       parentId: parentId,
-    })
+    }) as INote
 
 
 
@@ -36,7 +139,7 @@ export const init = ({ $app }) => {
     // Add private information
 
     $static.vue.merge(note, {
-      zIndex: zIndex++,
+      zIndex: this.zIndex++,
     })
 
 
@@ -45,7 +148,7 @@ export const init = ({ $app }) => {
     // Add collaboration information
 
     if (local) {
-      getYjsValue($app.collab.store).transact(() => {
+      (getYjsValue($app.collab.store) as Doc).transact(() => {
         Vue.set($app.notes.collab, note.id, {
           linkedPageId: null,
   
@@ -92,7 +195,7 @@ export const init = ({ $app }) => {
   
           container: false,
           childIds: [],
-        })
+        } as INoteCollab)
   
         if (parentId == null)
           $app.page.collab.noteIds.push(note.id)
@@ -220,10 +323,10 @@ export const init = ({ $app }) => {
 
 
 
-  notes.observeIds = (ids, parentId) => {
+  observeIds(ids, parentId) {
     const mirror = ids.slice()
 
-    getYjsValue(ids).observe(event => {
+    (getYjsValue(ids) as SyncedArray<string>).observe(event => {
       let index = 0
     
       for (const delta of event.changes.delta) {
@@ -250,7 +353,7 @@ export const init = ({ $app }) => {
 
 
 
-  notes.createFromIds = (ids, parentId) => {
+  createFromIds(ids, parentId) {
     for (const id of ids) {
       $app.notes.create({ id, parentId })
 
@@ -261,14 +364,14 @@ export const init = ({ $app }) => {
 
 
 
-  notes.bringToTop = (note) => {
-    note.zIndex = zIndex++
+  bringToTop(note) {
+    note.zIndex = this.zIndex++
   }
 
 
 
 
-  notes.getNode = (note, part) => {
+  getNode(note, part) {
     if (part == null)
       return document.getElementById(`note-${note.id}`)
     else
@@ -278,11 +381,11 @@ export const init = ({ $app }) => {
 
 
 
-  notes.getClientRect = (note, part) => {
+  getClientRect(note, part) {
     const node = $app.notes.getNode(note, part)
 
     const domClientRect = node.getBoundingClientRect()
   
     return $app.rects.fromDOM(domClientRect)
   }
-}
+} as Exact<T, IAppNotes>
