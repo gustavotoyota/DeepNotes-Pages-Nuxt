@@ -3,7 +3,6 @@ import { getYjsValue, SyncedArray, SyncedText } from "@syncedstore/core"
 import { Exact, IVec2, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { IElem } from '../elems/elems'
-import { Doc } from 'yjs'
 import { IRect } from '../space/rects'
 
 
@@ -155,7 +154,7 @@ new class implements IAppNotes {
     // Add collaboration information
 
     if (local) {
-      (getYjsValue($app.collab.store) as Doc).transact(() => {
+      $app.collab.doc.transact(() => {
         Vue.set($app.notes.collab, note.id, {
           linkedPageId: null,
   

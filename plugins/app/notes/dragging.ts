@@ -1,6 +1,4 @@
 import { Context } from '@nuxt/types'
-import { getYjsValue } from '@syncedstore/core'
-import { Doc } from 'yjs'
 import { Exact, IVec2 } from "~/types/deep-notes"
 
 
@@ -105,7 +103,7 @@ new class implements IAppDragging {
 
     // Move selected notes
 
-    (getYjsValue($app.collab.store) as Doc).transact(() => {
+    $app.collab.doc.transact(() => {
       for (const note of $app.selection.notes) {
         if (!note.collab.movable)
           continue

@@ -17,6 +17,8 @@ export type {
 
 interface IAppCollab {
   store: IAppCollabStore;
+  doc: Doc;
+
   indexedDbProvider: IndexeddbPersistence;
   websocketProvider: WebsocketProvider;
 
@@ -36,6 +38,7 @@ interface IAppCollabStore {
 export const init = ({ $app, isDev, $axios }: Context): IAppCollab => {
   return new class implements IAppCollab {
     store!: IAppCollabStore
+    doc!: Doc
     indexedDbProvider!: IndexeddbPersistence
     websocketProvider!: WebsocketProvider
 
@@ -44,6 +47,10 @@ export const init = ({ $app, isDev, $axios }: Context): IAppCollab => {
 
     constructor() {
       $static.vue.ref(this, 'collab.store')
+
+
+
+      $static.vue.computed(this, 'doc', () => getYjsValue(this.store) as Doc)
     }
 
 
@@ -62,9 +69,8 @@ export const init = ({ $app, isDev, $axios }: Context): IAppCollab => {
   
     startSync() {
       const name = `page-${$app.page.id}`
-      const doc = getYjsValue($app.collab.store)
   
-      $app.collab.indexedDbProvider = new IndexeddbPersistence(name, doc as Doc)
+      $app.collab.indexedDbProvider = new IndexeddbPersistence(name, this.doc)
   
       $app.collab.indexedDbProvider.on('synced', () => {
         console.log('IndexedDB synced.')
@@ -74,7 +80,7 @@ export const init = ({ $app, isDev, $axios }: Context): IAppCollab => {
         
         $app.collab.websocketProvider = new WebsocketProvider(
         isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
-        name, doc as Doc)
+        name, this.doc)
   
         $app.collab.websocketProvider.on('sync', async () => {
           console.log('Websocket synced.')

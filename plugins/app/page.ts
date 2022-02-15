@@ -1,8 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
-import { getYjsValue } from '@syncedstore/core'
 import { Exact, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
-import { Doc } from 'yjs'
 import { INote } from './notes/notes'
 
 
@@ -115,7 +113,7 @@ new class implements IAppPage {
 
 
   resetCollab(pageName: string) {
-    (getYjsValue($app.collab.store) as Doc).transact(() => {
+    $app.collab.doc.transact(() => {
       $static.vue.merge($app.page.collab, {
         name: pageName,
       
