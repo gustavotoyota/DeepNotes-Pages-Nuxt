@@ -1,4 +1,11 @@
-import { computed, ComputedGetter, ssrRef, WritableComputedOptions } from '@nuxtjs/composition-api'
+export type {
+  StaticVue,
+}
+
+
+
+
+import { computed, ssrRef } from '@nuxtjs/composition-api'
 import Vue from 'vue'
 
 
@@ -51,10 +58,6 @@ class StaticVue {
   
     return target
   }
-}
-
-export type {
-  StaticVue,
 }
 
 

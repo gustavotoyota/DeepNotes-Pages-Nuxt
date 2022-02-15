@@ -4,15 +4,18 @@ import { Exact, IVec2 } from "~/types/deep-notes"
 
 
 
+export type {
+  IAppSizes,
+}
+
+
+
+
 interface IAppSizes {
   screenToWorld1D(screenSize: number): number;
   worldToScreen1D(worldSize: number): number;
   screenToWorld2D(screenSize: IVec2): IVec2;
   worldToScreen2D(worldSize: IVec2): IVec2;
-}
-
-export type {
-  IAppSizes,
 }
 
 

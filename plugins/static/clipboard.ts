@@ -1,3 +1,10 @@
+export type {
+  StaticClipboard,
+}
+
+
+
+
 class StaticClipboard {
   async get () {
     if (navigator.clipboard && navigator.clipboard.readText)
@@ -66,10 +73,6 @@ class StaticClipboard {
       return
     }
   }
-}
-
-export type {
-  StaticClipboard,
 }
 
 

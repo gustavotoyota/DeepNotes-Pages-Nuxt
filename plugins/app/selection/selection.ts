@@ -7,6 +7,13 @@ import { INote } from '../notes/notes'
 
 
 
+export type {
+  IAppSelection,
+}
+
+
+
+
 interface IAppSelection {
   [key: string]: any
 
@@ -24,10 +31,6 @@ interface IAppSelection {
   add(elem: IElem): void
   remove(elem: IElem): void
   set(elem: IElem): void
-}
-
-export type {
-  IAppSelection,
 }
 
 

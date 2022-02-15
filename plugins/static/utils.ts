@@ -1,3 +1,10 @@
+export type {
+  StaticUtils,
+}
+
+
+
+
 class StaticUtils {
   deepCopy(obj: any) {
     return JSON.parse(JSON.stringify(obj))
@@ -68,10 +75,6 @@ class StaticUtils {
   capitalizeFirst(text: string) {
     return text.charAt(0).toUpperCase() + text.slice(1)
   }
-}
-
-export type {
-  StaticUtils,
 }
 
 

@@ -6,12 +6,15 @@ import { Doc } from "yjs"
 
 
 
-interface IAppDeleting {
-  perform(event: KeyboardEvent): void;
-}
-
 export type {
   IAppDeleting,
+}
+
+
+
+
+interface IAppDeleting {
+  perform(event: KeyboardEvent): void;
 }
 
 

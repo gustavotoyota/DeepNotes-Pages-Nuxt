@@ -5,15 +5,18 @@ import { INote } from "./notes"
 
 
 
+export type {
+  IAppCollapsing,
+}
+
+
+
+
 interface IAppCollapsing {
   expand(note: INote): void;
   collapse(note: INote): void;
   set(note: INote, collapsed: boolean): void;
   toggle(note: INote): void;
-}
-
-export type {
-  IAppCollapsing,
 }
 
 

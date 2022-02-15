@@ -5,12 +5,15 @@ import { IElem } from "../elems/elems"
 
 
 
-interface IAppClickSelection {
-  perform(elem: IElem, event: MouseEvent): void
-}
-
 export type {
   IAppClickSelection,
+}
+
+
+
+
+interface IAppClickSelection {
+  perform(elem: IElem, event: MouseEvent): void
 }
 
 

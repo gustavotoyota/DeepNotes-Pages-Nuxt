@@ -5,6 +5,13 @@ import { INote } from "../notes/notes"
 
 
 
+export type {
+  IAppCamera,
+}
+
+
+
+
 interface IAppCamera {
   pos: IVec2
   zoom: number
@@ -17,10 +24,6 @@ interface IAppCamera {
   reset(): void
   resetZoom(): void
   fitToScreen(): void
-}
-
-export type {
-  IAppCamera,
 }
 
 

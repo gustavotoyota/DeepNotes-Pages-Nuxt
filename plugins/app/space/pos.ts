@@ -4,6 +4,12 @@ import { IVec2 } from "~/types/deep-notes"
 
 
 
+export type {
+  IAppPos,
+}
+
+
+
 
 interface IAppPos {
   getClientPos(event: MouseEvent): IVec2;
@@ -18,10 +24,6 @@ interface IAppPos {
 
   clientToWorld(clientPos: IVec2): IVec2;
   worldToClient(worldPos: IVec2): IVec2;
-}
-
-export type {
-  IAppPos,
 }
 
 

@@ -4,15 +4,18 @@ import { Exact, Nullable } from "~/types/deep-notes"
 
 
 
+export type {
+  IAppZooming,
+}
+
+
+
+
 interface IAppZooming {
   minZoom: number
   maxZoom: number
 
   perform(event: WheelEvent): void
-}
-
-export type {
-  IAppZooming,
 }
 
 

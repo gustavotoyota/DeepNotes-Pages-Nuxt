@@ -6,6 +6,13 @@ import { Exact, IVec2 } from "~/types/deep-notes"
 
 
 
+export type {
+  IAppDragging,
+}
+
+
+
+
 interface IAppDragging {
   minDistance: number;
 
@@ -19,10 +26,6 @@ interface IAppDragging {
   start(event: MouseEvent): void;
   update(event: MouseEvent): void;
   finish(event: MouseEvent): void;
-}
-
-export type {
-  IAppDragging,
 }
 
 

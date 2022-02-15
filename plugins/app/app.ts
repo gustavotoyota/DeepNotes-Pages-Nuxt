@@ -39,6 +39,12 @@ import * as boxSelection from './selection/box-selection'
 
 
 
+export type {
+  IApp,
+}
+
+
+
 
 class IApp {
   collab: collab.IAppCollab
@@ -112,10 +118,6 @@ class IApp {
     this.clickSelection = clickSelection.init(context)
     this.boxSelection = boxSelection.init(context)
   }
-}
-
-export type {
-  IApp,
 }
 
 

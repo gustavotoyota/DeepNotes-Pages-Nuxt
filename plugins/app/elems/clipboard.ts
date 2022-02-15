@@ -3,14 +3,17 @@ import { Context } from "@nuxt/types"
 
 
 
+export type {
+  IAppClipboard,
+}
+
+
+
+
 interface IAppClipboard {
   copy(): void;
   paste(text: string): void;
   cut(): void;
-}
-
-export type {
-  IAppClipboard,
 }
 
 

@@ -5,6 +5,13 @@ import { IVec2 } from "~/types/deep-notes"
 
 
 
+export type {
+  IAppBoxSelection,
+}
+
+
+
+
 interface IAppBoxSelection {
   active: boolean
   startPos: IVec2
@@ -14,10 +21,6 @@ interface IAppBoxSelection {
   start(event: MouseEvent): void
   update(event: MouseEvent): void
   finish(event: MouseEvent): void
-}
-
-export type {
-  IAppBoxSelection,
 }
 
 

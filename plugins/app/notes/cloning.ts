@@ -5,12 +5,15 @@ import { IElem } from "../elems/elems"
 
 
 
-interface IAppCloning {
-  perform(elem: IElem, event: KeyboardEvent): void;
-}
-
 export type {
   IAppCloning,
+}
+
+
+
+
+interface IAppCloning {
+  perform(elem: IElem, event: KeyboardEvent): void;
 }
 
 

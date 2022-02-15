@@ -5,6 +5,12 @@ import { IPageRef } from "./page"
 
 
 
+export type {
+  IAppProject,
+}
+
+
+
 
 interface IAppProject {
   path: IPageRef[]
@@ -12,10 +18,6 @@ interface IAppProject {
 
   init(): Promise<void>
   bumpRecentPage(page: IPageRef): void
-}
-
-export type {
-  IAppProject,
 }
 
 

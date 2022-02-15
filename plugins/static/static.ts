@@ -7,14 +7,17 @@ import { Inject } from "@nuxt/types/app"
 
 
 
+export type {
+  Static,
+}
+
+
+
+
 class Static {
   utils: utils.StaticUtils = utils.init()
   clipboard: clipboard.StaticClipboard = clipboard.init()
   vue: vue.StaticVue = vue.init()
-}
-
-export type {
-  Static,
 }
 
 globalThis.$static = new Static()
