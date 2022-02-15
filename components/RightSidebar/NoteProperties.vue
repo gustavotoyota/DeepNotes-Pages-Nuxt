@@ -33,7 +33,7 @@
 
         <v-select dense outlined hide-details
         background-color="#181818" clearable
-        :items="ctx.$app.project.recent" item-text="name" item-value="id"
+        :items="$app.project.recent" item-text="name" item-value="id"
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.linkedPageId"
         @change="changeProp($event, (note, value) => {
@@ -125,7 +125,7 @@
         :disabled="!activeNote.collab.collapsible"
         :input-value="activeNote.collab.collapsed"
         @change="changeProp($event, (note, value) => {
-          ctx.$app.collapsing.set(note, value)
+          $app.collapsing.set(note, value)
         })">
         </v-checkbox>
       </div>
