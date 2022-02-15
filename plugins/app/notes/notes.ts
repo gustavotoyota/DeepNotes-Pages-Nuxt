@@ -44,7 +44,6 @@ interface INote extends IElem {
 
   selected: boolean
   active: boolean
-  dragging: boolean
   editing: boolean
 
   sizeProp: string
@@ -95,6 +94,8 @@ interface INoteCollab {
 
   container: boolean
   childIds: string[]
+
+  dragging: boolean
 }
 
 interface INoteSize {
@@ -201,6 +202,8 @@ new class implements IAppNotes {
   
           container: false,
           childIds: [],
+
+          dragging: false,
         } as INoteCollab)
   
         if (parentId == null)
@@ -222,8 +225,6 @@ new class implements IAppNotes {
       $app.selection.has(note))
     $static.vue.computed(note, 'active', () =>
       $app.activeElem.is(note as IElem))
-    $static.vue.computed(note, 'dragging', () =>
-      $app.dragging.active && note.selected)
     $static.vue.computed(note, 'editing', () =>
       $app.editing.active && note.active)
 

@@ -9,8 +9,8 @@
     'transform': note.parentId == null ? `translate(` +
       `${-note.collab.anchor.x * 100}%, ${-note.collab.anchor.y * 100}%)` : null,
     
-    'opacity': note.dragging ? '0.7' : null,
-    'pointer-events': note.dragging ? 'none' : null,
+    'opacity': note.collab.dragging ? '0.7' : null,
+    'pointer-events': note.collab.dragging ? 'none' : null,
   }">
 
     <slot/>

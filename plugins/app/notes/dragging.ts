@@ -86,6 +86,10 @@ new class implements IAppDragging {
       $app.dragging.active = dist >= $app.dragging.minDistance
       if (!$app.dragging.active)
         return
+        
+
+      for (const note of $app.selection.notes)
+        note.collab.dragging = note.collab.movable
     }
 
 
@@ -105,7 +109,7 @@ new class implements IAppDragging {
 
     $app.collab.doc.transact(() => {
       for (const note of $app.selection.notes) {
-        if (!note.collab.movable)
+        if (!note.collab.dragging)
           continue
   
         note.collab.pos.x += delta.x
@@ -121,6 +125,9 @@ new class implements IAppDragging {
   finish(event: MouseEvent) {
     if (!$app.dragging.down || event.button !== 0)
       return
+
+    for (const note of $app.selection.notes)
+      note.collab.dragging = false
   
     $app.dragging.down = false
     $app.dragging.active = false
