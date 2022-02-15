@@ -3,18 +3,21 @@ import { Inject } from "@nuxt/types/app"
 import {
   onMounted,
   onUnmounted,
+  watch,
 } from "@nuxtjs/composition-api"
 
-
-
-
-export default async function (context: Context, inject: Inject) {
-  const { $app, app } = context
+import { openDB } from 'idb'
 
 
 
 
-  inject('context', context)
+export default async function (ctx: Context, inject: Inject) {
+  const { $app, app } = ctx
+
+
+
+
+  inject('context', ctx)
 
 
 
@@ -99,6 +102,28 @@ export default async function (context: Context, inject: Inject) {
 
       onUnmounted(() => {
         document.removeEventListener('keydown', onKeyDown)
+      })
+
+
+
+
+      // Maintain IndexedDB
+      
+      onMounted(async () => {
+        const db = await openDB(`user-${ctx.$auth.user?.userId}`, 1, {
+          upgrade(db, oldVersion, newVersion, transaction) {
+            db.createObjectStore('path')
+            db.createObjectStore('recent')
+          },
+        })
+
+        watch(() => $app.project.path, async () => {
+          await db.put('path', $app.project.path, 'value')
+        }, { deep: true, immediate: true })
+
+        watch(() => $app.project.recent, async () => {
+          await db.put('recent', $app.project.recent, 'value')
+        }, { deep: true, immediate: true })
       })
 
 
