@@ -101,6 +101,8 @@ interface INoteSize {
   x: string,
 
   y: {
+    [key: string]: string
+
     title: string,
     body: string,
     container: string,

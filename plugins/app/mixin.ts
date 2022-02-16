@@ -53,7 +53,9 @@ export default async function (ctx: Context, inject: Inject) {
         $app.panning.update(event)
         
         $app.boxSelection.update(event)
+
         $app.dragging.update(event)
+        $app.resizing.update(event)
       }
   
       onUnmounted(() => {
@@ -74,7 +76,9 @@ export default async function (ctx: Context, inject: Inject) {
         $app.panning.finish(event)
         
         $app.boxSelection.finish(event)
+
         $app.dragging.finish(event)
+        $app.resizing.finish(event)
       }
   
       onUnmounted(() => {
