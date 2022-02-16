@@ -5,10 +5,10 @@
 <script>
 export default {
 
-  async middleware(context) {
-    const startingPageId = (await context.$axios.post('/api/project/starting-page-id')).data
+  async middleware(ctx) {
+    const startingPageId = (await ctx.$axios.post('/api/project/starting-page-id')).data
 
-    return context.redirect(`/${startingPageId}`)
+    return ctx.redirect(`/${startingPageId}`)
   }
 
 }

@@ -81,48 +81,48 @@ class IApp {
 
 
 
-  constructor(context: Context, inject: Inject) {
+  constructor(ctx: Context, inject: Inject) {
     inject('app', this)
 
 
   
 
-    this.collab = collab.init(context)
+    this.collab = collab.init(ctx)
   
-    this.project = project.init(context)
-    this.page = page.init(context)
+    this.project = project.init(ctx)
+    this.page = page.init(ctx)
     
-    this.elems = elems.init(context)
-    this.clipboard = clipboard.init(context)
-    this.deleting = deleting.init(context)
+    this.elems = elems.init(ctx)
+    this.clipboard = clipboard.init(ctx)
+    this.deleting = deleting.init(ctx)
   
-    this.notes = notes.init(context)
-    this.dragging = dragging.init(context)
-    this.cloning = cloning.init(context)
-    this.editing = editing.init(context)
-    this.collapsing = collapsing.init(context)
-    this.resizing = resizing.init(context)
-    this.dropping = dropping.init(context)
+    this.notes = notes.init(ctx)
+    this.dragging = dragging.init(ctx)
+    this.cloning = cloning.init(ctx)
+    this.editing = editing.init(ctx)
+    this.collapsing = collapsing.init(ctx)
+    this.resizing = resizing.init(ctx)
+    this.dropping = dropping.init(ctx)
   
-    this.pos = pos.init(context)
-    this.sizes = sizes.init(context)
-    this.rects = rects.init(context)
+    this.pos = pos.init(ctx)
+    this.sizes = sizes.init(ctx)
+    this.rects = rects.init(ctx)
   
-    this.camera = camera.init(context)
-    this.panning = panning.init(context)
-    this.zooming = zooming.init(context)
+    this.camera = camera.init(ctx)
+    this.panning = panning.init(ctx)
+    this.zooming = zooming.init(ctx)
   
-    this.selection = selection.init(context)
-    this.activeRegion = activeRegion.init(context)
-    this.activeElem = activeElem.init(context)
-    this.clickSelection = clickSelection.init(context)
-    this.boxSelection = boxSelection.init(context)
+    this.selection = selection.init(ctx)
+    this.activeRegion = activeRegion.init(ctx)
+    this.activeElem = activeElem.init(ctx)
+    this.clickSelection = clickSelection.init(ctx)
+    this.boxSelection = boxSelection.init(ctx)
   }
 }
 
 
 
 
-export default defineNuxtPlugin((context, inject) => {
-  new IApp(context, inject)
+export default defineNuxtPlugin((ctx, inject) => {
+  new IApp(ctx, inject)
 })

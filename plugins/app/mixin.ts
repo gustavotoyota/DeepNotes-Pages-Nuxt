@@ -17,7 +17,7 @@ export default async function (ctx: Context, inject: Inject) {
 
 
 
-  inject('context', ctx)
+  inject('ctx', ctx)
 
 
 

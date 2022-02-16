@@ -25,6 +25,6 @@ globalThis.$static = new Static()
 
 
 
-export default (context: Context, inject: Inject) => {
+export default (ctx: Context, inject: Inject) => {
   inject('static', $static)
 }

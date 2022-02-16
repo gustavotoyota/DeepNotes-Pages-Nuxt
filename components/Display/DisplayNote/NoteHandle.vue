@@ -1,6 +1,7 @@
 <template>
   
-  <div v-if="note.collab.resizable && note.selected && (note.parentId == null || side.includes('s'))"
+  <div v-if="note.collab.resizable && note.selected
+  && (note.parentId == null || side.includes('s'))"
   class="note-handle"
   :style="{
     'left': left,
@@ -17,7 +18,7 @@
 <script setup>
 import { useContext, computed } from "@nuxtjs/composition-api"
 
-const context = useContext()
+const ctx = useContext()
 
 
 
@@ -53,7 +54,7 @@ const top = computed(() => {
 
 
 function onPointerDown(event) {
-  context.$app.resizing.start(event, props.note, props.side, props.section)
+  ctx.$app.resizing.start(event, props.note, props.side, props.section)
 }
 </script>
 
