@@ -54,6 +54,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/composition-api/module',
+    'unplugin-auto-import/nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
