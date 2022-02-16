@@ -60,13 +60,30 @@ class StaticUtils {
 
 
 
-  hasVertScrollbar(node: HTMLElement) {
-    return node.scrollHeight > node.clientHeight
-      && node.offsetWidth > node.clientWidth
+  hasVertScrollbar(elem: HTMLElement) {
+    return elem.scrollHeight > elem.clientHeight
+      && elem.offsetWidth > elem.clientWidth
   }
-  hasHorizScrollbar(node: HTMLElement) {
-    return node.scrollWidth > node.clientWidth
-      && node.offsetHeight > node.clientHeight
+  hasHorizScrollbar(elem: HTMLElement) {
+    return elem.scrollWidth > elem.clientWidth
+      && elem.offsetHeight > elem.clientHeight
+  }
+
+
+
+
+  isMouseOverScrollbar(event: MouseEvent) {
+    const elem = event.target as HTMLElement
+
+    if (this.hasHorizScrollbar(elem)
+    && event.offsetY > elem.clientHeight) 
+      return true
+
+    if (this.hasVertScrollbar(elem)
+    && event.offsetX > elem.clientWidth)
+      return true
+
+    return false
   }
 
 

@@ -44,6 +44,9 @@ const backgroundColor = computed(() => {
 
 
 function onPointerDown(event) {
+  if ($static.utils.isMouseOverScrollbar(event))
+    return
+
   if (props.note.collab.linkedPageId != null
   && !event.ctrlKey && !event.altKey && !event.shiftKey
   && !props.note.selected)
