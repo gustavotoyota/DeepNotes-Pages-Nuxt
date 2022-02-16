@@ -1,8 +1,10 @@
+import { Context } from "@nuxt/types"
+import { Inject } from "@nuxt/types/app"
+import { defineNuxtPlugin } from "@nuxtjs/composition-api"
+
 import * as utils from "./utils"
 import * as clipboard from "./clipboard"
 import * as vue from "./vue"
-import { Context } from "@nuxt/types"
-import { Inject } from "@nuxt/types/app"
 
 
 
@@ -25,6 +27,6 @@ globalThis.$static = new Static()
 
 
 
-export default (ctx: Context, inject: Inject) => {
+export default defineNuxtPlugin((ctx: Context, inject: Inject) => {
   inject('static', $static)
-}
+})
