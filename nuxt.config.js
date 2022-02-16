@@ -53,6 +53,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxt/typescript-build',
     '@nuxtjs/composition-api/module',
     'unplugin-auto-import/nuxt',
   ],
@@ -64,7 +65,6 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
-    '@nuxt/typescript-build',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
