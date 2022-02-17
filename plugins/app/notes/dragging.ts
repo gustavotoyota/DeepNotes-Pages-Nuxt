@@ -1,5 +1,5 @@
 import { Context } from '@nuxt/types'
-import { Exact, IVec2 } from "~/types/deep-notes"
+import { Exact, IVec2, Nullable } from "~/types/deep-notes"
 
 
 
@@ -20,6 +20,9 @@ interface IAppDragging {
   startPos: IVec2
   currentPos: IVec2
 
+  dropRegionId: Nullable<string>
+  dropIndex: Nullable<number>
+
   reset(): void;
   start(event: MouseEvent): void;
   update(event: MouseEvent): void;
@@ -33,11 +36,14 @@ export const init = <T>({ $app }: Context) =>
 new class implements IAppDragging {
   minDistance: number = 5;
 
-  down: boolean = false;
-  active: boolean = false;
+  down!: boolean;
+  active!: boolean;
 
-  startPos: IVec2 = { x: 0, y: 0 };
-  currentPos: IVec2 = { x: 0, y: 0 };
+  startPos!: IVec2;
+  currentPos!: IVec2;
+
+  dropRegionId: Nullable<string>;
+  dropIndex: Nullable<number>;
 
 
 
