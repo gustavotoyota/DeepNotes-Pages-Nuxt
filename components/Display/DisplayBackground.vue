@@ -12,26 +12,26 @@
 <script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
 
-const { $app } = useContext()
+const ctx = useContext()
 
 
 
 
 function onPointerDown(event: PointerEvent) {
-  $app.editing.stop()
+  ctx.$app.editing.stop()
 
   if (!event.ctrlKey && !event.shiftKey)
-    $app.selection.clear(null)
+    ctx.$app.selection.clear(null)
     
-  $app.boxSelection.start(event)
+  ctx.$app.boxSelection.start(event)
 }
 
 function onDoubleClick(event: MouseEvent) {
-  const clientPos = $app.pos.getClientPos(event)
+  const clientPos = ctx.$app.pos.getClientPos(event)
 
-  const note = $app.notes.create({ clientPos, local: true })
+  const note = ctx.$app.notes.create({ clientPos, local: true })
 
-  $app.editing.start(note, note.topSection)
+  ctx.$app.editing.start(note, note.topSection)
 }
 </script>
 

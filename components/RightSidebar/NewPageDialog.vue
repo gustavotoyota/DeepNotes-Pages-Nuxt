@@ -56,7 +56,7 @@
 import { ref, useContext, watch } from '@nuxtjs/composition-api';
 import { INote } from '~/plugins/app/notes/notes';
 
-const { $app } = useContext()
+const ctx = useContext()
 
 
 
@@ -71,9 +71,9 @@ const nameElem = ref<HTMLElement>()
 async function onSubmit() {
   active.value = false
 
-  const selectedNotes = $app.selection.notes
+  const selectedNotes = ctx.$app.selection.notes
   
-  const pageId = await $app.page.create(name.value)
+  const pageId = await ctx.$app.page.create(name.value)
 
   for (const selectedNote of selectedNotes)
     selectedNote.collab.linkedPageId = pageId
@@ -87,7 +87,7 @@ watch(active, (value) => {
     return
 
   setTimeout(() => {
-    const activeNote = $app.activeElem.get as INote
+    const activeNote = ctx.$app.activeElem.get as INote
 
     const text = activeNote.collab[activeNote.topSection]
     if (!text)

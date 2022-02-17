@@ -19,7 +19,7 @@
 import { computed, useContext } from '@nuxtjs/composition-api'
 import { INote } from '~/plugins/app/notes/notes';
 
-const { $app } = useContext()
+const ctx = useContext()
 
 
 
@@ -53,15 +53,15 @@ function onPointerDown(event: PointerEvent) {
   && !props.note.selected)
     return
 
-  if ($app.editing.active && $app.activeElem.is(props.note))
+  if (ctx.$app.editing.active && ctx.$app.activeElem.is(props.note))
     return
 
-  $app.editing.stop()
+  ctx.$app.editing.stop()
 
-  $app.clickSelection.perform(props.note, event)
+  ctx.$app.clickSelection.perform(props.note, event)
 
-  if ($app.selection.has(props.note))
-    $app.dragging.start(event)
+  if (ctx.$app.selection.has(props.note))
+    ctx.$app.dragging.start(event)
 }
 
 
@@ -72,7 +72,7 @@ function onClick(event: MouseEvent) {
   || event.ctrlKey || event.shiftKey || props.note.selected)
     return
 
-  $app.page.navigateTo(props.note.collab.linkedPageId, true)
+  ctx.$app.page.navigateTo(props.note.collab.linkedPageId, true)
 }
 </script>
 

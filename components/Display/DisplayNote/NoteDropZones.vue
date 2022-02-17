@@ -17,11 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { useContext } from '@nuxtjs/composition-api';
 import { INote } from '~/plugins/app/notes/notes';
-
-const { $app } = useContext()
-
 
 
 

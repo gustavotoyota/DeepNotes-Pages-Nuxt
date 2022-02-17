@@ -16,7 +16,7 @@ import { INote } from "~/plugins/app/notes/notes";
 
 
 
-const { $app } = useContext()
+const ctx = useContext()
 
 
 
@@ -90,7 +90,7 @@ onMounted(() => {
   quill.enable(false)
 
   const binding = new QuillBinding(text.value, quill,
-    $app.collab.websocketProvider.awareness)
+    ctx.$app.collab.websocketProvider.awareness)
 })
 
 onUnmounted(() => {
@@ -121,7 +121,7 @@ function onEditToggle() {
     return
   }
 
-  if (props.section !== $app.editing.section)
+  if (props.section !== ctx.$app.editing.section)
     return
 
   quill.focus()

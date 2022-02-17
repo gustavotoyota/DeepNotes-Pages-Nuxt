@@ -18,17 +18,17 @@
 <script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
 
-const { $app } = useContext()
+const ctx = useContext()
 
 
 
 
 function onWheel(event: WheelEvent) {
-  $app.zooming.perform(event)
+  ctx.$app.zooming.perform(event)
 }
 
 function onPointerDown(event: PointerEvent) {
-  $app.panning.start(event)
+  ctx.$app.panning.start(event)
 }
 </script>
 

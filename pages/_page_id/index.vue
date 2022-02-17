@@ -22,14 +22,14 @@
 <script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
 
-const { $app, route } = useContext()
+const ctx = useContext()
 
 
 
 
 // Reset page
 
-$app.page.reset(route.value.params.page_id)
+ctx.$app.page.reset(ctx.route.value.params.page_id)
 </script>
 
 

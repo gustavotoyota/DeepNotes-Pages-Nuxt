@@ -12,17 +12,12 @@ import { openDB } from 'idb'
 
 
 export default async function (ctx: Context, inject: Inject) {
-  const { $app, app } = ctx
-
-
-
-
   inject('ctx', ctx)
 
 
 
 
-	app.mixins = (app.mixins ?? []).concat({
+	ctx.app.mixins = (ctx.app.mixins ?? []).concat({
     // @ts-ignore
     async setup() {
       // Release pointer down for touchscreen
@@ -50,12 +45,12 @@ export default async function (ctx: Context, inject: Inject) {
       })
   
       function onPointerMove(event: PointerEvent) {
-        $app.panning.update(event)
+        ctx.$app.panning.update(event)
         
-        $app.boxSelection.update(event)
+        ctx.$app.boxSelection.update(event)
 
-        $app.dragging.update(event)
-        $app.resizing.update(event)
+        ctx.$app.dragging.update(event)
+        ctx.$app.resizing.update(event)
       }
   
       onUnmounted(() => {
@@ -73,12 +68,12 @@ export default async function (ctx: Context, inject: Inject) {
       })
   
       function onPointerUp(event: PointerEvent) {
-        $app.panning.finish(event)
+        ctx.$app.panning.finish(event)
         
-        $app.boxSelection.finish(event)
+        ctx.$app.boxSelection.finish(event)
 
-        $app.dragging.finish(event)
-        $app.resizing.finish(event)
+        ctx.$app.dragging.finish(event)
+        ctx.$app.resizing.finish(event)
       }
   
       onUnmounted(() => {
@@ -101,7 +96,7 @@ export default async function (ctx: Context, inject: Inject) {
           return
         
         if (event.code === 'Delete')
-          $app.deleting.perform(event)
+          ctx.$app.deleting.perform(event)
       }
 
       onUnmounted(() => {
@@ -121,19 +116,19 @@ export default async function (ctx: Context, inject: Inject) {
           },
         })
 
-        watch(() => $app.project.path, async () => {
-          await db.put('path', $app.project.path, 'value')
+        watch(() => ctx.$app.project.path, async () => {
+          await db.put('path', ctx.$app.project.path, 'value')
         }, { deep: true, immediate: true })
 
-        watch(() => $app.project.recent, async () => {
-          await db.put('recent', $app.project.recent, 'value')
+        watch(() => ctx.$app.project.recent, async () => {
+          await db.put('recent', ctx.$app.project.recent, 'value')
         }, { deep: true, immediate: true })
       })
 
 
 
       
-      await $app.project.init()
+      await ctx.$app.project.init()
     }
   })
 }

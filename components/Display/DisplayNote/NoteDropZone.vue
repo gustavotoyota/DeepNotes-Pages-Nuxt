@@ -15,7 +15,7 @@
 import { useContext } from '@nuxtjs/composition-api';
 import { INote } from '~/plugins/app/notes/notes';
 
-const { $app } = useContext()
+const ctx = useContext()
 
 
 
@@ -30,23 +30,23 @@ const props = defineProps<{
 
 
 function onPointerEnter(event: PointerEvent) {
-  if (!$app.dragging.active)
+  if (!ctx.$app.dragging.active)
     return
 
-  $app.dragging.dropRegionId = props.parentNote.id
-  $app.dragging.dropIndex = props.index
+  ctx.$app.dragging.dropRegionId = props.parentNote.id
+  ctx.$app.dragging.dropIndex = props.index
 }
 
 function onPointerLeave(event: PointerEvent) {
-  if (!$app.dragging.active)
+  if (!ctx.$app.dragging.active)
     return
   
-  $app.dragging.dropRegionId = null
-  $app.dragging.dropIndex = null
+  ctx.$app.dragging.dropRegionId = null
+  ctx.$app.dragging.dropIndex = null
 }
 
 function onPointerUp(event: PointerEvent) {
-  $app.dropping.perform(event, props.parentNote, props.index)
+  ctx.$app.dropping.perform(event, props.parentNote, props.index)
 }
 </script>
 
