@@ -141,11 +141,18 @@ watch(() => props.note.editing, onEditToggle)
 
 
 <style scoped>
+.note-editor {
+  height: 100%;
+}
+
 .note-editor /deep/ .ql-editor {
   padding: 9px !important;
   
   min-width: 100%;
   max-width: 100%;
+
+  min-height: 100%;
+  max-height: 100%;
   
   width: max-content;
   height: max-content;
@@ -155,7 +162,7 @@ watch(() => props.note.editing, onEditToggle)
     "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
 
-  overflow: visible;
+  overflow: auto;
 }
 
 .note-editor /deep/ .ql-editor > * {
