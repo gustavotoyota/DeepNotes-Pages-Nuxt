@@ -2,12 +2,12 @@
 
   <div class="drop-zone"
   :class="{
-    'active': $app.dragging.dropRegionId == parentNote.id
+    'active': $app.dragging.dropRegionId === regionNote.id
       && $app.dragging.dropIndex === index
   }"
-  @pointerenter="onPointerEnter($event)"
-  @pointerleave="onPointerLeave($event)"
-  @pointerup.left.stop="onPointerUp($event)"/>
+  @pointerenter="onPointerEnter"
+  @pointerleave="onPointerLeave"
+  @pointerup.left.stop="onPointerUp"/>
   
 </template>
 
@@ -21,8 +21,7 @@ const ctx = useContext()
 
 
 const props = defineProps<{
-  note: INote
-  parentNote: INote
+  regionNote: INote
   index: number
 }>()
 
@@ -33,7 +32,7 @@ function onPointerEnter(event: PointerEvent) {
   if (!ctx.$app.dragging.active)
     return
 
-  ctx.$app.dragging.dropRegionId = props.parentNote.id
+  ctx.$app.dragging.dropRegionId = props.regionNote.id
   ctx.$app.dragging.dropIndex = props.index
 }
 
@@ -46,7 +45,7 @@ function onPointerLeave(event: PointerEvent) {
 }
 
 function onPointerUp(event: PointerEvent) {
-  ctx.$app.dropping.perform(event, props.parentNote, props.index)
+  ctx.$app.dropping.perform(event, props.regionNote, props.index)
 }
 </script>
 

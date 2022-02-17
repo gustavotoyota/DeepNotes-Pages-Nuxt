@@ -64,6 +64,8 @@ interface INote extends IElem {
   width: string
   targetWidth: string
 
+  children: INote[]
+
 
 
   bringToTop(): void
@@ -156,6 +158,8 @@ export const init = <T>(ctx: Context): IAppNotes => {
     minWidth!: string
     width!: string
     targetWidth!: string
+
+    children!: INote[]
     
 
 
@@ -288,6 +292,12 @@ export const init = <T>(ctx: Context): IAppNotes => {
         else
           return '0px'
       })
+
+
+
+      
+      $static.vue.computed(this, 'children', () =>
+        this.collab.childIds.map(childId => $app.elems.map[childId]))
     }
 
 

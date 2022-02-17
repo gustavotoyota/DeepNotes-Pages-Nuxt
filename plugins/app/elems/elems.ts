@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { reactive } from '@nuxtjs/composition-api'
 import { Context } from '@nuxt/types'
 import { IApp } from '../app'
+import { Nullable } from '~/types/deep-notes'
 
 
 
@@ -30,13 +31,13 @@ interface IAppElems {
 interface IElem {
   id: string
   type: string
-  parentId?: string
+  parentId: Nullable<string>
 }
 
 class Elem implements IElem {
   id: string
   type: string
-  parentId?: string
+  parentId: Nullable<string>
   
   constructor(ctx: Context, options: {
     id?: string,
@@ -45,7 +46,7 @@ class Elem implements IElem {
   }) {
     this.id = options.id ?? uuidv4()
     this.type = options.type
-    this.parentId = options.parentId
+    this.parentId = options.parentId ?? null
   
     Vue.set(ctx.$app.elems.map, this.id, this)
   }

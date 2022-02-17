@@ -6,6 +6,8 @@
 
     <NoteFrame :note="note">
 
+      <NoteDropZones :region-note="note.parent"/>
+
       <NoteHandles :note="note"/>
 
       <NoteContent :note="note">

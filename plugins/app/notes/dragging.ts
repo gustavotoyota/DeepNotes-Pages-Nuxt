@@ -51,6 +51,12 @@ new class implements IAppDragging {
   constructor() {
     $static.vue.ref(this, 'dragging.down')
     $static.vue.ref(this, 'dragging.active')
+    
+    $static.vue.ref(this, 'dragging.startPos')
+    $static.vue.ref(this, 'dragging.currentPos')
+    
+    $static.vue.ref(this, 'dragging.dropRegionId')
+    $static.vue.ref(this, 'dragging.dropIndex')
   }
 
 

@@ -1,7 +1,7 @@
 <template>
   
   <div v-if="note.collab.resizable && note.selected
-  && (note.parentId == null || side.includes('s'))"
+  && (note.parentId == null || side === 's')"
   class="note-handle"
   :style="{
     'left': left,

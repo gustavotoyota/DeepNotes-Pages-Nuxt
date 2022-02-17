@@ -1,16 +1,14 @@
 <template>
 
-  <div v-if="$app.dragging.active && note.parentId != null">
+  <div v-if="$app.dragging.active && regionNote != null">
   
     <NoteDropZone
-    :note="note"
-    :parent-note="parentNote"
-    :index="startIndex"/>
+    :region-note="regionNote"
+    :index="regionNote.index"/>
   
     <NoteDropZone
-    :note="note"
-    :parent-note="parentNote"
-    :index="startIndex + 1"/>
+    :region-note="regionNote"
+    :index="regionNote.index + 1"/>
 
   </div>
 
@@ -22,9 +20,7 @@ import { INote } from '~/plugins/app/notes/notes';
 
 
 const props = defineProps<{
-  note: INote
-  parentNote: INote
-  startIndex: number
+  regionNote: INote
 }>()
 </script>
 

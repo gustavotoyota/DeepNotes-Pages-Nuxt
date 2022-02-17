@@ -5,8 +5,7 @@
   style="display: flex; min-height: 36.453px"
   :style="{ height: note[`${section}Height`] }">
   
-    <div style="flex: 1;
-    overflow: auto"
+    <div style="flex: 1"
     :style="{ 'width': note.targetWidth }"
     @dblclick.left="$app.editing.start(note, section)">
 
