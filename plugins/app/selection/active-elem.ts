@@ -86,6 +86,6 @@ new class implements IAppActiveElem {
     $app.activeElem.id = elem.id
   
     if (bringToTop !== false)
-      $app.notes.bringToTop(elem as INote)
+      (elem as INote).bringToTop()
   }
 } as Exact<IAppActiveElem, T>

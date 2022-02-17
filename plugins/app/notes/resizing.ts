@@ -79,9 +79,9 @@ new class implements IAppResizing {
     
     const activeNote = $app.activeElem.get as INote
     
-    const frameClientRect = $app.notes.getClientRect(activeNote, 'frame')
+    const frameClientRect = activeNote.getClientRect('frame')
     const sectionClientRect = this.section != null ?
-      $app.notes.getClientRect(activeNote, `${this.section}-section`) :
+      activeNote.getClientRect(`${this.section}-section`) :
       frameClientRect
 
 

@@ -27,7 +27,7 @@ new class implements IAppCollapsing {
   expand(note: INote) {
     note.collab.collapsed = false
     
-    $app.notes.bringToTop(note)
+    note.bringToTop()
   }
   collapse(note: INote) {
     if (!note.collab.collapsible)
@@ -35,7 +35,7 @@ new class implements IAppCollapsing {
   
     note.collab.collapsed = true
     
-    $app.notes.bringToTop(note)
+    note.bringToTop()
   }
 
 

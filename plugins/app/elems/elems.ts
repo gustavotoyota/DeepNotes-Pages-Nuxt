@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { reactive } from '@nuxtjs/composition-api'
 import { Context } from '@nuxt/types'
+import { IApp } from '../app'
 
 
 
@@ -9,6 +10,10 @@ import { Context } from '@nuxt/types'
 export type {
   IAppElems,
   IElem,
+}
+
+export {
+  Elem,
 }
 
 
@@ -20,17 +25,30 @@ interface IAppElems {
   array: IElem[]
   
   reset(): void;
-  create(args: {
-    id?: string;
-    type: string;
-    parentId?: string;
-  }): IElem;
 }
 
 interface IElem {
   id: string
   type: string
   parentId?: string
+}
+
+class Elem implements IElem {
+  id: string
+  type: string
+  parentId?: string
+  
+  constructor(ctx: Context, options: {
+    id?: string,
+    type: string,
+    parentId?: string,
+  }) {
+    this.id = options.id ?? uuidv4()
+    this.type = options.type
+    this.parentId = options.parentId
+  
+    Vue.set(ctx.$app.elems.map, this.id, this)
+  }
 }
 
 
@@ -62,27 +80,6 @@ export const init = ({ $app }: Context) => {
   
     reset() {
       $app.elems.map = {}
-    }
-    
-  
-  
-  
-    create({ id, type, parentId }: {
-      id?: string;
-      type: string;
-      parentId?: string;
-    }): IElem {
-      const elem = reactive({
-        id: id ?? uuidv4(),
-  
-        type: type,
-  
-        parentId: parentId ?? undefined,
-      })
-  
-      Vue.set($app.elems.map, elem.id, elem)
-  
-      return elem
     }
   }
 }

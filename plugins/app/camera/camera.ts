@@ -96,7 +96,7 @@ new class implements IAppCamera {
     const clientBottomRight = { x: -Infinity, y: -Infinity }
   
     for (const note of notes) {
-      const clientRect = $app.notes.getClientRect(note, 'frame')
+      const clientRect = note.getClientRect('frame')
   
       clientTopLeft.x = Math.min(clientTopLeft.x, clientRect.start.x)
       clientTopLeft.y = Math.min(clientTopLeft.y, clientRect.start.y)

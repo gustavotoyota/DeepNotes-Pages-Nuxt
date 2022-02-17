@@ -414,7 +414,7 @@ const width = computed({
   set(value: string) {
     for (const note of ctx.$app.selection.notes) {
       if (value === 'custom') {
-        const clientRect = ctx.$app.notes.getClientRect(note, 'frame')
+        const clientRect = note.getClientRect('frame')
 
         note.size.x = `${ctx.$app.sizes.screenToWorld1D(clientRect.size.x)}px`
       } else
@@ -439,7 +439,7 @@ function sectionHeight(section: string) {
     set(value: string) {
       changeProp(value, (note, value) => {
         if (value === 'custom') {
-          const node = ctx.$app.notes.getNode(note, `${section}-section`)
+          const node = note.getNode(`${section}-section`)
           const clientRect = node.getBoundingClientRect()
 
           note.size.y[section] = `${ctx.$app.sizes.screenToWorld1D(clientRect.height)}px`

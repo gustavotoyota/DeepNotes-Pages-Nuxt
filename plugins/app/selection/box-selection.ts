@@ -96,7 +96,7 @@ new class implements IAppBoxSelection {
   
   
     for (const note of $app.page.notes) {
-      const clientRect = $app.notes.getClientRect(note, 'frame')
+      const clientRect = note.getClientRect('frame')
   
       if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
       || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)
