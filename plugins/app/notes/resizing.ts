@@ -66,8 +66,6 @@ new class implements IAppResizing {
 
     this.side = side
     this.section = section
-
-    console.log('Resize')
   }
 
 

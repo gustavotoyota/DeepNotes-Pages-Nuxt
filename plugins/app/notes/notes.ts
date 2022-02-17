@@ -37,6 +37,8 @@ interface IAppNotes {
 }
 
 interface INote extends IElem {
+  [key: string]: any
+
   collab: INoteCollab
 
   selected: boolean
@@ -48,8 +50,11 @@ interface INote extends IElem {
 
   topSection: string
   bottomSection: string
-
   numSections: number
+
+  titleHeight: string
+  bodyHeight: string
+  containerHeight: string
 
   parent: Nullable<INote>
   siblingIds: string[]
@@ -138,8 +143,11 @@ export const init = <T>(ctx: Context): IAppNotes => {
   
     topSection!: string
     bottomSection!: string
-  
     numSections!: number
+
+    titleHeight!: string
+    bodyHeight!: string
+    containerHeight!: string
   
     parent: Nullable<INote>
     siblingIds!: string[]
@@ -215,6 +223,29 @@ export const init = <T>(ctx: Context): IAppNotes => {
       
         return numSections
       })
+
+
+
+
+      const makeSectionHeight = (section: string) => {
+        $static.vue.computed(this, `${section}Height`, () => {
+          if (this.collab.collapsed
+          && this.collab.collapsedSize.y[section] === 'auto'
+          && this.topSection === section) {
+            if (this.numSections === 1)
+              return '0'
+            else
+              return this.collab.expandedSize.y[section]
+          } else if (this.size.y[section] === 'auto')
+            return this.collab.expandedSize.y[section]
+          else
+            return this.size.y[section]
+        })
+      }
+
+      makeSectionHeight('title')
+      makeSectionHeight('body')
+      makeSectionHeight('container')
 
 
 
