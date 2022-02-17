@@ -4,16 +4,22 @@
 
     <v-divider/>
     
-    <slot/>
+    <NoteHandle :note="note" side="s" :section="section"/>
 
   </div>
   
 </template>
 
-<script>
-export default {
+<script setup lang="ts">
+import { INote } from '~/plugins/app/notes/notes';
 
-}
+
+
+
+const props = defineProps<{
+  note: INote
+  section: string
+}>()
 </script>
 
 <style>

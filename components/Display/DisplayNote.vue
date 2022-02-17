@@ -1,6 +1,8 @@
 <template>
 
-  <NoteAnchor v-if="note != null" :note="note">
+  <NoteAnchor
+  v-if="note != null"
+  :note="note">
 
     <NoteFrame :note="note">
 
@@ -12,18 +14,19 @@
 
         <NoteSectionGroup :note="note" section="title">
 
-          <NoteDivider v-if="note.collab.hasTitle && note.collab.hasBody">
-            <NoteHandle :note="note" side="s" section="title"/>
-          </NoteDivider>
+          <NoteDivider
+          v-if="note.collab.hasTitle && note.collab.hasBody"
+          :note="note" section="title"/>
       
           <NoteTextSection :note="note" section="body"/>
 
-          <NoteSectionGroup v-if="note.collab.container"
+          <NoteSectionGroup
+          v-if="note.collab.container"
           :note="note" section="body">
 
-            <NoteDivider v-if="note.collab.hasTitle || note.collab.hasBody">
-              <NoteHandle :note="note" side="s" section="body"/>
-            </NoteDivider>
+            <NoteDivider
+            v-if="note.collab.hasTitle || note.collab.hasBody"
+            :note="note" section="body"/>
 
             <NoteContainerSection :note="note"/>
 
@@ -39,10 +42,15 @@
 
 </template>
 
-<script setup>
-const props = defineProps({
-  note: { type: Object },
-})
+<script setup lang="ts">
+import { INote } from '~/plugins/app/notes/notes';
+
+
+
+
+const props = defineProps<{
+  note: INote
+}>()
 </script>
 
 <style scoped>
