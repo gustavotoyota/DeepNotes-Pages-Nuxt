@@ -21,7 +21,7 @@
 
         <v-card-text>
 
-          <v-text-field ref="name"
+          <v-text-field ref="nameElem"
           label="Page name"
           v-model="name">
           </v-text-field>
@@ -52,56 +52,51 @@
 
 </template>
 
-<script>
-export default {
+<script setup lang="ts">
+import { ref, useContext, watch } from '@nuxtjs/composition-api';
+import { INote } from '~/plugins/app/notes/notes';
+
+const { $app } = useContext()
+
+
+
+
+const active = ref(false)
+const name = ref('')
+const nameElem = ref<HTMLElement>()
+
+
+
+
+async function onSubmit() {
+  active.value = false
+
+  const selectedNotes = $app.selection.notes
   
-  data() {
-    return {
-      active: false,
-      name: '',
-    }
-  },
+  const pageId = await $app.page.create(name.value)
 
-
-
-  methods: {
-
-    async onSubmit() {
-      this.active = false
-
-      const selectedNotes = this.$app.selection.notes
-      
-      const pageId = await this.$app.page.create(this.name)
-
-      for (const selectedNote of selectedNotes)
-        selectedNote.collab.linkedPageId = pageId
-    },
-
-  },
-
-
-
-  watch: {
-
-    active(value) {
-      if (!value)
-        return
-
-      setTimeout(() => {
-        const activeNote = this.$app.activeElem.get
-
-        const text = activeNote.collab[activeNote.topSection]
-        if (!text)
-          return
-
-        this.name = text.toString().split('\n')[0]
-        this.$refs.name.focus()
-      })
-    }
-
-  },
-
+  for (const selectedNote of selectedNotes)
+    selectedNote.collab.linkedPageId = pageId
 }
+
+
+
+
+watch(active, (value) => {
+  if (!value)
+    return
+
+  setTimeout(() => {
+    const activeNote = $app.activeElem.get as INote
+
+    const text = activeNote.collab[activeNote.topSection]
+    if (!text)
+      return
+
+    name.value = text.toString().split('\n')[0]
+    nameElem.value?.focus()
+  })
+})
 </script>
 
 <style>

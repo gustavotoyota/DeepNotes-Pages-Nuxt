@@ -17,14 +17,14 @@ interface IAppResizing {
   active: boolean
 
   side: string
-  section: string
+  section?: string
   
 
 
   reset(): void;
-  start(event: MouseEvent, note: INote, side: string, section: string): void;
-  update(event: MouseEvent): void;
-  finish(event: MouseEvent): void;
+  start(event: PointerEvent, note: INote, side: string, section?: string): void;
+  update(event: PointerEvent): void;
+  finish(event: PointerEvent): void;
 }
 
 
@@ -35,7 +35,7 @@ new class implements IAppResizing {
   active!: boolean
 
   side!: string
-  section!: string
+  section?: string
 
 
 
@@ -54,7 +54,7 @@ new class implements IAppResizing {
 
 
 
-  start(event: MouseEvent, note: INote, side: string, section: string) {
+  start(event: PointerEvent, note: INote, side: string, section?: string) {
     if (event.button !== 0)
       return
   
@@ -73,7 +73,7 @@ new class implements IAppResizing {
 
 
 
-  update(event: MouseEvent) {
+  update(event: PointerEvent) {
     if (!this.active)
       return
     
@@ -136,7 +136,8 @@ new class implements IAppResizing {
           note.size.x = `${newWorldRect.size.x}px`
       }
 
-      if (newClientRect.size.y !== oldClientRect.size.y) {
+      if (this.section != null
+      && newClientRect.size.y !== oldClientRect.size.y) {
         if (note.size.y[this.section] === 'auto')
           note.collab.expandedSize.y[this.section] = `${newWorldRect.size.y}px`
         else
@@ -155,7 +156,7 @@ new class implements IAppResizing {
 
 
 
-  finish(event: MouseEvent) {
+  finish(event: PointerEvent) {
     if (!this.active || event.button !== 0)
       return
   

@@ -2,23 +2,23 @@
 
   <div :style="{
     ...$attrs,
-    display: inlineBlock ? 'inline-block' : null,
+    display: inlineBlock ? 'inline-block' : undefined,
   }"
   style="flex: none">
   </div>
   
 </template>
 
-<script>
+<script setup lang="ts">
+const props = defineProps<{
+  inlineBlock?: boolean
+}>()
+</script>
+
+<script lang="ts">
 export default {
   inheritAttrs: false,
 }
-</script>
-
-<script setup>
-const props = defineProps({
-  inlineBlock: { type: Boolean },
-})
 </script>
 
 <style>

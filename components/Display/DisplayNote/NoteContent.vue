@@ -15,17 +15,18 @@
   
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, useContext } from '@nuxtjs/composition-api'
+import { INote } from '~/plugins/app/notes/notes';
 
 const { $app } = useContext()
 
 
 
 
-const props = defineProps({
-  note: { type: Object },
-})
+const props = defineProps<{
+  note: INote
+}>()
 
 
 
@@ -43,7 +44,7 @@ const backgroundColor = computed(() => {
 
 
 
-function onPointerDown(event) {
+function onPointerDown(event: PointerEvent) {
   if ($static.utils.isMouseOverScrollbar(event))
     return
 
@@ -66,7 +67,7 @@ function onPointerDown(event) {
 
 
 
-function onClick(event) {
+function onClick(event: MouseEvent) {
   if (props.note.collab.linkedPageId == null
   || event.ctrlKey || event.shiftKey || props.note.selected)
     return

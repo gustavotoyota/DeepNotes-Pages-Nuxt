@@ -3,7 +3,9 @@ import { syncedStore, getYjsValue } from "@syncedstore/core"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
 import { Doc } from "yjs"
-import { IPageCollab } from "./page"
+import type { IArrowCollab } from "./arrows/arrows"
+import type { INoteCollab } from "./notes/notes"
+import type { IPageCollab } from "./page"
 
 
 
@@ -28,8 +30,8 @@ interface IAppCollab {
 
 interface IAppCollabStore {
   page: Partial<IPageCollab>
-  notes: {}
-  arrows: {}
+  notes: { [key: string]: INoteCollab }
+  arrows: { [key: string]: IArrowCollab }
 }
 
 

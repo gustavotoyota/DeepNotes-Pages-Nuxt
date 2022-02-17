@@ -19,7 +19,6 @@
 <script setup lang="ts">
 import { useContext } from '@nuxtjs/composition-api';
 import { INote } from '~/plugins/app/notes/notes';
-import NoteDropZone from './NoteDropZone.vue';
 
 const { $app } = useContext()
 

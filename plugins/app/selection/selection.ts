@@ -1,6 +1,7 @@
 import { Context } from '@nuxt/types'
 import Vue from 'vue'
-import { Exact, IArrow } from "~/types/deep-notes"
+import { Exact, Nullable } from "~/types/deep-notes"
+import { IArrow } from '../arrows/arrows'
 import { IElem } from '../elems/elems'
 import { INote } from '../notes/notes'
 
@@ -17,8 +18,8 @@ export type {
 interface IAppSelection {
   [key: string]: any
 
-  noteIds: { [key: string]: boolean }
-  arrowIds: { [key: string]: boolean }
+  noteSet: { [key: string]: boolean }
+  arrowSet: { [key: string]: boolean }
   elemIds: string[]
 
   notes: INote[]
@@ -26,7 +27,7 @@ interface IAppSelection {
   elems: IElem[]
 
   reset(): void
-  clear(activeRegionId?: string): void
+  clear(activeRegionId?: Nullable<string>): void
   has(elem: IElem): boolean
   add(elem: IElem): void
   remove(elem: IElem): void
@@ -38,8 +39,8 @@ interface IAppSelection {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppSelection {
-  noteIds: { [key: string]: boolean } = {}
-  arrowIds: { [key: string]: boolean } = {}
+  noteSet: { [key: string]: boolean } = {}
+  arrowSet: { [key: string]: boolean } = {}
   elemIds: string[] = []
 
   notes: INote[] = []
@@ -50,15 +51,15 @@ new class implements IAppSelection {
 
 
   constructor() {
-    $static.vue.ref(this, 'selection.noteIds')
-    $static.vue.ref(this, 'selection.arrowIds')
+    $static.vue.ref(this, 'selection.noteSet')
+    $static.vue.ref(this, 'selection.arrowSet')
   
   
   
   
     $static.vue.computed(this, 'elemIds', () =>
-      Object.keys($app.selection.noteIds).concat(
-        Object.keys($app.selection.arrowIds)))
+      Object.keys($app.selection.noteSet).concat(
+        Object.keys($app.selection.arrowSet)))
     $static.vue.computed(this, 'notes', () => 
       $app.activeRegion.notes.filter(note => $app.selection.has(note)))
     $static.vue.computed(this, 'arrows', () => 
@@ -71,16 +72,16 @@ new class implements IAppSelection {
 
 
   reset() {
-    $app.selection.noteIds = {}
-    $app.selection.arrowIds = {}
+    $app.selection.noteSet = {}
+    $app.selection.arrowSet = {}
   }
 
 
 
 
   clear(activeRegionId?: string) {
-    $app.selection.noteIds = {}
-    $app.selection.arrowIds = {}
+    $app.selection.noteSet = {}
+    $app.selection.arrowSet = {}
 
     $app.activeElem.clear()
 
@@ -92,7 +93,7 @@ new class implements IAppSelection {
 
 
   has(elem: IElem) {
-    return elem.id in $app.selection[`${elem.type}Ids`]
+    return elem.id in $app.selection[`${elem.type}Set`]
   }
 
 
@@ -105,7 +106,7 @@ new class implements IAppSelection {
     if (elem.parentId != $app.activeRegion.id)
       $app.selection.clear(elem.parentId)
 
-    Vue.set($app.selection[`${elem.type}Ids`], elem.id, true)
+    Vue.set($app.selection[`${elem.type}Set`], elem.id, true)
     
     if (!$app.activeElem.exists)
       $app.activeElem.set(elem)
@@ -114,7 +115,7 @@ new class implements IAppSelection {
     if (!$app.selection.has(elem))
       return
 
-    Vue.delete($app.selection[`${elem.type}Ids`], elem.id)
+    Vue.delete($app.selection[`${elem.type}Set`], elem.id)
 
     if ($app.activeElem.is(elem))
       $app.activeElem.set($app.selection.elems.at(-1))

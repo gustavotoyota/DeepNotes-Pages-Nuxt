@@ -5,7 +5,7 @@
   && note.collab.collapsedSize.x === 'auto')"
   :style="{
     'height': note.topSection === section
-      && note.collab.collapsed ? '0' : null,
+      && note.collab.collapsed ? '0' : undefined,
   }">
 
     <slot/>
@@ -14,11 +14,16 @@
   
 </template>
 
-<script setup>
-const props = defineProps({
-  note: { type: Object },
-  section: { type: String },
-})
+<script setup lang="ts">
+import { INote } from '~/plugins/app/notes/notes';
+
+
+
+
+const props = defineProps<{
+  note: INote
+  section: string
+}>()
 </script>
 
 <style>

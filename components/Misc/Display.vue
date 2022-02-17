@@ -15,7 +15,7 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
 
 const { $app } = useContext()
@@ -23,11 +23,11 @@ const { $app } = useContext()
 
 
 
-function onWheel(event) {
+function onWheel(event: WheelEvent) {
   $app.zooming.perform(event)
 }
 
-function onPointerDown(event) {
+function onPointerDown(event: PointerEvent) {
   $app.panning.start(event)
 }
 </script>

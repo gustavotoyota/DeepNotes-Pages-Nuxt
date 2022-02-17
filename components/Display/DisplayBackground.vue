@@ -9,18 +9,15 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
-
-
-
 
 const { $app } = useContext()
 
 
 
 
-function onPointerDown(event) {
+function onPointerDown(event: PointerEvent) {
   $app.editing.stop()
 
   if (!event.ctrlKey && !event.shiftKey)
@@ -29,7 +26,7 @@ function onPointerDown(event) {
   $app.boxSelection.start(event)
 }
 
-function onDoubleClick(event) {
+function onDoubleClick(event: MouseEvent) {
   const clientPos = $app.pos.getClientPos(event)
 
   const note = $app.notes.create({ clientPos, local: true })

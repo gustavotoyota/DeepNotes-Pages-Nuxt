@@ -14,7 +14,7 @@ export type {
 
 
 interface IAppDropping {
-  perform(event: MouseEvent, regionNote: INote, dropIndex: number): void;
+  perform(event: PointerEvent, regionNote: INote, dropIndex: number): void;
 }
 
 
@@ -22,6 +22,6 @@ interface IAppDropping {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppDropping {
-  perform(event: MouseEvent, regionNote: INote, dropIndex: number) {
+  perform(event: PointerEvent, regionNote: INote, dropIndex: number) {
   }
 } as Exact<IAppDropping, T>

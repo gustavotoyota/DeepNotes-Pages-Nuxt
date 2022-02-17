@@ -17,9 +17,9 @@ interface IAppPanning {
 
 
   reset(): void
-  start(event: MouseEvent): void
-  update(event: MouseEvent): void
-  finish(event: MouseEvent): void
+  start(event: PointerEvent): void
+  update(event: PointerEvent): void
+  finish(event: PointerEvent): void
 }
 
 
@@ -48,7 +48,7 @@ new class implements IAppPanning {
 
 
 
-  start(event: MouseEvent) {
+  start(event: PointerEvent) {
     if (event.button !== 1)
       return
 
@@ -61,7 +61,7 @@ new class implements IAppPanning {
     $app.panning.currentPos = $static.utils.deepCopy(clientPos)
   }
 
-  update(event: MouseEvent) {
+  update(event: PointerEvent) {
     if (!$app.panning.active)
       return
 
@@ -73,7 +73,7 @@ new class implements IAppPanning {
     $app.panning.currentPos = $static.utils.deepCopy(clientPos)
   }
 
-  finish(event: MouseEvent) {
+  finish(event: PointerEvent) {
     if (!$app.panning.active || event.button !== 1)
       return
 

@@ -72,7 +72,7 @@ class StaticUtils {
 
 
 
-  isMouseOverScrollbar(event: MouseEvent) {
+  isMouseOverScrollbar(event: PointerEvent) {
     const elem = event.target as HTMLElement
 
     if (this.hasHorizScrollbar(elem)

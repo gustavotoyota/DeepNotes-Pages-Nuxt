@@ -358,17 +358,17 @@
   
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, useContext } from "@nuxtjs/composition-api"
-import { getYjsValue } from "@syncedstore/core"
+import { INote } from "~/plugins/app/notes/notes";
 
 const ctx = useContext()
 
 
 
 
-function changeProp(value, func) {
-  getYjsValue(ctx.$app.collab.store).transact(() => {
+function changeProp(value: any, func: (note: INote, value: any) => void) {
+  ctx.$app.collab.doc.transact(() => {
     for (const note of ctx.$app.selection.notes)
       func(note, value)
   })
@@ -379,7 +379,7 @@ function changeProp(value, func) {
 
 // Active note
 
-const activeNote = computed(() => ctx.$app.activeElem.get)
+const activeNote = computed(() => ctx.$app.activeElem.get as INote)
 
 
 
@@ -387,7 +387,7 @@ const activeNote = computed(() => ctx.$app.activeElem.get)
 // Swap title and body
 
 function swapTitleAndBody() {
-  changeProp(null, (note, value) => {
+  changeProp(null, (note: INote, value: any) => {
     const titleDelta = note.collab.title.toDelta()
     const bodyDelta = note.collab.body.toDelta()
 
@@ -405,13 +405,13 @@ function swapTitleAndBody() {
 // Note width
 
 const width = computed({
-  get() {
+  get(): string {
     if (activeNote.value.size.x.endsWith('px'))
       return 'custom'
     else
       return activeNote.value.size.x
   },
-  set(value) {
+  set(value: string) {
     for (const note of ctx.$app.selection.notes) {
       if (value === 'custom') {
         const clientRect = ctx.$app.notes.getClientRect(note, 'frame')
@@ -428,15 +428,15 @@ const width = computed({
 
 // Section heights
 
-function sectionHeight(section) {
+function sectionHeight(section: string) {
   return computed({
-    get() {
+    get(): string {
       if (activeNote.value.size.y[section].endsWith('px'))
         return 'custom'
       else
         return activeNote.value.size.y[section]
     },
-    set(value) {
+    set(value: string) {
       changeProp(value, (note, value) => {
         if (value === 'custom') {
           const node = ctx.$app.notes.getNode(note, `${section}-section`)

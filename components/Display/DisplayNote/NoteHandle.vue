@@ -8,26 +8,27 @@
     'top': top,
     'cursor': `${side}-resize`,
     'pointer-events': $app.dragging.active ? 'none' : 'auto',
-    'opacity': $app.dragging.active ? '0.7' : null,
+    'opacity': $app.dragging.active ? '0.7' : undefined,
   }"
   @pointerdown.left.stop="onPointerDown">
   </div>
   
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useContext, computed } from "@nuxtjs/composition-api"
+import { INote } from "~/plugins/app/notes/notes";
 
 const ctx = useContext()
 
 
 
 
-const props = defineProps({
-  note: { type: Object },
-  side: { type: String },
-  section: { type: String },
-})
+const props = defineProps<{
+  note: INote
+  side: string
+  section?: string
+}>()
 
 
 
@@ -53,7 +54,7 @@ const top = computed(() => {
 
 
 
-function onPointerDown(event) {
+function onPointerDown(event: PointerEvent) {
   ctx.$app.resizing.start(event, props.note, props.side, props.section)
 }
 </script>

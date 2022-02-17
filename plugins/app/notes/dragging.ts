@@ -24,9 +24,9 @@ interface IAppDragging {
   dropIndex: Nullable<number>
 
   reset(): void;
-  start(event: MouseEvent): void;
-  update(event: MouseEvent): void;
-  finish(event: MouseEvent): void;
+  start(event: PointerEvent): void;
+  update(event: PointerEvent): void;
+  finish(event: PointerEvent): void;
 }
 
 
@@ -64,7 +64,7 @@ new class implements IAppDragging {
   
 
 
-  start(event: MouseEvent) {
+  start(event: PointerEvent) {
     if (event.button !== 0)
       return
     
@@ -74,7 +74,7 @@ new class implements IAppDragging {
     $app.dragging.startPos = $app.pos.getClientPos(event)
     $app.dragging.currentPos = $app.pos.getClientPos(event)
   }
-  update(event: MouseEvent) {
+  update(event: PointerEvent) {
     if (!$app.dragging.down)
       return
 
@@ -128,7 +128,7 @@ new class implements IAppDragging {
 
     $app.dragging.currentPos = clientMousePos
   }
-  finish(event: MouseEvent) {
+  finish(event: PointerEvent) {
     if (!$app.dragging.down || event.button !== 0)
       return
 

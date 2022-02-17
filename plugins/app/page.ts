@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Exact, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { INote } from './notes/notes'
+import { IArrow } from './arrows/arrows'
 
 
 
@@ -21,7 +22,7 @@ interface IAppPage {
   collab: IPageCollab
 
   notes: INote[]
-  arrows: any[]
+  arrows: IArrow[]
 
   parentId: Nullable<string>
 

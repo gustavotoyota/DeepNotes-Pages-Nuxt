@@ -13,7 +13,7 @@ export type {
 
 
 interface IAppClickSelection {
-  perform(elem: IElem, event: MouseEvent): void
+  perform(elem: IElem, event: PointerEvent): void
 }
 
 
@@ -21,7 +21,7 @@ interface IAppClickSelection {
 
 export const init = <T>({ $app }: Context) => 
 new class implements IAppClickSelection {
-  perform(elem: IElem, event: MouseEvent) {
+  perform(elem: IElem, event: PointerEvent) {
     // Clear selection if not holding Ctrl or Shift
     // And the clicked element is not selected
 

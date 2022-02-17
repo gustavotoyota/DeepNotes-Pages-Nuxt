@@ -19,7 +19,7 @@
 
 
 
-<script setup>
+<script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
 
 const { $app, route } = useContext()

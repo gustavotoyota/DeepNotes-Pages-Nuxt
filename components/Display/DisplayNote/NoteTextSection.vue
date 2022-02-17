@@ -24,16 +24,17 @@
   
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from "@nuxtjs/composition-api"
+import { INote } from "~/plugins/app/notes/notes";
 
 
 
 
-const props = defineProps({
-  note: { type: Object },
-  section: { type: String },
-})
+const props = defineProps<{
+  note: INote
+  section: string
+}>()
 
 
 

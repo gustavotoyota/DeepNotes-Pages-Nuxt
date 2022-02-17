@@ -1,26 +1,18 @@
 import Vue from 'vue';
 import type { IApp } from '~/plugins/app/app'
-import { IElem } from '~/plugins/app/elems/elems';
 import type { Static } from '~/plugins/static/static'
+import { Context } from '@nuxt/types';
 
 
 
 
 export type {
-  IArrow,
-  
   IVec2,
 
   Exact,
   Nullable,
 }
 
-
-
-
-
-interface IArrow extends IElem {
-}
 
 
 
@@ -37,6 +29,14 @@ interface IVec2 {
 
 declare module '@nuxt/types' {
   interface Context {
+    $app: IApp;
+  }
+}
+
+declare module 'vue/types/vue' {
+  // 3. Declare a ampliação para Vue
+  interface Vue {
+    $ctx: Context
     $app: IApp;
   }
 }

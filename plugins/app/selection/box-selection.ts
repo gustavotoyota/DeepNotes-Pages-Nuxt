@@ -18,9 +18,9 @@ interface IAppBoxSelection {
   endPos: IVec2
 
   reset(): void
-  start(event: MouseEvent): void
-  update(event: MouseEvent): void
-  finish(event: MouseEvent): void
+  start(event: PointerEvent): void
+  update(event: PointerEvent): void
+  finish(event: PointerEvent): void
 }
 
 
@@ -52,7 +52,7 @@ new class implements IAppBoxSelection {
 
 
 
-  start(event: MouseEvent) {
+  start(event: PointerEvent) {
     if (event.button !== 0)
       return
 
@@ -64,7 +64,7 @@ new class implements IAppBoxSelection {
     $app.boxSelection.endPos = $static.utils.deepCopy(displayPos)
   }
 
-  update(event: MouseEvent) {
+  update(event: PointerEvent) {
     if (!$app.boxSelection.active)
       return
 
@@ -73,7 +73,7 @@ new class implements IAppBoxSelection {
     $app.boxSelection.endPos = $static.utils.deepCopy(displayPos)
   }
 
-  finish(event: MouseEvent) {
+  finish(event: PointerEvent) {
     if (!$app.boxSelection.active || event.button !== 0)
       return
 

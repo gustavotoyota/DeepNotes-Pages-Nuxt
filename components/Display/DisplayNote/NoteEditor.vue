@@ -7,9 +7,11 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, useContext, watch } from "@nuxtjs/composition-api";
+import Quill from "quill";
 import { QuillBinding } from 'y-quill'
+import { INote } from "~/plugins/app/notes/notes";
 
 
 
@@ -19,10 +21,10 @@ const { $app } = useContext()
 
 
 
-const props = defineProps({
-  note: { type: Object },
-  section: { type: String },
-})
+const props = defineProps<{
+  note: INote
+  section: string
+}>()
 
 
 
@@ -34,7 +36,7 @@ const text = computed(() =>
 
 const editor = ref(null)
 
-let quill
+let quill: Quill
 
 onMounted(() => {
   const Quill = require('quill')
@@ -92,6 +94,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  // @ts-ignore
   document.body.removeChild(quill.theme.tooltip.root.parentNode)
 })
 
@@ -113,6 +116,7 @@ function onEditToggle() {
   quill.enable(props.note.editing)
   
   if (!props.note.editing) {
+    // @ts-ignore
     quill.setSelection(null)
     return
   }

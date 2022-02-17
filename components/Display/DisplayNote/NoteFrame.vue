@@ -7,10 +7,10 @@
 
     'position': note.parentId == null ? 'absolute' : 'relative',
     'transform': note.parentId == null ? `translate(` +
-      `${-note.collab.anchor.x * 100}%, ${-note.collab.anchor.y * 100}%)` : null,
+      `${-note.collab.anchor.x * 100}%, ${-note.collab.anchor.y * 100}%)` : undefined,
     
-    'opacity': note.collab.dragging ? '0.7' : null,
-    'pointer-events': note.collab.dragging ? 'none' : null,
+    'opacity': note.collab.dragging ? '0.7' : undefined,
+    'pointer-events': note.collab.dragging ? 'none' : undefined,
   }">
 
     <slot/>
@@ -19,10 +19,14 @@
   
 </template>
 
-<script setup>
-const props = defineProps({
-  note: { type: Object },
-})
+<script setup lang="ts">
+import { INote } from '~/plugins/app/notes/notes';
+
+
+
+const props = defineProps<{
+  note: INote
+}>()
 </script>
 
 <style>
