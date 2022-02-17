@@ -42,7 +42,6 @@
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/vuetify": "^1.12.3",
     "@vue/runtime-dom": "^3.2.31",
-    "unplugin-auto-import": "^0.6.0",
     "unplugin-vue2-script-setup": "^0.9.3"
   }
 }

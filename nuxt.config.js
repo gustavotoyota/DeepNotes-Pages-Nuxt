@@ -55,7 +55,6 @@ export default {
     '@nuxtjs/vuetify',
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api/module',
-    'unplugin-auto-import/nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
