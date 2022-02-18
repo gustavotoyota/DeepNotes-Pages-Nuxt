@@ -93,7 +93,8 @@ new class implements IAppSelection {
 
 
   has(elem: IElem) {
-    return elem.id in $app.selection[`${elem.type}Set`]
+    return $app.activeRegion.id === elem.parentId
+      && (elem.id in $app.selection[`${elem.type}Set`])
   }
 
 

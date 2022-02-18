@@ -15,7 +15,7 @@
         Drop notes here
         
         <NoteDropZone
-        :region-note="note"
+        :parent-note="note"
         :index="0"
         style="top: 0; bottom: 0"/>
 

@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { Exact, IVec2, Nullable } from "~/types/deep-notes"
+import { Exact, Nullable } from "~/types/deep-notes"
 import { IElem } from "../elems/elems"
 
 
@@ -17,7 +17,6 @@ interface IArrow extends IElem {
 }
 
 interface IArrowCollab {
-
 }
 
 
@@ -27,5 +26,5 @@ export const init = <T>({ $app }: Context) =>
 new class implements IArrow {
   id!: string
   type!: string
-  parentId?: string | undefined
+  parentId: Nullable<string>
 } as Exact<IArrow, T>

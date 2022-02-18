@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { reactive } from '@nuxtjs/composition-api'
 import { Context } from '@nuxt/types'
-import { IApp } from '../app'
+import { App } from '../app'
 import { Nullable } from '~/types/deep-notes'
 
 

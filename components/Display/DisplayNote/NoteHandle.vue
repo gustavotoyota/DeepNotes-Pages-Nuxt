@@ -10,8 +10,7 @@
     'pointer-events': $app.dragging.active ? 'none' : 'auto',
     'opacity': $app.dragging.active ? '0.7' : undefined,
   }"
-  @pointerdown.left.stop="onPointerDown">
-  </div>
+  @pointerdown.left.stop="onPointerDown"/>
   
 </template>
 

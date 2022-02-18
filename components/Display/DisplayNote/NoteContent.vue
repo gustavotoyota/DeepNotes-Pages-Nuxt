@@ -1,6 +1,6 @@
 <template>
 
-  <v-sheet class="note-background"
+  <v-sheet class="note-content"
   elevation="6"
   :style="{
     'cursor': (note.collab.linkedPageId == null || note.selected) ? null : 'pointer',
@@ -77,7 +77,7 @@ function onClick(event: MouseEvent) {
 </script>
 
 <style scoped>
-.note-background {
+.note-content {
   border-radius: 7px;
   border: 1px solid #212121;
   border-left-color: #757575;

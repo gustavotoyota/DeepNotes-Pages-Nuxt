@@ -257,10 +257,10 @@ export const init = <T>(ctx: Context): IAppNotes => {
       $static.vue.computed(this, 'parent', () =>
         ($app.elems.map[this.parentId ?? ''] ?? null) as INote)
       $static.vue.computed(this, 'siblingIds', () => {
-        if (this.parentId == null)
+        if (this.parent == null)
           return $app.page.collab.noteIds
         else
-          return this.collab.childIds
+          return this.parent.collab.childIds
       })
       $static.vue.computed(this, 'index', () =>
         this.siblingIds.findIndex(noteId => noteId === this.id))

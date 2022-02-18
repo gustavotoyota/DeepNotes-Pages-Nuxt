@@ -79,6 +79,9 @@ new class implements IAppDragging {
 
     $app.dragging.startPos = $app.pos.getClientPos(event)
     $app.dragging.currentPos = $app.pos.getClientPos(event)
+
+    $app.dragging.dropRegionId = null
+    $app.dragging.dropIndex = null
   }
   update(event: PointerEvent) {
     if (!$app.dragging.down)
