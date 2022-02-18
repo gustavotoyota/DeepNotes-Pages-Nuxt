@@ -138,10 +138,10 @@ export const init = ({ $app, isDev, $axios }: Context): IAppCollab => {
   
   
   
-          // Start observing changes
+          // Create notes and observe changes
   
-          $app.notes.createFromIds($app.page.collab.noteIds)
-          $app.notes.observeIds($app.page.collab.noteIds)
+          $app.notes.createAndObserveChildren($app.page.collab.noteIds)
+          $app.notes.observeMap()
         })
       })
     }

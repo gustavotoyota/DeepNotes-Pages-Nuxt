@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { getYjsValue, SyncedArray, SyncedText } from "@syncedstore/core"
+import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
 import { Exact, IVec2, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { Elem, IElem } from '../elems/elems'
@@ -27,13 +27,14 @@ interface IAppNotes {
     id?: string
     parentId?: string
     clientPos?: IVec2
-    local?: boolean
+    dontObserve?: boolean
   }): INote;
 
 
 
   observeIds(ids: string[], parentId?: string): void;
-  createFromIds(ids: string[], parentId?: string): void;
+  observeMap(): void;
+  createAndObserveChildren(ids: string[], parentId?: string): void;
 }
 
 interface INote extends IElem {
@@ -432,18 +433,19 @@ export const init = <T>(ctx: Context): IAppNotes => {
 
 
 
-    create({ id, parentId, clientPos, local }: Partial<{
-      id: string
-      parentId: string
-      clientPos: IVec2
-      local: boolean
-    }>): INote {
+    create({ id, parentId, clientPos, dontObserve }: {
+      id?: string
+      parentId?: string
+      clientPos?: IVec2
+      dontObserve?: boolean
+    }): INote {
       const note = new Note({ id, parentId })
 
-      if (local)
+      if (id == null)
         note.resetCollab(clientPos, parentId)
 
-      $app.notes.observeIds(note.collab.childIds, note.id)
+      if (!dontObserve)
+        $app.notes.observeIds(note.collab.childIds, note.id)
 
       return note
     }
@@ -469,12 +471,28 @@ export const init = <T>(ctx: Context): IAppNotes => {
 
 
 
-    createFromIds(ids: string[], parentId?: string) {
-      for (const id of ids) {
-        $app.notes.create({ id, parentId })
+    observeMap() {
+      (getYjsValue($app.notes.collab) as SyncedMap<INoteCollab>).observe(event => {
+        for (const [noteId, change] of event.changes.keys) {
+          if (change.action !== 'delete')
+            continue
 
-        $app.notes.createFromIds($app.notes.collab[id].childIds, id)
+          Vue.delete($app.elems.map, noteId)
+        }
+      })
+    }
+
+
+
+
+    createAndObserveChildren(ids: string[], parentId?: string) {
+      for (const id of ids) {
+        $app.notes.create({ id, parentId, dontObserve: true })
+
+        $app.notes.createAndObserveChildren($app.notes.collab[id].childIds, id)
       }
+
+      $app.notes.observeIds(ids, parentId)
     }
   } as Exact<T, IAppNotes>
 }
