@@ -5,7 +5,8 @@
     <NoteDropZone
     :parent-note="note.parent"
     :index="note.index"
-    style="top: 0%; bottom: 50%"/>
+    style="bottom: 50%"
+    :style="{ 'top': note.index === 0 ? '0': '-5px' }"/>
   
     <NoteDropZone
     :parent-note="note.parent"

@@ -27,8 +27,9 @@
       <!-- Children -->
 
       <DisplayNote
-      v-for="child in note.children" :key="child.id"
-      :note="child"/>
+      v-for="(child, index) in note.children" :key="child.id"
+      :note="child"
+      :style="{ 'margin-top': index === 0 ? '0' : '5px' }"/>
 
 
 
