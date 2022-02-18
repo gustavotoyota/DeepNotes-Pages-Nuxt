@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import type { IApp } from '~/plugins/app/app'
+import type { App } from '~/plugins/app/app'
 import type { Static } from '~/plugins/static/static'
 import { Context } from '@nuxt/types';
 
@@ -29,7 +29,7 @@ interface IVec2 {
 
 declare module '@nuxt/types' {
   interface Context {
-    $app: IApp;
+    $app: App;
   }
 }
 
@@ -37,7 +37,7 @@ declare module 'vue/types/vue' {
   // 3. Declare a ampliação para Vue
   interface Vue {
     $ctx: Context
-    $app: IApp;
+    $app: App;
   }
 }
 

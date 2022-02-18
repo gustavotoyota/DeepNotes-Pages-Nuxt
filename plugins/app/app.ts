@@ -40,13 +40,13 @@ import * as boxSelection from './selection/box-selection'
 
 
 export type {
-  IApp,
+  App,
 }
 
 
 
 
-class IApp {
+class App {
   collab: collab.IAppCollab
 
   project: project.IAppProject
@@ -124,5 +124,5 @@ class IApp {
 
 
 export default defineNuxtPlugin((ctx, inject) => {
-  new IApp(ctx, inject)
+  new App(ctx, inject)
 })
