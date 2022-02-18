@@ -25,11 +25,11 @@ export const init = ({ $app }: Context) => {
         if (($app.activeElem.id ?? '') in $app.selection.noteSet)
           $app.activeElem.clear()
   
-        for (const noteId of Object.keys($app.selection.noteSet)) {
-          Vue.delete($app.elems.map, noteId)
+        for (const note of $app.selection.notes) {
+          Vue.delete($app.elems.map, note.id)
   
-          $static.utils.removeFromArray($app.activeRegion.noteIds, noteId)
-          Vue.delete($app.collab.store.notes, noteId)
+          note.removeFromRegion()
+          Vue.delete($app.collab.store.notes, note.id)
         }
   
         $app.selection.clear()

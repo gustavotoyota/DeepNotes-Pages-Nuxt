@@ -103,8 +103,22 @@ new class implements IAppDragging {
         return
         
 
-      for (const note of $app.selection.notes)
-        note.collab.dragging = note.collab.movable
+
+      for (const selectedNote of $app.selection.notes)
+        selectedNote.collab.dragging = selectedNote.collab.movable
+
+
+      
+      if ($app.activeRegion.id != null) {
+        for (const selectedNote of $app.selection.notes) {
+          selectedNote.removeFromRegion()
+          
+          $app.page.collab.noteIds.push(selectedNote.id)
+          selectedNote.parentId = null
+
+          $app.selection.add(selectedNote)
+        }
+      }
     }
 
 
@@ -141,10 +155,12 @@ new class implements IAppDragging {
     if (!$app.dragging.down || event.button !== 0)
       return
 
-    for (const note of $app.selection.notes)
-      note.collab.dragging = false
-  
-    $app.dragging.down = false
-    $app.dragging.active = false
+    $app.collab.doc.transact(() => {
+      for (const note of $app.selection.notes)
+        note.collab.dragging = false
+    
+      $app.dragging.down = false
+      $app.dragging.active = false
+    })
   }
 } as Exact<IAppDragging, T>

@@ -23,16 +23,17 @@ interface IAppDropping {
 export const init = <T>({ $app }: Context) =>
 new class implements IAppDropping {
   perform(event: PointerEvent, regionNote: INote, dropIndex: number) {
-    $app.dragging.finish(event)
+    $app.collab.doc.transact(() => {
+      $app.dragging.finish(event)
 
-    for (const selectedNote of $app.selection.notes) {
-      $static.utils.removeFromArray(selectedNote.siblingIds, selectedNote.id)
+      for (const selectedNote of $app.selection.notes) {
+        selectedNote.removeFromRegion()
+        regionNote.collab.childIds.splice(dropIndex, 0, selectedNote.id)
 
-      regionNote.collab.childIds.splice(dropIndex, 0, selectedNote.id)
+        selectedNote.parentId = regionNote.id
 
-      selectedNote.parentId = regionNote.id
-
-      $app.selection.add(selectedNote)
-    }
+        $app.selection.add(selectedNote)
+      }
+    })
   }
 } as Exact<IAppDropping, T>

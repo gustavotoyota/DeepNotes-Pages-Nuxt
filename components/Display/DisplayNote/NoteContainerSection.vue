@@ -34,6 +34,11 @@
 
 
       <!-- Bottom drop zone -->
+        
+      <NoteDropZone
+      :parent-note="note"
+      :index="note.children.length"
+      style="position: static; flex: 1"/>
       
     </div>
 

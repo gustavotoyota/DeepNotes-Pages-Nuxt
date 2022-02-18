@@ -71,6 +71,7 @@ interface INote extends IElem {
   bringToTop(): void
   getNode(part: string): Element
   getClientRect(part: string): IRect
+  removeFromRegion(): void
 }
 
 interface INoteCollab {
@@ -296,8 +297,17 @@ export const init = <T>(ctx: Context): IAppNotes => {
 
 
       
-      $static.vue.computed(this, 'children', () =>
-        this.collab.childIds.map(childId => $app.elems.map[childId]))
+      $static.vue.computed(this, 'children', () => {
+        const children = []
+
+        for (const childId of this.collab.childIds) {
+          const child = $app.elems.map[childId]
+          if (child != null)
+            children.push(child)
+        }
+
+        return children
+      })
     }
 
 
@@ -397,6 +407,13 @@ export const init = <T>(ctx: Context): IAppNotes => {
     
       return $app.rects.fromDOM(domClientRect)
     }
+
+
+
+
+    removeFromRegion() {
+      this.siblingIds.splice(this.index, 1)
+    }
   }
 
 
@@ -435,8 +452,6 @@ export const init = <T>(ctx: Context): IAppNotes => {
 
 
     observeIds(ids: string[], parentId?: string) {
-      const mirror = ids.slice();
-
       (getYjsValue(ids) as SyncedArray<string>).observe(event => {
         let index = 0
       
@@ -444,19 +459,9 @@ export const init = <T>(ctx: Context): IAppNotes => {
           if (delta.retain != null)
             index += delta.retain
       
-          if (delta.insert != null) {
-            mirror.splice(index, 0, ...delta.insert)
-
+          if (delta.insert != null)
             for (const id of delta.insert)
               $app.notes.create({ id, parentId })
-          }
-      
-          if (delta.delete != null) {
-            const deleted = mirror.splice(index, delta.delete)
-
-            for (const id of deleted)
-              Vue.delete($app.elems.map, id)
-          }
         }
       })
     }
