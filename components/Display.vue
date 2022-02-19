@@ -33,10 +33,6 @@ function onPointerDown(event: PointerEvent) {
 </script>
 
 <style scoped>
-#display {
-  user-select: none;
-}
-
 #display * {
   touch-action: none;
 }

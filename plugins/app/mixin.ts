@@ -97,6 +97,9 @@ export default async function (ctx: Context, inject: Inject) {
         
         if (event.code === 'Delete')
           ctx.$app.deleting.perform(event)
+
+        if (event.ctrlKey && event.code === 'KeyA')
+          ctx.$app.selection.selectAll()
       }
 
       onUnmounted(() => {

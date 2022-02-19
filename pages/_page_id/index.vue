@@ -36,6 +36,13 @@ ctx.$app.page.reset(ctx.route.value.params.page_id)
 
 
 <style>
+*:not(input) {
+  user-select: none;
+}
+
+
+
+
 html {
   overflow: hidden;
 }

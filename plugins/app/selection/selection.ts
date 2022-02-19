@@ -32,6 +32,7 @@ interface IAppSelection {
   add(elem: IElem): void
   remove(elem: IElem): void
   set(elem: IElem): void
+  selectAll(): void
 }
 
 
@@ -133,5 +134,16 @@ new class implements IAppSelection {
   set(elem: IElem) {
     $app.selection.clear()
     $app.selection.add(elem)
+  }
+
+
+
+  
+
+
+
+  selectAll() {
+    for (const note of $app.activeRegion.notes)
+      $app.selection.add(note)
   }
 } as Exact<IAppSelection, T>
