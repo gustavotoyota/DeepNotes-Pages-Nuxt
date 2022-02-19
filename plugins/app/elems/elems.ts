@@ -29,12 +29,16 @@ interface IAppElems {
 }
 
 interface IElem {
+  ctx: Context
+
   id: string
   type: string
   parentId: Nullable<string>
 }
 
 class Elem implements IElem {
+  ctx: Context
+
   id: string
   type: string
   parentId: Nullable<string>
@@ -44,10 +48,12 @@ class Elem implements IElem {
     type: string,
     parentId?: string,
   }) {
+    this.ctx = ctx
+
     this.id = options.id ?? uuidv4()
     this.type = options.type
     this.parentId = options.parentId ?? null
-  
+    
     Vue.set(ctx.$app.elems.map, this.id, this)
   }
 }

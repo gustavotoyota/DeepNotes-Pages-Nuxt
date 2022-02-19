@@ -22,8 +22,10 @@ interface IArrowCollab {
 
 
 
-export const init = <T>({ $app }: Context) =>
+export const init = <T>(ctx: Context) =>
 new class implements IArrow {
+  ctx: Context = ctx
+
   id!: string
   type!: string
   parentId: Nullable<string>

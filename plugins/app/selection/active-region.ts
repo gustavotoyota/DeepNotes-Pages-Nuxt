@@ -53,8 +53,17 @@ new class implements IAppActiveRegion {
       else
         return $app.notes.collab[$app.activeRegion.id].childIds
     })
-    $static.vue.computed(this, 'notes', () => 
-      $app.activeRegion.noteIds.map(noteId => $app.elems.map[noteId]))
+    $static.vue.computed(this, 'notes', () => {
+      const notes = []
+
+      for (const noteId of $app.activeRegion.noteIds) {
+        const note = $app.elems.map[noteId]
+        if (note)
+          notes.push(note)
+      }
+
+      return notes
+    })
   }
 
 
