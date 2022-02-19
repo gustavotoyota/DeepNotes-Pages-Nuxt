@@ -191,7 +191,7 @@ watch(() => props.note.editing, onEditToggle)
 /* Tooltip */
 
 .ql-tooltip {
-  z-index: 9999;
+  z-index: 2147483647;
 
   background-color: #303030 !important;
   border-radius: 12px !important;
