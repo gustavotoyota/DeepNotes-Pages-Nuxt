@@ -68,6 +68,6 @@ function onPointerDown(event: PointerEvent) {
 
   background-color: #2196F3;
   pointer-events: auto;
-  z-index: 1;
+  z-index: 2147483647;
 }
 </style>
