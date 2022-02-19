@@ -38,7 +38,7 @@ interface IAppNotes {
 }
 
 interface INote extends IElem {
-  [key: string]: any
+  [key: string]: unknown
 
   collab: INoteCollab
 
@@ -76,7 +76,7 @@ interface INote extends IElem {
 }
 
 interface INoteCollab {
-  [key: string]: any
+  [key: string]: unknown
 
   linkedPageId: Nullable<string>
 
@@ -134,6 +134,8 @@ export const init = <T>(ctx: Context): IAppNotes => {
 
   
   class Note extends Elem implements INote {
+    [key: string]: unknown
+
     id!: string;
 
     collab!: INoteCollab

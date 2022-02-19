@@ -16,7 +16,7 @@ export type {
 
 
 interface IAppSelection {
-  [key: string]: any
+  [key: string]: unknown
 
   noteSet: { [key: string]: boolean }
   arrowSet: { [key: string]: boolean }
@@ -39,6 +39,11 @@ interface IAppSelection {
 
 export const init = <T>({ $app }: Context) =>
 new class implements IAppSelection {
+  [key: string]: unknown
+
+
+
+
   noteSet: { [key: string]: boolean } = {}
   arrowSet: { [key: string]: boolean } = {}
   elemIds: string[] = []
@@ -94,7 +99,7 @@ new class implements IAppSelection {
 
   has(elem: IElem) {
     return $app.activeRegion.id === elem.parentId
-      && (elem.id in $app.selection[`${elem.type}Set`])
+      && (elem.id in ($app.selection[`${elem.type}Set`] as object))
   }
 
 
@@ -107,7 +112,7 @@ new class implements IAppSelection {
     if (elem.parentId != $app.activeRegion.id)
       $app.selection.clear(elem.parentId)
 
-    Vue.set($app.selection[`${elem.type}Set`], elem.id, true)
+    Vue.set($app.selection[`${elem.type}Set`] as object, elem.id, true)
     
     if (!$app.activeElem.exists)
       $app.activeElem.set(elem)
@@ -116,7 +121,7 @@ new class implements IAppSelection {
     if (!$app.selection.has(elem))
       return
 
-    Vue.delete($app.selection[`${elem.type}Set`], elem.id)
+    Vue.delete($app.selection[`${elem.type}Set`] as object, elem.id)
 
     if ($app.activeElem.is(elem))
       $app.activeElem.set($app.selection.elems.at(-1))

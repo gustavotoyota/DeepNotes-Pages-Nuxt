@@ -54,6 +54,7 @@
 
 <script setup lang="ts">
 import { ref, useContext, watch } from '@nuxtjs/composition-api';
+import { SyncedText } from '@syncedstore/core';
 import { INote } from '~/plugins/app/notes/notes';
 
 const ctx = useContext()
@@ -93,7 +94,7 @@ watch(active, (value) => {
     if (!text)
       return
 
-    name.value = text.toString().split('\n')[0]
+    name.value = (text as SyncedText).toString().split('\n')[0]
     nameElem.value?.focus()
   })
 })

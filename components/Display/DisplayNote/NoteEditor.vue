@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, useContext, watch } from "@nuxtjs/composition-api";
+import { SyncedText } from "@syncedstore/core";
 import Quill from "quill";
 import { QuillBinding } from 'y-quill'
 import { INote } from "~/plugins/app/notes/notes";
@@ -36,7 +37,7 @@ const props = defineProps<{
 // Quill setup
 
 const text = computed(() => 
-  props.note.collab[props.section])
+  props.note.collab[props.section] as SyncedText)
 
 const editor = ref(null)
 
