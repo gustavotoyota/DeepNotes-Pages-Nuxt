@@ -104,12 +104,33 @@ new class implements IAppDragging {
         
 
 
+      
+      // Remove dragging styles
+
       for (const selectedNote of $app.selection.notes)
         selectedNote.collab.dragging = selectedNote.collab.movable
 
 
+
       
       if ($app.activeRegion.id != null) {
+        // Adjust note positions and sizes
+
+        for (const selectedNote of $app.selection.notes) {
+          const clientRect = selectedNote.getClientRect('frame')
+          const worldRect = $app.rects.clientToWorld(clientRect)
+  
+          selectedNote.collab.pos.x = worldRect.start.x + worldRect.size.x * selectedNote.collab.anchor.x
+          selectedNote.collab.pos.y = worldRect.start.y + worldRect.size.y * selectedNote.collab.anchor.y
+
+          selectedNote.width = `${worldRect.size.x}px`
+        }
+
+
+
+
+        // Move notes to page region
+
         for (const selectedNote of $app.selection.notes) {
           selectedNote.removeFromRegion()
           
