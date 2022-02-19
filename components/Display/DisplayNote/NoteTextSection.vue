@@ -11,7 +11,8 @@
 
       <NoteEditor
       :note="note"
-      :section="section"/>
+      :section="section"
+      :wrap="note.collab[`wrap${capitalizedSection}`]"/>
 
     </div>
 

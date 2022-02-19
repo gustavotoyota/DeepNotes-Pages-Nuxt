@@ -1,7 +1,10 @@
 <template>
 
   <div class="note-editor"
-  :class="{ 'padding-fix': fixPadding }">
+  :class="{
+    'padding-fix': fixPadding,
+    'wrap': wrap,
+  }">
     <div ref="editor"/>
   </div>
 
@@ -24,6 +27,7 @@ const ctx = useContext()
 const props = defineProps<{
   note: INote
   section: string
+  wrap: boolean
 }>()
 
 
@@ -163,6 +167,8 @@ watch(() => props.note.editing, onEditToggle)
     "Droid Sans", "Helvetica Neue", sans-serif;
 
   overflow: auto;
+  
+  white-space: nowrap;
 }
 
 .note-editor /deep/ .ql-editor > * {
@@ -171,6 +177,10 @@ watch(() => props.note.editing, onEditToggle)
 
 .note-editor.padding-fix /deep/ .ql-editor {
   padding-right: 0 !important;
+}
+
+.note-editor.wrap /deep/ .ql-editor {
+  white-space: normal;
 }
 </style>
 
