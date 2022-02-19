@@ -289,6 +289,9 @@ export const init = <T>(ctx: Context): IAppNotes => {
           return this.size.x
       })
       $static.vue.computed(this, 'targetWidth', () => {
+        if (this.parent != null)
+          return this.parent.targetWidth
+
         if (this.width === 'auto')
           return 'auto'
         else
