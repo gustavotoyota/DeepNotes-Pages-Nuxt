@@ -234,18 +234,26 @@ export const init = <T>(ctx: Context): IAppNotes => {
 
 
       const makeSectionHeight = (section: string) => {
-        $static.vue.computed(this, `${section}Height`, () => {
-          if (this.collab.collapsed
-          && this.collab.collapsedSize.y[section] === 'auto'
-          && this.topSection === section) {
-            if (this.numSections === 1)
-              return '0'
-            else
+        $static.vue.computed(this, `${section}Height`, {
+          get: () => {
+            if (this.collab.collapsed
+            && this.collab.collapsedSize.y[section] === 'auto'
+            && this.topSection === section) {
+              if (this.numSections === 1)
+                return '0'
+              else
+                return this.collab.expandedSize.y[section]
+            } else if (this.size.y[section] === 'auto')
               return this.collab.expandedSize.y[section]
-          } else if (this.size.y[section] === 'auto')
-            return this.collab.expandedSize.y[section]
-          else
-            return this.size.y[section]
+            else
+              return this.size.y[section]
+          },
+          set: (value: string) => {
+            if (this.size.y[section] === 'auto')
+              this.collab.expandedSize.y[section] = value
+            else
+              this.size.y[section] = value
+          },
         })
       }
 
@@ -280,13 +288,21 @@ export const init = <T>(ctx: Context): IAppNotes => {
 
         return '21px'
       })
-      $static.vue.computed(this, 'width', () => {
-        if (this.parentId != null)
-          return 'auto'
-        else if (this.size.x === 'expanded')
-          return this.collab.expandedSize.x
-        else
-          return this.size.x
+      $static.vue.computed(this, 'width', {
+        get: () => {
+          if (this.parentId != null)
+            return 'auto'
+          else if (this.size.x === 'expanded')
+            return this.collab.expandedSize.x
+          else
+            return this.size.x
+        },
+        set: (value: string) => {
+          if (this.size.x === 'expanded')
+            this.collab.expandedSize.x = value
+          else
+            this.size.x = value
+        },
       })
       $static.vue.computed(this, 'targetWidth', () => {
         if (this.parent != null)

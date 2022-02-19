@@ -127,20 +127,12 @@ new class implements IAppResizing {
 
 
     for (const note of $app.selection.notes) {
-      if (newClientRect.size.x !== oldClientRect.size.x) {
-        if (note.size.x === 'expanded')
-          note.collab.expandedSize.x = `${newWorldRect.size.x}px`
-        else
-          note.size.x = `${newWorldRect.size.x}px`
-      }
+      if (newClientRect.size.x !== oldClientRect.size.x)
+        note.width = `${newWorldRect.size.x}px`
 
       if (this.section != null
-      && newClientRect.size.y !== oldClientRect.size.y) {
-        if (note.size.y[this.section] === 'auto')
-          note.collab.expandedSize.y[this.section] = `${newWorldRect.size.y}px`
-        else
-          note.size.y[this.section] = `${newWorldRect.size.y}px`
-      }
+      && newClientRect.size.y !== oldClientRect.size.y)
+        note[`${this.section}Height`] = `${newWorldRect.size.y}px`
 
       note.collab.pos.x +=
         (newWorldRect.start.x - oldWorldRect.start.x) * (1 - note.collab.anchor.x)
