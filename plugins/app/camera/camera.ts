@@ -1,46 +1,32 @@
 import { Context } from "@nuxt/types"
-import { Exact, IVec2 } from "~/types/deep-notes"
+import { IVec2 } from "~/types/deep-notes"
 import { INote } from "../notes/notes"
 
 
 
 
-export type {
-  IAppCamera,
+export {
+  AppCamera,
 }
 
 
 
 
-interface IAppCamera {
-  pos: IVec2
-  zoom: number
+class AppCamera {
+  ctx: Context
 
-  lockPos: boolean
-  lockZoom: boolean
+  pos!: IVec2
+  zoom!: number
 
-
-
-  reset(): void
-  resetZoom(): void
-  fitToScreen(): void
-}
+  lockPos!: boolean
+  lockZoom!: boolean
 
 
 
 
-export const init = <T>({ $app }: Context) =>
-new class implements IAppCamera {
-  pos: IVec2 = { x: 0, y: 0 }
-  zoom: number = 1
+  constructor(ctx: Context) {
+    this.ctx = ctx
 
-  lockPos = false
-  lockZoom = false
-
-
-
-
-  constructor() {
     $static.vue.ref(this, 'camera.pos')
     $static.vue.ref(this, 'camera.zoom')
 
@@ -63,10 +49,10 @@ new class implements IAppCamera {
 
   
   resetZoom() {
-    if ($app.camera.lockZoom)
+    if (this.ctx.$app.camera.lockZoom)
       return
       
-    $app.camera.zoom = 1
+    this.ctx.$app.camera.zoom = 1
   }
 
 
@@ -75,17 +61,17 @@ new class implements IAppCamera {
   fitToScreen() {
     let notes: INote[]
 
-    if ($app.selection.notes.length > 0)
-      notes = $app.selection.notes
+    if (this.ctx.$app.selection.notes.length > 0)
+      notes = this.ctx.$app.selection.notes
     else
-      notes = $app.page.notes
+      notes = this.ctx.$app.page.notes
       
   
   
   
     if (notes.length === 0) {
-      $app.camera.pos = { x: 0, y: 0 }
-      $app.camera.resetZoom()
+      this.ctx.$app.camera.pos = { x: 0, y: 0 }
+      this.ctx.$app.camera.resetZoom()
       return
     }
     
@@ -108,30 +94,30 @@ new class implements IAppCamera {
   
   
   
-    const worldTopLeft = $app.pos.clientToWorld(clientTopLeft)
-    const worldBottomRight = $app.pos.clientToWorld(clientBottomRight)
+    const worldTopLeft = this.ctx.$app.pos.clientToWorld(clientTopLeft)
+    const worldBottomRight = this.ctx.$app.pos.clientToWorld(clientBottomRight)
   
   
   
   
-    if (!$app.camera.lockPos) {
-      $app.camera.pos.x = (worldTopLeft.x + worldBottomRight.x) / 2
-      $app.camera.pos.y = (worldTopLeft.y + worldBottomRight.y) / 2
+    if (!this.ctx.$app.camera.lockPos) {
+      this.ctx.$app.camera.pos.x = (worldTopLeft.x + worldBottomRight.x) / 2
+      this.ctx.$app.camera.pos.y = (worldTopLeft.y + worldBottomRight.y) / 2
     }
   
   
     
   
-    if (!$app.camera.lockZoom) {
-      const displayRect = $app.rects.fromDisplay()
+    if (!this.ctx.$app.camera.lockZoom) {
+      const displayRect = this.ctx.$app.rects.fromDisplay()
   
-      $app.camera.zoom = Math.min(
+      this.ctx.$app.camera.zoom = Math.min(
         (Math.min(70, displayRect.size.x / 4) - displayRect.size.x / 2) /
-        (worldTopLeft.x - $app.camera.pos.x),
+        (worldTopLeft.x - this.ctx.$app.camera.pos.x),
         (Math.min(35, displayRect.size.y / 4) - displayRect.size.y / 2) /
-        (worldTopLeft.y - $app.camera.pos.y))
+        (worldTopLeft.y - this.ctx.$app.camera.pos.y))
   
-      $app.camera.zoom = Math.min(Math.max($app.camera.zoom, $app.zooming.minZoom), 1)
+      this.ctx.$app.camera.zoom = Math.min(Math.max(this.ctx.$app.camera.zoom, this.ctx.$app.zooming.minZoom), 1)
     }
   }
-} as Exact<IAppCamera, T>
+}

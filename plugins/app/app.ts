@@ -26,7 +26,7 @@ import * as pos from './space/pos'
 import * as sizes from './space/sizes'
 import * as rects from './space/rects'
 
-import * as camera from './camera/camera'
+import { AppCamera } from './camera/camera'
 import * as panning from './camera/panning'
 import * as zooming from './camera/zooming'
 
@@ -68,7 +68,7 @@ class App {
   sizes: sizes.IAppSizes
   rects: rects.IAppRects
 
-  camera: camera.IAppCamera
+  camera: AppCamera
   panning: panning.IAppPanning
   zooming: zooming.IAppZooming
 
@@ -108,7 +108,7 @@ class App {
     this.sizes = sizes.init(ctx)
     this.rects = rects.init(ctx)
   
-    this.camera = camera.init(ctx)
+    this.camera = new AppCamera(ctx)
     this.panning = panning.init(ctx)
     this.zooming = zooming.init(ctx)
   
