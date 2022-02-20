@@ -1,37 +1,19 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
-import { IElem } from "../elems/elems"
 import { INote } from "./notes"
 
 
 
 
-export type {
-  IAppResizing,
+export {
+  AppResizing,
 }
 
 
 
 
-interface IAppResizing {
-  active: boolean
+class AppResizing {
+  ctx: Context
 
-  side: string
-  section?: string
-  
-
-
-  reset(): void;
-  start(event: PointerEvent, note: INote, side: string, section?: string): void;
-  update(event: PointerEvent): void;
-  finish(event: PointerEvent): void;
-}
-
-
-
-
-export const init = <T>({ $app }: Context) =>
-new class implements IAppResizing {
   active!: boolean
 
   side!: string
@@ -40,8 +22,13 @@ new class implements IAppResizing {
 
 
 
-  constructor() {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+
     $static.vue.ref(this, 'active')
+
+    $static.vue.ref(this, 'side')
+    $static.vue.ref(this, 'section')
   }
 
 
@@ -58,7 +45,7 @@ new class implements IAppResizing {
     if (event.button !== 0)
       return
   
-    $app.activeElem.set(note)
+    this.ctx.$app.activeElem.set(note)
 
 
 
@@ -75,7 +62,7 @@ new class implements IAppResizing {
     if (!this.active)
       return
     
-    const activeNote = $app.activeElem.get as INote
+    const activeNote = this.ctx.$app.activeElem.get as INote
     
     const frameClientRect = activeNote.getClientRect('frame')
     const sectionClientRect = this.section != null ?
@@ -87,7 +74,7 @@ new class implements IAppResizing {
 
     // Old client rect
   
-    const oldClientRect = $app.rects.fromStartEnd(
+    const oldClientRect = this.ctx.$app.rects.fromStartEnd(
       { x: frameClientRect.start.x, y: sectionClientRect.start.y },
       { x: frameClientRect.end.x, y: sectionClientRect.end.y })
   
@@ -107,26 +94,26 @@ new class implements IAppResizing {
     if (this.side.includes('s'))
       newClientRect.end.y = event.clientY
   
-    $app.rects.updateSize(newClientRect)
+    this.ctx.$app.rects.updateSize(newClientRect)
   
   
   
   
     // Old world rect
   
-    const oldWorldRect = $app.rects.clientToWorld(oldClientRect)
+    const oldWorldRect = this.ctx.$app.rects.clientToWorld(oldClientRect)
   
   
   
   
     // New world rect
     
-    const newWorldRect = $app.rects.clientToWorld(newClientRect)
+    const newWorldRect = this.ctx.$app.rects.clientToWorld(newClientRect)
 
 
 
 
-    for (const note of $app.selection.notes) {
+    for (const note of this.ctx.$app.selection.notes) {
       if (newClientRect.size.x !== oldClientRect.size.x)
         note.width = `${newWorldRect.size.x}px`
 
@@ -152,4 +139,4 @@ new class implements IAppResizing {
   
     this.reset()
   }
-} as Exact<IAppResizing, T>
+}
