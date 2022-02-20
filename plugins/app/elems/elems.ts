@@ -51,15 +51,7 @@ class AppElems {
   }
 }
 
-interface Elem {
-  ctx: Context
-
-  id: string
-  type: string
-  parentId: Nullable<string>
-}
-
-class Elem implements Elem {
+class Elem {
   ctx: Context
 
   id: string
