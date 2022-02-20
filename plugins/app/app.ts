@@ -27,7 +27,7 @@ import { AppSizes } from './space/sizes'
 import { AppRects } from './space/rects'
 
 import { AppCamera } from './camera/camera'
-import * as panning from './camera/panning'
+import { AppPanning } from './camera/panning'
 import * as zooming from './camera/zooming'
 
 import * as selection from './selection/selection'
@@ -69,7 +69,7 @@ class App {
   rects: AppRects
 
   camera: AppCamera
-  panning: panning.IAppPanning
+  panning: AppPanning
   zooming: zooming.IAppZooming
 
   selection: selection.IAppSelection
@@ -109,7 +109,7 @@ class App {
     this.rects = new AppRects(ctx)
   
     this.camera = new AppCamera(ctx)
-    this.panning = panning.init(ctx)
+    this.panning = new AppPanning(ctx)
     this.zooming = zooming.init(ctx)
   
     this.selection = selection.init(ctx)
