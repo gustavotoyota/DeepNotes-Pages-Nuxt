@@ -1,33 +1,34 @@
 import { Context } from "@nuxt/types"
-import { Exact, IVec2 } from "~/types/deep-notes"
+import { IVec2 } from "~/types/deep-notes"
 
 
 
 
-export type {
-  IAppSizes,
+export {
+  AppSizes,
 }
 
 
 
 
-interface IAppSizes {
-  screenToWorld1D(screenSize: number): number;
-  worldToScreen1D(worldSize: number): number;
-  screenToWorld2D(screenSize: IVec2): IVec2;
-  worldToScreen2D(worldSize: IVec2): IVec2;
-}
+class AppSizes {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) => 
-new class implements IAppSizes {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
   screenToWorld1D(screenSize: number) {
-    return screenSize / $app.camera.zoom
+    return screenSize / this.ctx.$app.camera.zoom
   }
   worldToScreen1D(worldSize: number) {
-    return worldSize * $app.camera.zoom
+    return worldSize * this.ctx.$app.camera.zoom
   }
 
 
@@ -35,14 +36,14 @@ new class implements IAppSizes {
 
   screenToWorld2D(screenSize: IVec2) {
     return {
-      x: $app.sizes.screenToWorld1D(screenSize.x),
-      y: $app.sizes.screenToWorld1D(screenSize.y),
+      x: this.ctx.$app.sizes.screenToWorld1D(screenSize.x),
+      y: this.ctx.$app.sizes.screenToWorld1D(screenSize.y),
     }
   }
   worldToScreen2D(worldSize: IVec2) {
     return {
-      x: $app.sizes.worldToScreen1D(worldSize.x),
-      y: $app.sizes.worldToScreen1D(worldSize.y),
+      x: this.ctx.$app.sizes.worldToScreen1D(worldSize.x),
+      y: this.ctx.$app.sizes.worldToScreen1D(worldSize.y),
     }
   }
-} as Exact<IAppSizes, T>
+}

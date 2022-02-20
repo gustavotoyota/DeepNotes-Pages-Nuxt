@@ -23,7 +23,7 @@ import { AppResizing } from './notes/resizing'
 import { AppDropping } from './notes/dropping'
 
 import { AppPos } from './space/pos'
-import * as sizes from './space/sizes'
+import { AppSizes } from './space/sizes'
 import * as rects from './space/rects'
 
 import { AppCamera } from './camera/camera'
@@ -65,7 +65,7 @@ class App {
   dropping: AppDropping
 
   pos: AppPos
-  sizes: sizes.IAppSizes
+  sizes: AppSizes
   rects: rects.IAppRects
 
   camera: AppCamera
@@ -105,7 +105,7 @@ class App {
     this.dropping = new AppDropping(ctx)
   
     this.pos = new AppPos(ctx)
-    this.sizes = sizes.init(ctx)
+    this.sizes = new AppSizes(ctx)
     this.rects = rects.init(ctx)
   
     this.camera = new AppCamera(ctx)
