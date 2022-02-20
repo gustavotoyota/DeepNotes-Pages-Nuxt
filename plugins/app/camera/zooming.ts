@@ -4,33 +4,31 @@ import { Exact, Nullable } from "~/types/deep-notes"
 
 
 
-export type {
-  IAppZooming,
+export {
+  AppZooming,
 }
 
 
 
 
-interface IAppZooming {
-  minZoom: number
-  maxZoom: number
+class AppZooming {
+  ctx: Context
 
-  perform(event: WheelEvent): void
-}
-
-
-
-
-export const init = <T>({ $app }: Context) =>
-new class implements IAppZooming {
   minZoom: number = 0 // Math.pow(1 / 1.2, 16)
   maxZoom: number = Infinity // Math.pow(1.2, 12)
 
 
 
 
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
   perform(event: WheelEvent) {
-    if ($app.camera.lockZoom)
+    if (this.ctx.$app.camera.lockZoom)
       return
     
 
@@ -56,8 +54,8 @@ new class implements IAppZooming {
 
     const multiplier = event.deltaY > 0 ? (1 / 1.2) : 1.2
 
-    $app.camera.zoom = Math.min(Math.max(
-      $app.camera.zoom * multiplier,
-      $app.zooming.minZoom), $app.zooming.maxZoom)
+    this.ctx.$app.camera.zoom = Math.min(Math.max(
+      this.ctx.$app.camera.zoom * multiplier,
+      this.ctx.$app.zooming.minZoom), this.ctx.$app.zooming.maxZoom)
   }
-} as Exact<IAppZooming, T>
+}

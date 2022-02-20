@@ -1,66 +1,69 @@
 import { Context } from "@nuxt/types"
-import { Exact, Nullable } from "~/types/deep-notes"
-import { INote } from "../notes/notes";
+import { Nullable } from "~/types/deep-notes"
+import { Note } from "../notes/notes";
 
 
 
 
-export type {
-  IAppActiveRegion,
+export {
+  AppActiveRegion,
 }
 
 
 
 
-interface IAppActiveRegion {
+class AppActiveRegion {
+  ctx: Context
+
   id: Nullable<string>
-  parent: Nullable<INote>
-  noteIds: string[]
-  notes: INote[]
-
-  reset(): void
-}
+  parent: Nullable<Note>
+  noteIds!: string[]
+  notes!: Note[]
 
 
 
 
-export const init = <T>({ $app }: Context) => 
-new class implements IAppActiveRegion {
-  id: Nullable<string> = null
-  parent: Nullable<INote> = null
-  noteIds: string[] = []
-  notes: INote[] = []
+  constructor(ctx: Context) {
+    this.ctx = ctx
 
 
 
 
-  constructor() {
     $static.vue.ref(this, 'activeRegion.id')
 
 
 
 
     $static.vue.computed(this, 'parent', () => {
-      return $app.elems.map[$app.activeRegion.id ?? ''] ?? null
+      return this.ctx.$app.elems.map[this.ctx.$app.activeRegion.id ?? ''] ?? null
     })
 
 
 
 
     $static.vue.computed(this, 'noteIds', () => {
-      if ($app.activeRegion.id == null)
-        return $app.page.collab.noteIds
+      if (this.ctx.$app.activeRegion.id == null)
+        return this.ctx.$app.page.collab.noteIds
       else
-        return $app.notes.collab[$app.activeRegion.id].childIds
+        return this.ctx.$app.notes.collab[this.ctx.$app.activeRegion.id].childIds
     })
-    $static.vue.computed(this, 'notes', () => 
-      $app.activeRegion.noteIds.map(noteId => $app.elems.map[noteId]))
+    $static.vue.computed(this, 'notes', () => {
+      const notes = []
+
+      for (const noteId of this.ctx.$app.activeRegion.noteIds) {
+        const note = this.ctx.$app.elems.map[noteId]
+        if (note)
+          notes.push(note)
+      }
+
+      return notes
+    })
   }
 
 
 
 
   reset() {
-    $app.activeRegion.id = null
+    this.ctx.$app.activeRegion.id = null
   }
-} as Exact<IAppActiveRegion, T>
+}

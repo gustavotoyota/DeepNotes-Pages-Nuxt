@@ -8,33 +8,52 @@ import { Nullable } from '~/types/deep-notes'
 
 
 
-export type {
-  IAppElems,
-  IElem,
-}
-
 export {
+  AppElems,
   Elem,
 }
 
 
 
 
-interface IAppElems {
-  map: { [key: string]: IElem }
-  ids: string[]
-  array: IElem[]
-  
-  reset(): void;
+class AppElems {
+  ctx: Context
+
+  map: { [key: string]: Elem } = {};
+  ids: string[] = [];
+  array: Elem[] = [];
+
+
+
+
+  constructor(ctx: Context) {
+    this.ctx = ctx
+
+
+
+
+    $static.vue.ref(this, 'elems.map')
+
+
+
+
+    $static.vue.computed(this, 'ids',
+      () => Object.keys(this.ctx.$app.elems.map))
+    $static.vue.computed(this, 'array',
+      () => Object.values(this.ctx.$app.elems.map))
+  }
+
+
+
+
+  reset() {
+    this.ctx.$app.elems.map = {}
+  }
 }
 
-interface IElem {
-  id: string
-  type: string
-  parentId: Nullable<string>
-}
+class Elem {
+  ctx: Context
 
-class Elem implements IElem {
   id: string
   type: string
   parentId: Nullable<string>
@@ -44,43 +63,12 @@ class Elem implements IElem {
     type: string,
     parentId?: string,
   }) {
+    this.ctx = ctx
+
     this.id = options.id ?? uuidv4()
     this.type = options.type
     this.parentId = options.parentId ?? null
-  
+    
     Vue.set(ctx.$app.elems.map, this.id, this)
-  }
-}
-
-
-
-
-export const init = ({ $app }: Context) => {
-  return new class implements IAppElems {
-    map: { [key: string]: IElem } = {};
-    ids: string[] = [];
-    array: IElem[] = [];
-
-
-
-
-    constructor() {
-      $static.vue.ref(this, 'elems.map')
-  
-  
-  
-  
-      $static.vue.computed(this, 'ids',
-        () => Object.keys($app.elems.map))
-      $static.vue.computed(this, 'array',
-        () => Object.values($app.elems.map))
-    }
-  
-  
-  
-  
-    reset() {
-      $app.elems.map = {}
-    }
   }
 }

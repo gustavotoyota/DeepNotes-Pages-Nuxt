@@ -1,30 +1,22 @@
 import { Context } from "@nuxt/types"
-import { Exact, Nullable } from "~/types/deep-notes"
-import { IElem } from "../elems/elems"
+import { Elem } from "../elems/elems"
 
 
 
 
-export type {
-  IArrow,
+export {
+  Arrow,
   IArrowCollab,
 }
 
 
 
 
-interface IArrow extends IElem {
+class Arrow extends Elem {
+  constructor(ctx: Context, id?: string) {
+    super(ctx, { id, type: 'arrow' })
+  }
 }
 
 interface IArrowCollab {
 }
-
-
-
-
-export const init = <T>({ $app }: Context) =>
-new class implements IArrow {
-  id!: string
-  type!: string
-  parentId: Nullable<string>
-} as Exact<IArrow, T>

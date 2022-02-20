@@ -1,35 +1,36 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
-import { INote } from "./notes"
+import { Note } from "./notes"
 
 
 
 
-export type {
-  IAppCollapsing,
+export {
+  AppCollapsing,
 }
 
 
 
 
-interface IAppCollapsing {
-  expand(note: INote): void;
-  collapse(note: INote): void;
-  set(note: INote, collapsed: boolean): void;
-  toggle(note: INote): void;
-}
+class AppCollapsing {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) => 
-new class implements IAppCollapsing {
-  expand(note: INote) {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
+  expand(note: Note) {
     note.collab.collapsed = false
     
     note.bringToTop()
   }
-  collapse(note: INote) {
+  collapse(note: Note) {
     if (!note.collab.collapsible)
       return
   
@@ -40,19 +41,19 @@ new class implements IAppCollapsing {
 
 
 
-  set(note: INote, collapsed: boolean) {
+  set(note: Note, collapsed: boolean) {
     if (collapsed === note.collab.collapsed)
       return
   
     if (collapsed)
-      $app.collapsing.collapse(note)
+      this.ctx.$app.collapsing.collapse(note)
     else
-      $app.collapsing.expand(note)
+      this.ctx.$app.collapsing.expand(note)
   }
 
 
 
-  toggle(note: INote) {
-    $app.collapsing.set(note, !note.collab.collapsed)
+  toggle(note: Note) {
+    this.ctx.$app.collapsing.set(note, !note.collab.collapsed)
   }
-} as Exact<IAppCollapsing, T>
+}

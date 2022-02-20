@@ -1,39 +1,29 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
-import { IElem } from "../elems/elems";
-import { INote } from "./notes";
+import { Elem } from "../elems/elems";
+import { Note } from "./notes";
 
 
 
 
-export type {
-  IAppEditing,
+export {
+  AppEditing,
 }
 
 
 
 
-interface IAppEditing {
-  active: boolean
-  section: string
+class AppEditing {
+  ctx: Context
 
-  reset(): void;
-  start(note: INote, section: string): void;
-  stop(): void;
-}
+  active!: boolean
+  section!: string
 
 
 
 
-export const init = <T>({ $app }: Context) => 
-new class implements IAppEditing {
-  active: boolean = false;
-  section: string = '';
+  constructor(ctx: Context) {
+    this.ctx = ctx
 
-
-
-
-  constructor() {
     $static.vue.ref(this, 'editing.active')
   }
 
@@ -41,13 +31,13 @@ new class implements IAppEditing {
 
 
   reset() {
-    $app.editing.active = false
+    this.ctx.$app.editing.active = false
   }
 
 
 
 
-  start(note: INote, section: string) {
+  start(note: Note, section: string) {
     if (note.editing)
       return
 
@@ -56,19 +46,19 @@ new class implements IAppEditing {
 
 
 
-    $app.selection.clear()
-    $app.activeElem.set(note as IElem)
+    this.ctx.$app.selection.clear()
+    this.ctx.$app.activeElem.set(note as Elem)
 
 
 
-    $app.editing.section = section
-    $app.editing.active = true
+    this.ctx.$app.editing.section = section
+    this.ctx.$app.editing.active = true
   }
 
 
 
   
   stop() {
-    $app.editing.active = false
+    this.ctx.$app.editing.active = false
   }
-} as Exact<IAppEditing, T>
+}

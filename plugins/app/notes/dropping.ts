@@ -1,39 +1,41 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
-import { IElem } from "../elems/elems"
-import { INote } from "./notes"
+import { Note } from "./notes"
 
 
 
 
-export type {
-  IAppDropping,
+export {
+  AppDropping,
 }
 
 
 
 
-interface IAppDropping {
-  perform(event: PointerEvent, regionNote: INote, dropIndex: number): void;
-}
+class AppDropping {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) =>
-new class implements IAppDropping {
-  perform(event: PointerEvent, regionNote: INote, dropIndex: number) {
-    $app.collab.doc.transact(() => {
-      $app.dragging.finish(event)
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
 
-      for (const selectedNote of $app.selection.notes) {
+
+
+
+  perform(event: PointerEvent, regionNote: Note, dropIndex: number) {
+    this.ctx.$app.collab.doc.transact(() => {
+      this.ctx.$app.dragging.finish(event)
+
+      for (const selectedNote of this.ctx.$app.selection.notes) {
         selectedNote.removeFromRegion()
         regionNote.collab.childIds.splice(dropIndex, 0, selectedNote.id)
 
         selectedNote.parentId = regionNote.id
 
-        $app.selection.add(selectedNote)
+        this.ctx.$app.selection.add(selectedNote)
       }
     })
   }
-} as Exact<IAppDropping, T>
+}

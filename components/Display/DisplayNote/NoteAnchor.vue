@@ -15,13 +15,13 @@
 </template>
 
 <script setup lang="ts">
-import { INote } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/notes/notes';
 
 
 
 
 const props = defineProps<{
-  note: INote
+  note: Note
 }>()
 </script>
 

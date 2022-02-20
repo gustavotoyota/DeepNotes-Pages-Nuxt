@@ -1,32 +1,35 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
-import { IElem } from "../elems/elems"
+import { Elem } from "../elems/elems"
 
 
 
 
-export type {
-  IAppClickSelection,
+export {
+  AppClickSelection,
 }
 
 
 
 
-interface IAppClickSelection {
-  perform(elem: IElem, event: PointerEvent): void
-}
+class AppClickSelection {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) => 
-new class implements IAppClickSelection {
-  perform(elem: IElem, event: PointerEvent) {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
+  perform(elem: Elem, event: PointerEvent) {
     // Clear selection if not holding Ctrl or Shift
     // And the clicked element is not selected
 
-    if (!event.ctrlKey && !event.shiftKey && !$app.selection.has(elem))
-      $app.selection.clear(elem.parentId)
+    if (!event.ctrlKey && !event.shiftKey && !this.ctx.$app.selection.has(elem))
+      this.ctx.$app.selection.clear(elem.parentId)
 
 
 
@@ -34,9 +37,9 @@ new class implements IAppClickSelection {
     // Remove element if selected and holding Ctrl
     // Else, just change the active element
 
-    if (event.ctrlKey && $app.selection.has(elem))
-      $app.selection.remove(elem)
+    if (event.ctrlKey && this.ctx.$app.selection.has(elem))
+      this.ctx.$app.selection.remove(elem)
     else
-      $app.activeElem.set(elem)
+      this.ctx.$app.activeElem.set(elem)
   }
-} as Exact<IAppClickSelection, T>
+}

@@ -5,36 +5,36 @@ import { Inject } from '@nuxt/types/app'
 
 
 
-import * as collab from './collab'
+import { AppCollab } from './collab'
 
-import * as project from './project'
-import * as page from './page'
+import { AppProject } from './project'
+import { AppPage } from './page'
 
-import * as elems from './elems/elems'
-import * as clipboard from './elems/clipboard'
-import * as deleting from './elems/deleting'
+import { AppElems } from './elems/elems'
+import { AppClipboard } from './elems/clipboard'
+import { AppDeleting } from './elems/deleting'
 
-import * as notes from './notes/notes'
-import * as dragging from './notes/dragging'
-import * as cloning from './notes/cloning'
-import * as editing from './notes/editing'
-import * as collapsing from './notes/collapsing'
-import * as resizing from './notes/resizing'
-import * as dropping from './notes/dropping'
+import { AppNotes } from './notes/notes'
+import { AppDragging } from './notes/dragging'
+import { AppCloning } from './notes/cloning'
+import { AppEditing } from './notes/editing'
+import { AppCollapsing } from './notes/collapsing'
+import { AppResizing } from './notes/resizing'
+import { AppDropping } from './notes/dropping'
 
-import * as pos from './space/pos'
-import * as sizes from './space/sizes'
-import * as rects from './space/rects'
+import { AppPos } from './space/pos'
+import { AppSizes } from './space/sizes'
+import { AppRects } from './space/rects'
 
-import * as camera from './camera/camera'
-import * as panning from './camera/panning'
-import * as zooming from './camera/zooming'
+import { AppCamera } from './camera/camera'
+import { AppPanning } from './camera/panning'
+import { AppZooming } from './camera/zooming'
 
-import * as selection from './selection/selection'
-import * as activeRegion from './selection/active-region'
-import * as activeElem from './selection/active-elem'
-import * as clickSelection from './selection/click-selection'
-import * as boxSelection from './selection/box-selection'
+import { AppSelection } from './selection/selection'
+import { AppActiveRegion } from './selection/active-region'
+import { AppActiveElem } from './selection/active-elem'
+import { AppClickSelection } from './selection/click-selection'
+import { AppBoxSelection } from './selection/box-selection'
 
 
 
@@ -47,36 +47,36 @@ export type {
 
 
 class App {
-  collab: collab.IAppCollab
+  collab: AppCollab
 
-  project: project.IAppProject
-  page: page.IAppPage
+  project: AppProject
+  page: AppPage
 
-  elems: elems.IAppElems
-  clipboard: clipboard.IAppClipboard
-  deleting: deleting.IAppDeleting
+  elems: AppElems
+  clipboard: AppClipboard
+  deleting: AppDeleting
 
-  notes: notes.IAppNotes
-  dragging: dragging.IAppDragging
-  cloning: cloning.IAppCloning
-  editing: editing.IAppEditing
-  collapsing: collapsing.IAppCollapsing
-  resizing: resizing.IAppResizing
-  dropping: dropping.IAppDropping
+  notes: AppNotes
+  dragging: AppDragging
+  cloning: AppCloning
+  editing: AppEditing
+  collapsing: AppCollapsing
+  resizing: AppResizing
+  dropping: AppDropping
 
-  pos: pos.IAppPos
-  sizes: sizes.IAppSizes
-  rects: rects.IAppRects
+  pos: AppPos
+  sizes: AppSizes
+  rects: AppRects
 
-  camera: camera.IAppCamera
-  panning: panning.IAppPanning
-  zooming: zooming.IAppZooming
+  camera: AppCamera
+  panning: AppPanning
+  zooming: AppZooming
 
-  selection: selection.IAppSelection
-  activeRegion: activeRegion.IAppActiveRegion
-  activeElem: activeElem.IAppActiveElem
-  clickSelection: clickSelection.IAppClickSelection
-  boxSelection: boxSelection.IAppBoxSelection
+  selection: AppSelection
+  activeRegion: AppActiveRegion
+  activeElem: AppActiveElem
+  clickSelection: AppClickSelection
+  boxSelection: AppBoxSelection
 
 
 
@@ -87,36 +87,36 @@ class App {
 
   
 
-    this.collab = collab.init(ctx)
+    this.collab = new AppCollab(ctx)
   
-    this.project = project.init(ctx)
-    this.page = page.init(ctx)
+    this.project = new AppProject(ctx)
+    this.page = new AppPage(ctx)
     
-    this.elems = elems.init(ctx)
-    this.clipboard = clipboard.init(ctx)
-    this.deleting = deleting.init(ctx)
+    this.elems = new AppElems(ctx)
+    this.clipboard = new AppClipboard(ctx)
+    this.deleting = new AppDeleting(ctx)
   
-    this.notes = notes.init(ctx)
-    this.dragging = dragging.init(ctx)
-    this.cloning = cloning.init(ctx)
-    this.editing = editing.init(ctx)
-    this.collapsing = collapsing.init(ctx)
-    this.resizing = resizing.init(ctx)
-    this.dropping = dropping.init(ctx)
+    this.notes = new AppNotes(ctx)
+    this.dragging = new AppDragging(ctx)
+    this.cloning = new AppCloning(ctx)
+    this.editing = new AppEditing(ctx)
+    this.collapsing = new AppCollapsing(ctx)
+    this.resizing = new AppResizing(ctx)
+    this.dropping = new AppDropping(ctx)
   
-    this.pos = pos.init(ctx)
-    this.sizes = sizes.init(ctx)
-    this.rects = rects.init(ctx)
+    this.pos = new AppPos(ctx)
+    this.sizes = new AppSizes(ctx)
+    this.rects = new AppRects(ctx)
   
-    this.camera = camera.init(ctx)
-    this.panning = panning.init(ctx)
-    this.zooming = zooming.init(ctx)
+    this.camera = new AppCamera(ctx)
+    this.panning = new AppPanning(ctx)
+    this.zooming = new AppZooming(ctx)
   
-    this.selection = selection.init(ctx)
-    this.activeRegion = activeRegion.init(ctx)
-    this.activeElem = activeElem.init(ctx)
-    this.clickSelection = clickSelection.init(ctx)
-    this.boxSelection = boxSelection.init(ctx)
+    this.selection = new AppSelection(ctx)
+    this.activeRegion = new AppActiveRegion(ctx)
+    this.activeElem = new AppActiveElem(ctx)
+    this.clickSelection = new AppClickSelection(ctx)
+    this.boxSelection = new AppBoxSelection(ctx)
   }
 }
 

@@ -1,26 +1,30 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
-import { IElem } from "../elems/elems"
+import { Elem } from "../elems/elems"
 
 
 
 
-export type {
-  IAppCloning,
+export {
+  AppCloning,
 }
 
 
 
 
-interface IAppCloning {
-  perform(elem: IElem, event: KeyboardEvent): void;
-}
+class AppCloning {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) =>
-new class implements IAppCloning {
-  perform(elem: IElem, event: KeyboardEvent) {
+  constructor(ctx: Context) {
+    this.ctx = ctx
   }
-} as Exact<IAppCloning, T>
+
+
+
+
+  perform(elem: Elem, event: KeyboardEvent) {
+  }
+}

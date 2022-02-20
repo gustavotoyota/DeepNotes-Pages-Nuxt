@@ -1,12 +1,12 @@
 import { Context } from "@nuxt/types"
-import { Exact, IVec2, Nullable } from "~/types/deep-notes"
+import { IVec2 } from "~/types/deep-notes"
 
 
 
 
-export type {
+export {
   IRect,
-  IAppRects,
+  AppRects,
 }
 
 
@@ -18,37 +18,25 @@ interface IRect {
   size: { x: number, y: number }
 }
 
-interface IAppRects {
-  fromDisplay(): IRect
-  
-  fromDOM(domRect: DOMRect): IRect
-  fromStartEnd(start: IVec2, end: IVec2): IRect
-  fromStartSize(start: IVec2, size: IVec2): IRect
-
-  clientToWorld(clientRect: IRect): IRect
-  worldToClient(clientRect: IRect): IRect
-
-  displayToWorld(displayRect: IRect): IRect
-  worldToDisplay(displayRect: IRect): IRect
-
-  displayToClient(displayRect: IRect): IRect
-  clientToDisplay(displayRect: IRect): IRect
-
-  updateSize(rect: IRect): void
-  updateEnd(rect: IRect): void
-}
+class AppRects {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) =>
-new class implements IAppRects {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
   fromDisplay() {
     const node = document.getElementById('display')
 
     const domClientRect = node!.getBoundingClientRect()
 
-    return $app.rects.fromDOM(domClientRect)
+    return this.ctx.$app.rects.fromDOM(domClientRect)
   }
 
 
@@ -81,16 +69,16 @@ new class implements IAppRects {
 
   clientToWorld(clientRect: IRect): IRect {
     return {
-      start: $app.pos.clientToWorld(clientRect.start),
-      end: $app.pos.clientToWorld(clientRect.end),
-      size: $app.sizes.screenToWorld2D(clientRect.size),
+      start: this.ctx.$app.pos.clientToWorld(clientRect.start),
+      end: this.ctx.$app.pos.clientToWorld(clientRect.end),
+      size: this.ctx.$app.sizes.screenToWorld2D(clientRect.size),
     }
   }
   worldToClient(clientRect: IRect): IRect {
     return {
-      start: $app.pos.worldToClient(clientRect.start),
-      end: $app.pos.worldToClient(clientRect.end),
-      size: $app.sizes.worldToScreen2D(clientRect.size),
+      start: this.ctx.$app.pos.worldToClient(clientRect.start),
+      end: this.ctx.$app.pos.worldToClient(clientRect.end),
+      size: this.ctx.$app.sizes.worldToScreen2D(clientRect.size),
     }
   }
 
@@ -99,16 +87,16 @@ new class implements IAppRects {
 
   displayToWorld(displayRect: IRect): IRect {
     return {
-      start: $app.pos.displayToWorld(displayRect.start),
-      end: $app.pos.displayToWorld(displayRect.end),
-      size: $app.sizes.screenToWorld2D(displayRect.size),
+      start: this.ctx.$app.pos.displayToWorld(displayRect.start),
+      end: this.ctx.$app.pos.displayToWorld(displayRect.end),
+      size: this.ctx.$app.sizes.screenToWorld2D(displayRect.size),
     }
   }
   worldToDisplay(displayRect: IRect): IRect {
     return {
-      start: $app.pos.worldToDisplay(displayRect.start),
-      end: $app.pos.worldToDisplay(displayRect.end),
-      size: $app.sizes.worldToScreen2D(displayRect.size),
+      start: this.ctx.$app.pos.worldToDisplay(displayRect.start),
+      end: this.ctx.$app.pos.worldToDisplay(displayRect.end),
+      size: this.ctx.$app.sizes.worldToScreen2D(displayRect.size),
     }
   }
 
@@ -117,15 +105,15 @@ new class implements IAppRects {
 
   displayToClient(displayRect: IRect): IRect {
     return {
-      start: $app.pos.displayToClient(displayRect.start),
-      end: $app.pos.displayToClient(displayRect.end),
+      start: this.ctx.$app.pos.displayToClient(displayRect.start),
+      end: this.ctx.$app.pos.displayToClient(displayRect.end),
       size: $static.utils.deepCopy(displayRect.size),
     }
   }
   clientToDisplay(displayRect: IRect): IRect {
     return {
-      start: $app.pos.clientToDisplay(displayRect.start),
-      end: $app.pos.clientToDisplay(displayRect.end),
+      start: this.ctx.$app.pos.clientToDisplay(displayRect.start),
+      end: this.ctx.$app.pos.clientToDisplay(displayRect.end),
       size: $static.utils.deepCopy(displayRect.size),
     }
   }
@@ -145,4 +133,4 @@ new class implements IAppRects {
       y: rect.start.y + rect.size.y,
     }
   }
-} as Exact<IAppRects, T>
+}

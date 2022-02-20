@@ -360,14 +360,14 @@
 
 <script setup lang="ts">
 import { computed, useContext } from "@nuxtjs/composition-api"
-import { INote } from "~/plugins/app/notes/notes";
+import { Note } from "~/plugins/app/notes/notes";
 
 const ctx = useContext()
 
 
 
 
-function changeProp(value: any, func: (note: INote, value: any) => void) {
+function changeProp(value: any, func: (note: Note, value: any) => void) {
   ctx.$app.collab.doc.transact(() => {
     for (const note of ctx.$app.selection.notes)
       func(note, value)
@@ -379,7 +379,7 @@ function changeProp(value: any, func: (note: INote, value: any) => void) {
 
 // Active note
 
-const activeNote = computed(() => ctx.$app.activeElem.get as INote)
+const activeNote = computed(() => ctx.$app.activeElem.get as Note)
 
 
 
@@ -387,7 +387,7 @@ const activeNote = computed(() => ctx.$app.activeElem.get as INote)
 // Swap title and body
 
 function swapTitleAndBody() {
-  changeProp(null, (note: INote, value: any) => {
+  changeProp(null, (note: Note, value: any) => {
     const titleDelta = note.collab.title.toDelta()
     const bodyDelta = note.collab.body.toDelta()
 

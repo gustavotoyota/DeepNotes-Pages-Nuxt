@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { ref, useContext, watch } from '@nuxtjs/composition-api';
 import { SyncedText } from '@syncedstore/core';
-import { INote } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/notes/notes';
 
 const ctx = useContext()
 
@@ -88,7 +88,7 @@ watch(active, (value) => {
     return
 
   setTimeout(() => {
-    const activeNote = ctx.$app.activeElem.get as INote
+    const activeNote = ctx.$app.activeElem.get as Note
 
     const text = activeNote.collab[activeNote.topSection]
     if (!text)
