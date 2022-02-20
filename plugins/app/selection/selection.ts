@@ -8,42 +8,17 @@ import { INote } from '../notes/notes'
 
 
 
-export type {
-  IAppSelection,
+export {
+  AppSelection,
 }
 
 
 
 
-interface IAppSelection {
+class AppSelection {
   [key: string]: unknown
-
-  noteSet: { [key: string]: boolean }
-  arrowSet: { [key: string]: boolean }
-  elemIds: string[]
-
-  notes: INote[]
-  arrows: IArrow[]
-  elems: IElem[]
-
-  reset(): void
-  clear(activeRegionId?: Nullable<string>): void
-  has(elem: IElem): boolean
-  add(elem: IElem): void
-  remove(elem: IElem): void
-  set(elem: IElem): void
-  selectAll(): void
-}
-
-
-
-
-export const init = <T>({ $app }: Context) =>
-new class implements IAppSelection {
-  [key: string]: unknown
-
-
-
+  
+  ctx: Context
 
   noteSet: { [key: string]: boolean } = {}
   arrowSet: { [key: string]: boolean } = {}
@@ -56,7 +31,12 @@ new class implements IAppSelection {
 
 
 
-  constructor() {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+
+
+
+
     $static.vue.ref(this, 'selection.noteSet')
     $static.vue.ref(this, 'selection.arrowSet')
   
@@ -64,76 +44,76 @@ new class implements IAppSelection {
   
   
     $static.vue.computed(this, 'elemIds', () =>
-      Object.keys($app.selection.noteSet).concat(
-        Object.keys($app.selection.arrowSet)))
+      Object.keys(this.ctx.$app.selection.noteSet).concat(
+        Object.keys(this.ctx.$app.selection.arrowSet)))
     $static.vue.computed(this, 'notes', () => 
-      $app.activeRegion.notes.filter(note => $app.selection.has(note)))
+      this.ctx.$app.activeRegion.notes.filter(note => this.ctx.$app.selection.has(note)))
     $static.vue.computed(this, 'arrows', () => 
-      $app.page.arrows.filter(arrow => $app.selection.has(arrow)))
+      this.ctx.$app.page.arrows.filter(arrow => this.ctx.$app.selection.has(arrow)))
     $static.vue.computed(this, 'elems', () => 
-      $app.selection.arrows.concat($app.selection.notes))
+      this.ctx.$app.selection.arrows.concat(this.ctx.$app.selection.notes))
   }
 
 
 
 
   reset() {
-    $app.selection.noteSet = {}
-    $app.selection.arrowSet = {}
+    this.ctx.$app.selection.noteSet = {}
+    this.ctx.$app.selection.arrowSet = {}
   }
 
 
 
 
-  clear(activeRegionId?: string) {
-    $app.selection.noteSet = {}
-    $app.selection.arrowSet = {}
+  clear(activeRegionId?: Nullable<string>) {
+    this.ctx.$app.selection.noteSet = {}
+    this.ctx.$app.selection.arrowSet = {}
 
-    $app.activeElem.clear()
+    this.ctx.$app.activeElem.clear()
 
     if (activeRegionId !== undefined)
-      $app.activeRegion.id = activeRegionId
+      this.ctx.$app.activeRegion.id = activeRegionId
   }
 
 
 
 
   has(elem: IElem) {
-    return $app.activeRegion.id === elem.parentId
-      && (elem.id in ($app.selection[`${elem.type}Set`] as object))
+    return this.ctx.$app.activeRegion.id === elem.parentId
+      && (elem.id in (this.ctx.$app.selection[`${elem.type}Set`] as object))
   }
 
 
 
 
   add(elem: IElem) {
-    if ($app.selection.has(elem))
+    if (this.ctx.$app.selection.has(elem))
       return
 
-    if (elem.parentId != $app.activeRegion.id)
-      $app.selection.clear(elem.parentId)
+    if (elem.parentId != this.ctx.$app.activeRegion.id)
+      this.ctx.$app.selection.clear(elem.parentId)
 
-    Vue.set($app.selection[`${elem.type}Set`] as object, elem.id, true)
+    Vue.set(this.ctx.$app.selection[`${elem.type}Set`] as object, elem.id, true)
     
-    if (!$app.activeElem.exists)
-      $app.activeElem.set(elem)
+    if (!this.ctx.$app.activeElem.exists)
+      this.ctx.$app.activeElem.set(elem)
   }
   remove(elem: IElem) {
-    if (!$app.selection.has(elem))
+    if (!this.ctx.$app.selection.has(elem))
       return
 
-    Vue.delete($app.selection[`${elem.type}Set`] as object, elem.id)
+    Vue.delete(this.ctx.$app.selection[`${elem.type}Set`] as object, elem.id)
 
-    if ($app.activeElem.is(elem))
-      $app.activeElem.set($app.selection.elems.at(-1))
+    if (this.ctx.$app.activeElem.is(elem))
+      this.ctx.$app.activeElem.set(this.ctx.$app.selection.elems.at(-1))
   }
 
 
 
 
   set(elem: IElem) {
-    $app.selection.clear()
-    $app.selection.add(elem)
+    this.ctx.$app.selection.clear()
+    this.ctx.$app.selection.add(elem)
   }
 
 
@@ -143,7 +123,7 @@ new class implements IAppSelection {
 
 
   selectAll() {
-    for (const note of $app.activeRegion.notes)
-      $app.selection.add(note)
+    for (const note of this.ctx.$app.activeRegion.notes)
+      this.ctx.$app.selection.add(note)
   }
-} as Exact<IAppSelection, T>
+}
