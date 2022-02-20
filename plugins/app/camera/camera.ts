@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { IVec2 } from "~/types/deep-notes"
-import { INote } from "../notes/notes"
+import { Note } from "../notes/notes"
 
 
 
@@ -59,7 +59,7 @@ class AppCamera {
 
   
   fitToScreen() {
-    let notes: INote[]
+    let notes: Note[]
 
     if (this.ctx.$app.selection.notes.length > 0)
       notes = this.ctx.$app.selection.notes

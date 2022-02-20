@@ -26,13 +26,13 @@
 
 <script setup lang="ts">
 import { computed } from "@nuxtjs/composition-api"
-import { INote } from "~/plugins/app/notes/notes";
+import { Note } from "~/plugins/app/notes/notes";
 
 
 
 
 const props = defineProps<{
-  note: INote
+  note: Note
   section: string
 }>()
 

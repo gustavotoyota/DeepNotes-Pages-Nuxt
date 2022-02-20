@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { computed, useContext } from '@nuxtjs/composition-api'
-import { INote } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/notes/notes';
 
 const ctx = useContext()
 
@@ -25,7 +25,7 @@ const ctx = useContext()
 
 
 const props = defineProps<{
-  note: INote
+  note: Note
 }>()
 
 

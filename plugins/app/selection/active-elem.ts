@@ -1,7 +1,7 @@
 import { Context } from "@nuxt/types"
 import { Exact, Nullable } from "~/types/deep-notes"
 import { Elem } from "../elems/elems"
-import { INote } from "../notes/notes"
+import { Note } from "../notes/notes"
 
 
 
@@ -78,6 +78,6 @@ class AppActiveElem {
     this.ctx.$app.activeElem.id = elem.id
   
     if (bringToTop !== false)
-      (elem as INote).bringToTop()
+      (elem as Note).bringToTop()
   }
 }

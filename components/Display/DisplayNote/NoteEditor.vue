@@ -15,7 +15,7 @@ import { computed, onMounted, onUnmounted, ref, useContext, watch } from "@nuxtj
 import { SyncedText } from "@syncedstore/core";
 import Quill from "quill";
 import { QuillBinding } from 'y-quill'
-import { INote } from "~/plugins/app/notes/notes";
+import { Note } from "~/plugins/app/notes/notes";
 
 
 
@@ -26,7 +26,7 @@ const ctx = useContext()
 
 
 const props = defineProps<{
-  note: INote
+  note: Note
   section: string
   wrap: boolean
 }>()

@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { INote } from "./notes"
+import { Note } from "./notes"
 
 
 
@@ -41,7 +41,7 @@ class AppResizing {
 
 
 
-  start(event: PointerEvent, note: INote, side: string, section?: string) {
+  start(event: PointerEvent, note: Note, side: string, section?: string) {
     if (event.button !== 0)
       return
   
@@ -62,7 +62,7 @@ class AppResizing {
     if (!this.active)
       return
     
-    const activeNote = this.ctx.$app.activeElem.get as INote
+    const activeNote = this.ctx.$app.activeElem.get as Note
     
     const frameClientRect = activeNote.getClientRect('frame')
     const sectionClientRect = this.section != null ?

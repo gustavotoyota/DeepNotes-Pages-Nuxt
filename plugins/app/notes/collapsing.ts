@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
-import { INote } from "./notes"
+import { Note } from "./notes"
 
 
 
@@ -25,12 +25,12 @@ class AppCollapsing {
 
 
 
-  expand(note: INote) {
+  expand(note: Note) {
     note.collab.collapsed = false
     
     note.bringToTop()
   }
-  collapse(note: INote) {
+  collapse(note: Note) {
     if (!note.collab.collapsible)
       return
   
@@ -41,7 +41,7 @@ class AppCollapsing {
 
 
 
-  set(note: INote, collapsed: boolean) {
+  set(note: Note, collapsed: boolean) {
     if (collapsed === note.collab.collapsed)
       return
   
@@ -53,7 +53,7 @@ class AppCollapsing {
 
 
 
-  toggle(note: INote) {
+  toggle(note: Note) {
     this.ctx.$app.collapsing.set(note, !note.collab.collapsed)
   }
 }

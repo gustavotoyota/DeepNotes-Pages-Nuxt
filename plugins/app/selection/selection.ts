@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { Exact, Nullable } from "~/types/deep-notes"
 import { Arrow } from '../arrows/arrows'
 import { Elem } from '../elems/elems'
-import { INote } from '../notes/notes'
+import { Note } from '../notes/notes'
 
 
 
@@ -24,7 +24,7 @@ class AppSelection {
   arrowSet: { [key: string]: boolean } = {}
   elemIds: string[] = []
 
-  notes: INote[] = []
+  notes: Note[] = []
   arrows: Arrow[] = []
   elems: Elem[] = []
 

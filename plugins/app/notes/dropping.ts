@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { INote } from "./notes"
+import { Note } from "./notes"
 
 
 
@@ -24,7 +24,7 @@ class AppDropping {
 
 
 
-  perform(event: PointerEvent, regionNote: INote, dropIndex: number) {
+  perform(event: PointerEvent, regionNote: Note, dropIndex: number) {
     this.ctx.$app.collab.doc.transact(() => {
       this.ctx.$app.dragging.finish(event)
 

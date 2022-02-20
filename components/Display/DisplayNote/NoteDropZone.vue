@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useContext } from '@nuxtjs/composition-api';
-import { INote } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/notes/notes';
 
 const ctx = useContext()
 
@@ -22,7 +22,7 @@ const ctx = useContext()
 
 
 const props = defineProps<{
-  parentNote: INote
+  parentNote: Note
   index: number
 }>()
 

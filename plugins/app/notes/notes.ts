@@ -3,14 +3,13 @@ import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/co
 import { IVec2, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { Elem } from '../elems/elems'
-import { IRect } from '../space/rects'
 
 
 
 
 export {
   AppNotes,
-  INote,
+  Note,
   INoteCollab,
   INoteSize,
 }
@@ -40,7 +39,7 @@ class AppNotes {
     parentId?: string
     clientPos?: IVec2
     dontObserve?: boolean
-  }): INote {
+  }): Note {
     const note = new Note(this.ctx, { id, parentId })
 
     if (id == null)
@@ -98,44 +97,6 @@ class AppNotes {
   }
 }
 
-interface INote extends Elem {
-  [key: string]: unknown
-
-  collab: INoteCollab
-
-  selected: boolean
-  active: boolean
-  editing: boolean
-
-  sizeProp: string
-  size: INoteSize
-
-  topSection: string
-  bottomSection: string
-  numSections: number
-
-  titleHeight: string
-  bodyHeight: string
-  containerHeight: string
-
-  parent: Nullable<INote>
-  siblingIds: string[]
-  index: number
-
-  minWidth: string
-  width: string
-  targetWidth: string
-
-  children: INote[]
-
-
-
-  bringToTop(): void
-  getNode(part: string): Element
-  getClientRect(part: string): IRect
-  removeFromRegion(): void
-}
-
 interface INoteCollab {
   [key: string]: unknown
 
@@ -188,7 +149,7 @@ interface INoteSize {
 
 
   
-class Note extends Elem implements INote {
+class Note extends Elem {
   [key: string]: unknown
 
   id!: string;
@@ -210,7 +171,7 @@ class Note extends Elem implements INote {
   bodyHeight!: string
   containerHeight!: string
 
-  parent: Nullable<INote>
+  parent: Nullable<Note>
   siblingIds!: string[]
   index!: number
 
@@ -218,7 +179,7 @@ class Note extends Elem implements INote {
   width!: string
   targetWidth!: string
 
-  children!: INote[]
+  children!: Note[]
   
 
 
@@ -322,7 +283,7 @@ class Note extends Elem implements INote {
 
     
     $static.vue.computed(this, 'parent', () =>
-      (this.ctx.$app.elems.map[this.parentId ?? ''] ?? null) as INote)
+      (this.ctx.$app.elems.map[this.parentId ?? ''] ?? null) as Note)
     $static.vue.computed(this, 'siblingIds', () => {
       if (this.parent == null)
         return this.ctx.$app.page.collab.noteIds

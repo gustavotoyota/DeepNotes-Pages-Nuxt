@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
-import { INote } from './notes/notes'
+import { Note } from './notes/notes'
 
 
 
@@ -22,7 +22,7 @@ class AppPage {
   
   collab!: IPageCollab
 
-  notes!: INote[]
+  notes!: Note[]
   arrows!: any[]
 
   parentId: Nullable<string>

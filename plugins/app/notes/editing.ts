@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Elem } from "../elems/elems";
-import { INote } from "./notes";
+import { Note } from "./notes";
 
 
 
@@ -37,7 +37,7 @@ class AppEditing {
 
 
 
-  start(note: INote, section: string) {
+  start(note: Note, section: string) {
     if (note.editing)
       return
 

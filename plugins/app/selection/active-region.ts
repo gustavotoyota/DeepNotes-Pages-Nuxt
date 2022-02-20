@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Nullable } from "~/types/deep-notes"
-import { INote } from "../notes/notes";
+import { Note } from "../notes/notes";
 
 
 
@@ -16,9 +16,9 @@ class AppActiveRegion {
   ctx: Context
 
   id: Nullable<string>
-  parent: Nullable<INote>
+  parent: Nullable<Note>
   noteIds!: string[]
-  notes!: INote[]
+  notes!: Note[]
 
 
 
