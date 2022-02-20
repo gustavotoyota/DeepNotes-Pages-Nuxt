@@ -9,6 +9,7 @@ import { AppCollab } from './collab'
 
 import { AppProject } from './project'
 import { AppPage } from './page'
+import { AppRegions } from './regions'
 
 import { AppElems } from './elems/elems'
 import { AppClipboard } from './elems/clipboard'
@@ -51,6 +52,7 @@ class App {
 
   project: AppProject
   page: AppPage
+  regions: AppRegions
 
   elems: AppElems
   clipboard: AppClipboard
@@ -91,6 +93,7 @@ class App {
   
     this.project = new AppProject(ctx)
     this.page = new AppPage(ctx)
+    this.regions = new AppRegions(ctx)
     
     this.elems = new AppElems(ctx)
     this.clipboard = new AppClipboard(ctx)
