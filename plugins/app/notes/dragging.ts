@@ -4,37 +4,20 @@ import { Exact, IVec2, Nullable } from "~/types/deep-notes"
 
 
 
-export type {
-  IAppDragging,
+export {
+  AppDragging,
 }
 
 
 
 
-interface IAppDragging {
-  minDistance: number;
-
-  down: boolean
-  active: boolean
-
-  startPos: IVec2
-  currentPos: IVec2
-
-  dropRegionId: Nullable<string>
-  dropIndex: Nullable<number>
-
-  reset(): void;
-  start(event: PointerEvent): void;
-  update(event: PointerEvent): void;
-  finish(event: PointerEvent): void;
-}
+const MIN_DISTANCE: number = 5;
 
 
 
 
-export const init = <T>({ $app }: Context) =>
-new class implements IAppDragging {
-  minDistance: number = 5;
+class AppDragging {
+  ctx: Context
 
   down!: boolean;
   active!: boolean;
@@ -48,7 +31,9 @@ new class implements IAppDragging {
 
 
 
-  constructor() {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+
     $static.vue.ref(this, 'dragging.down')
     $static.vue.ref(this, 'dragging.active')
     
@@ -63,8 +48,8 @@ new class implements IAppDragging {
 
 
   reset() {
-    $app.dragging.down = false
-    $app.dragging.active = false
+    this.ctx.$app.dragging.down = false
+    this.ctx.$app.dragging.active = false
   }
   
   
@@ -74,32 +59,32 @@ new class implements IAppDragging {
     if (event.button !== 0)
       return
     
-    $app.dragging.down = true
-    $app.dragging.active = false
+    this.ctx.$app.dragging.down = true
+    this.ctx.$app.dragging.active = false
 
-    $app.dragging.startPos = $app.pos.getClientPos(event)
-    $app.dragging.currentPos = $app.pos.getClientPos(event)
+    this.ctx.$app.dragging.startPos = this.ctx.$app.pos.getClientPos(event)
+    this.ctx.$app.dragging.currentPos = this.ctx.$app.pos.getClientPos(event)
 
-    $app.dragging.dropRegionId = null
-    $app.dragging.dropIndex = null
+    this.ctx.$app.dragging.dropRegionId = null
+    this.ctx.$app.dragging.dropIndex = null
   }
   update(event: PointerEvent) {
-    if (!$app.dragging.down)
+    if (!this.ctx.$app.dragging.down)
       return
 
 
 
 
-    const clientMousePos = $app.pos.getClientPos(event)
+    const clientMousePos = this.ctx.$app.pos.getClientPos(event)
 
-    if (!$app.dragging.active) {
+    if (!this.ctx.$app.dragging.active) {
       const dist = Math.sqrt(
-        Math.pow(clientMousePos.x - $app.dragging.startPos.x, 2) +
-        Math.pow(clientMousePos.y - $app.dragging.startPos.y, 2)
+        Math.pow(clientMousePos.x - this.ctx.$app.dragging.startPos.x, 2) +
+        Math.pow(clientMousePos.y - this.ctx.$app.dragging.startPos.y, 2)
       )
   
-      $app.dragging.active = dist >= $app.dragging.minDistance
-      if (!$app.dragging.active)
+      this.ctx.$app.dragging.active = dist >= MIN_DISTANCE
+      if (!this.ctx.$app.dragging.active)
         return
         
 
@@ -107,18 +92,18 @@ new class implements IAppDragging {
       
       // Remove dragging styles
 
-      for (const selectedNote of $app.selection.notes)
+      for (const selectedNote of this.ctx.$app.selection.notes)
         selectedNote.collab.dragging = selectedNote.collab.movable
 
 
 
       
-      if ($app.activeRegion.id != null) {
+      if (this.ctx.$app.activeRegion.id != null) {
         // Adjust note positions and sizes
 
-        for (const selectedNote of $app.selection.notes) {
+        for (const selectedNote of this.ctx.$app.selection.notes) {
           const clientRect = selectedNote.getClientRect('frame')
-          const worldRect = $app.rects.clientToWorld(clientRect)
+          const worldRect = this.ctx.$app.rects.clientToWorld(clientRect)
   
           selectedNote.collab.pos.x = worldRect.start.x + worldRect.size.x * selectedNote.collab.anchor.x
           selectedNote.collab.pos.y = worldRect.start.y + worldRect.size.y * selectedNote.collab.anchor.y
@@ -131,13 +116,13 @@ new class implements IAppDragging {
 
         // Move notes to page region
 
-        for (const selectedNote of $app.selection.notes) {
+        for (const selectedNote of this.ctx.$app.selection.notes) {
           selectedNote.removeFromRegion()
           
-          $app.page.collab.noteIds.push(selectedNote.id)
+          this.ctx.$app.page.collab.noteIds.push(selectedNote.id)
           selectedNote.parentId = null
 
-          $app.selection.add(selectedNote)
+          this.ctx.$app.selection.add(selectedNote)
         }
       }
     }
@@ -148,8 +133,8 @@ new class implements IAppDragging {
     // Calculate delta
 
     const delta: IVec2 = {
-      x: (clientMousePos.x - $app.dragging.currentPos.x) / $app.camera.zoom,
-      y: (clientMousePos.y - $app.dragging.currentPos.y) / $app.camera.zoom,
+      x: (clientMousePos.x - this.ctx.$app.dragging.currentPos.x) / this.ctx.$app.camera.zoom,
+      y: (clientMousePos.y - this.ctx.$app.dragging.currentPos.y) / this.ctx.$app.camera.zoom,
     };
 
 
@@ -157,8 +142,8 @@ new class implements IAppDragging {
 
     // Move selected notes
 
-    $app.collab.doc.transact(() => {
-      for (const note of $app.selection.notes) {
+    this.ctx.$app.collab.doc.transact(() => {
+      for (const note of this.ctx.$app.selection.notes) {
         if (!note.collab.dragging)
           continue
   
@@ -170,18 +155,18 @@ new class implements IAppDragging {
 
 
 
-    $app.dragging.currentPos = clientMousePos
+    this.ctx.$app.dragging.currentPos = clientMousePos
   }
   finish(event: PointerEvent) {
-    if (!$app.dragging.down || event.button !== 0)
+    if (!this.ctx.$app.dragging.down || event.button !== 0)
       return
 
-    $app.collab.doc.transact(() => {
-      for (const note of $app.selection.notes)
+    this.ctx.$app.collab.doc.transact(() => {
+      for (const note of this.ctx.$app.selection.notes)
         note.collab.dragging = false
     
-      $app.dragging.down = false
-      $app.dragging.active = false
+      this.ctx.$app.dragging.down = false
+      this.ctx.$app.dragging.active = false
     })
   }
-} as Exact<IAppDragging, T>
+}
