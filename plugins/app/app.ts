@@ -31,7 +31,7 @@ import { AppPanning } from './camera/panning'
 import { AppZooming } from './camera/zooming'
 
 import { AppSelection } from './selection/selection'
-import * as activeRegion from './selection/active-region'
+import { AppActiveRegion } from './selection/active-region'
 import * as activeElem from './selection/active-elem'
 import * as clickSelection from './selection/click-selection'
 import * as boxSelection from './selection/box-selection'
@@ -73,7 +73,7 @@ class App {
   zooming: AppZooming
 
   selection: AppSelection
-  activeRegion: activeRegion.IAppActiveRegion
+  activeRegion: AppActiveRegion
   activeElem: activeElem.IAppActiveElem
   clickSelection: clickSelection.IAppClickSelection
   boxSelection: boxSelection.IAppBoxSelection
@@ -113,7 +113,7 @@ class App {
     this.zooming = new AppZooming(ctx)
   
     this.selection = new AppSelection(ctx)
-    this.activeRegion = activeRegion.init(ctx)
+    this.activeRegion = new AppActiveRegion(ctx)
     this.activeElem = activeElem.init(ctx)
     this.clickSelection = clickSelection.init(ctx)
     this.boxSelection = boxSelection.init(ctx)
