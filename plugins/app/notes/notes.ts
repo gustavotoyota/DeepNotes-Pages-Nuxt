@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
-import { IVec2, Nullable } from "~/types/deep-notes"
+import { IVec2, Nilable, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { Elem } from '../elems/elems'
 
@@ -169,7 +169,7 @@ class Note extends Elem {
   bodyHeight!: string
   containerHeight!: string
 
-  parent: Nullable<Note>
+  parent!: Nullable<Note>
   siblingIds!: string[]
   index!: number
 
@@ -342,7 +342,7 @@ class Note extends Elem {
 
 
 
-  resetCollab(clientPos: Nullable<IVec2>, parentId: Nullable<string>) {
+  resetCollab(clientPos: Nilable<IVec2>, parentId: Nilable<string>) {
     this.ctx.$app.collab.doc.transact(() => {
       Vue.set(this.ctx.$app.notes.collab, this.id, {
         linkedPageId: null,

@@ -25,7 +25,7 @@ class AppPage {
   notes!: Note[]
   arrows!: any[]
 
-  parentId: Nullable<string>
+  parentId: Nullable<string> = null
 
 
 

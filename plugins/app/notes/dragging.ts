@@ -25,8 +25,8 @@ class AppDragging {
   startPos!: IVec2;
   currentPos!: IVec2;
 
-  dropRegionId: Nullable<string>;
-  dropIndex: Nullable<number>;
+  dropRegionId!: Nullable<string>;
+  dropIndex!: Nullable<number>;
 
 
 

@@ -10,13 +10,16 @@ export type {
   IVec2,
 
   Exact,
+
   Nullable,
+  Nilable,
 }
 
 
 
 
-type Nullable<T> = T | undefined | null;
+type Nullable<T> = T | null;
+type Nilable<T> = T | null | undefined;
 
 type Exact<T, Shape = T> = T extends Shape ?
   (Exclude<keyof T, keyof Shape> extends never ?

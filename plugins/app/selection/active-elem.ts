@@ -72,10 +72,10 @@ class AppActiveElem {
 
     if (this.ctx.$app.activeElem.is(elem))
       return
-
-    this.ctx.$app.selection.add(elem)
     
     this.ctx.$app.activeElem.id = elem.id
+
+    this.ctx.$app.selection.add(elem)
   
     if (bringToTop !== false)
       (elem as Note).bringToTop()

@@ -15,8 +15,8 @@ export {
 class AppActiveRegion {
   ctx: Context
 
-  id: Nullable<string>
-  parent: Nullable<Note>
+  id!: Nullable<string>
+  parent!: Nullable<Note>
   noteIds!: string[]
   notes!: Note[]
 

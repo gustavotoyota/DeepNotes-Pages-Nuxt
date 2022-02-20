@@ -105,7 +105,7 @@ class AppSelection {
     Vue.delete(this.ctx.$app.selection[`${elem.type}Set`] as object, elem.id)
 
     if (this.ctx.$app.activeElem.is(elem))
-      this.ctx.$app.activeElem.set(this.ctx.$app.selection.elems.at(-1))
+      this.ctx.$app.activeElem.set(this.ctx.$app.selection.elems.at(-1) ?? null)
   }
 
 
