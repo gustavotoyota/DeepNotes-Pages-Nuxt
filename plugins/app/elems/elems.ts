@@ -10,7 +10,6 @@ import { Nullable } from '~/types/deep-notes'
 
 export {
   AppElems,
-  IElem,
   Elem,
 }
 
@@ -20,9 +19,9 @@ export {
 class AppElems {
   ctx: Context
 
-  map: { [key: string]: IElem } = {};
+  map: { [key: string]: Elem } = {};
   ids: string[] = [];
-  array: IElem[] = [];
+  array: Elem[] = [];
 
 
 
@@ -52,7 +51,7 @@ class AppElems {
   }
 }
 
-interface IElem {
+interface Elem {
   ctx: Context
 
   id: string
@@ -60,7 +59,7 @@ interface IElem {
   parentId: Nullable<string>
 }
 
-class Elem implements IElem {
+class Elem implements Elem {
   ctx: Context
 
   id: string

@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { IElem } from "../elems/elems";
+import { Elem } from "../elems/elems";
 import { INote } from "./notes";
 
 
@@ -47,7 +47,7 @@ class AppEditing {
 
 
     this.ctx.$app.selection.clear()
-    this.ctx.$app.activeElem.set(note as IElem)
+    this.ctx.$app.activeElem.set(note as Elem)
 
 
 

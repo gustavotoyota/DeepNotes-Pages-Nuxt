@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { IElem } from "../elems/elems"
+import { Elem } from "../elems/elems"
 
 
 
@@ -24,7 +24,7 @@ class AppClickSelection {
 
 
 
-  perform(elem: IElem, event: PointerEvent) {
+  perform(elem: Elem, event: PointerEvent) {
     // Clear selection if not holding Ctrl or Shift
     // And the clicked element is not selected
 

@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Exact } from "~/types/deep-notes"
-import { IElem } from "../elems/elems"
+import { Elem } from "../elems/elems"
 
 
 
@@ -25,6 +25,6 @@ class AppCloning {
 
 
 
-  perform(elem: IElem, event: KeyboardEvent) {
+  perform(elem: Elem, event: KeyboardEvent) {
   }
 }

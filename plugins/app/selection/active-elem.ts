@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Exact, Nullable } from "~/types/deep-notes"
-import { IElem } from "../elems/elems"
+import { Elem } from "../elems/elems"
 import { INote } from "../notes/notes"
 
 
@@ -18,7 +18,7 @@ class AppActiveElem {
 
   id: Nullable<string> = null
   exists: boolean = false
-  get: Nullable<IElem> = null
+  get: Nullable<Elem> = null
 
 
 
@@ -50,7 +50,7 @@ class AppActiveElem {
   
   
   
-  is(elem: IElem) {
+  is(elem: Elem) {
     return elem.id === this.ctx.$app.activeElem.id
   }
 
@@ -64,7 +64,7 @@ class AppActiveElem {
 
 
 
-  set(elem: Nullable<IElem>, bringToTop?: boolean) {
+  set(elem: Nullable<Elem>, bringToTop?: boolean) {
     if (elem == null) {
       this.ctx.$app.activeElem.clear()
       return

@@ -2,7 +2,7 @@ import { Context } from '@nuxt/types'
 import Vue from 'vue'
 import { Exact, Nullable } from "~/types/deep-notes"
 import { Arrow } from '../arrows/arrows'
-import { IElem } from '../elems/elems'
+import { Elem } from '../elems/elems'
 import { INote } from '../notes/notes'
 
 
@@ -26,7 +26,7 @@ class AppSelection {
 
   notes: INote[] = []
   arrows: Arrow[] = []
-  elems: IElem[] = []
+  elems: Elem[] = []
 
 
 
@@ -78,7 +78,7 @@ class AppSelection {
 
 
 
-  has(elem: IElem) {
+  has(elem: Elem) {
     return this.ctx.$app.activeRegion.id === elem.parentId
       && (elem.id in (this.ctx.$app.selection[`${elem.type}Set`] as object))
   }
@@ -86,7 +86,7 @@ class AppSelection {
 
 
 
-  add(elem: IElem) {
+  add(elem: Elem) {
     if (this.ctx.$app.selection.has(elem))
       return
 
@@ -98,7 +98,7 @@ class AppSelection {
     if (!this.ctx.$app.activeElem.exists)
       this.ctx.$app.activeElem.set(elem)
   }
-  remove(elem: IElem) {
+  remove(elem: Elem) {
     if (!this.ctx.$app.selection.has(elem))
       return
 
@@ -111,7 +111,7 @@ class AppSelection {
 
 
 
-  set(elem: IElem) {
+  set(elem: Elem) {
     this.ctx.$app.selection.clear()
     this.ctx.$app.selection.add(elem)
   }

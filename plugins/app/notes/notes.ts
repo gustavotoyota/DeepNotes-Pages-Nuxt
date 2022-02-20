@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
 import { IVec2, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
-import { Elem, IElem } from '../elems/elems'
+import { Elem } from '../elems/elems'
 import { IRect } from '../space/rects'
 
 
@@ -98,7 +98,7 @@ class AppNotes {
   }
 }
 
-interface INote extends IElem {
+interface INote extends Elem {
   [key: string]: unknown
 
   collab: INoteCollab
@@ -241,7 +241,7 @@ class Note extends Elem implements INote {
     $static.vue.computed(this, 'selected', () =>
       this.ctx.$app.selection.has(this))
     $static.vue.computed(this, 'active', () =>
-      this.ctx.$app.activeElem.is(this as IElem))
+      this.ctx.$app.activeElem.is(this as Elem))
     $static.vue.computed(this, 'editing', () =>
       this.ctx.$app.editing.active && this.active)
 
