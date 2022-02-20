@@ -5,22 +5,26 @@ import { IElem } from "../elems/elems"
 
 
 
-export type {
-  IAppCloning,
+export {
+  AppCloning,
 }
 
 
 
 
-interface IAppCloning {
-  perform(elem: IElem, event: KeyboardEvent): void;
-}
+class AppCloning {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) =>
-new class implements IAppCloning {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
   perform(elem: IElem, event: KeyboardEvent) {
   }
-} as Exact<IAppCloning, T>
+}
