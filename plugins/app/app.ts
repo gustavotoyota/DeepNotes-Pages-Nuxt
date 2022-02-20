@@ -20,7 +20,7 @@ import { AppCloning } from './notes/cloning'
 import { AppEditing } from './notes/editing'
 import { AppCollapsing } from './notes/collapsing'
 import { AppResizing } from './notes/resizing'
-import * as dropping from './notes/dropping'
+import { AppDropping } from './notes/dropping'
 
 import * as pos from './space/pos'
 import * as sizes from './space/sizes'
@@ -62,7 +62,7 @@ class App {
   editing: AppEditing
   collapsing: AppCollapsing
   resizing: AppResizing
-  dropping: dropping.IAppDropping
+  dropping: AppDropping
 
   pos: pos.IAppPos
   sizes: sizes.IAppSizes
@@ -102,7 +102,7 @@ class App {
     this.editing = new AppEditing(ctx)
     this.collapsing = new AppCollapsing(ctx)
     this.resizing = new AppResizing(ctx)
-    this.dropping = dropping.init(ctx)
+    this.dropping = new AppDropping(ctx)
   
     this.pos = pos.init(ctx)
     this.sizes = sizes.init(ctx)
