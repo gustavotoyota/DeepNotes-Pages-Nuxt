@@ -34,7 +34,7 @@ import { AppSelection } from './selection/selection'
 import { AppActiveRegion } from './selection/active-region'
 import { AppActiveElem } from './selection/active-elem'
 import { AppClickSelection } from './selection/click-selection'
-import * as boxSelection from './selection/box-selection'
+import { AppBoxSelection } from './selection/box-selection'
 
 
 
@@ -76,7 +76,7 @@ class App {
   activeRegion: AppActiveRegion
   activeElem: AppActiveElem
   clickSelection: AppClickSelection
-  boxSelection: boxSelection.IAppBoxSelection
+  boxSelection: AppBoxSelection
 
 
 
@@ -116,7 +116,7 @@ class App {
     this.activeRegion = new AppActiveRegion(ctx)
     this.activeElem = new AppActiveElem(ctx)
     this.clickSelection = new AppClickSelection(ctx)
-    this.boxSelection = boxSelection.init(ctx)
+    this.boxSelection = new AppBoxSelection(ctx)
   }
 }
 
