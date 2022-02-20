@@ -17,7 +17,7 @@ import { AppDeleting } from './elems/deleting'
 import { AppNotes } from './notes/notes'
 import { AppDragging } from './notes/dragging'
 import { AppCloning } from './notes/cloning'
-import * as editing from './notes/editing'
+import { AppEditing } from './notes/editing'
 import * as collapsing from './notes/collapsing'
 import * as resizing from './notes/resizing'
 import * as dropping from './notes/dropping'
@@ -59,7 +59,7 @@ class App {
   notes: AppNotes
   dragging: AppDragging
   cloning: AppCloning
-  editing: editing.IAppEditing
+  editing: AppEditing
   collapsing: collapsing.IAppCollapsing
   resizing: resizing.IAppResizing
   dropping: dropping.IAppDropping
@@ -99,7 +99,7 @@ class App {
     this.notes = new AppNotes(ctx)
     this.dragging = new AppDragging(ctx)
     this.cloning = new AppCloning(ctx)
-    this.editing = editing.init(ctx)
+    this.editing = new AppEditing(ctx)
     this.collapsing = collapsing.init(ctx)
     this.resizing = resizing.init(ctx)
     this.dropping = dropping.init(ctx)
