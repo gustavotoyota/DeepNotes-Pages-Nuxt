@@ -24,7 +24,7 @@ import { AppDropping } from './notes/dropping'
 
 import { AppPos } from './space/pos'
 import { AppSizes } from './space/sizes'
-import * as rects from './space/rects'
+import { AppRects } from './space/rects'
 
 import { AppCamera } from './camera/camera'
 import * as panning from './camera/panning'
@@ -66,7 +66,7 @@ class App {
 
   pos: AppPos
   sizes: AppSizes
-  rects: rects.IAppRects
+  rects: AppRects
 
   camera: AppCamera
   panning: panning.IAppPanning
@@ -106,7 +106,7 @@ class App {
   
     this.pos = new AppPos(ctx)
     this.sizes = new AppSizes(ctx)
-    this.rects = rects.init(ctx)
+    this.rects = new AppRects(ctx)
   
     this.camera = new AppCamera(ctx)
     this.panning = panning.init(ctx)
