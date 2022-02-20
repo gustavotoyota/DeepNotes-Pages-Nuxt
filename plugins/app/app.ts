@@ -10,7 +10,7 @@ import { AppCollab } from './collab'
 import { AppProject } from './project'
 import { AppPage } from './page'
 
-import * as elems from './elems/elems'
+import { AppElems } from './elems/elems'
 import * as clipboard from './elems/clipboard'
 import * as deleting from './elems/deleting'
 
@@ -52,7 +52,7 @@ class App {
   project: AppProject
   page: AppPage
 
-  elems: elems.IAppElems
+  elems: AppElems
   clipboard: clipboard.IAppClipboard
   deleting: deleting.IAppDeleting
 
@@ -92,7 +92,7 @@ class App {
     this.project = new AppProject(ctx)
     this.page = new AppPage(ctx)
     
-    this.elems = elems.init(ctx)
+    this.elems = new AppElems(ctx)
     this.clipboard = clipboard.init(ctx)
     this.deleting = deleting.init(ctx)
   
