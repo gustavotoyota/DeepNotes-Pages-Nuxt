@@ -1,14 +1,13 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Exact, Nullable } from "~/types/deep-notes"
+import { Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { INote } from './notes/notes'
-import { IArrow } from './arrows/arrows'
 
 
 
 
-export type {
-  IAppPage,
+export {
+  AppPage,
   IPageCollab,
   IPageRef,
 }
@@ -16,22 +15,108 @@ export type {
 
 
 
-interface IAppPage {
-  id: string
+class AppPage {
+  ctx: Context
 
-  collab: IPageCollab
+  id!: string
+  
+  collab!: IPageCollab
 
-  notes: INote[]
-  arrows: IArrow[]
+  notes!: INote[]
+  arrows!: any[]
 
   parentId: Nullable<string>
 
 
 
-  reset(id?: string): void;
-  resetCollab(pageName: string): void;
-  create(name: string): Promise<string>;
-  navigateTo(id: string, fromParent?: boolean): void;
+
+  constructor(ctx: Context) {
+    this.ctx = ctx
+
+
+
+
+    $static.vue.ref(this, 'page.id')
+  
+  
+  
+  
+    $static.vue.computed(this, 'collab', () => this.ctx.$app.collab.store?.page)
+  
+  
+  
+  
+    $static.vue.computed(this, 'notes', () =>
+      this.ctx.$app.page.collab?.noteIds.map(noteId => this.ctx.$app.elems.map[noteId]))
+    $static.vue.computed(this, 'arrows', () =>
+      this.ctx.$app.page.collab?.arrowIds.map(arrowId => this.ctx.$app.elems.map[arrowId]))
+  }
+
+
+
+
+  reset(id?: string) {
+    this.ctx.$app.page.id = id ?? uuidv4()
+
+
+
+
+    this.ctx.$app.collab.reset()
+
+    this.ctx.$app.camera.reset()
+    this.ctx.$app.panning.reset()
+
+    this.ctx.$app.elems.reset()
+
+    this.ctx.$app.dragging.reset()
+    this.ctx.$app.editing.reset()
+
+    this.ctx.$app.activeElem.reset()
+    this.ctx.$app.activeRegion.reset()
+    this.ctx.$app.boxSelection.reset()
+    this.ctx.$app.selection.reset()
+
+
+
+
+    this.ctx.$app.collab.startSync()
+  }
+
+
+
+
+  resetCollab(pageName: string) {
+    this.ctx.$app.collab.doc.transact(() => {
+      $static.vue.merge(this.ctx.$app.page.collab, {
+        name: pageName,
+      
+        noteIds: [],
+        arrowIds: [],
+
+        nextZIndex: 0,
+      } as IPageCollab)
+    })
+  }
+
+
+
+
+  async create(name: string) {
+    const id = (await this.ctx.$axios.post('/api/page/create', { name })).data
+
+    this.ctx.$app.page.navigateTo(id, true)
+
+    return id
+  }
+
+
+
+
+  navigateTo(id: string, fromParent?: boolean) {
+    this.ctx.$app.page.parentId = fromParent ? this.ctx.$app.page.id : null
+
+    $nuxt.$router.push({ path: `/${id}` })
+  }
 }
 
 interface IPageCollab {
@@ -47,104 +132,3 @@ interface IPageRef {
   id: string
   name: string
 }
-
-
-
-
-export const init = <T>({ $app, $axios }: Context) => 
-new class implements IAppPage {
-  id!: string
-  
-  collab!: IPageCollab
-
-  notes!: INote[]
-  arrows!: any[]
-
-  parentId: Nullable<string>
-
-
-
-
-  constructor() {
-    $static.vue.ref(this, 'page.id')
-  
-  
-  
-  
-    $static.vue.computed(this, 'collab', () => $app.collab.store?.page)
-  
-  
-  
-  
-    $static.vue.computed(this, 'notes', () =>
-      $app.page.collab?.noteIds.map(noteId => $app.elems.map[noteId]))
-    $static.vue.computed(this, 'arrows', () =>
-      $app.page.collab?.arrowIds.map(arrowId => $app.elems.map[arrowId]))
-  }
-
-
-
-
-  reset(id?: string) {
-    $app.page.id = id ?? uuidv4()
-
-
-
-
-    $app.collab.reset()
-
-    $app.camera.reset()
-    $app.panning.reset()
-
-    $app.elems.reset()
-
-    $app.dragging.reset()
-    $app.editing.reset()
-
-    $app.activeElem.reset()
-    $app.activeRegion.reset()
-    $app.boxSelection.reset()
-    $app.selection.reset()
-
-
-
-
-    $app.collab.startSync()
-  }
-
-
-
-
-  resetCollab(pageName: string) {
-    $app.collab.doc.transact(() => {
-      $static.vue.merge($app.page.collab, {
-        name: pageName,
-      
-        noteIds: [],
-        arrowIds: [],
-
-        nextZIndex: 0,
-      } as IPageCollab)
-    })
-  }
-
-
-
-
-  async create(name: string) {
-    const id = (await $axios.post('/api/page/create', { name })).data
-
-    $app.page.navigateTo(id, true)
-
-    return id
-  }
-
-
-
-
-  navigateTo(id: string, fromParent?: boolean) {
-    $app.page.parentId = fromParent ? $app.page.id : null
-
-    $nuxt.$router.push({ path: `/${id}` })
-  }
-} as Exact<IAppPage, T>

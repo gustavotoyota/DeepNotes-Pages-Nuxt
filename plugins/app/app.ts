@@ -8,7 +8,7 @@ import { Inject } from '@nuxt/types/app'
 import { AppCollab } from './collab'
 
 import { AppProject } from './project'
-import * as page from './page'
+import { AppPage } from './page'
 
 import * as elems from './elems/elems'
 import * as clipboard from './elems/clipboard'
@@ -50,7 +50,7 @@ class App {
   collab: AppCollab
 
   project: AppProject
-  page: page.IAppPage
+  page: AppPage
 
   elems: elems.IAppElems
   clipboard: clipboard.IAppClipboard
@@ -90,7 +90,7 @@ class App {
     this.collab = new AppCollab(ctx)
   
     this.project = new AppProject(ctx)
-    this.page = page.init(ctx)
+    this.page = new AppPage(ctx)
     
     this.elems = elems.init(ctx)
     this.clipboard = clipboard.init(ctx)
