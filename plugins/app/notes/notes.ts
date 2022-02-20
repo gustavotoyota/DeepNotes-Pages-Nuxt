@@ -152,8 +152,6 @@ interface INoteSize {
 class Note extends Elem {
   [key: string]: unknown
 
-  id!: string;
-
   collab!: INoteCollab
 
   selected!: boolean
@@ -186,7 +184,7 @@ class Note extends Elem {
 
   constructor(ctx: Context, options: {
     id?: string
-    parentId?: string
+    parentId?: Nullable<string>
   }) {
     super(ctx, { type: 'note', ...options })
 

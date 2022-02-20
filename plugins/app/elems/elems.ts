@@ -61,7 +61,7 @@ class Elem {
   constructor(ctx: Context, options: {
     id?: string,
     type: string,
-    parentId?: string,
+    parentId?: Nullable<string>,
   }) {
     this.ctx = ctx
 

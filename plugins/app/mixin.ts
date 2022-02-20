@@ -90,6 +90,9 @@ export default async function (ctx: Context, inject: Inject) {
       })
 
       function onKeyDown(event: KeyboardEvent) {
+        if (event.ctrlKey && event.code === 'KeyD')
+          event.preventDefault()
+
         if ((event.target as HTMLElement).nodeName === 'INPUT'
         || (event.target as HTMLElement).nodeName === 'TEXTAREA'
         || (event.target as HTMLElement).isContentEditable)
@@ -100,6 +103,9 @@ export default async function (ctx: Context, inject: Inject) {
 
         if (event.ctrlKey && event.code === 'KeyA')
           ctx.$app.selection.selectAll()
+
+        if (event.ctrlKey && event.code === 'KeyD')
+          ctx.$app.cloning.perform()
       }
 
       onUnmounted(() => {

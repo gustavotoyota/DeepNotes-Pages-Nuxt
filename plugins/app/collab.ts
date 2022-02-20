@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { syncedStore, getYjsValue } from "@syncedstore/core"
+import { syncedStore, getYjsValue, SyncedText, SyncedArray, SyncedMap } from "@syncedstore/core"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
 import { Doc } from "yjs"
@@ -125,6 +125,54 @@ class AppCollab {
         this.ctx.$app.notes.observeMap()
       })
     })
+  }
+
+
+
+  
+  clone(obj: unknown): any {
+    const yjsValue = getYjsValue(obj)
+  
+    if (obj instanceof SyncedText) {
+      const text = new SyncedText()
+      text.applyDelta(obj.toDelta())
+      // @ts-ignore
+      text.quill = obj.quill
+      return text
+    } else if (yjsValue instanceof SyncedArray) {
+      const cloneArray = []
+      for (const value of yjsValue)
+        cloneArray.push(this.clone(value))
+      return cloneArray
+    } else if (yjsValue instanceof Doc
+    || yjsValue instanceof SyncedMap) {
+      const cloneObj: { [key: string]: unknown } = {}
+      for (const [key, value] of Object.entries(obj as object))
+        cloneObj[key] = this.clone(value)
+      return cloneObj
+    } else
+      return obj
+  }
+
+
+  
+
+  bindTexts(obj: unknown) {
+    const yjsValue = getYjsValue(obj)
+
+    if (obj instanceof SyncedText) {
+      // @ts-ignore
+      if (obj.quill != null) {
+        // @ts-ignore
+        new QuillBinding(obj, obj.quill,
+          this.ctx.$app.collab.websocketProvider.awareness)
+      }
+    } else if (yjsValue instanceof Doc
+    || yjsValue instanceof SyncedMap
+    || yjsValue instanceof SyncedArray) {
+      for (const child of Object.values(obj as object))
+        this.bindTexts(child)
+    }
   }
 }
 
