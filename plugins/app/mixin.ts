@@ -96,7 +96,7 @@ export default async function (ctx: Context, inject: Inject) {
           return
         
         if (event.code === 'Delete')
-          ctx.$app.deleting.perform(event)
+          ctx.$app.deleting.perform()
 
         if (event.ctrlKey && event.code === 'KeyA')
           ctx.$app.selection.selectAll()

@@ -12,7 +12,7 @@ import { AppPage } from './page'
 
 import { AppElems } from './elems/elems'
 import { AppClipboard } from './elems/clipboard'
-import * as deleting from './elems/deleting'
+import { AppDeleting } from './elems/deleting'
 
 import * as notes from './notes/notes'
 import * as dragging from './notes/dragging'
@@ -54,7 +54,7 @@ class App {
 
   elems: AppElems
   clipboard: AppClipboard
-  deleting: deleting.IAppDeleting
+  deleting: AppDeleting
 
   notes: notes.IAppNotes
   dragging: dragging.IAppDragging
@@ -94,7 +94,7 @@ class App {
     
     this.elems = new AppElems(ctx)
     this.clipboard = new AppClipboard(ctx)
-    this.deleting = deleting.init(ctx)
+    this.deleting = new AppDeleting(ctx)
   
     this.notes = notes.init(ctx)
     this.dragging = dragging.init(ctx)
