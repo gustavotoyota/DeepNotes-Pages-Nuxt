@@ -6,29 +6,16 @@ import { INote } from "../notes/notes"
 
 
 
-export type {
-  IAppActiveElem,
+export {
+  AppActiveElem,
 }
 
 
 
 
-interface IAppActiveElem {
-  id: Nullable<string>
-  exists: boolean
-  get: Nullable<IElem>
+class AppActiveElem {
+  ctx: Context
 
-  reset(): void
-  is(elem: IElem): boolean
-  clear(): void
-  set(elem: Nullable<IElem>, bringToTop?: boolean): void
-}
-
-
-
-
-export const init = <T>({ $app }: Context) =>
-new class implements IAppActiveElem {
   id: Nullable<string> = null
   exists: boolean = false
   get: Nullable<IElem> = null
@@ -36,37 +23,42 @@ new class implements IAppActiveElem {
 
 
 
-  constructor() {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+
+
+
+
     $static.vue.ref(this, 'activeElem.id')
   
   
   
   
     $static.vue.computed(this, 'exists',
-      () => $app.activeElem.id != null)
+      () => this.ctx.$app.activeElem.id != null)
     $static.vue.computed(this, 'get',
-      () => $app.elems.map[$app.activeElem.id ?? ''])
+      () => this.ctx.$app.elems.map[this.ctx.$app.activeElem.id ?? ''])
   }
 
 
 
   
   reset() {
-    $app.activeElem.id = null
+    this.ctx.$app.activeElem.id = null
   }
 
   
   
   
   is(elem: IElem) {
-    return elem.id === $app.activeElem.id
+    return elem.id === this.ctx.$app.activeElem.id
   }
 
 
 
 
   clear() {
-    $app.activeElem.id = null
+    this.ctx.$app.activeElem.id = null
   }
 
 
@@ -74,18 +66,18 @@ new class implements IAppActiveElem {
 
   set(elem: Nullable<IElem>, bringToTop?: boolean) {
     if (elem == null) {
-      $app.activeElem.clear()
+      this.ctx.$app.activeElem.clear()
       return
     }
 
-    if ($app.activeElem.is(elem))
+    if (this.ctx.$app.activeElem.is(elem))
       return
 
-    $app.selection.add(elem)
+    this.ctx.$app.selection.add(elem)
     
-    $app.activeElem.id = elem.id
+    this.ctx.$app.activeElem.id = elem.id
   
     if (bringToTop !== false)
       (elem as INote).bringToTop()
   }
-} as Exact<IAppActiveElem, T>
+}
