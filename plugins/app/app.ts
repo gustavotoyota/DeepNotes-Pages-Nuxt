@@ -28,7 +28,7 @@ import { AppRects } from './space/rects'
 
 import { AppCamera } from './camera/camera'
 import { AppPanning } from './camera/panning'
-import * as zooming from './camera/zooming'
+import { AppZooming } from './camera/zooming'
 
 import * as selection from './selection/selection'
 import * as activeRegion from './selection/active-region'
@@ -70,7 +70,7 @@ class App {
 
   camera: AppCamera
   panning: AppPanning
-  zooming: zooming.IAppZooming
+  zooming: AppZooming
 
   selection: selection.IAppSelection
   activeRegion: activeRegion.IAppActiveRegion
@@ -110,7 +110,7 @@ class App {
   
     this.camera = new AppCamera(ctx)
     this.panning = new AppPanning(ctx)
-    this.zooming = zooming.init(ctx)
+    this.zooming = new AppZooming(ctx)
   
     this.selection = selection.init(ctx)
     this.activeRegion = activeRegion.init(ctx)
