@@ -3,37 +3,38 @@ import { Context } from "@nuxt/types"
 
 
 
-export type {
-  IAppClipboard,
+export {
+  AppClipboard,
 }
 
 
 
 
-interface IAppClipboard {
-  copy(): void;
-  paste(text: string): void;
-  cut(): void;
-}
+class AppClipboard {
+  ctx: Context
 
 
 
 
-export const init = ({ $app }: Context): IAppClipboard => {
-  return new class implements IAppClipboard {
-    copy() {
-    }
-    
-    
-    
-    
-    async paste(text: string) {
-    }
-    
-    
-    
-    
-    cut() {
-    }
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
+  copy() {
+  }
+  
+  
+  
+  
+  async paste(text: string) {
+  }
+  
+  
+  
+  
+  cut() {
   }
 }

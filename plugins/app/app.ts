@@ -11,7 +11,7 @@ import { AppProject } from './project'
 import { AppPage } from './page'
 
 import { AppElems } from './elems/elems'
-import * as clipboard from './elems/clipboard'
+import { AppClipboard } from './elems/clipboard'
 import * as deleting from './elems/deleting'
 
 import * as notes from './notes/notes'
@@ -53,7 +53,7 @@ class App {
   page: AppPage
 
   elems: AppElems
-  clipboard: clipboard.IAppClipboard
+  clipboard: AppClipboard
   deleting: deleting.IAppDeleting
 
   notes: notes.IAppNotes
@@ -93,7 +93,7 @@ class App {
     this.page = new AppPage(ctx)
     
     this.elems = new AppElems(ctx)
-    this.clipboard = clipboard.init(ctx)
+    this.clipboard = new AppClipboard(ctx)
     this.deleting = deleting.init(ctx)
   
     this.notes = notes.init(ctx)
