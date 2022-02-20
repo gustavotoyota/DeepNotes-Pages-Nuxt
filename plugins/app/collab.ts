@@ -20,7 +20,7 @@ export {
 class AppCollab {
   ctx: Context
 
-  store!: AppCollabStore
+  store!: IAppCollabStore
   doc!: Doc
   indexedDbProvider!: IndexeddbPersistence
   websocketProvider!: WebsocketProvider
@@ -128,7 +128,7 @@ class AppCollab {
   }
 }
 
-interface AppCollabStore {
+interface IAppCollabStore {
   page: Partial<IPageCollab>
   notes: { [key: string]: INoteCollab }
   arrows: { [key: string]: IArrowCollab }
