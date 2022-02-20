@@ -34,10 +34,10 @@ class AppActiveElem {
   
   
   
-    $static.vue.computed(this, 'exists',
-      () => this.ctx.$app.activeElem.id != null)
-    $static.vue.computed(this, 'get',
-      () => this.ctx.$app.elems.map[this.ctx.$app.activeElem.id ?? ''])
+    $static.vue.computed(this, 'exists', () =>
+      this.ctx.$app.activeElem.id != null)
+    $static.vue.computed(this, 'get', () =>
+      this.ctx.$app.elems.map[this.ctx.$app.activeElem.id ?? ''])
   }
 
 

@@ -47,9 +47,13 @@ class AppPage {
   
   
     $static.vue.computed(this, 'notes', () =>
-      this.ctx.$app.page.collab?.noteIds.map(noteId => this.ctx.$app.elems.map[noteId]))
+      this.ctx.$app.page.collab?.noteIds
+        .map(noteId => this.ctx.$app.elems.map[noteId])
+        .filter(note => note != null))
     $static.vue.computed(this, 'arrows', () =>
-      this.ctx.$app.page.collab?.arrowIds.map(arrowId => this.ctx.$app.elems.map[arrowId]))
+      this.ctx.$app.page.collab?.arrowIds
+        .map(arrowId => this.ctx.$app.elems.map[arrowId])
+        .filter(arrow => arrow != null))
   }
 
 

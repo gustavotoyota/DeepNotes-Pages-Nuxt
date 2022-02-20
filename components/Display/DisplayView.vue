@@ -1,7 +1,8 @@
 <template>
 
   <!-- Centralizer -->
-  <div v-if="$app.collab.store != null"
+  <div v-if="$app.collab.store != null
+  && $app.page.collab.name != null"
   style="position: absolute; left: 50%; top: 50%">
 
     <!-- Viewbox -->
@@ -12,8 +13,8 @@
     }">
 
       <DisplayNote
-      v-for="noteId in $app.page.collab.noteIds" :key="noteId"
-      :note="$app.elems.map[noteId]"/>
+      v-for="note in $app.page.notes" :key="note.id"
+      :note="note"/>
 
     </div>
 

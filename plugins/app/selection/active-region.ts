@@ -34,9 +34,8 @@ class AppActiveRegion {
 
 
 
-    $static.vue.computed(this, 'parent', () => {
-      return this.ctx.$app.elems.map[this.ctx.$app.activeRegion.id ?? ''] ?? null
-    })
+    $static.vue.computed(this, 'parent', () =>
+      this.ctx.$app.elems.map[this.ctx.$app.activeRegion.id ?? ''] ?? null)
 
 
 
@@ -47,17 +46,10 @@ class AppActiveRegion {
       else
         return this.ctx.$app.notes.collab[this.ctx.$app.activeRegion.id].childIds
     })
-    $static.vue.computed(this, 'notes', () => {
-      const notes = []
-
-      for (const noteId of this.ctx.$app.activeRegion.noteIds) {
-        const note = this.ctx.$app.elems.map[noteId]
-        if (note)
-          notes.push(note)
-      }
-
-      return notes
-    })
+    $static.vue.computed(this, 'notes', () =>
+      this.ctx.$app.activeRegion.noteIds
+        .map(noteId => this.ctx.$app.elems.map[noteId])
+        .filter(note => note != null))
   }
 
 

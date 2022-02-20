@@ -333,17 +333,10 @@ class Note extends Elem {
 
 
     
-    $static.vue.computed(this, 'children', () => {
-      const children = []
-
-      for (const childId of this.collab.childIds) {
-        const child = this.ctx.$app.elems.map[childId]
-        if (child != null)
-          children.push(child)
-      }
-
-      return children
-    })
+    $static.vue.computed(this, 'children', () =>
+      this.collab.childIds
+        .map(childId => this.ctx.$app.elems.map[childId])
+        .filter(child => child != null))
   }
 
 
