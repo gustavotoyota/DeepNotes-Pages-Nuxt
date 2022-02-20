@@ -443,4 +443,37 @@ class Note extends Elem {
   removeFromRegion() {
     this.siblingIds.splice(this.index, 1)
   }
+
+
+
+
+  scrollIntoView() {
+    if (this.parentId == null)
+      return
+
+
+
+
+    let auxNode = this.getNode('frame') as Node
+
+    while (auxNode != null) {
+      if ($static.utils.hasVertScrollbar(auxNode as HTMLElement))
+        break
+
+      auxNode = auxNode.parentNode as Node
+    }
+
+    if (auxNode == null)
+      return
+
+
+
+
+    const frameNode = this.getNode('frame')
+
+    frameNode.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    })
+  }
 }

@@ -1,4 +1,5 @@
 import { Context } from "@nuxt/types"
+import Vue from "vue"
 import { Note } from "./notes"
 
 
@@ -36,6 +37,12 @@ class AppDropping {
 
         this.ctx.$app.selection.add(selectedNote)
       }
+
+      Vue.nextTick(() => {
+        const lastSelectedNote = this.ctx.$app.selection.notes.at(-1) as Note
+        
+        lastSelectedNote.scrollIntoView()
+      })
     })
   }
 }
