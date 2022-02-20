@@ -1,7 +1,7 @@
 import { Context } from '@nuxt/types'
 import Vue from 'vue'
 import { Exact, Nullable } from "~/types/deep-notes"
-import { IArrow } from '../arrows/arrows'
+import { Arrow } from '../arrows/arrows'
 import { IElem } from '../elems/elems'
 import { INote } from '../notes/notes'
 
@@ -25,7 +25,7 @@ class AppSelection {
   elemIds: string[] = []
 
   notes: INote[] = []
-  arrows: IArrow[] = []
+  arrows: Arrow[] = []
   elems: IElem[] = []
 
 
