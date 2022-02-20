@@ -5,25 +5,26 @@ import { INote } from "./notes"
 
 
 
-export type {
-  IAppCollapsing,
+export {
+  AppCollapsing,
 }
 
 
 
 
-interface IAppCollapsing {
-  expand(note: INote): void;
-  collapse(note: INote): void;
-  set(note: INote, collapsed: boolean): void;
-  toggle(note: INote): void;
-}
+class AppCollapsing {
+  ctx: Context
 
 
 
 
-export const init = <T>({ $app }: Context) => 
-new class implements IAppCollapsing {
+  constructor(ctx: Context) {
+    this.ctx = ctx
+  }
+
+
+
+
   expand(note: INote) {
     note.collab.collapsed = false
     
@@ -45,14 +46,14 @@ new class implements IAppCollapsing {
       return
   
     if (collapsed)
-      $app.collapsing.collapse(note)
+      this.ctx.$app.collapsing.collapse(note)
     else
-      $app.collapsing.expand(note)
+      this.ctx.$app.collapsing.expand(note)
   }
 
 
 
   toggle(note: INote) {
-    $app.collapsing.set(note, !note.collab.collapsed)
+    this.ctx.$app.collapsing.set(note, !note.collab.collapsed)
   }
-} as Exact<IAppCollapsing, T>
+}
