@@ -7,7 +7,7 @@ import { Inject } from '@nuxt/types/app'
 
 import { AppCollab } from './collab'
 
-import * as project from './project'
+import { AppProject } from './project'
 import * as page from './page'
 
 import * as elems from './elems/elems'
@@ -49,7 +49,7 @@ export type {
 class App {
   collab: AppCollab
 
-  project: project.IAppProject
+  project: AppProject
   page: page.IAppPage
 
   elems: elems.IAppElems
@@ -89,7 +89,7 @@ class App {
 
     this.collab = new AppCollab(ctx)
   
-    this.project = project.init(ctx)
+    this.project = new AppProject(ctx)
     this.page = page.init(ctx)
     
     this.elems = elems.init(ctx)

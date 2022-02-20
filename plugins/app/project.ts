@@ -1,37 +1,28 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
 import { IPageRef } from "./page"
 
 
 
 
-export type {
-  IAppProject,
+export {
+  AppProject,
 }
 
 
 
 
-interface IAppProject {
-  path: IPageRef[]
-  recent: IPageRef[]
+class AppProject {
+  ctx: Context
 
-  init(): Promise<void>
-  bumpRecentPage(page: IPageRef): void
-}
+  path!: IPageRef[]
+  recent!: IPageRef[]
 
 
 
 
-export const init = <T>({ $app, $axios, route }: Context) =>
-new class implements IAppProject {
-  path: IPageRef[] = []
-  recent: IPageRef[] = []
+  constructor(ctx: Context) {
+    this.ctx = ctx
 
-
-
-
-  constructor() {
     $static.vue.ref(this, 'project.path')
     $static.vue.ref(this, 'project.recent')
   }
@@ -40,22 +31,22 @@ new class implements IAppProject {
 
 
   async init() {
-    const data = (await $axios.post('/api/project/data', {
-      pageId: route.params.page_id,
+    const data = (await this.ctx.$axios.post('/api/project/data', {
+      pageId: this.ctx.route.params.page_id,
     })).data
 
-    $app.project.path = data.path
-    $app.project.recent = data.recent
+    this.ctx.$app.project.path = data.path
+    this.ctx.$app.project.recent = data.recent
   }
 
 
 
 
   bumpRecentPage(page: IPageRef) {
-    const index = $app.project.recent.findIndex(item => item.id === page.id)
+    const index = this.ctx.$app.project.recent.findIndex(item => item.id === page.id)
     if (index >= 0)
-      $app.project.recent.splice(index, 1)
+      this.ctx.$app.project.recent.splice(index, 1)
 
-    $app.project.recent.push(page)
+    this.ctx.$app.project.recent.push(page)
   }
-} as Exact<IAppProject, T>
+}
