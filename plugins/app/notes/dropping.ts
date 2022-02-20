@@ -31,7 +31,7 @@ class AppDropping {
 
       for (const selectedNote of this.ctx.$app.selection.notes) {
         selectedNote.removeFromRegion()
-        regionNote.collab.childIds.splice(dropIndex, 0, selectedNote.id)
+        regionNote.collab.childIds.splice(dropIndex++, 0, selectedNote.id)
 
         selectedNote.parentId = regionNote.id
 
