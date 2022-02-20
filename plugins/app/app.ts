@@ -14,7 +14,7 @@ import { AppElems } from './elems/elems'
 import { AppClipboard } from './elems/clipboard'
 import { AppDeleting } from './elems/deleting'
 
-import * as notes from './notes/notes'
+import { AppNotes } from './notes/notes'
 import * as dragging from './notes/dragging'
 import * as cloning from './notes/cloning'
 import * as editing from './notes/editing'
@@ -56,7 +56,7 @@ class App {
   clipboard: AppClipboard
   deleting: AppDeleting
 
-  notes: notes.IAppNotes
+  notes: AppNotes
   dragging: dragging.IAppDragging
   cloning: cloning.IAppCloning
   editing: editing.IAppEditing
@@ -96,7 +96,7 @@ class App {
     this.clipboard = new AppClipboard(ctx)
     this.deleting = new AppDeleting(ctx)
   
-    this.notes = notes.init(ctx)
+    this.notes = new AppNotes(ctx)
     this.dragging = dragging.init(ctx)
     this.cloning = cloning.init(ctx)
     this.editing = editing.init(ctx)
