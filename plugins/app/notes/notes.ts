@@ -46,7 +46,7 @@ class AppNotes {
       note.resetCollab(clientPos, parentId)
 
     if (!dontObserve)
-      this.ctx.$app.notes.observeIds(note.collab.childIds, note.id)
+      this.ctx.$app.notes.createAndObserveChildren(note.collab.childIds, note.id)
 
     return note
   }
@@ -54,17 +54,20 @@ class AppNotes {
 
 
 
-  observeIds(ids: string[], parentId?: string) {
+  createAndObserveChildren(ids: string[], parentId?: string) {
+    for (const id of ids) {
+      this.ctx.$app.notes.create({ id, parentId, dontObserve: true })
+
+      this.ctx.$app.notes.createAndObserveChildren(this.ctx.$app.notes.collab[id].childIds, id)
+    }
+
     (getYjsValue(ids) as SyncedArray<string>).observe(event => {
-      let index = 0
-    
       for (const delta of event.changes.delta) {
-        if (delta.retain != null)
-          index += delta.retain
-    
-        if (delta.insert != null)
-          for (const id of delta.insert)
-            this.ctx.$app.notes.create({ id, parentId })
+        if (delta.insert == null)
+          continue
+
+        for (const id of delta.insert)
+          this.ctx.$app.notes.create({ id, parentId })
       }
     })
   }
@@ -81,19 +84,6 @@ class AppNotes {
         Vue.delete(this.ctx.$app.elems.map, noteId)
       }
     })
-  }
-
-
-
-
-  createAndObserveChildren(ids: string[], parentId?: string) {
-    for (const id of ids) {
-      this.ctx.$app.notes.create({ id, parentId, dontObserve: true })
-
-      this.ctx.$app.notes.createAndObserveChildren(this.ctx.$app.notes.collab[id].childIds, id)
-    }
-
-    this.ctx.$app.notes.observeIds(ids, parentId)
   }
 
 
