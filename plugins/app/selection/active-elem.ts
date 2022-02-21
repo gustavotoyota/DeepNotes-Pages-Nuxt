@@ -34,10 +34,15 @@ class AppActiveElem {
   
   
   
-    $static.vue.computed(this, 'exists', () =>
-      this.ctx.$app.activeElem.id != null)
-    $static.vue.computed(this, 'get', () =>
-      this.ctx.$app.elems.map[this.ctx.$app.activeElem.id ?? ''] ?? null)
+    $static.vue.computed(this, 'get', () => {
+      const activeElem = this.ctx.$app.elems.map[this.ctx.$app.activeElem.id ?? ''] ?? null
+
+      if (!activeElem || activeElem.parentId != this.ctx.$app.activeRegion.id)
+        return null
+      
+      return activeElem
+    })
+    $static.vue.computed(this, 'exists', () => this.get != null)
   }
 
 
@@ -51,7 +56,8 @@ class AppActiveElem {
   
   
   is(elem: Elem) {
-    return elem.id === this.ctx.$app.activeElem.id
+    return　elem.parentId == this.ctx.$app.activeRegion.id
+      && elem.id == this.ctx.$app.activeElem.id
   }
 
 
