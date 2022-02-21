@@ -35,16 +35,16 @@ class AppActiveRegion {
 
 
     $static.vue.computed(this, 'parent', () =>
-      this.ctx.$app.elems.map[this.ctx.$app.activeRegion.id ?? ''] ?? null)
+      this.ctx.$app.elems.map[this.id ?? ''] ?? null)
 
 
 
 
     $static.vue.computed(this, 'noteIds', () => {
-      if (this.ctx.$app.activeRegion.id == null)
+      if (this.id == null)
         return this.ctx.$app.page.collab.noteIds
       else
-        return this.ctx.$app.notes.collab[this.ctx.$app.activeRegion.id].childIds
+        return this.ctx.$app.notes.collab[this.id].childIds
     })
     $static.vue.computed(this, 'notes', () =>
       this.ctx.$app.activeRegion.noteIds
