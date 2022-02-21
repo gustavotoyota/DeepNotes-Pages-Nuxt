@@ -105,6 +105,9 @@ class AppSelection {
       
       if (!this.ctx.$app.activeElem.exists)
         this.ctx.$app.activeElem.set(elem)
+
+      if (elem instanceof Note)
+        elem.bringToTop()
     }
   }
   remove(...elems: Elem[]) {

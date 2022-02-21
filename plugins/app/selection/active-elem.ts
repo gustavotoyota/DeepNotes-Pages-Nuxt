@@ -64,7 +64,7 @@ class AppActiveElem {
 
 
 
-  set(elem: Nullable<Elem>, bringToTop?: boolean) {
+  set(elem: Nullable<Elem>) {
     if (elem == null) {
       this.ctx.$app.activeElem.clear()
       return
@@ -77,7 +77,7 @@ class AppActiveElem {
 
     this.ctx.$app.selection.add(elem)
   
-    if (bringToTop !== false)
-      (elem as Note).bringToTop()
+    if (elem instanceof Note)
+      elem.bringToTop()
   }
 }
