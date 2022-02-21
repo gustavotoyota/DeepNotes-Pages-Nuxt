@@ -30,8 +30,6 @@ class AppDeleting {
         this.ctx.$app.activeElem.clear()
 
       for (const note of this.ctx.$app.selection.notes) {
-        Vue.delete(this.ctx.$app.elems.map, note.id)
-
         note.removeFromRegion()
         Vue.delete(this.ctx.$app.collab.store.notes, note.id)
       }
