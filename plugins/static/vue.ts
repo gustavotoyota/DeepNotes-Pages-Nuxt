@@ -1,4 +1,4 @@
-export type {
+export {
   StaticVue,
 }
 
@@ -58,11 +58,4 @@ class StaticVue {
   
     return target
   }
-}
-
-
-
-
-export const init = () => {
-  return new StaticVue()
 }

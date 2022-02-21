@@ -2,9 +2,9 @@ import { Context } from "@nuxt/types"
 import { Inject } from "@nuxt/types/app"
 import { defineNuxtPlugin } from "@nuxtjs/composition-api"
 
-import * as utils from "./utils"
-import * as clipboard from "./clipboard"
-import * as vue from "./vue"
+import { StaticUtils } from "./utils"
+import { StaticClipboard } from "./clipboard"
+import { StaticVue } from "./vue"
 
 
 
@@ -17,9 +17,9 @@ export type {
 
 
 class Static {
-  utils: utils.StaticUtils = utils.init()
-  clipboard: clipboard.StaticClipboard = clipboard.init()
-  vue: vue.StaticVue = vue.init()
+  utils: StaticUtils = new StaticUtils()
+  clipboard: StaticClipboard = new StaticClipboard()
+  vue: StaticVue = new StaticVue()
 }
 
 globalThis.$static = new Static()

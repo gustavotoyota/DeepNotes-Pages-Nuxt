@@ -1,4 +1,4 @@
-export type {
+export {
   StaticUtils,
 }
 
@@ -92,11 +92,4 @@ class StaticUtils {
   capitalizeFirst(text: string) {
     return text.charAt(0).toUpperCase() + text.slice(1)
   }
-}
-
-
-
-
-export const init = () => {
-  return new StaticUtils()
 }

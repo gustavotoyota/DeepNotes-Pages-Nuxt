@@ -1,4 +1,4 @@
-export type {
+export {
   StaticClipboard,
 }
 
@@ -73,11 +73,4 @@ class StaticClipboard {
       return
     }
   }
-}
-
-
-
-
-export const init = () => {
-  return new StaticClipboard()
 }
