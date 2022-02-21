@@ -49,6 +49,16 @@ class AppElems {
   reset() {
     this.ctx.$app.elems.map = {}
   }
+
+
+
+
+  fromIds(elemIds: string[]): Elem[] {
+    return elemIds.map(elemId => this.ctx.$app.elems.map[elemId])
+  }
+  toIds(elems: Elem[]): string[] {
+    return elems.map(elem => elem.id)
+  }
 }
 
 class Elem {

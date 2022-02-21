@@ -23,9 +23,13 @@ class AppSelection {
   noteSet: { [key: string]: boolean } = {}
   arrowSet: { [key: string]: boolean } = {}
 
-  notes: Note[] = []
-  arrows: Arrow[] = []
-  elems: Elem[] = []
+  noteIds!: string[]
+  arrowIds!: string[]
+  elemIds!: string[]
+
+  notes!: Note[]
+  arrows!: Arrow[]
+  elems!: Elem[]
 
 
 
@@ -42,10 +46,17 @@ class AppSelection {
 
 
 
+    $static.vue.computed(this, 'noteIds', () => Object.keys(this.noteSet))
+    $static.vue.computed(this, 'arrowIds', () => Object.keys(this.arrowSet))
+    $static.vue.computed(this, 'elemIds', () => this.noteIds.concat(this.arrowIds))
+
+
+
+
     $static.vue.computed(this, 'notes', () => 
-      this.ctx.$app.activeRegion.notes.filter(note => this.ctx.$app.selection.has(note)))
+      this.ctx.$app.notes.fromIds(this.noteIds))
     $static.vue.computed(this, 'arrows', () => 
-      this.ctx.$app.page.arrows.filter(arrow => this.ctx.$app.selection.has(arrow)))
+      this.ctx.$app.arrows.fromIds(this.arrowIds))
     $static.vue.computed(this, 'elems', () => 
       this.ctx.$app.selection.arrows.concat(this.ctx.$app.selection.notes))
   }
