@@ -29,7 +29,7 @@ class AppCloning {
   perform() {
     const siblingIds = this.ctx.$app.activeRegion.noteIds
     
-    let destIdx = this.ctx.$app.selection.notes.at(-1)?.index ?? 0
+    let destIdx = (this.ctx.$app.selection.notes.at(-1)?.index ?? -1) + 1
 
     for (const selectedNote of this.ctx.$app.selection.notes) {
       const clone = new Note(this.ctx, { parentId: selectedNote.parentId })
