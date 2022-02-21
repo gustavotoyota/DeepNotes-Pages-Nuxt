@@ -16,9 +16,9 @@ export {
 class AppActiveElem {
   ctx: Context
 
-  id: Nullable<string> = null
-  exists: boolean = false
-  get: Nullable<Elem> = null
+  id!: Nullable<string>
+  exists!: boolean
+  get!: Nullable<Elem>
 
 
 
@@ -37,7 +37,7 @@ class AppActiveElem {
     $static.vue.computed(this, 'exists', () =>
       this.ctx.$app.activeElem.id != null)
     $static.vue.computed(this, 'get', () =>
-      this.ctx.$app.elems.map[this.ctx.$app.activeElem.id ?? ''])
+      this.ctx.$app.elems.map[this.ctx.$app.activeElem.id ?? ''] ?? null)
   }
 
 
