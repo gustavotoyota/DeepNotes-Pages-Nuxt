@@ -95,6 +95,16 @@ class AppNotes {
 
     this.ctx.$app.notes.observeIds(ids, parentId)
   }
+
+
+
+
+  fromIds(noteIds: string[]): Note[] {
+    return noteIds.map(noteId => this.ctx.$app.elems.map[noteId] as Note)
+  }
+  toIds(notes: Note[]): string[] {
+    return notes.map(note => note.id)
+  }
 }
 
 interface INoteCollab {
