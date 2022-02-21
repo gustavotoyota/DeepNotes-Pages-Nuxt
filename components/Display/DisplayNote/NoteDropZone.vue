@@ -3,7 +3,7 @@
   <div v-if="$app.dragging.active"
   class="drop-zone"
   :class="{
-    'active': $app.dragging.dropRegionId === parentNote.id
+    'active': $app.dragging.dropRegionId == parentNote.id
       && $app.dragging.dropIndex === index
   }"
   @pointerenter="onPointerEnter"

@@ -94,9 +94,9 @@ class AppCollab {
 
         // Update page path
     
-        if (this.ctx.$app.project.path.find(item => item.id === this.ctx.$app.page.id) == null) {
+        if (this.ctx.$app.project.path.find(item => item.id == this.ctx.$app.page.id) == null) {
           const index = this.ctx.$app.project.path.findIndex(
-            item => item.id === this.ctx.$app.page.parentId)
+            item => item.id == this.ctx.$app.page.parentId)
     
           this.ctx.$app.project.path.splice(index + 1, 1)
     

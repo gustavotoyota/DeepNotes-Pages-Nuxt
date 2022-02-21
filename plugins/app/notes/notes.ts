@@ -299,7 +299,7 @@ class Note extends Elem {
         return this.parent.collab.childIds
     })
     $static.vue.computed(this, 'index', () =>
-      this.siblingIds.findIndex(noteId => noteId === this.id))
+      this.siblingIds.findIndex(noteId => noteId == this.id))
 
 
 

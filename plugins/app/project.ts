@@ -43,7 +43,7 @@ class AppProject {
 
 
   bumpRecentPage(page: IPageRef) {
-    const index = this.ctx.$app.project.recent.findIndex(item => item.id === page.id)
+    const index = this.ctx.$app.project.recent.findIndex(item => item.id == page.id)
     if (index >= 0)
       this.ctx.$app.project.recent.splice(index, 1)
 

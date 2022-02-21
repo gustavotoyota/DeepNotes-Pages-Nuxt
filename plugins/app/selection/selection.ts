@@ -86,7 +86,7 @@ class AppSelection {
 
 
   has(elem: Elem) {
-    return this.ctx.$app.activeRegion.id === elem.parentId
+    return this.ctx.$app.activeRegion.id == elem.parentId
       && (elem.id in (this.ctx.$app.selection[`${elem.type}Set`] as object))
   }
 
