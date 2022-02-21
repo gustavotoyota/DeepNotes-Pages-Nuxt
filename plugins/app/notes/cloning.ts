@@ -2,6 +2,7 @@ import { Context } from "@nuxt/types"
 import Vue from "vue"
 import { INoteCollab, Note } from "./notes"
 import { v4 as uuidv4 } from 'uuid'
+import { Nullable } from "~/types/deep-notes"
 
 
 
@@ -26,8 +27,13 @@ class AppCloning {
 
 
 
-  clone(notes: Note[]): Note[] {
+  clone(notes: Note[], parentId?: Nullable<string>): Note[] {
     const clones = []
+
+
+
+    
+    parentId = parentId ?? notes[0].parentId
 
 
 
@@ -35,7 +41,7 @@ class AppCloning {
     for (const note of notes) {
       // Clone note
 
-      const clone = new Note(this.ctx, { parentId: note.parentId })
+      const clone = new Note(this.ctx, { parentId })
 
       clones.push(clone)
 
@@ -52,7 +58,7 @@ class AppCloning {
       collabClone.zIndex++
 
       collabClone.childIds.splice(0, collabClone.childIds.length,
-        ...this.ctx.$app.notes.toIds(this.clone(note.children)))
+        ...this.ctx.$app.notes.toIds(this.clone(note.children, clone.id)))
 
       Vue.set(this.ctx.$app.notes.collab, clone.id, collabClone)
     }
