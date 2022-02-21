@@ -136,8 +136,6 @@ class AppCollab {
     if (obj instanceof SyncedText) {
       const text = new SyncedText()
       text.applyDelta(obj.toDelta())
-      // @ts-ignore
-      text.quill = obj.quill
       return text
     } else if (yjsValue instanceof SyncedArray) {
       const cloneArray = []
@@ -152,27 +150,6 @@ class AppCollab {
       return cloneObj
     } else
       return obj
-  }
-
-
-  
-
-  bindTexts(obj: unknown) {
-    const yjsValue = getYjsValue(obj)
-
-    if (obj instanceof SyncedText) {
-      // @ts-ignore
-      if (obj.quill != null) {
-        // @ts-ignore
-        new QuillBinding(obj, obj.quill,
-          this.ctx.$app.collab.websocketProvider.awareness)
-      }
-    } else if (yjsValue instanceof Doc
-    || yjsValue instanceof SyncedMap
-    || yjsValue instanceof SyncedArray) {
-      for (const child of Object.values(obj as object))
-        this.bindTexts(child)
-    }
   }
 }
 
