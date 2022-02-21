@@ -121,7 +121,8 @@ class AppCollab {
 
         // Create notes and observe changes
 
-        this.ctx.$app.notes.createAndObserveChildren(this.ctx.$app.page.collab.noteIds)
+        this.ctx.$app.notes.mapAndObserveNoteIds(this.ctx.$app.page.collab.noteIds, null)
+
         this.ctx.$app.notes.observeMap()
       })
     })

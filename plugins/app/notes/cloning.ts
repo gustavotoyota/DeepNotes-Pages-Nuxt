@@ -27,8 +27,8 @@ class AppCloning {
 
 
 
-  clone(notes: Note[], parentId?: Nullable<string>): Note[] {
-    const clones = []
+  clone(notes: Note[], parentId?: Nullable<string>): string[] {
+    const cloneIds = []
 
 
 
@@ -39,11 +39,9 @@ class AppCloning {
 
 
     for (const note of notes) {
-      // Clone note
+      const cloneId = uuidv4()
 
-      const clone = new Note(this.ctx, { parentId })
-
-      clones.push(clone)
+      cloneIds.push(cloneId)
 
 
 
@@ -58,36 +56,37 @@ class AppCloning {
       collabClone.zIndex++
 
       collabClone.childIds.splice(0, collabClone.childIds.length,
-        ...this.ctx.$app.notes.toIds(this.clone(note.children, clone.id)))
+        ...this.clone(note.children, cloneId))
 
-      Vue.set(this.ctx.$app.notes.collab, clone.id, collabClone)
+      Vue.set(this.ctx.$app.notes.collab, cloneId, collabClone)
     }
 
 
     
 
-    return clones
+    return cloneIds
   }
 
 
 
 
   perform() {
-    const clones = this.clone(this.ctx.$app.selection.notes)
-    const cloneIds = this.ctx.$app.notes.toIds(clones)
+    const cloneIds = this.clone(this.ctx.$app.selection.notes)
 
     let destIdx = (this.ctx.$app.selection.notes.at(-1)?.index ?? -1) + 1
     this.ctx.$app.activeRegion.noteIds.splice(destIdx, 0, ...cloneIds)
 
 
 
-
-    this.ctx.$app.selection.set(...clones)
+    
+    this.ctx.$app.selection.set(...this.ctx.$app.notes.fromIds(cloneIds))
 
 
 
 
     Vue.nextTick(() => {
+      console.log(this.ctx.$app.notes.fromIds(cloneIds))
+
       const lastSelectedNote = this.ctx.$app.selection.notes.at(-1) as Note
       
       lastSelectedNote.scrollIntoView()

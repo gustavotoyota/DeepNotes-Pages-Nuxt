@@ -3,6 +3,7 @@ import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/co
 import { IVec2, Nilable, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
 import { Elem } from '../elems/elems'
+import { v4 as uuidv4 } from 'uuid'
 
 
 
@@ -34,40 +35,100 @@ class AppNotes {
 
 
 
-  create({ id, parentId, clientPos, dontObserve }: {
-    id?: string
-    parentId?: string
-    clientPos?: IVec2
-    dontObserve?: boolean
-  }): Note {
-    const note = new Note(this.ctx, { id, parentId })
+  create(parentId: Nullable<string>, clientPos: IVec2) {
+    const id = uuidv4()
 
-    if (id == null)
-      note.resetCollab(clientPos, parentId)
 
-    if (!dontObserve)
-      this.ctx.$app.notes.createAndObserveChildren(note.collab.childIds, note.id)
 
-    return note
+    
+    this.ctx.$app.collab.doc.transact(() => {
+      Vue.set(this.ctx.$app.notes.collab, id, {
+        linkedPageId: null,
+
+        anchor: { x: 0.5, y: 0.5 },
+
+        pos: clientPos ?
+          this.ctx.$app.pos.clientToWorld(clientPos) : { x: 0, y: 0 },
+
+        hasTitle: false,
+        hasBody: true,
+        
+        title: new SyncedText(),
+        body: new SyncedText(),
+
+        collapsible: false,
+        collapsed: false,
+
+        expandedSize: {
+          x: 'auto',
+
+          y: {
+            title: 'auto',
+            body: 'auto',
+            container: 'auto',
+          },
+        },
+        collapsedSize: {
+          x: 'expanded',
+          
+          y: {
+            title: 'auto',
+            body: 'auto',
+            container: 'auto',
+          },
+        },
+
+        movable: true,
+        resizable: true,
+
+        wrapTitle: true,
+        wrapBody: true,
+        
+        readOnly: false,
+
+        container: false,
+        childIds: [],
+
+        dragging: false,
+
+        zIndex: this.ctx.$app.page.collab.nextZIndex++
+      } as INoteCollab)
+
+
+
+      
+      if (parentId == null)
+        this.ctx.$app.page.collab.noteIds.push(id)
+      else
+        this.ctx.$app.notes.collab[parentId].childIds.push(id)
+    })
+
+
+
+
+    return this.ctx.$app.elems.map[id] as Note
   }
 
 
 
 
-  createAndObserveChildren(ids: string[], parentId?: string) {
-    for (const id of ids) {
-      this.ctx.$app.notes.create({ id, parentId, dontObserve: true })
+  mapAndObserveNote(noteId: string, parentId: Nullable<string>) {
+    const note = new Note(this.ctx, noteId, parentId)
 
-      this.ctx.$app.notes.createAndObserveChildren(this.ctx.$app.notes.collab[id].childIds, id)
-    }
+    this.ctx.$app.notes.mapAndObserveNoteIds(note.collab.childIds, note.id)
+  }
+  mapAndObserveNoteIds(noteIds: string[], parentId: Nullable<string>) {
+    for (const noteId of noteIds)
+      this.mapAndObserveNote(noteId, parentId);
 
-    (getYjsValue(ids) as SyncedArray<string>).observe(event => {
+    (getYjsValue(noteIds) as SyncedArray<string>)
+    .observe(event => {
       for (const delta of event.changes.delta) {
         if (delta.insert == null)
           continue
 
-        for (const id of delta.insert)
-          this.ctx.$app.notes.create({ id, parentId })
+        for (const noteId of delta.insert)
+          this.mapAndObserveNote(noteId, parentId)
       }
     })
   }
@@ -76,7 +137,8 @@ class AppNotes {
 
 
   observeMap() {
-    (getYjsValue(this.ctx.$app.notes.collab) as SyncedMap<INoteCollab>).observe(event => {
+    (getYjsValue(this.ctx.$app.notes.collab) as SyncedMap<INoteCollab>)
+    .observe(event => {
       for (const [noteId, change] of event.changes.keys) {
         if (change.action !== 'delete')
           continue
@@ -182,11 +244,8 @@ class Note extends Elem {
 
 
 
-  constructor(ctx: Context, options: {
-    id?: string
-    parentId?: Nullable<string>
-  }) {
-    super(ctx, { type: 'note', ...options })
+  constructor(ctx: Context, id: string, parentId: Nullable<string>) {
+    super(ctx, { id, type: 'note', parentId })
 
 
 
@@ -337,73 +396,6 @@ class Note extends Elem {
       this.collab.childIds
         .map(childId => this.ctx.$app.elems.map[childId])
         .filter(child => child != null))
-  }
-
-
-
-
-  resetCollab(clientPos: Nilable<IVec2>, parentId: Nilable<string>) {
-    this.ctx.$app.collab.doc.transact(() => {
-      Vue.set(this.ctx.$app.notes.collab, this.id, {
-        linkedPageId: null,
-
-        anchor: { x: 0.5, y: 0.5 },
-
-        pos: clientPos ?
-          this.ctx.$app.pos.clientToWorld(clientPos) : { x: 0, y: 0 },
-
-        hasTitle: false,
-        hasBody: true,
-        
-        title: new SyncedText(),
-        body: new SyncedText(),
-
-        collapsible: false,
-        collapsed: false,
-
-        expandedSize: {
-          x: 'auto',
-
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-        collapsedSize: {
-          x: 'expanded',
-          
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-
-        movable: true,
-        resizable: true,
-
-        wrapTitle: true,
-        wrapBody: true,
-        
-        readOnly: false,
-
-        container: false,
-        childIds: [],
-
-        dragging: false,
-
-        zIndex: this.ctx.$app.page.collab.nextZIndex++
-      } as INoteCollab)
-
-
-
-      
-      if (parentId == null)
-        this.ctx.$app.page.collab.noteIds.push(this.id)
-      else
-        this.ctx.$app.notes.collab[parentId].childIds.push(this.id)
-    })
   }
 
 
