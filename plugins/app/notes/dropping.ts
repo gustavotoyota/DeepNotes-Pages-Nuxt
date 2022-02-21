@@ -28,15 +28,21 @@ class AppDropping {
   perform(event: PointerEvent, regionNote: Note, dropIndex: number) {
     this.ctx.$app.collab.doc.transact(() => {
       this.ctx.$app.dragging.finish(event)
+      
+
+
 
       for (const selectedNote of this.ctx.$app.selection.notes) {
         selectedNote.removeFromRegion()
-        regionNote.collab.childIds.splice(dropIndex++, 0, selectedNote.id)
 
+        regionNote.collab.childIds.splice(dropIndex, 0, selectedNote.id)
         selectedNote.parentId = regionNote.id
-
-        this.ctx.$app.selection.add(selectedNote)
       }
+
+      this.ctx.$app.activeRegion.id = regionNote.id
+
+
+
 
       Vue.nextTick(() => {
         const lastSelectedNote = this.ctx.$app.selection.notes.at(-1) as Note

@@ -121,9 +121,9 @@ class AppDragging {
           
           this.ctx.$app.page.collab.noteIds.push(selectedNote.id)
           selectedNote.parentId = null
-
-          this.ctx.$app.selection.add(selectedNote)
         }
+
+        this.ctx.$app.activeRegion.id = null
       }
     }
 
