@@ -22,7 +22,6 @@ class AppSelection {
 
   noteSet: { [key: string]: boolean } = {}
   arrowSet: { [key: string]: boolean } = {}
-  elemIds: string[] = []
 
   notes: Note[] = []
   arrows: Arrow[] = []
@@ -39,13 +38,10 @@ class AppSelection {
 
     $static.vue.ref(this, 'selection.noteSet')
     $static.vue.ref(this, 'selection.arrowSet')
-  
-  
-  
-  
-    $static.vue.computed(this, 'elemIds', () =>
-      Object.keys(this.ctx.$app.selection.noteSet).concat(
-        Object.keys(this.ctx.$app.selection.arrowSet)))
+
+
+
+
     $static.vue.computed(this, 'notes', () => 
       this.ctx.$app.activeRegion.notes.filter(note => this.ctx.$app.selection.has(note)))
     $static.vue.computed(this, 'arrows', () => 
