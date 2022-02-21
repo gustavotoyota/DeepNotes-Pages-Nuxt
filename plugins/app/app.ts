@@ -23,6 +23,8 @@ import { AppCollapsing } from './notes/collapsing'
 import { AppResizing } from './notes/resizing'
 import { AppDropping } from './notes/dropping'
 
+import { AppArrows } from './arrows/arrows'
+
 import { AppPos } from './space/pos'
 import { AppSizes } from './space/sizes'
 import { AppRects } from './space/rects'
@@ -65,6 +67,8 @@ class App {
   collapsing: AppCollapsing
   resizing: AppResizing
   dropping: AppDropping
+  
+  arrows: AppArrows
 
   pos: AppPos
   sizes: AppSizes
@@ -106,6 +110,8 @@ class App {
     this.collapsing = new AppCollapsing(ctx)
     this.resizing = new AppResizing(ctx)
     this.dropping = new AppDropping(ctx)
+    
+    this.arrows = new AppArrows(ctx)
   
     this.pos = new AppPos(ctx)
     this.sizes = new AppSizes(ctx)
