@@ -19,9 +19,9 @@ export {
 class AppElems {
   ctx: Context
 
-  map: { [key: string]: Elem } = {};
-  ids: string[] = [];
-  array: Elem[] = [];
+  map!: { [key: string]: Elem }
+  ids!: string[]
+  array!: Elem[]
 
 
 

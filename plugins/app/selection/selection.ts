@@ -20,8 +20,8 @@ class AppSelection {
   
   ctx: Context
 
-  noteSet: { [key: string]: boolean } = {}
-  arrowSet: { [key: string]: boolean } = {}
+  noteSet!: { [key: string]: boolean }
+  arrowSet!: { [key: string]: boolean }
 
   noteIds!: string[]
   arrowIds!: string[]
