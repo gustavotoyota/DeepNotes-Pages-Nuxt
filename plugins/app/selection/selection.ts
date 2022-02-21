@@ -82,34 +82,38 @@ class AppSelection {
 
 
 
-  add(elem: Elem) {
-    if (this.ctx.$app.selection.has(elem))
-      return
+  add(...elems: Elem[]) {
+    for (const elem of elems) {
+      if (this.ctx.$app.selection.has(elem))
+        continue
 
-    if (elem.parentId != this.ctx.$app.activeRegion.id)
-      this.ctx.$app.selection.clear(elem.parentId)
+      if (elem.parentId != this.ctx.$app.activeRegion.id)
+        this.ctx.$app.selection.clear(elem.parentId)
 
-    Vue.set(this.ctx.$app.selection[`${elem.type}Set`] as object, elem.id, true)
-    
-    if (!this.ctx.$app.activeElem.exists)
-      this.ctx.$app.activeElem.set(elem)
+      Vue.set(this.ctx.$app.selection[`${elem.type}Set`] as object, elem.id, true)
+      
+      if (!this.ctx.$app.activeElem.exists)
+        this.ctx.$app.activeElem.set(elem)
+    }
   }
-  remove(elem: Elem) {
-    if (!this.ctx.$app.selection.has(elem))
-      return
+  remove(...elems: Elem[]) {
+    for (const elem of elems) {
+      if (!this.ctx.$app.selection.has(elem))
+        continue
 
-    Vue.delete(this.ctx.$app.selection[`${elem.type}Set`] as object, elem.id)
+      Vue.delete(this.ctx.$app.selection[`${elem.type}Set`] as object, elem.id)
 
-    if (this.ctx.$app.activeElem.is(elem))
-      this.ctx.$app.activeElem.set(this.ctx.$app.selection.elems.at(-1) ?? null)
+      if (this.ctx.$app.activeElem.is(elem))
+        this.ctx.$app.activeElem.set(this.ctx.$app.selection.elems.at(-1) ?? null)
+    }
   }
 
 
 
 
-  set(elem: Elem) {
+  set(...elems: Elem[]) {
     this.ctx.$app.selection.clear()
-    this.ctx.$app.selection.add(elem)
+    this.ctx.$app.selection.add(...elems)
   }
 
 
