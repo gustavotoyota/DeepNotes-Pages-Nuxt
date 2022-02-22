@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, useContext, watch } from "@nuxtjs/composition-api";
+import { computed, onBeforeUnmount, onMounted, ref, useContext, watch } from "@nuxtjs/composition-api";
 import { SyncedText } from "@syncedstore/core";
 import Quill from "quill";
 import { QuillBinding } from 'y-quill'
@@ -101,7 +101,7 @@ onMounted(() => {
   quill.history.clear()
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   // @ts-ignore
   document.body.removeChild(quill.theme.tooltip.root.parentNode)
 })

@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Inject } from "@nuxt/types/app"
-import { onMounted, onUnmounted, watch } from "@nuxtjs/composition-api"
+import { onBeforeUnmount, onMounted, watch } from "@nuxtjs/composition-api"
 import { openDB } from 'idb'
 import { Note } from "./notes/notes"
 
@@ -27,7 +27,7 @@ export default async function (ctx: Context, inject: Inject) {
         (event.target as Element).releasePointerCapture(event.pointerId)
       }
   
-      onUnmounted(() => {
+      onBeforeUnmount(() => {
         document.removeEventListener('pointerdown', onPointerDownCapture, true)
       })
   
@@ -50,7 +50,7 @@ export default async function (ctx: Context, inject: Inject) {
         ctx.$app.resizing.update(event)
       }
   
-      onUnmounted(() => {
+      onBeforeUnmount(() => {
         document.removeEventListener('pointermove', onPointerMove)
       })
   
@@ -73,7 +73,7 @@ export default async function (ctx: Context, inject: Inject) {
         ctx.$app.resizing.finish(event)
       }
   
-      onUnmounted(() => {
+      onBeforeUnmount(() => {
         document.removeEventListener('pointerup', onPointerUp)
       })
 
@@ -131,7 +131,7 @@ export default async function (ctx: Context, inject: Inject) {
           ctx.$app.editing.start(ctx.$app.activeElem.get as Note)
       }
 
-      onUnmounted(() => {
+      onBeforeUnmount(() => {
         document.removeEventListener('keypress', onKeyPress)
         document.removeEventListener('keydown', onKeyDown)
       })
