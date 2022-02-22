@@ -1,5 +1,6 @@
 import { Context } from "@nuxt/types"
 import Vue from 'vue'
+import { Note } from "../notes/notes"
 
 
 
@@ -24,12 +25,16 @@ class AppDeleting {
 
 
 
-  perform() {
+  perform(notes?: Note[]) {
     this.ctx.$app.collab.doc.transact(() => {
-      if ((this.ctx.$app.activeElem.id ?? '') in this.ctx.$app.selection.noteSet)
-        this.ctx.$app.activeElem.clear()
+      notes = notes ?? this.ctx.$app.selection.notes
 
-      for (const note of this.ctx.$app.selection.notes) {
+      for (const note of notes) {
+        if (this.ctx.$app.activeElem.is(note))
+          this.ctx.$app.activeElem.clear()
+
+        this.perform(note.children)
+
         note.removeFromRegion()
         Vue.delete(this.ctx.$app.collab.store.notes, note.id)
       }
