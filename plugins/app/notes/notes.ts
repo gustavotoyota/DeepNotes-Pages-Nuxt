@@ -41,56 +41,58 @@ class AppNotes {
 
 
     
-    Vue.set(this.ctx.$app.notes.collab, id, {
-      linkedPageId: null,
-
-      anchor: { x: 0.5, y: 0.5 },
-
-      pos: { x: 0, y: 0 },
-
-      hasTitle: false,
-      hasBody: true,
-      
-      title: new SyncedText(),
-      body: new SyncedText(),
-
-      collapsible: false,
-      collapsed: false,
-
-      expandedSize: {
-        x: 'auto',
-
-        y: {
-          title: 'auto',
-          body: 'auto',
-          container: 'auto',
-        },
-      },
-      collapsedSize: {
-        x: 'expanded',
+    this.ctx.$app.collab.doc.transact(() => {
+      Vue.set(this.ctx.$app.notes.collab, id, {
+        linkedPageId: null,
+  
+        anchor: { x: 0.5, y: 0.5 },
+  
+        pos: { x: 0, y: 0 },
+  
+        hasTitle: false,
+        hasBody: true,
         
-        y: {
-          title: 'auto',
-          body: 'auto',
-          container: 'auto',
+        title: new SyncedText(),
+        body: new SyncedText(),
+  
+        collapsible: false,
+        collapsed: false,
+  
+        expandedSize: {
+          x: 'auto',
+  
+          y: {
+            title: 'auto',
+            body: 'auto',
+            container: 'auto',
+          },
         },
-      },
-
-      movable: true,
-      resizable: true,
-
-      wrapTitle: true,
-      wrapBody: true,
-      
-      readOnly: false,
-
-      container: false,
-      childIds: [],
-
-      dragging: false,
-
-      zIndex: this.ctx.$app.page.collab.nextZIndex++
-    } as INoteCollab)
+        collapsedSize: {
+          x: 'expanded',
+          
+          y: {
+            title: 'auto',
+            body: 'auto',
+            container: 'auto',
+          },
+        },
+  
+        movable: true,
+        resizable: true,
+  
+        wrapTitle: true,
+        wrapBody: true,
+        
+        readOnly: false,
+  
+        container: false,
+        childIds: [],
+  
+        dragging: false,
+  
+        zIndex: this.ctx.$app.page.collab.nextZIndex++
+      } as INoteCollab)
+    })
 
 
 
