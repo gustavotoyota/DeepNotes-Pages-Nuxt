@@ -137,4 +137,16 @@ class AppSelection {
     for (const note of this.ctx.$app.activeRegion.notes)
       this.ctx.$app.selection.add(note)
   }
+
+
+
+  
+  shift(shiftX: number, shiftY: number) {
+    this.ctx.$app.collab.doc.transact(() => {
+      for (const note of this.ctx.$app.selection.notes) {
+        note.collab.pos.x += shiftX
+        note.collab.pos.y += shiftY
+      }
+    })
+  }
 }

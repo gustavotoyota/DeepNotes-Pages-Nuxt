@@ -111,6 +111,15 @@ export default async function (ctx: Context, inject: Inject) {
 
         if (event.code === 'F2' && ctx.$app.activeElem.exists)
           ctx.$app.editing.start(ctx.$app.activeElem.get as Note)
+
+        if (event.code === 'ArrowLeft')
+          ctx.$app.selection.shift(-1, 0)
+        if (event.code === 'ArrowRight')
+          ctx.$app.selection.shift(1, 0)
+        if (event.code === 'ArrowUp')
+          ctx.$app.selection.shift(0, -1)
+        if (event.code === 'ArrowDown')
+          ctx.$app.selection.shift(0, 1)
       }
       function onKeyPress(event: KeyboardEvent) {
         if ((event.target as HTMLElement).nodeName === 'INPUT'
