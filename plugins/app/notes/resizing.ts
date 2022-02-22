@@ -62,6 +62,9 @@ class AppResizing {
     if (!this.active)
       return
     
+
+
+
     const activeNote = this.ctx.$app.activeElem.get as Note
     
     const frameClientRect = activeNote.getClientRect('frame')
@@ -113,21 +116,23 @@ class AppResizing {
 
 
 
-    for (const note of this.ctx.$app.selection.notes) {
-      if (newClientRect.size.x !== oldClientRect.size.x)
-        note.width = `${newWorldRect.size.x}px`
+    this.ctx.$app.collab.doc.transact(() => {
+      for (const note of this.ctx.$app.selection.notes) {
+        if (newClientRect.size.x !== oldClientRect.size.x)
+          note.width = `${newWorldRect.size.x}px`
 
-      if (this.section != null
-      && newClientRect.size.y !== oldClientRect.size.y)
-        note[`${this.section}Height`] = `${newWorldRect.size.y}px`
+        if (this.section != null
+        && newClientRect.size.y !== oldClientRect.size.y)
+          note[`${this.section}Height`] = `${newWorldRect.size.y}px`
 
-      note.collab.pos.x +=
-        (newWorldRect.start.x - oldWorldRect.start.x) * (1 - note.collab.anchor.x)
-        + (newWorldRect.end.x - oldWorldRect.end.x) * note.collab.anchor.x
-      note.collab.pos.y +=
-        (newWorldRect.start.y - oldWorldRect.start.y) * (1 - note.collab.anchor.y)
-        + (newWorldRect.end.y - oldWorldRect.end.y) * note.collab.anchor.y
-    }
+        note.collab.pos.x +=
+          (newWorldRect.start.x - oldWorldRect.start.x) * (1 - note.collab.anchor.x)
+          + (newWorldRect.end.x - oldWorldRect.end.x) * note.collab.anchor.x
+        note.collab.pos.y +=
+          (newWorldRect.start.y - oldWorldRect.start.y) * (1 - note.collab.anchor.y)
+          + (newWorldRect.end.y - oldWorldRect.end.y) * note.collab.anchor.y
+      }
+    })
   }
 
 

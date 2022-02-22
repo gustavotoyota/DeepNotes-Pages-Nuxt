@@ -133,9 +133,6 @@ class AppSelection {
 
 
   
-
-
-
   selectAll() {
     for (const note of this.ctx.$app.activeRegion.notes)
       this.ctx.$app.selection.add(note)
