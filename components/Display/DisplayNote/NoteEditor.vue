@@ -94,7 +94,7 @@ onMounted(() => {
 
   quill.enable(false)
 
-  const binding = new QuillBinding(text.value, quill,
+  new QuillBinding(text.value, quill,
     ctx.$app.collab.websocketProvider.awareness)
 })
 
@@ -120,18 +120,20 @@ const fixPadding = computed(() =>
 function onEditToggle() {
   quill.enable(props.note.editing)
   
-  if (!props.note.editing) {
+  if (props.note.editing) {
+    if (props.section !== ctx.$app.editing.section)
+      return
+
+    quill.focus()
+    quill.setSelection(0, 0)
+    quill.setSelection(0, Infinity, 'user')
+  } else {
     // @ts-ignore
     quill.setSelection(null)
+    // @ts-ignore
+    quill.theme.tooltip.hide()
     return
   }
-
-  if (props.section !== ctx.$app.editing.section)
-    return
-
-  quill.focus()
-  quill.setSelection(0, 0)
-  quill.setSelection(0, Infinity, 'user')
 }
 
 onMounted(() => {

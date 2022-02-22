@@ -88,6 +88,10 @@ export default async function (ctx: Context, inject: Inject) {
       })
 
       function onKeyDown(event: KeyboardEvent) {
+        if ((event.target as HTMLElement).isContentEditable
+        && event.code === 'Escape')
+          ctx.$app.editing.stop()
+
         if (event.ctrlKey && event.code === 'KeyD')
           event.preventDefault()
 
