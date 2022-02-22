@@ -1,11 +1,11 @@
 import { Context } from "@nuxt/types"
 import { Inject } from "@nuxt/types/app"
 import { defineNuxtPlugin } from "@nuxtjs/composition-api"
-
-import { StaticUtils } from "./utils"
 import { StaticClipboard } from "./clipboard"
-import { StaticVue } from "./vue"
 import { StaticSyncedStore } from "./synced-store"
+import { StaticUtils } from "./utils"
+import { StaticVue } from "./vue"
+
 
 
 

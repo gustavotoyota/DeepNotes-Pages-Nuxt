@@ -7,7 +7,7 @@ import { Note } from "./notes/notes";
 
 export {
   AppRegions
-}
+};
 
 
 

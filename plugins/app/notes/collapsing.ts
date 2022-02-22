@@ -1,5 +1,4 @@
 import { Context } from "@nuxt/types"
-import { Exact } from "~/types/deep-notes"
 import { Note } from "./notes"
 
 

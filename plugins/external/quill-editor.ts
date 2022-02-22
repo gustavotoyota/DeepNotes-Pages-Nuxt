@@ -1,12 +1,11 @@
-import Quill from "quill";  
+import Quill from "quill";
+import QuillCursors from 'quill-cursors';
+import 'quill/dist/quill.bubble.css'; // for bubble theme
 
-import QuillCursors from 'quill-cursors'
+
+
 
 Quill.register('modules/cursors', QuillCursors)
-
-
-
-import 'quill/dist/quill.bubble.css' // for bubble theme
 
 
 

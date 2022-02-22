@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
-import { IVec2, Nilable, Nullable } from "~/types/deep-notes"
 import { Context } from '@nuxt/types'
-import { Elem } from '../elems/elems'
+import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
 import { v4 as uuidv4 } from 'uuid'
+import Vue from 'vue'
+import { IVec2, Nullable } from "~/types/deep-notes"
+import { Elem } from '../elems/elems'
 
 
 

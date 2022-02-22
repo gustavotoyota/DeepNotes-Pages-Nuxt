@@ -1,4 +1,4 @@
-import { Context } from "@nuxt/types"
+import { Context } from "@nuxt/types";
 import { Elem } from "../elems/elems";
 import { Note } from "./notes";
 
@@ -7,7 +7,7 @@ import { Note } from "./notes";
 
 export {
   AppEditing,
-}
+};
 
 
 

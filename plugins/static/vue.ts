@@ -1,12 +1,12 @@
+import { computed, ssrRef } from '@nuxtjs/composition-api'
+import Vue from 'vue'
+
+
+
+
 export {
   StaticVue,
 }
-
-
-
-
-import { computed, ssrRef } from '@nuxtjs/composition-api'
-import Vue from 'vue'
 
 
 

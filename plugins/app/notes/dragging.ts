@@ -1,12 +1,12 @@
-import { Context } from '@nuxt/types'
-import { Exact, IVec2, Nullable } from "~/types/deep-notes"
+import { Context } from '@nuxt/types';
+import { IVec2, Nullable } from "~/types/deep-notes";
 
 
 
 
 export {
   AppDragging,
-}
+};
 
 
 

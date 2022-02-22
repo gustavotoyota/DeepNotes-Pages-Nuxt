@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { syncedStore, getYjsValue, SyncedText, SyncedArray, SyncedMap } from "@syncedstore/core"
+import { getYjsValue, SyncedArray, SyncedMap, syncedStore, SyncedText } from "@syncedstore/core"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
 import { Doc } from "yjs"

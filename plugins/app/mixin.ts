@@ -1,12 +1,8 @@
 import { Context } from "@nuxt/types"
 import { Inject } from "@nuxt/types/app"
-import {
-  onMounted,
-  onUnmounted,
-  watch,
-} from "@nuxtjs/composition-api"
-
+import { onMounted, onUnmounted, watch } from "@nuxtjs/composition-api"
 import { openDB } from 'idb'
+
 
 
 

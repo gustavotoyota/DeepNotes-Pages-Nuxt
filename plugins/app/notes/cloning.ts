@@ -1,9 +1,7 @@
 import { Context } from "@nuxt/types"
 import Vue from "vue"
-import { INoteCollab, Note } from "./notes"
-import { v4 as uuidv4 } from 'uuid'
 import { Nullable } from "~/types/deep-notes"
-import { SyncedText } from "@syncedstore/core"
+import { Note } from "./notes"
 
 
 

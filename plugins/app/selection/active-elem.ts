@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { Exact, Nullable } from "~/types/deep-notes"
+import { Nullable } from "~/types/deep-notes"
 import { Elem } from "../elems/elems"
 import { Note } from "../notes/notes"
 

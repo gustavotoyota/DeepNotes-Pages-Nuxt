@@ -5,7 +5,7 @@ import { SyncedText } from "@syncedstore/core";
 
 export {
   StaticSyncedStore,
-}
+};
 
 
 

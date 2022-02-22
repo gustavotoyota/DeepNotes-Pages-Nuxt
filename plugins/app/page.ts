@@ -1,6 +1,6 @@
+import { Context } from '@nuxt/types'
 import { v4 as uuidv4 } from 'uuid'
 import { Nullable } from "~/types/deep-notes"
-import { Context } from '@nuxt/types'
 import { Note } from './notes/notes'
 
 

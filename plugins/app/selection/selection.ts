@@ -1,6 +1,6 @@
 import { Context } from '@nuxt/types'
 import Vue from 'vue'
-import { Exact, Nullable } from "~/types/deep-notes"
+import { Nullable } from "~/types/deep-notes"
 import { Arrow } from '../arrows/arrows'
 import { Elem } from '../elems/elems'
 import { Note } from '../notes/notes'

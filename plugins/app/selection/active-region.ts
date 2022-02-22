@@ -1,5 +1,5 @@
-import { Context } from "@nuxt/types"
-import { Nullable } from "~/types/deep-notes"
+import { Context } from "@nuxt/types";
+import { Nullable } from "~/types/deep-notes";
 import { Note } from "../notes/notes";
 
 
@@ -7,7 +7,7 @@ import { Note } from "../notes/notes";
 
 export {
   AppActiveRegion,
-}
+};
 
 
 

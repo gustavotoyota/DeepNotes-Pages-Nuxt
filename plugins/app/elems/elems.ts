@@ -1,8 +1,6 @@
-import Vue from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-import { reactive } from '@nuxtjs/composition-api'
 import { Context } from '@nuxt/types'
-import { App } from '../app'
+import { v4 as uuidv4 } from 'uuid'
+import Vue from 'vue'
 import { Nullable } from '~/types/deep-notes'
 
 
