@@ -15,6 +15,9 @@
 
 </template>
 
+
+
+
 <script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
 
@@ -32,8 +35,11 @@ function onPointerDown(event: PointerEvent) {
 }
 </script>
 
+
+
+
 <style scoped>
-#display * {
+#display /deep/ * {
   touch-action: none;
 }
 </style>
