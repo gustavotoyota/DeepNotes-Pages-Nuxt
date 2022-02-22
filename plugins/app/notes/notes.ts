@@ -35,7 +35,7 @@ class AppNotes {
 
 
 
-  create(parentId: Nullable<string>, clientPos: IVec2) {
+  create(parent: Nullable<Note>, destIndex?: number) {
     const id = uuidv4()
 
 
@@ -47,8 +47,7 @@ class AppNotes {
 
         anchor: { x: 0.5, y: 0.5 },
 
-        pos: clientPos ?
-          this.ctx.$app.pos.clientToWorld(clientPos) : { x: 0, y: 0 },
+        pos: { x: 0, y: 0 },
 
         hasTitle: false,
         hasBody: true,
@@ -96,11 +95,10 @@ class AppNotes {
 
 
 
-      
-      if (parentId == null)
-        this.ctx.$app.page.collab.noteIds.push(id)
-      else
-        this.ctx.$app.notes.collab[parentId].childIds.push(id)
+
+      const siblingIds = this.ctx.$app.regions.getNoteIds(parent)
+      destIndex = destIndex ?? siblingIds.length
+      siblingIds.splice(destIndex, 0, id)
     })
 
 
@@ -232,7 +230,10 @@ class Note extends Elem {
   containerHeight!: string
 
   parent!: Nullable<Note>
+
   siblingIds!: string[]
+  siblings!: Note[]
+
   index!: number
 
   minWidth!: string
@@ -341,14 +342,28 @@ class Note extends Elem {
     
     $static.vue.computed(this, 'parent', () =>
       (this.ctx.$app.elems.map[this.parentId ?? ''] ?? null) as Note)
+
+
+
+
     $static.vue.computed(this, 'siblingIds', () => {
       if (this.parent == null)
         return this.ctx.$app.page.collab.noteIds
       else
         return this.parent.collab.childIds
     })
+    $static.vue.computed(this, 'siblings', () => {
+      if (this.parent == null)
+        return this.ctx.$app.page.notes
+      else
+        return this.parent.children
+    })
+
+
+
+
     $static.vue.computed(this, 'index', () =>
-      this.siblingIds.findIndex(noteId => noteId == this.id))
+      this.siblings.findIndex(note => note.id == this.id))
 
 
 
@@ -467,5 +482,56 @@ class Note extends Elem {
       behavior: 'smooth',
       block: 'nearest',
     })
+  }
+
+
+
+
+  copy(note: Note) {
+    this.collab.linkedPageId = note.collab.linkedPageId
+
+    this.collab.anchor.x = note.collab.anchor.x
+    this.collab.anchor.y = note.collab.anchor.y
+
+    this.collab.pos.x = note.collab.pos.x
+    this.collab.pos.y = note.collab.pos.y
+
+    this.collab.hasTitle = note.collab.hasTitle
+    this.collab.hasBody = note.collab.hasBody
+
+    this.collab.title.delete(0, this.collab.title.length)
+    this.collab.title.applyDelta(note.collab.title.toDelta())
+
+    this.collab.body.delete(0, this.collab.body.length)
+    this.collab.body.applyDelta(note.collab.body.toDelta())
+
+    this.collab.collapsible = note.collab.collapsible
+    this.collab.collapsed = note.collab.collapsed
+
+    this.collab.expandedSize.x = note.collab.expandedSize.x
+    this.collab.expandedSize.y.title = note.collab.expandedSize.y.title
+    this.collab.expandedSize.y.body = note.collab.expandedSize.y.body
+    this.collab.expandedSize.y.container = note.collab.expandedSize.y.container
+
+    this.collab.collapsedSize.x = note.collab.collapsedSize.x
+    this.collab.collapsedSize.y.title = note.collab.collapsedSize.y.title
+    this.collab.collapsedSize.y.body = note.collab.collapsedSize.y.body
+    this.collab.collapsedSize.y.container = note.collab.collapsedSize.y.container
+
+    this.collab.movable = note.collab.movable
+    this.collab.resizable = note.collab.resizable
+    
+    this.collab.wrapTitle = note.collab.wrapTitle
+    this.collab.wrapBody = note.collab.wrapBody
+    
+    this.collab.readOnly = note.collab.readOnly
+    
+    this.collab.container = note.collab.container
+    this.collab.childIds.splice(0,
+      this.collab.childIds.length, ...note.collab.childIds)
+
+    this.collab.dragging = note.collab.dragging
+    
+    this.collab.zIndex = note.collab.zIndex
   }
 }

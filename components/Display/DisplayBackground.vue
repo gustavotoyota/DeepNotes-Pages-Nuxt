@@ -27,9 +27,13 @@ function onPointerDown(event: PointerEvent) {
 }
 
 function onDoubleClick(event: MouseEvent) {
-  const clientPos = ctx.$app.pos.getClientPos(event)
+  const note = ctx.$app.notes.create(null)
 
-  const note = ctx.$app.notes.create(null, clientPos)
+  const clientPos = ctx.$app.pos.getClientPos(event)
+  const worldPos = ctx.$app.pos.clientToWorld(clientPos)
+  
+  note.collab.pos.x = worldPos.x
+  note.collab.pos.y = worldPos.y
 
   ctx.$app.editing.start(note, note.topSection)
 }

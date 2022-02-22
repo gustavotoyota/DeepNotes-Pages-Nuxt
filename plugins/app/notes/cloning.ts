@@ -3,6 +3,7 @@ import Vue from "vue"
 import { INoteCollab, Note } from "./notes"
 import { v4 as uuidv4 } from 'uuid'
 import { Nullable } from "~/types/deep-notes"
+import { SyncedText } from "@syncedstore/core"
 
 
 
@@ -27,38 +28,32 @@ class AppCloning {
 
 
 
-  clone(notes: Note[], parentId?: Nullable<string>): string[] {
+  clone(notes: Note[], parent: Nullable<Note>, destIndex?: number): string[] {
     const cloneIds = []
 
 
 
     
-    parentId = parentId ?? notes[0].parentId
+    parent = parent ?? notes[0].parent
 
 
 
 
     for (const note of notes) {
-      const cloneId = uuidv4()
+      const clone: Note = this.ctx.$app.notes.create(parent, destIndex)
+      
+      clone.copy(note)
 
-      cloneIds.push(cloneId)
+      clone.collab.pos.x += 8
+      clone.collab.pos.y += 8
 
+      const childIds = this.clone(note.children, clone)
 
+      clone.collab.childIds.splice(0, clone.collab.childIds.length, ...childIds)
 
-
-      // Clone collab data
-
-      const collabClone: INoteCollab = this.ctx.$app.collab.clone(note.collab)
-
-      collabClone.pos.x += 8
-      collabClone.pos.y += 8
-
-      collabClone.zIndex++
-
-      collabClone.childIds.splice(0, collabClone.childIds.length,
-        ...this.clone(note.children, cloneId))
-
-      Vue.set(this.ctx.$app.notes.collab, cloneId, collabClone)
+      clone.bringToTop()
+      
+      cloneIds.push(clone.id)
     }
 
 
@@ -71,22 +66,16 @@ class AppCloning {
 
 
   perform() {
-    const cloneIds = this.clone(this.ctx.$app.selection.notes)
+    let destIndex = (this.ctx.$app.selection.notes.at(-1)?.index ?? -1) + 1
 
-    let destIdx = (this.ctx.$app.selection.notes.at(-1)?.index ?? -1) + 1
-    this.ctx.$app.activeRegion.noteIds.splice(destIdx, 0, ...cloneIds)
+    const cloneIds = this.clone(this.ctx.$app.selection.notes, null, destIndex)
 
-
-
-    
     this.ctx.$app.selection.set(...this.ctx.$app.notes.fromIds(cloneIds))
 
 
 
 
     Vue.nextTick(() => {
-      console.log(this.ctx.$app.notes.fromIds(cloneIds))
-
       const lastSelectedNote = this.ctx.$app.selection.notes.at(-1) as Note
       
       lastSelectedNote.scrollIntoView()
