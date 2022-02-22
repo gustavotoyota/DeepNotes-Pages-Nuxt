@@ -84,6 +84,7 @@ export default async function (ctx: Context, inject: Inject) {
 
       onMounted(() => {
         document.addEventListener('keydown', onKeyDown)
+        document.addEventListener('keypress', onKeyPress)
       })
 
       function onKeyDown(event: KeyboardEvent) {
@@ -107,8 +108,18 @@ export default async function (ctx: Context, inject: Inject) {
         if (event.code === 'F2' && ctx.$app.activeElem.exists)
           ctx.$app.editing.start(ctx.$app.activeElem.get as Note)
       }
+      function onKeyPress(event: KeyboardEvent) {
+        if ((event.target as HTMLElement).nodeName === 'INPUT'
+        || (event.target as HTMLElement).nodeName === 'TEXTAREA'
+        || (event.target as HTMLElement).isContentEditable)
+          return
+          
+        if (ctx.$app.activeElem.exists)
+          ctx.$app.editing.start(ctx.$app.activeElem.get as Note)
+      }
 
       onUnmounted(() => {
+        document.removeEventListener('keypress', onKeyPress)
         document.removeEventListener('keydown', onKeyDown)
       })
 
