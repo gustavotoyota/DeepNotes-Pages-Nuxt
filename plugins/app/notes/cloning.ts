@@ -33,30 +33,26 @@ class AppCloning {
 
 
 
-    
-    this.ctx.$app.collab.doc.transact(() => {
-      parent = parent ?? notes[0].parent
   
-  
-  
-  
-      for (const note of notes) {
-        const clone: Note = this.ctx.$app.notes.create(parent, destIndex)
-        
-        clone.copy(note)
-  
-        clone.collab.pos.x += 8
-        clone.collab.pos.y += 8
-  
-        const childIds = this.clone(note.children, clone)
-  
-        clone.collab.childIds.splice(0, clone.collab.childIds.length, ...childIds)
-  
-        clone.bringToTop()
-        
-        cloneIds.push(clone.id)
-      }
-    })
+    parent = parent ?? notes[0].parent
+
+
+
+
+    for (const note of notes) {
+      const clone: Note = this.ctx.$app.notes.create(parent, destIndex)
+      
+      clone.copy(note)
+
+      clone.collab.pos.x += 8
+      clone.collab.pos.y += 8
+
+      this.clone(note.children, clone)
+
+      clone.bringToTop()
+      
+      cloneIds.push(clone.id)
+    }
 
 
     

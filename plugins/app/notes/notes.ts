@@ -41,65 +41,63 @@ class AppNotes {
 
 
     
-    this.ctx.$app.collab.doc.transact(() => {
-      Vue.set(this.ctx.$app.notes.collab, id, {
-        linkedPageId: null,
+    Vue.set(this.ctx.$app.notes.collab, id, {
+      linkedPageId: null,
 
-        anchor: { x: 0.5, y: 0.5 },
+      anchor: { x: 0.5, y: 0.5 },
 
-        pos: { x: 0, y: 0 },
+      pos: { x: 0, y: 0 },
 
-        hasTitle: false,
-        hasBody: true,
-        
-        title: new SyncedText(),
-        body: new SyncedText(),
+      hasTitle: false,
+      hasBody: true,
+      
+      title: new SyncedText(),
+      body: new SyncedText(),
 
-        collapsible: false,
-        collapsed: false,
+      collapsible: false,
+      collapsed: false,
 
-        expandedSize: {
-          x: 'auto',
+      expandedSize: {
+        x: 'auto',
 
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
+        y: {
+          title: 'auto',
+          body: 'auto',
+          container: 'auto',
         },
-        collapsedSize: {
-          x: 'expanded',
-          
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-
-        movable: true,
-        resizable: true,
-
-        wrapTitle: true,
-        wrapBody: true,
+      },
+      collapsedSize: {
+        x: 'expanded',
         
-        readOnly: false,
+        y: {
+          title: 'auto',
+          body: 'auto',
+          container: 'auto',
+        },
+      },
 
-        container: false,
-        childIds: [],
+      movable: true,
+      resizable: true,
 
-        dragging: false,
+      wrapTitle: true,
+      wrapBody: true,
+      
+      readOnly: false,
 
-        zIndex: this.ctx.$app.page.collab.nextZIndex++
-      } as INoteCollab)
+      container: false,
+      childIds: [],
+
+      dragging: false,
+
+      zIndex: this.ctx.$app.page.collab.nextZIndex++
+    } as INoteCollab)
 
 
 
 
-      const siblingIds = this.ctx.$app.regions.getNoteIds(parent)
-      destIndex = destIndex ?? siblingIds.length
-      siblingIds.splice(destIndex, 0, id)
-    })
+    const siblingIds = this.ctx.$app.regions.getNoteIds(parent)
+    destIndex = destIndex ?? siblingIds.length
+    siblingIds.splice(destIndex, 0, id)
 
 
 
@@ -482,50 +480,50 @@ class Note extends Elem {
 
 
   copy(note: Note) {
-    this.collab.linkedPageId = note.collab.linkedPageId
-
-    this.collab.anchor.x = note.collab.anchor.x
-    this.collab.anchor.y = note.collab.anchor.y
-
-    this.collab.pos.x = note.collab.pos.x
-    this.collab.pos.y = note.collab.pos.y
-
-    this.collab.hasTitle = note.collab.hasTitle
-    this.collab.hasBody = note.collab.hasBody
-
-    this.collab.title.delete(0, this.collab.title.length)
-    this.collab.title.applyDelta(note.collab.title.toDelta())
-
-    this.collab.body.delete(0, this.collab.body.length)
-    this.collab.body.applyDelta(note.collab.body.toDelta())
-
-    this.collab.collapsible = note.collab.collapsible
-    this.collab.collapsed = note.collab.collapsed
-
-    this.collab.expandedSize.x = note.collab.expandedSize.x
-    this.collab.expandedSize.y.title = note.collab.expandedSize.y.title
-    this.collab.expandedSize.y.body = note.collab.expandedSize.y.body
-    this.collab.expandedSize.y.container = note.collab.expandedSize.y.container
-
-    this.collab.collapsedSize.x = note.collab.collapsedSize.x
-    this.collab.collapsedSize.y.title = note.collab.collapsedSize.y.title
-    this.collab.collapsedSize.y.body = note.collab.collapsedSize.y.body
-    this.collab.collapsedSize.y.container = note.collab.collapsedSize.y.container
-
-    this.collab.movable = note.collab.movable
-    this.collab.resizable = note.collab.resizable
-    
-    this.collab.wrapTitle = note.collab.wrapTitle
-    this.collab.wrapBody = note.collab.wrapBody
-    
-    this.collab.readOnly = note.collab.readOnly
-    
-    this.collab.container = note.collab.container
-    this.collab.childIds.splice(0,
-      this.collab.childIds.length, ...note.collab.childIds)
-
-    this.collab.dragging = note.collab.dragging
-    
-    this.collab.zIndex = note.collab.zIndex
+    this.ctx.$app.collab.doc.transact(() => {
+      this.collab.linkedPageId = note.collab.linkedPageId
+  
+      this.collab.anchor.x = note.collab.anchor.x
+      this.collab.anchor.y = note.collab.anchor.y
+  
+      this.collab.pos.x = note.collab.pos.x
+      this.collab.pos.y = note.collab.pos.y
+  
+      this.collab.hasTitle = note.collab.hasTitle
+      this.collab.hasBody = note.collab.hasBody
+  
+      this.collab.title.delete(0, this.collab.title.length)
+      this.collab.title.applyDelta(note.collab.title.toDelta())
+  
+      this.collab.body.delete(0, this.collab.body.length)
+      this.collab.body.applyDelta(note.collab.body.toDelta())
+  
+      this.collab.collapsible = note.collab.collapsible
+      this.collab.collapsed = note.collab.collapsed
+  
+      this.collab.expandedSize.x = note.collab.expandedSize.x
+      this.collab.expandedSize.y.title = note.collab.expandedSize.y.title
+      this.collab.expandedSize.y.body = note.collab.expandedSize.y.body
+      this.collab.expandedSize.y.container = note.collab.expandedSize.y.container
+  
+      this.collab.collapsedSize.x = note.collab.collapsedSize.x
+      this.collab.collapsedSize.y.title = note.collab.collapsedSize.y.title
+      this.collab.collapsedSize.y.body = note.collab.collapsedSize.y.body
+      this.collab.collapsedSize.y.container = note.collab.collapsedSize.y.container
+  
+      this.collab.movable = note.collab.movable
+      this.collab.resizable = note.collab.resizable
+      
+      this.collab.wrapTitle = note.collab.wrapTitle
+      this.collab.wrapBody = note.collab.wrapBody
+      
+      this.collab.readOnly = note.collab.readOnly
+      
+      this.collab.container = note.collab.container
+  
+      this.collab.dragging = note.collab.dragging
+      
+      this.collab.zIndex = note.collab.zIndex
+    })
   }
 }
