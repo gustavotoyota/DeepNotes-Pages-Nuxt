@@ -26,17 +26,21 @@ class AppCollapsing {
 
 
   expand(note: Note) {
-    note.collab.collapsed = false
-    
-    note.bringToTop()
+    this.ctx.$app.collab.doc.transact(() => {
+      note.collab.collapsed = false
+      
+      note.bringToTop()
+    })
   }
   collapse(note: Note) {
     if (!note.collab.collapsible)
       return
-  
-    note.collab.collapsed = true
     
-    note.bringToTop()
+    this.ctx.$app.collab.doc.transact(() => {
+      note.collab.collapsed = true
+      
+      note.bringToTop()
+    })
   }
 
 
