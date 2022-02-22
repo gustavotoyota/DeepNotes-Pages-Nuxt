@@ -96,6 +96,9 @@ onMounted(() => {
 
   new QuillBinding(text.value, quill,
     ctx.$app.collab.websocketProvider.awareness)
+
+  // @ts-ignore
+  quill.history.clear()
 })
 
 onUnmounted(() => {
