@@ -26,20 +26,18 @@ class AppDeleting {
 
 
   perform(notes?: Note[]) {
-    this.ctx.$app.collab.doc.transact(() => {
-      notes = notes ?? this.ctx.$app.selection.notes
+    notes = notes ?? this.ctx.$app.selection.notes
 
-      for (const note of notes) {
-        if (this.ctx.$app.activeElem.is(note))
-          this.ctx.$app.activeElem.clear()
+    for (const note of notes) {
+      if (this.ctx.$app.activeElem.is(note))
+        this.ctx.$app.activeElem.clear()
 
-        this.perform(note.children)
+      this.perform(note.children)
 
-        note.removeFromRegion()
-        Vue.delete(this.ctx.$app.collab.store.notes, note.id)
-      }
+      note.removeFromRegion()
+      Vue.delete(this.ctx.$app.collab.store.notes, note.id)
+    }
 
-      this.ctx.$app.selection.clear()
-    })
+    this.ctx.$app.selection.clear()
   }
 }
