@@ -75,33 +75,35 @@ class AppDragging {
 
     
     
-    this.ctx.$app.collab.doc.transact(() => {
-      const clientMousePos = this.ctx.$app.pos.getClientPos(event)
+    const clientMousePos = this.ctx.$app.pos.getClientPos(event)
 
-      if (!this.ctx.$app.dragging.active) {
-        const dist = Math.sqrt(
-          Math.pow(clientMousePos.x - this.ctx.$app.dragging.startPos.x, 2) +
-          Math.pow(clientMousePos.y - this.ctx.$app.dragging.startPos.y, 2)
-        )
-    
-        this.ctx.$app.dragging.active = dist >= MIN_DISTANCE
-        if (!this.ctx.$app.dragging.active)
-          return
-          
-
-
+    if (!this.ctx.$app.dragging.active) {
+      const dist = Math.sqrt(
+        Math.pow(clientMousePos.x - this.ctx.$app.dragging.startPos.x, 2) +
+        Math.pow(clientMousePos.y - this.ctx.$app.dragging.startPos.y, 2)
+      )
+  
+      this.ctx.$app.dragging.active = dist >= MIN_DISTANCE
+      if (!this.ctx.$app.dragging.active)
+        return
         
-        // Remove dragging styles
 
+
+      
+      // Remove dragging styles
+
+      this.ctx.$app.collab.doc.transact(() => {
         for (const selectedNote of this.ctx.$app.selection.notes)
           selectedNote.collab.dragging = selectedNote.collab.movable
+      })
 
 
 
-        
-        if (this.ctx.$app.activeRegion.id != null) {
-          // Adjust note positions and sizes
+      
+      if (this.ctx.$app.activeRegion.id != null) {
+        // Adjust note positions and sizes
 
+        this.ctx.$app.collab.doc.transact(() => {
           for (const selectedNote of this.ctx.$app.selection.notes) {
             const clientRect = selectedNote.getClientRect('frame')
             const worldRect = this.ctx.$app.rects.clientToWorld(clientRect)
@@ -111,38 +113,40 @@ class AppDragging {
 
             selectedNote.width = `${worldRect.size.x}px`
           }
+        })
 
 
 
 
-          // Move notes to page region
+        // Move notes to page region
 
-          for (const selectedNote of this.ctx.$app.selection.notes) {
-            selectedNote.removeFromRegion()
-            
-            this.ctx.$app.page.collab.noteIds.push(selectedNote.id)
-            selectedNote.parentId = null
-          }
-
-          this.ctx.$app.activeRegion.id = null
+        for (const selectedNote of this.ctx.$app.selection.notes) {
+          selectedNote.removeFromRegion()
+          
+          this.ctx.$app.page.collab.noteIds.push(selectedNote.id)
+          selectedNote.parentId = null
         }
+
+        this.ctx.$app.activeRegion.id = null
       }
+    }
 
 
 
 
-      // Calculate delta
+    // Calculate delta
 
-      const delta: IVec2 = {
-        x: (clientMousePos.x - this.ctx.$app.dragging.currentPos.x) / this.ctx.$app.camera.zoom,
-        y: (clientMousePos.y - this.ctx.$app.dragging.currentPos.y) / this.ctx.$app.camera.zoom,
-      };
-
-
+    const delta: IVec2 = {
+      x: (clientMousePos.x - this.ctx.$app.dragging.currentPos.x) / this.ctx.$app.camera.zoom,
+      y: (clientMousePos.y - this.ctx.$app.dragging.currentPos.y) / this.ctx.$app.camera.zoom,
+    };
 
 
-      // Move selected notes
 
+
+    // Move selected notes
+
+    this.ctx.$app.collab.doc.transact(() => {
       for (const note of this.ctx.$app.selection.notes) {
         if (!note.collab.dragging)
           continue
@@ -150,12 +154,12 @@ class AppDragging {
         note.collab.pos.x += delta.x
         note.collab.pos.y += delta.y
       }
-
-
-
-
-      this.ctx.$app.dragging.currentPos = clientMousePos
     })
+
+
+
+
+    this.ctx.$app.dragging.currentPos = clientMousePos
   }
   finish(event: PointerEvent) {
     if (!this.ctx.$app.dragging.down || event.button !== 0)
