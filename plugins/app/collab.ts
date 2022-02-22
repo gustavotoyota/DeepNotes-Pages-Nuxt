@@ -54,7 +54,7 @@ class AppCollab {
     if (!process.client)
       return
 
-    const name = `page-${this.ctx.$app.page.id}`
+    const name = `page-${this.ctx.$app.page.id}-1`
 
     this.ctx.$app.collab.indexedDbProvider = new IndexeddbPersistence(name, this.doc)
 
