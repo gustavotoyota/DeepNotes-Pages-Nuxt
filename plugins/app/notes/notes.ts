@@ -150,7 +150,9 @@ class AppNotes {
 
 
   fromIds(noteIds: string[]): Note[] {
-    return noteIds.map(noteId => this.ctx.$app.elems.map[noteId] as Note)
+    return noteIds
+      .map(noteId => this.ctx.$app.elems.map[noteId] as Note)
+      .filter(note => note != null)
   }
   toIds(notes: Note[]): string[] {
     return notes.map(note => note.id)
@@ -346,18 +348,10 @@ class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'siblingIds', () => {
-      if (this.parent == null)
-        return this.ctx.$app.page.collab.noteIds
-      else
-        return this.parent.collab.childIds
-    })
-    $static.vue.computed(this, 'siblings', () => {
-      if (this.parent == null)
-        return this.ctx.$app.page.notes
-      else
-        return this.parent.children
-    })
+    $static.vue.computed(this, 'siblingIds', () =>
+      this.ctx.$app.regions.getNoteIds(this.parent))
+    $static.vue.computed(this, 'siblings', () =>
+      this.ctx.$app.regions.getNotes(this.parent))
 
 
 

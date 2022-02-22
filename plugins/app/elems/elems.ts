@@ -54,7 +54,9 @@ class AppElems {
 
 
   fromIds(elemIds: string[]): Elem[] {
-    return elemIds.map(elemId => this.ctx.$app.elems.map[elemId])
+    return elemIds
+      .map(elemId => this.ctx.$app.elems.map[elemId])
+      .filter(elem => elem != null)
   }
   toIds(elems: Elem[]): string[] {
     return elems.map(elem => elem.id)

@@ -27,7 +27,9 @@ class AppArrows {
 
 
   fromIds(arrowIds: string[]): Arrow[] {
-    return arrowIds.map(arrowId => this.ctx.$app.elems.map[arrowId] as Arrow)
+    return arrowIds
+      .map(arrowId => this.ctx.$app.elems.map[arrowId] as Arrow)
+      .filter(arrow => arrow != null)
   }
   toIds(arrows: Arrow[]): string[] {
     return arrows.map(arrow => arrow.id)
