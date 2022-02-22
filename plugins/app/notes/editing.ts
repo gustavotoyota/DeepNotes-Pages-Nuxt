@@ -37,7 +37,7 @@ class AppEditing {
 
 
 
-  start(note: Note, section: string) {
+  start(note: Note, section?: string) {
     if (note.editing)
       return
 
@@ -51,7 +51,7 @@ class AppEditing {
 
 
 
-    this.ctx.$app.editing.section = section
+    this.ctx.$app.editing.section = section ?? note.topSection
     this.ctx.$app.editing.active = true
   }
 
