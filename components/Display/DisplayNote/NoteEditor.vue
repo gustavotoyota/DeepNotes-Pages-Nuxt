@@ -96,9 +96,6 @@ onMounted(() => {
 
   new QuillBinding(text.value, quill,
     ctx.$app.collab.websocketProvider.awareness)
-
-  // @ts-ignore
-  quill.history.clear()
 })
 
 onBeforeUnmount(() => {
@@ -126,6 +123,9 @@ function onEditToggle() {
   if (props.note.editing) {
     if (props.section !== ctx.$app.editing.section)
       return
+
+    // @ts-ignore
+    quill.history.clear()
 
     quill.focus()
     quill.setSelection(0, 0)
