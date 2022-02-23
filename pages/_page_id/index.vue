@@ -36,6 +36,9 @@ ctx.$app.page.reset(ctx.route.value.params.page_id)
 
 
 <style>
+* {
+  touch-action: pan-x pan-y;
+}
 *:not(input) {
   user-select: none;
 }
