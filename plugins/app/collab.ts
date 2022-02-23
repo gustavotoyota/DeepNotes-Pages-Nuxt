@@ -68,7 +68,7 @@ class AppCollab {
 
         const pageName = (await this.ctx.$axios.post('/api/project/update', {
           pageId: this.ctx.$app.page.id,
-          parentPageId: this.ctx.$app.page.parentId ?? null,
+          parentPageId: this.ctx.$app.page.parentId,
         })).data
 
 
@@ -88,7 +88,7 @@ class AppCollab {
           const index = this.ctx.$app.project.path.findIndex(
             item => item.id == this.ctx.$app.page.parentId)
     
-          this.ctx.$app.project.path.splice(index + 1, 1)
+          this.ctx.$app.project.path.splice(index + 1)
     
           this.ctx.$app.project.path.push({
             id: this.ctx.$app.page.id,
