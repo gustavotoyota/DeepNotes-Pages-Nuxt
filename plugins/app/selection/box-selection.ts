@@ -11,10 +11,17 @@ export {
 
 
 
+const MIN_DISTANCE = 5
+
+
+
+
 class AppBoxSelection {
   ctx: Context
 
+  down!: boolean
   active!: boolean
+
   startPos!: IVec2
   endPos!: IVec2
 
@@ -24,6 +31,7 @@ class AppBoxSelection {
   constructor(ctx: Context) {
     this.ctx = ctx
 
+    $static.vue.ref(this, 'boxSelection.down')
     $static.vue.ref(this, 'boxSelection.active')
   
     $static.vue.ref(this, 'boxSelection.startPos')
@@ -34,6 +42,7 @@ class AppBoxSelection {
 
 
   reset() {
+    this.ctx.$app.boxSelection.down = false
     this.ctx.$app.boxSelection.active = false
   }
 
@@ -46,23 +55,41 @@ class AppBoxSelection {
 
     const displayPos = this.ctx.$app.pos.getDisplayPos(event)
 
-    this.ctx.$app.boxSelection.active = true
+    this.ctx.$app.boxSelection.down = true
+    this.ctx.$app.boxSelection.active = false
 
     this.ctx.$app.boxSelection.startPos = $static.utils.deepCopy(displayPos)
     this.ctx.$app.boxSelection.endPos = $static.utils.deepCopy(displayPos)
   }
 
   update(event: PointerEvent) {
-    if (!this.ctx.$app.boxSelection.active)
+    if (!this.ctx.$app.boxSelection.down)
       return
+
+      
+
 
     const displayPos = this.ctx.$app.pos.getDisplayPos(event)
 
+    if (!this.ctx.$app.boxSelection.active) {
+      const dist = Math.sqrt(
+        Math.pow(displayPos.x - this.ctx.$app.boxSelection.startPos.x, 2) +
+        Math.pow(displayPos.y - this.ctx.$app.boxSelection.startPos.y, 2)
+      )
+  
+      this.ctx.$app.boxSelection.active = dist >= MIN_DISTANCE
+      if (!this.ctx.$app.boxSelection.active)
+        return
+    }
+
+
+
+    
     this.ctx.$app.boxSelection.endPos = $static.utils.deepCopy(displayPos)
   }
 
   finish(event: PointerEvent) {
-    if (!this.ctx.$app.boxSelection.active || event.button !== 0)
+    if (!this.ctx.$app.boxSelection.down || event.button !== 0)
       return
 
 
@@ -98,6 +125,7 @@ class AppBoxSelection {
   
     
     
+    this.ctx.$app.boxSelection.down = false
     this.ctx.$app.boxSelection.active = false
   }
 }
