@@ -30,7 +30,7 @@ const ctx = useContext()
 
 // Reset page
 
-if (ctx.$app.page.data.id !== ctx.route.value.params.page_id)
+if (ctx.$app.page.id !== ctx.route.value.params.page_id)
   ctx.$app.page = new AppPage(ctx.$app.project, ctx.route.value.params.page_id)
 </script>
 

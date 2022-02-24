@@ -1,4 +1,5 @@
 import { Context } from '@nuxt/types'
+import { v4 as uuidv4 } from 'uuid'
 
 
 
@@ -53,6 +54,11 @@ class AppPage {
   project: AppProject
 
 
+  
+
+  id!: string
+
+
 
 
   data: AppPageData
@@ -96,6 +102,11 @@ class AppPage {
     this.ctx = project.ctx
 
     this.project = project
+
+
+
+
+    $static.vue.ref(this, 'page.id', () => id ?? uuidv4())
 
 
   
@@ -152,14 +163,14 @@ class AppPage {
 
     // Update page path
 
-    if (this.project.path.find(item => item.id == this.data.id) == null) {
+    if (this.project.path.find(item => item.id == this.id) == null) {
       const index = this.project.path.findIndex(
         item => item.id == this.ctx.$app.parentPageId)
 
       this.project.path.splice(index + 1)
 
       this.project.path.push({
-        id: this.data.id,
+        id: this.id,
         name: '',
       })  
     }
@@ -169,7 +180,7 @@ class AppPage {
     // Bump recent page
 
     this.project.bumpRecentPage({
-      id: this.data.id,
+      id: this.id,
       name: '',
     })
 
@@ -179,7 +190,7 @@ class AppPage {
     // Update project
 
     const pageName = (await this.ctx.$axios.post('/api/project/update', {
-      pageId: this.data.id,
+      pageId: this.id,
       parentPageId: this.ctx.$app.parentPageId,
     })).data
 

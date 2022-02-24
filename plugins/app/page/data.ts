@@ -1,5 +1,4 @@
 import { Context } from '@nuxt/types'
-import { v4 as uuidv4 } from 'uuid'
 import { Nullable } from "~/types/deep-notes"
 import { AppPage } from './page'
 import { Note } from './notes/notes'
@@ -18,8 +17,6 @@ export {
 
 class AppPageData {
   page: AppPage
-
-  id!: string
   
   collab!: IPageCollab
 
@@ -31,11 +28,6 @@ class AppPageData {
 
   constructor(page: AppPage, id?: string) {
     this.page = page
-
-
-
-
-    $static.vue.ref(this, 'page.id', () => id ?? uuidv4())
   
   
   
@@ -86,7 +78,7 @@ class AppPageData {
 
 
   navigateTo(id: string, fromParent?: boolean) {
-    this.page.ctx.$app.parentPageId = fromParent ? this.id : null
+    this.page.ctx.$app.parentPageId = fromParent ? this.page.id : null
 
     $nuxt.$router.push({ path: `/${id}` })
   }
