@@ -191,22 +191,7 @@ class AppPage {
 
 
 
-    // Update project
-
-    const pageName = (await this.ctx.$axios.post('/api/project/update', {
-      pageId: this.id,
-      parentPageId: this.ctx.$app.parentPageId,
-    })).data
-
-
-
-
-    // Initialize page collab
-
-    this.resetCollab(pageName)
-
-
-
+    // Watch for page name changes
 
     watch(() => this.data.collab.name, () => {
       const pathRef = this.project.pathPages.find(pageRef => pageRef.id == this.id)
@@ -229,7 +214,7 @@ class AppPage {
 
   resetCollab(pageName: string) {
     this.collab.doc.transact(() => {
-      $static.vue.merge(this.collab, {
+      $static.vue.merge(this.data.collab, {
         name: pageName,
       
         noteIds: [],

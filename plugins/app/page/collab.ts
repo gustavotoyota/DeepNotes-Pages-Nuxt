@@ -1,4 +1,5 @@
 import { Context } from "@nuxt/types"
+import { watch } from "@nuxtjs/composition-api"
 import { getYjsValue, SyncedArray, SyncedMap, syncedStore, SyncedText } from "@syncedstore/core"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
@@ -64,6 +65,26 @@ class AppCollab {
       name, this.doc)
 
       this.page.collab.websocketProvider.on('sync', async () => {
+        // Update project
+    
+        const pageName = (await this.page.ctx.$axios.post('/api/project/update', {
+          pageId: this.page.id,
+          parentPageId: this.page.ctx.$app.parentPageId,
+        })).data
+    
+    
+    
+    
+        // Initialize page collab
+    
+        if (this.page.data.collab.name == null)
+          this.page.resetCollab(pageName)
+
+
+
+
+        // Observe note changes
+        
         this.page.notes.mapAndObserveIds(this.page.data.collab.noteIds, null)
         this.page.notes.observeMap()
       })
