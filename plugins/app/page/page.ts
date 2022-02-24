@@ -61,6 +61,8 @@ class AppPage {
 
   id!: string
 
+  loaded!: boolean
+
 
 
 
@@ -110,6 +112,8 @@ class AppPage {
 
 
     $static.vue.ref(this, 'page.id', () => id ?? uuidv4())
+
+    $static.vue.ref(this, 'page.loaded', () => false)
 
 
   

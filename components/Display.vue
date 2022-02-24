@@ -11,6 +11,14 @@
     <DisplayBoxSelection/>
     <DisplayButtons/>
 
+    <v-overlay :value="!$app.page.loaded"
+    absolute :z-index="0">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   </div>
 
 </template>
