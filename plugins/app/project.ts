@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { IPageRef } from "./page"
+import { IPageRef } from "./page/data"
 
 
 
@@ -23,8 +23,8 @@ class AppProject {
   constructor(ctx: Context) {
     this.ctx = ctx
 
-    $static.vue.ref(this, 'project.path')
-    $static.vue.ref(this, 'project.recent')
+    $static.vue.ref(this, 'project.path', () => [])
+    $static.vue.ref(this, 'project.recent', () => [])
   }
 
 

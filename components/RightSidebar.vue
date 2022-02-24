@@ -10,8 +10,8 @@
   right
   width="300">
 
-    <PageProperties v-if="!$app.activeElem.exists"/>
-    <NoteProperties v-else/>
+    <NoteProperties v-if="$app.page.activeElem.exists"/>
+    <PageProperties v-else/>
 
   </v-navigation-drawer>
   

@@ -7,7 +7,7 @@
     class="note-collapse-button"
     :style="{ 'height': note.numSections === 1 ? '38.45px' : '100%' }"
     @pointerdown.left.stop
-    @click.left.stop="$app.collapsing.toggle(note)"
+    @click.left.stop="$app.page.collapsing.toggle(note)"
     @dblclick.left.stop>
 
       <v-icon v-if="note.collab.collapsed">mdi-chevron-down</v-icon>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { Note } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/page/notes/notes';
 
 const props = defineProps<{
   note: Note

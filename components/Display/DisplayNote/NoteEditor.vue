@@ -15,7 +15,7 @@ import { computed, onBeforeUnmount, onMounted, ref, useContext, watch } from "@n
 import { SyncedText } from "@syncedstore/core";
 import Quill from "quill";
 import { QuillBinding } from 'y-quill'
-import { Note } from "~/plugins/app/notes/notes";
+import { Note } from "~/plugins/app/page/notes/notes";
 
 
 
@@ -95,7 +95,7 @@ onMounted(() => {
   quill.enable(false)
 
   new QuillBinding(text.value, quill,
-    ctx.$app.collab.websocketProvider.awareness)
+    ctx.$app.page.collab.websocketProvider.awareness)
 })
 
 onBeforeUnmount(() => {
@@ -121,7 +121,7 @@ function onEditToggle() {
   quill.enable(props.note.editing)
   
   if (props.note.editing) {
-    if (props.section !== ctx.$app.editing.section)
+    if (props.section !== ctx.$app.page.editing.section)
       return
 
     // @ts-ignore

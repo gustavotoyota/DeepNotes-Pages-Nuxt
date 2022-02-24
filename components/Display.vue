@@ -27,11 +27,11 @@ const ctx = useContext()
 
 
 function onWheel(event: WheelEvent) {
-  ctx.$app.zooming.perform(event)
+  ctx.$app.page.zooming.perform(event)
 }
 
 function onPointerDown(event: PointerEvent) {
-  ctx.$app.panning.start(event)
+  ctx.$app.page.panning.start(event)
 }
 </script>
 

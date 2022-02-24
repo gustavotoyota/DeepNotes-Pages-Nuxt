@@ -2,7 +2,7 @@ import { Context } from "@nuxt/types"
 import { Inject } from "@nuxt/types/app"
 import { onBeforeUnmount, onMounted, watch } from "@nuxtjs/composition-api"
 import { openDB } from 'idb'
-import { Note } from "./notes/notes"
+import { Note } from "./page/notes/notes"
 
 
 
@@ -42,12 +42,12 @@ export default async function (ctx: Context, inject: Inject) {
       })
   
       function onPointerMove(event: PointerEvent) {
-        ctx.$app.panning.update(event)
+        ctx.$app.page.panning.update(event)
         
-        ctx.$app.boxSelection.update(event)
+        ctx.$app.page.boxSelection.update(event)
 
-        ctx.$app.dragging.update(event)
-        ctx.$app.resizing.update(event)
+        ctx.$app.page.dragging.update(event)
+        ctx.$app.page.resizing.update(event)
       }
   
       onBeforeUnmount(() => {
@@ -65,12 +65,15 @@ export default async function (ctx: Context, inject: Inject) {
       })
   
       function onPointerUp(event: PointerEvent) {
-        ctx.$app.panning.finish(event)
-        
-        ctx.$app.boxSelection.finish(event)
+        if (ctx.$app.page == null)
+          return
 
-        ctx.$app.dragging.finish(event)
-        ctx.$app.resizing.finish(event)
+        ctx.$app.page.panning.finish(event)
+        
+        ctx.$app.page.boxSelection.finish(event)
+
+        ctx.$app.page.dragging.finish(event)
+        ctx.$app.page.resizing.finish(event)
       }
   
       onBeforeUnmount(() => {
@@ -88,9 +91,12 @@ export default async function (ctx: Context, inject: Inject) {
       })
 
       function onKeyDown(event: KeyboardEvent) {
+        if (ctx.$app.page == null)
+          return
+
         if ((event.target as HTMLElement).isContentEditable
         && event.code === 'Escape')
-          ctx.$app.editing.stop()
+          ctx.$app.page.editing.stop()
 
         if (event.ctrlKey && event.code === 'KeyD')
           event.preventDefault()
@@ -101,34 +107,37 @@ export default async function (ctx: Context, inject: Inject) {
           return
         
         if (event.code === 'Delete')
-          ctx.$app.deleting.perform()
+          ctx.$app.page.deleting.perform()
 
         if (event.ctrlKey && event.code === 'KeyA')
-          ctx.$app.selection.selectAll()
+          ctx.$app.page.selection.selectAll()
 
         if (event.ctrlKey && event.code === 'KeyD')
-          ctx.$app.cloning.perform()
+          ctx.$app.page.cloning.perform()
 
-        if (event.code === 'F2' && ctx.$app.activeElem.exists)
-          ctx.$app.editing.start(ctx.$app.activeElem.get as Note)
+        if (event.code === 'F2' && ctx.$app.page.activeElem.exists)
+          ctx.$app.page.editing.start(ctx.$app.page.activeElem.get as Note)
 
         if (event.code === 'ArrowLeft')
-          ctx.$app.selection.shift(-1, 0)
+          ctx.$app.page.selection.shift(-1, 0)
         if (event.code === 'ArrowRight')
-          ctx.$app.selection.shift(1, 0)
+          ctx.$app.page.selection.shift(1, 0)
         if (event.code === 'ArrowUp')
-          ctx.$app.selection.shift(0, -1)
+          ctx.$app.page.selection.shift(0, -1)
         if (event.code === 'ArrowDown')
-          ctx.$app.selection.shift(0, 1)
+          ctx.$app.page.selection.shift(0, 1)
       }
       function onKeyPress(event: KeyboardEvent) {
+        if (ctx.$app.page == null)
+          return
+
         if ((event.target as HTMLElement).nodeName === 'INPUT'
         || (event.target as HTMLElement).nodeName === 'TEXTAREA'
         || (event.target as HTMLElement).isContentEditable)
           return
           
-        if (ctx.$app.activeElem.exists)
-          ctx.$app.editing.start(ctx.$app.activeElem.get as Note)
+        if (ctx.$app.page.activeElem.exists)
+          ctx.$app.page.editing.start(ctx.$app.page.activeElem.get as Note)
       }
 
       onBeforeUnmount(() => {

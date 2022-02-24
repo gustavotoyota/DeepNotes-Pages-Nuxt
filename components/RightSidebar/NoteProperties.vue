@@ -33,7 +33,7 @@
 
         <v-select dense outlined hide-details
         background-color="#181818" clearable
-        :items="$app.project.recent" item-text="name" item-value="id"
+        :items="$app.page.project.recent" item-text="name" item-value="id"
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.linkedPageId"
         @change="changeProp($event, (note, value) => {
@@ -125,7 +125,7 @@
         :disabled="!activeNote.collab.collapsible"
         :input-value="activeNote.collab.collapsed"
         @change="changeProp($event, (note, value) => {
-          $app.collapsing.set(note, value)
+          $app.page.collapsing.set(note, value)
         })">
         </v-checkbox>
       </div>
@@ -360,7 +360,7 @@
 
 <script setup lang="ts">
 import { computed, useContext } from "@nuxtjs/composition-api"
-import { Note } from "~/plugins/app/notes/notes";
+import { Note } from "~/plugins/app/page/notes/notes";
 
 const ctx = useContext()
 
@@ -368,8 +368,8 @@ const ctx = useContext()
 
 
 function changeProp(value: any, func: (note: Note, value: any) => void) {
-  ctx.$app.collab.doc.transact(() => {
-    for (const note of ctx.$app.selection.notes)
+  ctx.$app.page.collab.doc.transact(() => {
+    for (const note of ctx.$app.page.selection.notes)
       func(note, value)
   })
 }
@@ -379,7 +379,7 @@ function changeProp(value: any, func: (note: Note, value: any) => void) {
 
 // Active note
 
-const activeNote = computed(() => ctx.$app.activeElem.get as Note)
+const activeNote = computed(() => ctx.$app.page.activeElem.get as Note)
 
 
 
@@ -412,11 +412,11 @@ const width = computed({
       return activeNote.value.size.x
   },
   set(value: string) {
-    for (const note of ctx.$app.selection.notes) {
+    for (const note of ctx.$app.page.selection.notes) {
       if (value === 'custom') {
         const clientRect = note.getClientRect('frame')
 
-        note.size.x = `${ctx.$app.sizes.screenToWorld1D(clientRect.size.x)}px`
+        note.size.x = `${ctx.$app.page.sizes.screenToWorld1D(clientRect.size.x)}px`
       } else
         note.size.x = value
     }
@@ -442,7 +442,7 @@ function sectionHeight(section: string) {
           const node = note.getNode(`${section}-section`)
           const clientRect = node.getBoundingClientRect()
 
-          note.size.y[section] = `${ctx.$app.sizes.screenToWorld1D(clientRect.height)}px`
+          note.size.y[section] = `${ctx.$app.page.sizes.screenToWorld1D(clientRect.height)}px`
         } else
           note.size.y[section] = value
       })

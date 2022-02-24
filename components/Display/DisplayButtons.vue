@@ -7,7 +7,7 @@
     <div style="margin-top: 1px">
 
       <v-btn style="min-width: 0; width: 36px; padding: 0"
-      @click="$app.camera.resetZoom()">
+      @click="$app.page.camera.resetZoom()">
         <v-icon>mdi-magnify-remove-outline</v-icon>
       </v-btn>
 
@@ -16,7 +16,7 @@
     <div style="margin-top: 1px">
 
       <v-btn style="min-width: 0; width: 36px; padding: 0"
-      @click="$app.camera.fitToScreen()">
+      @click="$app.page.camera.fitToScreen()">
         <v-icon>mdi-image-filter-center-focus-weak</v-icon>
       </v-btn>
       

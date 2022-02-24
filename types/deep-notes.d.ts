@@ -32,6 +32,7 @@ interface IVec2 {
 
 declare module '@nuxt/types' {
   interface Context {
+    $ctx: Context
     $app: App;
   }
 }
