@@ -26,8 +26,6 @@ class AppPageData {
   notes!: Note[]
   arrows!: any[]
 
-  parentId: Nullable<string> = null
-
 
 
 
@@ -88,7 +86,7 @@ class AppPageData {
 
 
   navigateTo(id: string, fromParent?: boolean) {
-    this.parentId = fromParent ? this.id : null
+    this.page.ctx.$app.parentPageId = fromParent ? this.id : null
 
     $nuxt.$router.push({ path: `/${id}` })
   }

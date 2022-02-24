@@ -24,6 +24,8 @@ class App {
   project: AppProject
   page: AppPage
 
+  parentPageId: Nullable<string> = null
+
 
 
 

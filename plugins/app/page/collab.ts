@@ -23,6 +23,7 @@ class AppCollab {
 
   store: IAppCollabStore
   doc: Doc
+
   indexedDbProvider!: IndexeddbPersistence
   websocketProvider!: WebsocketProvider
 
@@ -51,6 +52,9 @@ class AppCollab {
     if (!process.client)
       return
 
+
+
+      
     const name = `page-${this.page.data.id}-1`
 
     this.page.collab.indexedDbProvider = new IndexeddbPersistence(name, this.doc)
@@ -61,55 +65,7 @@ class AppCollab {
       name, this.doc)
 
       this.page.collab.websocketProvider.on('sync', async () => {
-        // Update project
-
-        const pageName = (await this.page.ctx.$axios.post('/api/project/update', {
-          pageId: this.page.data.id,
-          parentPageId: this.page.data.parentId,
-        })).data
-
-
-
-
-        // Initialize store if haven't already
-
-        if (this.page.data.collab.name == null)
-          this.page.data.resetCollab(pageName)
-
-
-
-
-        // Update page path
-    
-        if (this.page.project.path.find(item => item.id == this.page.data.id) == null) {
-          const index = this.page.project.path.findIndex(
-            item => item.id == this.page.data.parentId)
-    
-          this.page.project.path.splice(index + 1)
-    
-          this.page.project.path.push({
-            id: this.page.data.id,
-            name: this.page.data.collab.name,
-          })
-        }
-
-
-
-
-        // Bump recent page
-
-        this.page.project.bumpRecentPage({
-          id: this.page.data.id,
-          name: this.page.data.collab.name,
-        })
-
-
-
-
-        // Create notes and observe changes
-
-        this.page.notes.mapAndObserveNoteIds(this.page.data.collab.noteIds, null)
-
+        this.page.notes.mapAndObserveIds(this.page.data.collab.noteIds, null)
         this.page.notes.observeMap()
       })
     })

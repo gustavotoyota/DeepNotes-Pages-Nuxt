@@ -137,6 +137,62 @@ class AppPage {
 
 
 
+    this.init()
+  }
+
+
+
+
+  async init() {
+    if (!process.client)
+      return
+
+
+
+
+    // Update page path
+
+    if (this.project.path.find(item => item.id == this.data.id) == null) {
+      const index = this.project.path.findIndex(
+        item => item.id == this.ctx.$app.parentPageId)
+
+      this.project.path.splice(index + 1)
+
+      this.project.path.push({
+        id: this.data.id,
+        name: '',
+      })  
+    }
+
+
+
+    // Bump recent page
+
+    this.project.bumpRecentPage({
+      id: this.data.id,
+      name: '',
+    })
+
+
+
+
+    // Update project
+
+    const pageName = (await this.ctx.$axios.post('/api/project/update', {
+      pageId: this.data.id,
+      parentPageId: this.ctx.$app.parentPageId,
+    })).data
+
+
+
+
+    // Initialize page collab
+
+    this.data.resetCollab(pageName)
+
+
+
+
     this.collab.startSync()
   }
 }

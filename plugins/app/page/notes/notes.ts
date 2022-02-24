@@ -111,14 +111,14 @@ class AppNotes {
 
 
 
-  mapAndObserveNote(noteId: string, parentId: Nullable<string>) {
+  mapAndObserve(noteId: string, parentId: Nullable<string>) {
     const note = new Note(this.page, noteId, parentId)
 
-    this.page.notes.mapAndObserveNoteIds(note.collab.childIds, note.id)
+    this.page.notes.mapAndObserveIds(note.collab.childIds, note.id)
   }
-  mapAndObserveNoteIds(noteIds: string[], parentId: Nullable<string>) {
+  mapAndObserveIds(noteIds: string[], parentId: Nullable<string>) {
     for (const noteId of noteIds)
-      this.mapAndObserveNote(noteId, parentId);
+      this.mapAndObserve(noteId, parentId);
 
     (getYjsValue(noteIds) as SyncedArray<string>)
     .observe(event => {
@@ -127,7 +127,7 @@ class AppNotes {
           continue
 
         for (const noteId of delta.insert)
-          this.mapAndObserveNote(noteId, parentId)
+          this.mapAndObserve(noteId, parentId)
       }
     })
   }
