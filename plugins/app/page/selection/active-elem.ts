@@ -18,6 +18,8 @@ class AppActiveElem {
   page: AppPage
 
   id!: Nullable<string>
+  type!: string
+
   exists!: boolean
   get!: Nullable<Elem>
 
@@ -31,14 +33,21 @@ class AppActiveElem {
 
 
     $static.vue.ref(this, 'activeElem.id', () => null)
+    $static.vue.ref(this, 'activeElem.type', () => 'page')
   
   
   
   
     $static.vue.computed(this, 'get', () => {
-      const activeElem = this.page.elems.map[this.page.activeElem.id ?? ''] ?? null
+      if (this.id == null)
+        return null
 
-      if (!activeElem || activeElem.parentId != this.page.activeRegion.id)
+      const elems = this.page[`${this.type}s`] as
+        { map: { [key: string]: Elem } }
+      const activeElem = elems.map[this.id] ?? null
+
+      if (activeElem == null
+      || activeElem.parentId != this.page.activeRegion.id)
         return null
       
       return activeElem
@@ -51,14 +60,15 @@ class AppActiveElem {
   
   is(elem: Elem) {
     return　elem.parentId == this.page.activeRegion.id
-      && elem.id == this.page.activeElem.id
+      && elem.id == this.id
   }
 
 
 
 
   clear() {
-    this.page.activeElem.id = null
+    this.id = null
+    this.type = 'page'
   }
 
 
@@ -66,14 +76,15 @@ class AppActiveElem {
 
   set(elem: Nullable<Elem>) {
     if (elem == null) {
-      this.page.activeElem.clear()
+      this.clear()
       return
     }
 
-    if (this.page.activeElem.is(elem))
+    if (this.is(elem))
       return
     
-    this.page.activeElem.id = elem.id
+    this.id = elem.id
+    this.type = elem.type
 
     this.page.selection.add(elem)
   

@@ -20,8 +20,24 @@ class AppArrows {
 
 
 
+  map!: { [key: string]: Arrow }
+
+
+
+
   constructor(page: AppPage) {
     this.page = page
+
+
+
+
+    $static.vue.ref(this, 'arrows.map', () => ({}))
+
+
+
+
+    $static.vue.computed(this, 'ids', () => Object.keys(this.map))
+    $static.vue.computed(this, 'array', () => Object.values(this.map))
   }
 
 
@@ -29,7 +45,7 @@ class AppArrows {
 
   fromIds(arrowIds: string[]): Arrow[] {
     return arrowIds
-      .map(arrowId => this.page.elems.map[arrowId] as Arrow)
+      .map(arrowId => this.map[arrowId] as Arrow)
       .filter(arrow => arrow != null)
   }
   toIds(arrows: Arrow[]): string[] {

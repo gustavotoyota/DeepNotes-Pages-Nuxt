@@ -127,8 +127,8 @@ class AppSelection {
 
   
   selectAll() {
-    for (const note of this.page.activeRegion.notes)
-      this.add(note)
+    for (const elem of this.page.activeRegion.elems)
+      this.add(elem)
   }
 
 

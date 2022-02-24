@@ -21,6 +21,11 @@ export {
 
 class AppNotes {
   page: AppPage
+  
+
+
+
+  map!: { [key: string]: Note }
 
   collab!: { [key: string]: INoteCollab };
 
@@ -29,6 +34,20 @@ class AppNotes {
 
   constructor(page: AppPage) {
     this.page = page
+
+
+
+
+    $static.vue.ref(this, 'notes.map', () => ({}))
+
+
+
+
+    $static.vue.computed(this, 'ids', () => Object.keys(this.map))
+    $static.vue.computed(this, 'array', () => Object.values(this.map))
+
+
+    
 
     $static.vue.computed(this, 'collab', () => this.page.collab.store.notes)
   }
@@ -105,7 +124,7 @@ class AppNotes {
 
 
 
-    return this.page.elems.map[id] as Note
+    return this.page.notes.map[id] as Note
   }
 
 
@@ -142,7 +161,7 @@ class AppNotes {
         if (change.action !== 'delete')
           continue
 
-        Vue.delete(this.page.elems.map, noteId)
+        Vue.delete(this.page.notes.map, noteId)
       }
     })
   }
@@ -152,7 +171,7 @@ class AppNotes {
 
   fromIds(noteIds: string[]): Note[] {
     return noteIds
-      .map(noteId => this.page.elems.map[noteId] as Note)
+      .map(noteId => this.map[noteId] as Note)
       .filter(note => note != null)
   }
   toIds(notes: Note[]): string[] {
@@ -343,8 +362,12 @@ class Note extends Elem {
 
 
     
-    $static.vue.computed(this, 'parent', () =>
-      (this.page.elems.map[this.parentId ?? ''] ?? null) as Note)
+    $static.vue.computed(this, 'parent', () => {
+      if (this.parentId == null)
+        return null
+      else
+        return this.page.notes.map[this.parentId]
+    })
 
 
 
@@ -404,7 +427,7 @@ class Note extends Elem {
     
     $static.vue.computed(this, 'children', () =>
       this.collab.childIds
-        .map(childId => this.page.elems.map[childId])
+        .map(childId => this.page.notes.map[childId])
         .filter(child => child != null))
   }
 

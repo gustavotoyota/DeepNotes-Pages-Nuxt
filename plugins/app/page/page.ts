@@ -52,6 +52,11 @@ export {
 
 
 class AppPage {
+  [key: string]: unknown
+
+
+
+
   ctx: Context
 
   project: AppProject

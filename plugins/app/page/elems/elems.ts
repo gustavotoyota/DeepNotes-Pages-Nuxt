@@ -18,7 +18,9 @@ export {
 class AppElems {
   page: AppPage
 
-  map!: { [key: string]: Elem }
+
+
+
   ids!: string[]
   array!: Elem[]
 
@@ -27,31 +29,6 @@ class AppElems {
 
   constructor(page: AppPage) {
     this.page = page
-
-
-
-
-    $static.vue.ref(this, 'elems.map', () => ({}))
-
-
-
-
-    $static.vue.computed(this, 'ids',
-      () => Object.keys(this.page.elems.map))
-    $static.vue.computed(this, 'array',
-      () => Object.values(this.page.elems.map))
-  }
-
-
-
-
-  fromIds(elemIds: string[]): Elem[] {
-    return elemIds
-      .map(elemId => this.page.elems.map[elemId])
-      .filter(elem => elem != null)
-  }
-  toIds(elems: Elem[]): string[] {
-    return elems.map(elem => elem.id)
   }
 }
 
@@ -73,6 +50,8 @@ class Elem {
     this.type = options.type
     this.parentId = options.parentId ?? null
     
-    Vue.set(this.page.elems.map, this.id, this)
+    const elems = this.page[`${this.type}s`] as
+      { map: { [key: string]: Elem } }
+    Vue.set(elems.map, this.id, this)
   }
 }
