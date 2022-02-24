@@ -151,19 +151,19 @@ export default async function (ctx: Context, inject: Inject) {
       // Maintain IndexedDB
       
       onMounted(async () => {
-        const db = await openDB(`user-${ctx.$auth.user?.userId}`, 1, {
+        const db = await openDB(`user-${ctx.$auth.user?.userId}-1`, 1, {
           upgrade(db, oldVersion, newVersion, transaction) {
-            db.createObjectStore('path')
-            db.createObjectStore('recent')
+            db.createObjectStore('pathPages')
+            db.createObjectStore('recentPages')
           },
         })
 
-        watch(() => ctx.$app.project.path, async () => {
-          await db.put('path', ctx.$app.project.path, 'value')
+        watch(() => ctx.$app.project.pathPages, async () => {
+          await db.put('pathPages', ctx.$app.project.pathPages, 'value')
         }, { deep: true, immediate: true })
 
-        watch(() => ctx.$app.project.recent, async () => {
-          await db.put('recent', ctx.$app.project.recent, 'value')
+        watch(() => ctx.$app.project.recentPages, async () => {
+          await db.put('recentPages', ctx.$app.project.recentPages, 'value')
         }, { deep: true, immediate: true })
       })
 

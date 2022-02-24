@@ -37,6 +37,7 @@ import { AppDropping } from './notes/dropping'
 import { AppArrows } from './arrows/arrows'
 import { AppPageData } from './data'
 import { AppProject } from '../project'
+import { watch, watchEffect } from '@nuxtjs/composition-api'
 
 
 
@@ -165,13 +166,13 @@ class AppPage {
 
     // Update page path
 
-    if (this.project.path.find(item => item.id == this.id) == null) {
-      const index = this.project.path.findIndex(
+    if (this.project.pathPages.find(item => item.id == this.id) == null) {
+      const index = this.project.pathPages.findIndex(
         item => item.id == this.ctx.$app.parentPageId)
 
-      this.project.path.splice(index + 1)
+      this.project.pathPages.splice(index + 1)
 
-      this.project.path.push({
+      this.project.pathPages.push({
         id: this.id,
         name: '',
       })  
@@ -179,7 +180,7 @@ class AppPage {
 
 
 
-    
+
     // Bump recent page
 
     this.project.bumpRecentPage({
@@ -203,6 +204,19 @@ class AppPage {
     // Initialize page collab
 
     this.resetCollab(pageName)
+
+
+
+
+    watch(() => this.data.collab.name, () => {
+      const pathRef = this.project.pathPages.find(pageRef => pageRef.id == this.id)
+      if (pathRef != null)
+        pathRef.name = this.data.collab.name
+
+      const recentRef = this.project.recentPages.find(pageRef => pageRef.id == this.id)
+      if (recentRef != null)
+        recentRef.name = this.data.collab.name
+    }, { immediate: true })
 
 
 

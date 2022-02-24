@@ -22,7 +22,7 @@
     <v-list dense>
 
       <v-list-item
-      v-for="page in $app.page.project.path" :key="page.id"
+      v-for="page in $app.page.project.pathPages" :key="page.id"
       :input-value="page.id == $app.page.id"
       @click="$app.page.navigateTo(page.id)"
       link>
