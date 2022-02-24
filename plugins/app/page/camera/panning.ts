@@ -32,9 +32,6 @@ class AppPanning {
 
 
   start(event: PointerEvent) {
-    if (event.button !== 1)
-      return
-
     if (this.page.camera.lockPos)
       return
 
@@ -57,7 +54,7 @@ class AppPanning {
   }
 
   finish(event: PointerEvent) {
-    if (!this.active || event.button !== 1)
+    if (!this.active)
       return
 
     this.active = false

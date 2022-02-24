@@ -37,9 +37,6 @@ class AppResizing {
 
 
   start(event: PointerEvent, note: Note, side: string, section?: Nullable<string>) {
-    if (event.button !== 0)
-      return
-  
     this.page.activeElem.set(note)
 
 
@@ -134,7 +131,7 @@ class AppResizing {
 
 
   finish(event: PointerEvent) {
-    if (!this.active || event.button !== 0)
+    if (!this.active)
       return
   
     this.active = false

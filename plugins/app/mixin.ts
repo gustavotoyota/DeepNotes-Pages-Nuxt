@@ -65,15 +65,17 @@ export default async function (ctx: Context, inject: Inject) {
       })
   
       function onPointerUp(event: PointerEvent) {
-        if (ctx.$app.page == null)
-          return
-
-        ctx.$app.page.panning.finish(event)
+        if (event.button === 1 || event.pointerType !== 'mouse')
+          ctx.$app.page.panning.finish(event)
         
-        ctx.$app.page.boxSelection.finish(event)
+        if (event.button === 0 || event.pointerType !== 'mouse')
+          ctx.$app.page.boxSelection.finish(event)
 
-        ctx.$app.page.dragging.finish(event)
-        ctx.$app.page.resizing.finish(event)
+        if (event.button === 0 || event.pointerType !== 'mouse')
+          ctx.$app.page.dragging.finish(event)
+
+        if (event.button === 0 || event.pointerType !== 'mouse')
+          ctx.$app.page.resizing.finish(event)
       }
   
       onBeforeUnmount(() => {
@@ -91,9 +93,6 @@ export default async function (ctx: Context, inject: Inject) {
       })
 
       function onKeyDown(event: KeyboardEvent) {
-        if (ctx.$app.page == null)
-          return
-
         if ((event.target as HTMLElement).isContentEditable
         && event.code === 'Escape')
           ctx.$app.page.editing.stop()
@@ -128,9 +127,6 @@ export default async function (ctx: Context, inject: Inject) {
           ctx.$app.page.selection.shift(0, 1)
       }
       function onKeyPress(event: KeyboardEvent) {
-        if (ctx.$app.page == null)
-          return
-
         if ((event.target as HTMLElement).nodeName === 'INPUT'
         || (event.target as HTMLElement).nodeName === 'TEXTAREA'
         || (event.target as HTMLElement).isContentEditable)

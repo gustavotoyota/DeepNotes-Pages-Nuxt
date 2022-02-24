@@ -60,7 +60,8 @@ function onPointerDown(event: PointerEvent) {
 
   ctx.$app.page.clickSelection.perform(props.note, event)
 
-  if (ctx.$app.page.selection.has(props.note))
+  if (event.button === 0
+  && ctx.$app.page.selection.has(props.note))
     ctx.$app.page.dragging.start(event)
 }
 

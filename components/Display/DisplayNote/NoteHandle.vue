@@ -54,7 +54,8 @@ const top = computed(() => {
 
 
 function onPointerDown(event: PointerEvent) {
-  ctx.$app.page.resizing.start(event, props.note, props.side, props.section)
+  if (event.button === 0)
+    ctx.$app.page.resizing.start(event, props.note, props.side, props.section)
 }
 </script>
 

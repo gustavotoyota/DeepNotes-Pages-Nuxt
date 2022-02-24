@@ -49,9 +49,6 @@ class AppDragging {
 
 
   start(event: PointerEvent) {
-    if (event.button !== 0)
-      return
-    
     this.page.dragging.down = true
     this.page.dragging.active = false
 
@@ -155,7 +152,7 @@ class AppDragging {
     this.page.dragging.currentPos = clientMousePos
   }
   finish(event: PointerEvent) {
-    if (!this.page.dragging.down || event.button !== 0)
+    if (!this.page.dragging.down)
       return
 
     this.page.collab.doc.transact(() => {

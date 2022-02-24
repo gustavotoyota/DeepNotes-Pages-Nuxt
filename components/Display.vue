@@ -39,7 +39,8 @@ function onWheel(event: WheelEvent) {
 }
 
 function onPointerDown(event: PointerEvent) {
-  ctx.$app.page.panning.start(event)
+  if (event.button === 1)
+    ctx.$app.page.panning.start(event)
 }
 </script>
 
