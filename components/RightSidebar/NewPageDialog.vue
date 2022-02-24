@@ -74,7 +74,7 @@ async function onSubmit() {
 
   const selectedNotes = ctx.$app.page.selection.notes
   
-  const pageId = await ctx.$app.page.data.create(name.value)
+  const pageId = await ctx.$app.page.create(name.value)
 
   for (const selectedNote of selectedNotes)
     selectedNote.collab.linkedPageId = pageId

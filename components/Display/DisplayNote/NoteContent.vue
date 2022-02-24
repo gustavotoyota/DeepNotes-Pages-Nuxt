@@ -72,7 +72,7 @@ function onClick(event: MouseEvent) {
   || event.ctrlKey || event.shiftKey || props.note.selected)
     return
 
-  ctx.$app.page.data.navigateTo(props.note.collab.linkedPageId, true)
+  ctx.$app.page.navigateTo(props.note.collab.linkedPageId, true)
 }
 </script>
 

@@ -5,8 +5,7 @@ import { WebsocketProvider } from "y-websocket"
 import { Doc } from "yjs"
 import type { IArrowCollab } from "./arrows/arrows"
 import type { INoteCollab } from "./notes/notes"
-import type { IPageCollab } from "./data"
-import { AppPage } from "./page"
+import { AppPage, IPageCollab } from "./page"
 
 
 

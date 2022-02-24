@@ -43,6 +43,8 @@ import { AppProject } from '../project'
 
 export {
   AppPage,
+  IPageCollab,
+  IPageRef,
 }
 
 
@@ -177,6 +179,7 @@ class AppPage {
 
 
 
+    
     // Bump recent page
 
     this.project.bumpRecentPage({
@@ -199,11 +202,61 @@ class AppPage {
 
     // Initialize page collab
 
-    this.data.resetCollab(pageName)
+    this.resetCollab(pageName)
 
 
 
 
     this.collab.startSync()
   }
+
+
+
+
+  resetCollab(pageName: string) {
+    this.collab.doc.transact(() => {
+      $static.vue.merge(this.collab, {
+        name: pageName,
+      
+        noteIds: [],
+        arrowIds: [],
+
+        nextZIndex: 0,
+      } as IPageCollab)
+    })
+  }
+
+
+
+
+  async create(name: string) {
+    const id = (await this.ctx.$axios.post('/api/page/create', { name })).data
+
+    this.navigateTo(id, true)
+
+    return id
+  }
+
+
+
+
+  navigateTo(id: string, fromParent?: boolean) {
+    this.ctx.$app.parentPageId = fromParent ? this.id : null
+
+    $nuxt.$router.push({ path: `/${id}` })
+  }
+}
+
+interface IPageCollab {
+  name: string,
+
+  noteIds: string[],
+  arrowIds: string[],
+
+  nextZIndex: number
+}
+
+interface IPageRef {
+  id: string
+  name: string
 }

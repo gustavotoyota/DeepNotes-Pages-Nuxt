@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { IPageRef } from "./page/data"
+import { IPageRef } from "./page/page"
 
 
 
