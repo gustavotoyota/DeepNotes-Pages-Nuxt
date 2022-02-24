@@ -1,10 +1,10 @@
 <template>
 
-  <div v-if="$app.dragging.active"
+  <div v-if="$app.page.dragging.active"
   class="drop-zone"
   :class="{
-    'active': $app.dragging.dropRegionId == parentNote.id
-      && $app.dragging.dropIndex === index
+    'active': $app.page.dragging.dropRegionId == parentNote.id
+      && $app.page.dragging.dropIndex === index
   }"
   @pointerenter="onPointerEnter"
   @pointerleave="onPointerLeave"
@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useContext } from '@nuxtjs/composition-api';
-import { Note } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/page/notes/notes';
 
 const ctx = useContext()
 
@@ -30,23 +30,23 @@ const props = defineProps<{
 
 
 function onPointerEnter(event: PointerEvent) {
-  if (!ctx.$app.dragging.active)
+  if (!ctx.$app.page.dragging.active)
     return
 
-  ctx.$app.dragging.dropRegionId = props.parentNote.id
-  ctx.$app.dragging.dropIndex = props.index
+  ctx.$app.page.dragging.dropRegionId = props.parentNote.id
+  ctx.$app.page.dragging.dropIndex = props.index
 }
 
 function onPointerLeave(event: PointerEvent) {
-  if (!ctx.$app.dragging.active)
+  if (!ctx.$app.page.dragging.active)
     return
   
-  ctx.$app.dragging.dropRegionId = null
-  ctx.$app.dragging.dropIndex = null
+  ctx.$app.page.dragging.dropRegionId = null
+  ctx.$app.page.dragging.dropIndex = null
 }
 
 function onPointerUp(event: PointerEvent) {
-  ctx.$app.dropping.perform(event, props.parentNote, props.index)
+  ctx.$app.page.dropping.perform(event, props.parentNote, props.index)
 }
 </script>
 

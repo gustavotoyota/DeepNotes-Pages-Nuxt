@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { Note } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/page/notes/notes';
 
 
 

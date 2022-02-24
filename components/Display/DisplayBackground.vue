@@ -18,24 +18,24 @@ const ctx = useContext()
 
 
 function onPointerDown(event: PointerEvent) {
-  ctx.$app.editing.stop()
+  ctx.$app.page.editing.stop()
 
   if (!event.ctrlKey && !event.shiftKey)
-    ctx.$app.selection.clear(null)
+    ctx.$app.page.selection.clear(null)
     
-  ctx.$app.boxSelection.start(event)
+  ctx.$app.page.boxSelection.start(event)
 }
 
 function onDoubleClick(event: MouseEvent) {
-  const note = ctx.$app.notes.create(null)
+  const note = ctx.$app.page.notes.create(null)
 
-  const clientPos = ctx.$app.pos.getClientPos(event)
-  const worldPos = ctx.$app.pos.clientToWorld(clientPos)
+  const clientPos = ctx.$app.page.pos.getClientPos(event)
+  const worldPos = ctx.$app.page.pos.clientToWorld(clientPos)
   
   note.collab.pos.x = worldPos.x
   note.collab.pos.y = worldPos.y
 
-  ctx.$app.editing.start(note, note.topSection)
+  ctx.$app.page.editing.start(note, note.topSection)
 }
 </script>
 

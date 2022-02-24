@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { ref, useContext, watch } from '@nuxtjs/composition-api';
 import { SyncedText } from '@syncedstore/core';
-import { Note } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/page/notes/notes';
 
 const ctx = useContext()
 
@@ -72,7 +72,7 @@ const nameElem = ref<HTMLElement>()
 async function onSubmit() {
   active.value = false
 
-  const selectedNotes = ctx.$app.selection.notes
+  const selectedNotes = ctx.$app.page.selection.notes
   
   const pageId = await ctx.$app.page.create(name.value)
 
@@ -88,7 +88,7 @@ watch(active, (value) => {
     return
 
   setTimeout(() => {
-    const activeNote = ctx.$app.activeElem.get as Note
+    const activeNote = ctx.$app.page.activeElem.get as Note
 
     const text = activeNote.collab[activeNote.topSection]
     if (!text)

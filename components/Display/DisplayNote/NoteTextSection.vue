@@ -7,7 +7,7 @@
   
     <div style="flex: 1"
     :style="{ 'width': note.targetWidth }"
-    @dblclick.left="$app.editing.start(note, section)">
+    @dblclick.left="$app.page.editing.start(note, section)">
 
       <NoteEditor
       :note="note"
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { computed } from "@nuxtjs/composition-api"
-import { Note } from "~/plugins/app/notes/notes";
+import { Note } from "~/plugins/app/page/notes/notes";
 
 
 

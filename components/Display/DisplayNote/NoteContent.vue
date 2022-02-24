@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { computed, useContext } from '@nuxtjs/composition-api'
-import { Note } from '~/plugins/app/notes/notes';
+import { Note } from '~/plugins/app/page/notes/notes';
 
 const ctx = useContext()
 
@@ -53,15 +53,15 @@ function onPointerDown(event: PointerEvent) {
   && !props.note.selected)
     return
 
-  if (ctx.$app.editing.active && ctx.$app.activeElem.is(props.note))
+  if (ctx.$app.page.editing.active && ctx.$app.page.activeElem.is(props.note))
     return
 
-  ctx.$app.editing.stop()
+  ctx.$app.page.editing.stop()
 
-  ctx.$app.clickSelection.perform(props.note, event)
+  ctx.$app.page.clickSelection.perform(props.note, event)
 
-  if (ctx.$app.selection.has(props.note))
-    ctx.$app.dragging.start(event)
+  if (ctx.$app.page.selection.has(props.note))
+    ctx.$app.page.dragging.start(event)
 }
 
 

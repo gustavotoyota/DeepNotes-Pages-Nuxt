@@ -12,8 +12,8 @@ export {
 
 
 class StaticVue {
-  ref(obj: object, refKey: string, refValue?: () => any) {
-    const auxRef = ssrRef(refValue ?? (() => null), refKey)
+  ref(obj: object, refKey: string, refValue: () => any) {
+    const auxRef = ssrRef(refValue, refKey)
 
     const key = refKey.split('.').at(-1) ?? ''
 
