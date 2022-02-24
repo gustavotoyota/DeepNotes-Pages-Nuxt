@@ -137,6 +137,6 @@ class AppResizing {
     if (!this.active || event.button !== 0)
       return
   
-    
+    this.active = false
   }
 }
