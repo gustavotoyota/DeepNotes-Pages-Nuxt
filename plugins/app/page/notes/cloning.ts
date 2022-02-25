@@ -1,8 +1,9 @@
 import { Context } from "@nuxt/types"
+import { cloneDeep, pull } from "lodash"
 import Vue from "vue"
 import { Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
-import { Note } from "./notes"
+import { INoteCollab, Note } from "./notes"
 
 
 
@@ -27,8 +28,8 @@ class AppCloning {
 
 
 
-  clone(notes: Note[], parent: Nullable<Note>, destIndex?: number): string[] {
-    const cloneIds: string[] = []
+  clone(notes: Note[], parent: Nullable<Note>, destIndex?: number): Note[] {
+    const clones: Note[] = []
 
 
 
@@ -39,24 +40,34 @@ class AppCloning {
 
 
     for (const note of notes) {
-      const clone: Note = this.page.notes.create(parent, destIndex)
-      
-      clone.copy(note)
+      // Create overrides
 
-      clone.collab.pos.x += 8
-      clone.collab.pos.y += 8
+      const collabOverrides = {} as Partial<INoteCollab>
+
+      collabOverrides.title = $static.syncedStore.cloneText(note.collab.title)
+      collabOverrides.body = $static.syncedStore.cloneText(note.collab.body)
+
+      const collabKeys = Object.keys(note.collab)
+      pull(collabKeys, 'title', 'body', 'childIds', 'zIndex', 'dragging')
+      for (const collabKey of collabKeys)
+        collabOverrides[collabKey] = cloneDeep(note.collab[collabKey])
+
+
+
+
+      // Create clone
+
+      const clone: Note = this.page.notes.create(parent, destIndex, collabOverrides)
 
       this.clone(note.children, clone)
-
-      clone.bringToTop()
       
-      cloneIds.push(clone.id)
+      clones.push(clone)
     }
 
 
     
 
-    return cloneIds
+    return clones
   }
 
 
@@ -65,9 +76,16 @@ class AppCloning {
   perform() {
     let destIndex = (this.page.selection.notes.at(-1)?.index ?? -1) + 1
 
-    const cloneIds = this.clone(this.page.selection.notes, null, destIndex)
+    const clones = this.clone(this.page.selection.notes, null, destIndex)
 
-    this.page.selection.set(...this.page.notes.fromIds(cloneIds))
+    this.page.selection.set(...clones)
+
+    this.page.collab.doc.transact(() => {
+      for (const clone of clones) {
+        clone.collab.pos.x += 8
+        clone.collab.pos.y += 8
+      }
+    })
 
 
 

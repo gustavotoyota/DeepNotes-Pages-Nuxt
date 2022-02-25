@@ -1,4 +1,5 @@
 import { Context } from "@nuxt/types"
+import { cloneDeep } from "lodash"
 import { IVec2 } from "~/types/deep-notes"
 import { AppPage } from "../page"
 
@@ -52,16 +53,16 @@ class AppRects {
   }
   fromStartEnd(start: IVec2, end: IVec2) {
     return {
-      start: $static.utils.deepCopy(start),
-      end: $static.utils.deepCopy(end),
+      start: cloneDeep(start),
+      end: cloneDeep(end),
       size: { x: end.x - start.x, y: end.y - start.y },
     }
   }
   fromStartSize(start: IVec2, size: IVec2) {
     return {
-      start: $static.utils.deepCopy(start),
+      start: cloneDeep(start),
       end: { x: start.x + size.x, y: start.y + size.y },
-      size: $static.utils.deepCopy(size),
+      size: cloneDeep(size),
     }
   }
 
@@ -108,14 +109,14 @@ class AppRects {
     return {
       start: this.page.pos.displayToClient(displayRect.start),
       end: this.page.pos.displayToClient(displayRect.end),
-      size: $static.utils.deepCopy(displayRect.size),
+      size: cloneDeep(displayRect.size),
     }
   }
   clientToDisplay(displayRect: IRect): IRect {
     return {
       start: this.page.pos.clientToDisplay(displayRect.start),
       end: this.page.pos.clientToDisplay(displayRect.end),
-      size: $static.utils.deepCopy(displayRect.size),
+      size: cloneDeep(displayRect.size),
     }
   }
 

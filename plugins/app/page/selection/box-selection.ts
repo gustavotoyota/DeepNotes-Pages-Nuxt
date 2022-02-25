@@ -1,4 +1,5 @@
 import { Context } from "@nuxt/types"
+import { cloneDeep } from "lodash"
 import { IVec2, Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
 
@@ -51,8 +52,8 @@ class AppBoxSelection {
     this.down = true
     this.active = false
 
-    this.startPos = $static.utils.deepCopy(displayPos)
-    this.endPos = $static.utils.deepCopy(displayPos)
+    this.startPos = cloneDeep(displayPos)
+    this.endPos = cloneDeep(displayPos)
   }
 
   update(event: PointerEvent) {
@@ -78,7 +79,7 @@ class AppBoxSelection {
 
 
     
-    this.endPos = $static.utils.deepCopy(displayPos)
+    this.endPos = cloneDeep(displayPos)
   }
 
   finish(event: PointerEvent) {

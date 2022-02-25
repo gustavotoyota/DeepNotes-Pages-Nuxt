@@ -6,7 +6,7 @@ export {
 
 
 class StaticClipboard {
-  async get () {
+  async get (): Promise<string> {
     if (navigator.clipboard && navigator.clipboard.readText)
       return await navigator.clipboard.readText()
   

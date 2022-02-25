@@ -5,6 +5,7 @@ import Vue from 'vue'
 import { IVec2, Nullable } from "~/types/deep-notes"
 import { AppPage } from '../page'
 import { Elem } from '../elems/elems'
+import { cloneDeep, merge, pull } from 'lodash'
 
 
 
@@ -55,14 +56,14 @@ class AppNotes {
 
 
 
-  create(parent: Nullable<Note>, destIndex?: number) {
+  create(parent: Nullable<Note>, destIndex?: Nullable<number>, overrides?: object) {
     const id = uuidv4()
 
 
 
     
     this.page.collab.doc.transact(() => {
-      Vue.set(this.collab, id, {
+      const noteCollab = {
         linkedPageId: null,
   
         anchor: { x: 0.5, y: 0.5 },
@@ -111,7 +112,12 @@ class AppNotes {
         dragging: false,
   
         zIndex: this.page.data.collab.nextZIndex++
-      } as INoteCollab)
+      } as INoteCollab
+
+      if (overrides != null)
+        merge(noteCollab, overrides)
+
+      Vue.set(this.collab, id, noteCollab)
     })
 
 
@@ -499,57 +505,6 @@ class Note extends Elem {
     frameNode.scrollIntoView({
       behavior: 'smooth',
       block: 'nearest',
-    })
-  }
-
-
-
-
-  copy(note: Note) {
-    this.page.collab.doc.transact(() => {
-      this.collab.linkedPageId = note.collab.linkedPageId
-  
-      this.collab.anchor.x = note.collab.anchor.x
-      this.collab.anchor.y = note.collab.anchor.y
-  
-      this.collab.pos.x = note.collab.pos.x
-      this.collab.pos.y = note.collab.pos.y
-  
-      this.collab.hasTitle = note.collab.hasTitle
-      this.collab.hasBody = note.collab.hasBody
-  
-      this.collab.title.delete(0, this.collab.title.length)
-      this.collab.title.applyDelta(note.collab.title.toDelta())
-  
-      this.collab.body.delete(0, this.collab.body.length)
-      this.collab.body.applyDelta(note.collab.body.toDelta())
-  
-      this.collab.collapsible = note.collab.collapsible
-      this.collab.collapsed = note.collab.collapsed
-  
-      this.collab.expandedSize.x = note.collab.expandedSize.x
-      this.collab.expandedSize.y.title = note.collab.expandedSize.y.title
-      this.collab.expandedSize.y.body = note.collab.expandedSize.y.body
-      this.collab.expandedSize.y.container = note.collab.expandedSize.y.container
-  
-      this.collab.collapsedSize.x = note.collab.collapsedSize.x
-      this.collab.collapsedSize.y.title = note.collab.collapsedSize.y.title
-      this.collab.collapsedSize.y.body = note.collab.collapsedSize.y.body
-      this.collab.collapsedSize.y.container = note.collab.collapsedSize.y.container
-  
-      this.collab.movable = note.collab.movable
-      this.collab.resizable = note.collab.resizable
-      
-      this.collab.wrapTitle = note.collab.wrapTitle
-      this.collab.wrapBody = note.collab.wrapBody
-      
-      this.collab.readOnly = note.collab.readOnly
-      
-      this.collab.container = note.collab.container
-  
-      this.collab.dragging = note.collab.dragging
-      
-      this.collab.zIndex = note.collab.zIndex
     })
   }
 }
