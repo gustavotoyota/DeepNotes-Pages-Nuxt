@@ -35,6 +35,9 @@ class AppDropping {
     const selectedNotes = this.page.selection.notes.splice(0).reverse()
 
     for (const selectedNote of selectedNotes) {
+      if (selectedNote === regionNote)
+        continue
+
       selectedNote.removeFromRegion()
 
       regionNote.collab.childIds.splice(dropIndex, 0, selectedNote.id)
