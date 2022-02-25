@@ -56,12 +56,12 @@ class AppNotes {
 
 
 
-  create(parent: Nullable<Note>, destIndex?: Nullable<number>, overrides?: object) {
-    const id = uuidv4()
+  create(overrides?: object) {
+    const noteId = uuidv4()
 
 
 
-    
+
     this.page.collab.doc.transact(() => {
       const noteCollab = {
         linkedPageId: null,
@@ -117,20 +117,13 @@ class AppNotes {
       if (overrides != null)
         merge(noteCollab, overrides)
 
-      Vue.set(this.collab, id, noteCollab)
+      Vue.set(this.collab, noteId, noteCollab)
     })
 
 
 
 
-    const siblingIds = this.page.regions.getNoteIds(parent)
-    destIndex = destIndex ?? siblingIds.length
-    siblingIds.splice(destIndex, 0, id)
-
-
-
-
-    return this.map[id] as Note
+    return noteId
   }
 
 

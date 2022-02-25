@@ -136,8 +136,8 @@ class AppClipboard {
   
   
   
-  private _pasteAux(clipboardNotes: INoteClipboard[], parent?: Nullable<Note>): Note[] {
-    const notes = []
+  private _pasteAux(clipboardNotes: INoteClipboard[]): string[] {
+    const noteIds = []
 
 
 
@@ -152,21 +152,21 @@ class AppClipboard {
       pull(collabKeys, 'title', 'body', 'children')
       for (const collabKey of collabKeys)
         collabOverrides[collabKey] = cloneDeep(clipboardNote[collabKey])
+
+      collabOverrides.childIds = this._pasteAux(clipboardNote.children)
       
 
 
 
-      const note = this.page.notes.create(parent ?? null, null, collabOverrides)
-
-      this._pasteAux(clipboardNote.children, note)
+      const noteId = this.page.notes.create(collabOverrides)
       
-      notes.push(note)
+      noteIds.push(noteId)
     }
 
 
 
 
-    return notes
+    return noteIds
   }
   async paste(text?: string) {
     // Get clipboard notes from clipboard
@@ -187,7 +187,16 @@ class AppClipboard {
 
 
 
-    const notes = this._pasteAux(clipboardNotes)
+    const noteIds = this._pasteAux(clipboardNotes)
+
+    this.page.activeRegion.noteIds.push(...noteIds)
+
+
+
+
+    // Select notes
+    
+    const notes = this.page.notes.fromIds(noteIds)
 
     this.page.selection.set(...notes)
   }

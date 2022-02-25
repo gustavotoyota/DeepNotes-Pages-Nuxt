@@ -30,10 +30,20 @@ function onPointerDown(event: PointerEvent) {
 }
 
 function onDoubleClick(event: MouseEvent) {
-  const note = ctx.$app.page.notes.create(null)
+  const noteId = ctx.$app.page.notes.create()
+
+  ctx.$app.page.data.collab.noteIds.push(noteId)
+
+
+
 
   const clientPos = ctx.$app.page.pos.getClientPos(event)
   const worldPos = ctx.$app.page.pos.clientToWorld(clientPos)
+
+
+
+
+  const note = ctx.$app.page.notes.map[noteId]
   
   note.collab.pos.x = worldPos.x
   note.collab.pos.y = worldPos.y

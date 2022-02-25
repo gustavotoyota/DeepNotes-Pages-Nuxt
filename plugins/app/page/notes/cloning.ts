@@ -28,8 +28,8 @@ class AppCloning {
 
 
 
-  private _performAux(notes: Note[], parent: Nullable<Note>, destIndex?: number): Note[] {
-    const clones: Note[] = []
+  private _performAux(notes: Note[]): string[] {
+    const cloneIds = []
 
 
 
@@ -52,27 +52,33 @@ class AppCloning {
       for (const collabKey of collabKeys)
         collabOverrides[collabKey] = cloneDeep(note.collab[collabKey])
 
+      collabOverrides.childIds = this._performAux(note.children)
+
 
 
 
       // Create clone
 
-      const clone: Note = this.page.notes.create(parent, destIndex, collabOverrides)
-
-      this._performAux(note.children, clone)
+      const cloneId = this.page.notes.create(collabOverrides)
       
-      clones.push(clone)
+      cloneIds.push(cloneId)
     }
 
 
     
 
-    return clones
+    return cloneIds
   }
   perform() {
+    const cloneIds = this._performAux(this.page.selection.notes)
+    
     let destIndex = (this.page.selection.notes.at(-1)?.index ?? -1) + 1
+    this.page.activeRegion.noteIds.splice(destIndex, 0, ...cloneIds)
 
-    const clones = this._performAux(this.page.selection.notes, null, destIndex)
+
+
+
+    const clones = this.page.notes.fromIds(cloneIds)
 
     this.page.selection.set(...clones)
 
