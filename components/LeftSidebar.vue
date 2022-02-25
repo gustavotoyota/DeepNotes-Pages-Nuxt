@@ -5,18 +5,24 @@
   clipped
   permanent
   touchless
-  mini-variant
-  expand-on-hover
+  :mini-variant.sync="$app.project.collapsedLeftSidebar"
   width="300">
 
     <v-toolbar>
-      <v-list-item-icon>
+      <v-list-item-icon v-if="!$app.project.collapsedLeftSidebar">
         <v-icon>mdi-animation</v-icon>
       </v-list-item-icon>
 
-      <v-toolbar-title>
+      <v-toolbar-title v-if="!$app.project.collapsedLeftSidebar">
         Page Path
       </v-toolbar-title>
+
+      <v-spacer v-if="!$app.project.collapsedLeftSidebar"/>
+
+      <v-btn icon @click="$app.project.collapsedLeftSidebar = true">
+        <v-icon v-if="$app.project.collapsedLeftSidebar">mdi-chevron-right</v-icon>
+        <v-icon v-else>mdi-chevron-left</v-icon>
+      </v-btn>
     </v-toolbar>
 
     <v-list dense>

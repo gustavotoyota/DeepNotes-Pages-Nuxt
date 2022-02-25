@@ -69,7 +69,7 @@ class AppCollab {
     
         const pageName = (await this.page.ctx.$axios.post('/api/project/update', {
           pageId: this.page.id,
-          parentPageId: this.page.ctx.$app.parentPageId,
+          parentPageId: this.page.ctx.$app.project.parentPageId,
         })).data
     
     

@@ -1,147 +1,207 @@
 <template>
 
-  <div style="height: 100%;
-  display: flex;
-  flex-direction: column">
+  <div>
 
-    <v-toolbar style="flex: none">
-      <v-list-item-icon>
-        <v-icon>mdi-chart-box</v-icon>
-      </v-list-item-icon>
+    <!-- Linked page -->
+    
+    <div class="mx-5 mt-4">
+      <div class="body-2 grey--text text--lighten-1"
+      style="margin-left: 1px">
+        Linked page:
+      </div>
 
-      <v-toolbar-title>
-        Note Properties
-      </v-toolbar-title>
-    </v-toolbar>
+      <Gap height="2px"/>
 
+      <v-select dense outlined hide-details
+      background-color="#181818" clearable
+      :items="$app.page.project.recentPages" item-text="name" item-value="id"
+      :menu-props="{ top: false, offsetY: true }"
+      :value="activeNote.collab.linkedPageId"
+      @change="changeProp($event, (note, value) => {
+        note.collab.linkedPageId = value
+      })"/>
 
-
-
-    <div style="flex: 1;
-    overflow-y: auto"
-    class="pb-4">
-
-      <!-- Linked page -->
+      <Gap height="10px"/>
       
-      <div class="mx-5 mt-4">
+      
+      <NewPageDialog/>
+    </div>
+
+
+
+
+    <!-- Title/Body -->
+
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4"
+    style="display: flex; flex-direction: column">
+      <div style="display: flex">
+        <v-checkbox hide-details label="Has title"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.hasTitle"
+        @change="changeProp($event, (note, value) => {
+          note.collab.hasTitle = value
+          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+        })"/>
+
+        <Gap width="16px" style="flex: none"/>
+
+        <v-checkbox hide-details label="Has body"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.hasBody"
+        @change="changeProp($event, (note, value) => {
+          note.collab.hasBody = value
+          note.collab.hasTitle = note.collab.hasTitle || note.numSections === 0
+        })"/>
+      </div>
+
+      <Gap height="12px"/>
+
+      <v-btn @click="swapTitleAndBody">
+        Swap title and body
+      </v-btn>
+    </div>
+
+
+
+
+    <!-- Container -->
+
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4"
+    style="display: flex">
+      <v-checkbox hide-details label="Container"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :input-value="activeNote.collab.container"
+      @change="changeProp($event, (note, value) => {
+        note.collab.container = value
+        note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+      })"/>
+    </div>
+
+
+
+
+    <!-- Collapsible/Collapsed -->
+
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4"
+    style="display: flex">
+      <v-checkbox hide-details label="Collapsible"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :input-value="activeNote.collab.collapsible"
+      @change="changeProp($event, (note, value) => {
+        note.collab.collapsible = value
+        note.collab.collapsed = note.collab.collapsed && value
+      })">
+      </v-checkbox>
+
+      <Gap width="16px" style="flex: none"/>
+      
+      <v-checkbox hide-details label="Collapsed"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :disabled="!activeNote.collab.collapsible"
+      :input-value="activeNote.collab.collapsed"
+      @change="changeProp($event, (note, value) => {
+        $app.page.collapsing.set(note, value)
+      })">
+      </v-checkbox>
+    </div>
+
+
+
+
+    <!-- Anchor -->
+
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4" style="display: flex">
+      <div style="flex: 1">
         <div class="body-2 grey--text text--lighten-1"
         style="margin-left: 1px">
-          Linked page:
+          X anchor:
         </div>
 
         <Gap height="2px"/>
 
         <v-select dense outlined hide-details
-        background-color="#181818" clearable
-        :items="$app.page.project.recentPages" item-text="name" item-value="id"
+        background-color="#181818"
+        :items="[
+          { text: 'Left', value: 0 },
+          { text: 'Center', value: 0.5 },
+          { text: 'Right', value: 1 },
+        ]" item-text="text" item-value="value"
         :menu-props="{ top: false, offsetY: true }"
-        :value="activeNote.collab.linkedPageId"
+        :value="activeNote.collab.anchor.x"
         @change="changeProp($event, (note, value) => {
-          note.collab.linkedPageId = value
+          note.collab.anchor.x = value
         })"/>
-
-        <Gap height="10px"/>
-        
-        
-        <NewPageDialog/>
       </div>
 
+      <Gap width="16px" style="flex: none"/>
+
+      <div style="flex: 1">
+        <div class="body-2 grey--text text--lighten-1"
+        style="margin-left: 1px">
+          Y anchor:
+        </div>
+
+        <Gap height="2px"/>
+
+        <v-select dense outlined hide-details
+        background-color="#181818"
+        :items="[
+          { text: 'Top', value: 0 },
+          { text: 'Center', value: 0.5 },
+          { text: 'Bottom', value: 1 },
+        ]" item-text="text" item-value="value"
+        :menu-props="{ top: false, offsetY: true }"
+        :value="activeNote.collab.anchor.y"
+        @change="changeProp($event, (note, value) => {
+          note.collab.anchor.y = value
+        })"/>
+      </div>
+    </div>
 
 
 
-      <!-- Title/Body -->
 
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4"
-      style="display: flex; flex-direction: column">
-        <div style="display: flex">
-          <v-checkbox hide-details label="Has title"
-          style="flex: 1; margin-top: 0; padding-top: 0"
-          :input-value="activeNote.collab.hasTitle"
-          @change="changeProp($event, (note, value) => {
-            note.collab.hasTitle = value
-            note.collab.hasBody = note.collab.hasBody || note.numSections === 0
-          })"/>
+    <!-- Width -->
 
-          <Gap width="16px" style="flex: none"/>
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4" style="display: flex">
+      
+      <div style="flex: 1; width: 0">
+        <div>
+          <div class="body-2 grey--text text--lighten-1"
+          style="margin-left: 1px">
+            Width:
+          </div>
 
-          <v-checkbox hide-details label="Has body"
-          style="flex: 1; margin-top: 0; padding-top: 0"
-          :input-value="activeNote.collab.hasBody"
-          @change="changeProp($event, (note, value) => {
-            note.collab.hasBody = value
-            note.collab.hasTitle = note.collab.hasTitle || note.numSections === 0
-          })"/>
+          <Gap height="2px"/>
+
+          <v-select dense outlined hide-details
+          background-color="#181818"
+          :items="[
+            { text: 'Auto', value: 'auto' },
+            ...(activeNote.collab.collapsed ? [{ text: 'Expanded', value: 'expanded' }] : []),
+            { text: 'Custom', value: 'custom' },
+          ]" item-text="text" item-value="value"
+          :menu-props="{ top: false, offsetY: true }"
+          v-model="width">
+          </v-select>
         </div>
 
         <Gap height="12px"/>
 
-        <v-btn @click="swapTitleAndBody">
-          Swap title and body
-        </v-btn>
-      </div>
-
-
-
-
-      <!-- Container -->
-
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4"
-      style="display: flex">
-        <v-checkbox hide-details label="Container"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.container"
-        @change="changeProp($event, (note, value) => {
-          note.collab.container = value
-          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
-        })"/>
-      </div>
-
-
-
-
-      <!-- Collapsible/Collapsed -->
-
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4"
-      style="display: flex">
-        <v-checkbox hide-details label="Collapsible"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.collapsible"
-        @change="changeProp($event, (note, value) => {
-          note.collab.collapsible = value
-          note.collab.collapsed = note.collab.collapsed && value
-        })">
-        </v-checkbox>
-
-        <Gap width="16px" style="flex: none"/>
-        
-        <v-checkbox hide-details label="Collapsed"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :disabled="!activeNote.collab.collapsible"
-        :input-value="activeNote.collab.collapsed"
-        @change="changeProp($event, (note, value) => {
-          $app.page.collapsing.set(note, value)
-        })">
-        </v-checkbox>
-      </div>
-
-
-
-
-      <!-- Anchor -->
-
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4" style="display: flex">
-        <div style="flex: 1">
+        <div>
           <div class="body-2 grey--text text--lighten-1"
           style="margin-left: 1px">
-            X anchor:
+            Body height:
           </div>
 
           <Gap height="2px"/>
@@ -149,23 +209,22 @@
           <v-select dense outlined hide-details
           background-color="#181818"
           :items="[
-            { text: 'Left', value: 0 },
-            { text: 'Center', value: 0.5 },
-            { text: 'Right', value: 1 },
+            { text: 'Auto', value: 'auto' },
+            { text: 'Custom', value: 'custom' },
           ]" item-text="text" item-value="value"
           :menu-props="{ top: false, offsetY: true }"
-          :value="activeNote.collab.anchor.x"
-          @change="changeProp($event, (note, value) => {
-            note.collab.anchor.x = value
-          })"/>
+          v-model="bodyHeight">
+          </v-select>
         </div>
+      </div>
 
-        <Gap width="16px" style="flex: none"/>
-
-        <div style="flex: 1">
+      <Gap width="16px" style="flex: none"/>
+      
+      <div style="flex: 1; width: 0">
+        <div>
           <div class="body-2 grey--text text--lighten-1"
           style="margin-left: 1px">
-            Y anchor:
+            Title height:
           </div>
 
           <Gap height="2px"/>
@@ -173,185 +232,105 @@
           <v-select dense outlined hide-details
           background-color="#181818"
           :items="[
-            { text: 'Top', value: 0 },
-            { text: 'Center', value: 0.5 },
-            { text: 'Bottom', value: 1 },
+            { text: 'Auto', value: 'auto' },
+            { text: 'Custom', value: 'custom' },
           ]" item-text="text" item-value="value"
           :menu-props="{ top: false, offsetY: true }"
-          :value="activeNote.collab.anchor.y"
-          @change="changeProp($event, (note, value) => {
-            note.collab.anchor.y = value
-          })"/>
-        </div>
-      </div>
-
-
-
-
-      <!-- Width -->
-
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4" style="display: flex">
-        
-        <div style="flex: 1; width: 0">
-          <div>
-            <div class="body-2 grey--text text--lighten-1"
-            style="margin-left: 1px">
-              Width:
-            </div>
-
-            <Gap height="2px"/>
-
-            <v-select dense outlined hide-details
-            background-color="#181818"
-            :items="[
-              { text: 'Auto', value: 'auto' },
-              ...(activeNote.collab.collapsed ? [{ text: 'Expanded', value: 'expanded' }] : []),
-              { text: 'Custom', value: 'custom' },
-            ]" item-text="text" item-value="value"
-            :menu-props="{ top: false, offsetY: true }"
-            v-model="width">
-            </v-select>
-          </div>
-
-          <Gap height="12px"/>
-
-          <div>
-            <div class="body-2 grey--text text--lighten-1"
-            style="margin-left: 1px">
-              Body height:
-            </div>
-
-            <Gap height="2px"/>
-
-            <v-select dense outlined hide-details
-            background-color="#181818"
-            :items="[
-              { text: 'Auto', value: 'auto' },
-              { text: 'Custom', value: 'custom' },
-            ]" item-text="text" item-value="value"
-            :menu-props="{ top: false, offsetY: true }"
-            v-model="bodyHeight">
-            </v-select>
-          </div>
+          v-model="titleHeight">
+          </v-select>
         </div>
 
-        <Gap width="16px" style="flex: none"/>
-        
-        <div style="flex: 1; width: 0">
-          <div>
-            <div class="body-2 grey--text text--lighten-1"
-            style="margin-left: 1px">
-              Title height:
-            </div>
+        <Gap height="12px"/>
 
-            <Gap height="2px"/>
-
-            <v-select dense outlined hide-details
-            background-color="#181818"
-            :items="[
-              { text: 'Auto', value: 'auto' },
-              { text: 'Custom', value: 'custom' },
-            ]" item-text="text" item-value="value"
-            :menu-props="{ top: false, offsetY: true }"
-            v-model="titleHeight">
-            </v-select>
+        <div>
+          <div class="body-2 grey--text text--lighten-1"
+          style="margin-left: 1px">
+            Container height:
           </div>
 
-          <Gap height="12px"/>
+          <Gap height="2px"/>
 
-          <div>
-            <div class="body-2 grey--text text--lighten-1"
-            style="margin-left: 1px">
-              Container height:
-            </div>
-
-            <Gap height="2px"/>
-
-            <v-select dense outlined hide-details
-            background-color="#181818"
-            :items="[
-              { text: 'Auto', value: 'auto' },
-              { text: 'Custom', value: 'custom' },
-            ]" item-text="text" item-value="value"
-            :menu-props="{ top: false, offsetY: true }"
-            v-model="containerHeight">
-            </v-select>
-          </div>
+          <v-select dense outlined hide-details
+          background-color="#181818"
+          :items="[
+            { text: 'Auto', value: 'auto' },
+            { text: 'Custom', value: 'custom' },
+          ]" item-text="text" item-value="value"
+          :menu-props="{ top: false, offsetY: true }"
+          v-model="containerHeight">
+          </v-select>
         </div>
-        
       </div>
+      
+    </div>
 
 
 
 
-      <!-- Movable/Resizable -->
+    <!-- Movable/Resizable -->
 
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4"
-      style="display: flex">
-        <v-checkbox hide-details label="Movable"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.movable"
-        @change="changeProp($event, (note, value) => {
-          note.collab.movable = value
-        })"/>
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4"
+    style="display: flex">
+      <v-checkbox hide-details label="Movable"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :input-value="activeNote.collab.movable"
+      @change="changeProp($event, (note, value) => {
+        note.collab.movable = value
+      })"/>
 
-        <Gap width="16px" style="flex: none"/>
-        
-        <v-checkbox hide-details label="Resizable"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.resizable"
-        @change="changeProp($event, (note, value) => {
-          note.collab.resizable = value
-        })"/>
-      </div>
-
-
-
-
-      <!-- Wrapping -->
-
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4"
-      style="display: flex">
-        <v-checkbox hide-details label="Wrap title"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.wrapTitle"
-        @change="changeProp($event, (note, value) => {
-          note.collab.wrapTitle = value
-        })"/>
-
-        <Gap width="16px" style="flex: none"/>
-        
-        <v-checkbox hide-details label="Wrap body"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.wrapBody"
-        @change="changeProp($event, (note, value) => {
-          note.collab.wrapBody = value
-        })"/>
-      </div>
+      <Gap width="16px" style="flex: none"/>
+      
+      <v-checkbox hide-details label="Resizable"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :input-value="activeNote.collab.resizable"
+      @change="changeProp($event, (note, value) => {
+        note.collab.resizable = value
+      })"/>
+    </div>
 
 
 
 
-      <!-- Read-only -->
+    <!-- Wrapping -->
 
-      <v-divider class="mt-4"/>
-        
-      <div class="mx-5 mt-4"
-      style="display: flex">
-        <v-checkbox hide-details label="Read-only"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.readOnly"
-        @change="changeProp($event, (note, value) => {
-          note.collab.readOnly = value
-        })"/>
-      </div>
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4"
+    style="display: flex">
+      <v-checkbox hide-details label="Wrap title"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :input-value="activeNote.collab.wrapTitle"
+      @change="changeProp($event, (note, value) => {
+        note.collab.wrapTitle = value
+      })"/>
 
+      <Gap width="16px" style="flex: none"/>
+      
+      <v-checkbox hide-details label="Wrap body"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :input-value="activeNote.collab.wrapBody"
+      @change="changeProp($event, (note, value) => {
+        note.collab.wrapBody = value
+      })"/>
+    </div>
+
+
+
+
+    <!-- Read-only -->
+
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4"
+    style="display: flex">
+      <v-checkbox hide-details label="Read-only"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :input-value="activeNote.collab.readOnly"
+      @change="changeProp($event, (note, value) => {
+        note.collab.readOnly = value
+      })"/>
     </div>
 
   </div>

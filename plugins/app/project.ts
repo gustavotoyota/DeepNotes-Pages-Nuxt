@@ -1,4 +1,5 @@
 import { Context } from "@nuxt/types"
+import { Nullable } from "~/types/deep-notes"
 import { IPageRef } from "./page/page"
 
 
@@ -17,6 +18,11 @@ class AppProject {
   pathPages!: IPageRef[]
   recentPages!: IPageRef[]
 
+  collapsedLeftSidebar!: boolean
+  collapsedRightSidebar!: boolean
+
+  parentPageId: Nullable<string> = null
+
 
 
 
@@ -25,6 +31,9 @@ class AppProject {
 
     $static.vue.ref(this, 'project.pathPages', () => [])
     $static.vue.ref(this, 'project.recentPages', () => [])
+
+    $static.vue.ref(this, 'project.collapsedLeftSidebar', () => true)
+    $static.vue.ref(this, 'project.collapsedRightSidebar', () => true)
   }
 
 

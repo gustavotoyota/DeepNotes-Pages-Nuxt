@@ -177,7 +177,7 @@ class AppPage {
 
     if (this.project.pathPages.find(item => item.id == this.id) == null) {
       const index = this.project.pathPages.findIndex(
-        item => item.id == this.ctx.$app.parentPageId)
+        item => item.id == this.ctx.$app.project.parentPageId)
 
       this.project.pathPages.splice(index + 1)
 
@@ -249,7 +249,7 @@ class AppPage {
 
 
   navigateTo(id: string, fromParent?: boolean) {
-    this.ctx.$app.parentPageId = fromParent ? this.id : null
+    this.ctx.$app.project.parentPageId = fromParent ? this.id : null
 
     $nuxt.$router.push({ path: `/${id}` })
   }
