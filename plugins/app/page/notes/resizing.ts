@@ -37,14 +37,15 @@ class AppResizing {
 
 
   start(event: PointerEvent, note: Note, side: string, section?: Nullable<string>) {
-    this.page.activeElem.set(note)
-
-
-
     this.active = true
 
     this.side = side
     this.section = section ?? null
+
+
+
+    
+    this.page.activeElem.set(note)
   }
 
 

@@ -1,6 +1,7 @@
 import { Context } from '@nuxt/types';
 import { IVec2, Nullable } from "~/types/deep-notes";
 import { AppPage } from '../page';
+import { Note } from './notes';
 
 
 
@@ -35,6 +36,9 @@ class AppDragging {
   constructor(page: AppPage) {
     this.page = page
 
+
+
+
     $static.vue.ref(this, 'dragging.down', () => false)
     $static.vue.ref(this, 'dragging.active', () => false)
     
@@ -49,6 +53,16 @@ class AppDragging {
 
 
   start(event: PointerEvent) {
+    // Prevent dragging unmovable notes
+
+    if (this.page.activeElem.get instanceof Note
+    && !this.page.activeElem.get.collab.movable)
+      return
+
+
+
+
+
     this.down = true
     this.active = false
 
