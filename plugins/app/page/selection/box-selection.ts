@@ -48,15 +48,15 @@ class AppBoxSelection {
 
     const displayPos = this.page.pos.getDisplayPos(event)
 
-    this.page.boxSelection.down = true
-    this.page.boxSelection.active = false
+    this.down = true
+    this.active = false
 
-    this.page.boxSelection.startPos = $static.utils.deepCopy(displayPos)
-    this.page.boxSelection.endPos = $static.utils.deepCopy(displayPos)
+    this.startPos = $static.utils.deepCopy(displayPos)
+    this.endPos = $static.utils.deepCopy(displayPos)
   }
 
   update(event: PointerEvent) {
-    if (!this.page.boxSelection.down)
+    if (!this.down)
       return
 
       
@@ -64,32 +64,32 @@ class AppBoxSelection {
 
     const displayPos = this.page.pos.getDisplayPos(event)
 
-    if (!this.page.boxSelection.active) {
+    if (!this.active) {
       const dist = Math.sqrt(
-        Math.pow(displayPos.x - this.page.boxSelection.startPos!.x, 2) +
-        Math.pow(displayPos.y - this.page.boxSelection.startPos!.y, 2)
+        Math.pow(displayPos.x - this.startPos!.x, 2) +
+        Math.pow(displayPos.y - this.startPos!.y, 2)
       )
   
-      this.page.boxSelection.active = dist >= MIN_DISTANCE
-      if (!this.page.boxSelection.active)
+      this.active = dist >= MIN_DISTANCE
+      if (!this.active)
         return
     }
 
 
 
     
-    this.page.boxSelection.endPos = $static.utils.deepCopy(displayPos)
+    this.endPos = $static.utils.deepCopy(displayPos)
   }
 
   finish(event: PointerEvent) {
-    if (!this.page.boxSelection.down || event.button !== 0)
+    if (!this.down || event.button !== 0)
       return
 
 
 
 
-    const startPos = this.page.pos.displayToClient(this.page.boxSelection.startPos!)
-    const endPos = this.page.pos.displayToClient(this.page.boxSelection.endPos!)
+    const startPos = this.page.pos.displayToClient(this.startPos!)
+    const endPos = this.page.pos.displayToClient(this.endPos!)
   
   
 
@@ -122,7 +122,7 @@ class AppBoxSelection {
 
     
     
-    this.page.boxSelection.down = false
-    this.page.boxSelection.active = false
+    this.down = false
+    this.active = false
   }
 }

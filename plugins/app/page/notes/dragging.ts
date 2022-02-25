@@ -49,17 +49,17 @@ class AppDragging {
 
 
   start(event: PointerEvent) {
-    this.page.dragging.down = true
-    this.page.dragging.active = false
+    this.down = true
+    this.active = false
 
-    this.page.dragging.startPos = this.page.pos.getClientPos(event)
-    this.page.dragging.currentPos = this.page.pos.getClientPos(event)
+    this.startPos = this.page.pos.getClientPos(event)
+    this.currentPos = this.page.pos.getClientPos(event)
 
-    this.page.dragging.dropRegionId = null
-    this.page.dragging.dropIndex = null
+    this.dropRegionId = null
+    this.dropIndex = null
   }
   update(event: PointerEvent) {
-    if (!this.page.dragging.down)
+    if (!this.down)
       return
 
 
@@ -67,14 +67,14 @@ class AppDragging {
     
     const clientMousePos = this.page.pos.getClientPos(event)
 
-    if (!this.page.dragging.active) {
+    if (!this.active) {
       const dist = Math.sqrt(
-        Math.pow(clientMousePos.x - this.page.dragging.startPos.x, 2) +
-        Math.pow(clientMousePos.y - this.page.dragging.startPos.y, 2)
+        Math.pow(clientMousePos.x - this.startPos.x, 2) +
+        Math.pow(clientMousePos.y - this.startPos.y, 2)
       )
   
-      this.page.dragging.active = dist >= MIN_DISTANCE
-      if (!this.page.dragging.active)
+      this.active = dist >= MIN_DISTANCE
+      if (!this.active)
         return
         
 
@@ -127,8 +127,8 @@ class AppDragging {
     // Calculate delta
 
     const delta: IVec2 = {
-      x: (clientMousePos.x - this.page.dragging.currentPos.x) / this.page.camera.zoom,
-      y: (clientMousePos.y - this.page.dragging.currentPos.y) / this.page.camera.zoom,
+      x: (clientMousePos.x - this.currentPos.x) / this.page.camera.zoom,
+      y: (clientMousePos.y - this.currentPos.y) / this.page.camera.zoom,
     };
 
 
@@ -149,10 +149,10 @@ class AppDragging {
 
 
 
-    this.page.dragging.currentPos = clientMousePos
+    this.currentPos = clientMousePos
   }
   finish(event: PointerEvent) {
-    if (!this.page.dragging.down)
+    if (!this.down)
       return
 
     this.page.collab.doc.transact(() => {
@@ -160,7 +160,7 @@ class AppDragging {
         note.collab.dragging = false
     })
 
-    this.page.dragging.down = false
-    this.page.dragging.active = false
+    this.down = false
+    this.active = false
   }
 }

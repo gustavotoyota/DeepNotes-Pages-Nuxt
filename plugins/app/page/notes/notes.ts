@@ -62,7 +62,7 @@ class AppNotes {
 
     
     this.page.collab.doc.transact(() => {
-      Vue.set(this.page.notes.collab, id, {
+      Vue.set(this.collab, id, {
         linkedPageId: null,
   
         anchor: { x: 0.5, y: 0.5 },
@@ -124,7 +124,7 @@ class AppNotes {
 
 
 
-    return this.page.notes.map[id] as Note
+    return this.map[id] as Note
   }
 
 
@@ -133,7 +133,7 @@ class AppNotes {
   mapAndObserve(noteId: string, parentId: Nullable<string>) {
     const note = new Note(this.page, noteId, parentId)
 
-    this.page.notes.mapAndObserveIds(note.collab.childIds, note.id)
+    this.mapAndObserveIds(note.collab.childIds, note.id)
   }
   mapAndObserveIds(noteIds: string[], parentId: Nullable<string>) {
     for (const noteId of noteIds)
@@ -155,13 +155,13 @@ class AppNotes {
 
 
   observeMap() {
-    (getYjsValue(this.page.notes.collab) as SyncedMap<INoteCollab>)
+    (getYjsValue(this.collab) as SyncedMap<INoteCollab>)
     .observe(event => {
       for (const [noteId, change] of event.changes.keys) {
         if (change.action !== 'delete')
           continue
 
-        Vue.delete(this.page.notes.map, noteId)
+        Vue.delete(this.map, noteId)
       }
     })
   }

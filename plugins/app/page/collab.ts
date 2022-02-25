@@ -57,14 +57,14 @@ class AppCollab {
       
     const name = `page-${this.page.id}-1`
 
-    this.page.collab.indexedDbProvider = new IndexeddbPersistence(name, this.doc)
+    this.indexedDbProvider = new IndexeddbPersistence(name, this.doc)
 
-    this.page.collab.indexedDbProvider.on('synced', () => {
-      this.page.collab.websocketProvider = new WebsocketProvider(
+    this.indexedDbProvider.on('synced', () => {
+      this.websocketProvider = new WebsocketProvider(
       this.page.ctx.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
       name, this.doc)
 
-      this.page.collab.websocketProvider.on('sync', async () => {
+      this.websocketProvider.on('sync', async () => {
         // Update project
     
         const pageName = (await this.page.ctx.$axios.post('/api/project/update', {

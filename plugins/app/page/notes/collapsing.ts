@@ -50,14 +50,14 @@ class AppCollapsing {
       return
   
     if (collapsed)
-      this.page.collapsing.collapse(note)
+      this.collapse(note)
     else
-      this.page.collapsing.expand(note)
+      this.expand(note)
   }
 
 
 
   toggle(note: Note) {
-    this.page.collapsing.set(note, !note.collab.collapsed)
+    this.set(note, !note.collab.collapsed)
   }
 }

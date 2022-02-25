@@ -45,14 +45,14 @@ class AppEditing {
 
 
 
-    this.page.editing.section = section ?? note.topSection
-    this.page.editing.active = true
+    this.section = section ?? note.topSection
+    this.active = true
   }
 
 
 
   
   stop() {
-    this.page.editing.active = false
+    this.active = false
   }
 }
