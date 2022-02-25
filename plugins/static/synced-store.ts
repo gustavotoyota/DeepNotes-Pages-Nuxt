@@ -11,11 +11,17 @@ export {
 
 
 class StaticSyncedStore {
-  cloneText(text: SyncedText) {
+  createText(delta: object) {
     const clone = new SyncedText()
     
-    clone.applyDelta(text.toDelta())
+    clone.applyDelta(delta)
 
     return clone
+  }
+
+
+
+  cloneText(text: SyncedText) {
+    return this.createText(text.toDelta())
   }
 }

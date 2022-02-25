@@ -114,6 +114,11 @@ export default async function (ctx: Context, inject: Inject) {
         if (event.ctrlKey && event.code === 'KeyD')
           ctx.$app.page.cloning.perform()
 
+        if (event.ctrlKey && event.code === 'KeyC')
+          ctx.$app.page.clipboard.copy()
+        if (event.ctrlKey && event.code === 'KeyV' && window.clipboardData)
+          ctx.$app.page.clipboard.paste()
+
         if (event.code === 'F2' && ctx.$app.page.activeElem.exists)
           ctx.$app.page.editing.start(ctx.$app.page.activeElem.get as Note)
 
@@ -139,6 +144,30 @@ export default async function (ctx: Context, inject: Inject) {
       onBeforeUnmount(() => {
         document.removeEventListener('keypress', onKeyPress)
         document.removeEventListener('keydown', onKeyDown)
+      })
+
+
+
+
+      // Clipboard pasting
+
+      onMounted(() => {
+        document.addEventListener('paste', onPaste)
+      })
+
+      function onPaste(event: ClipboardEvent) {
+        if ((event.target as HTMLElement).nodeName === 'INPUT'
+        || (event.target as HTMLElement).nodeName === 'TEXTAREA'
+        || (event.target as HTMLElement).isContentEditable)
+          return
+
+        const text = (event.clipboardData || window.clipboardData).getData('text')
+
+        ctx.$app.page.clipboard.paste(text)
+      }
+
+      onBeforeUnmount(() => {
+        document.removeEventListener('paste', onPaste)
       })
 
 

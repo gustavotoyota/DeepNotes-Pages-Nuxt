@@ -1,6 +1,7 @@
 import { Context } from "@nuxt/types"
 import { IVec2 } from "~/types/deep-notes"
 import { AppPage } from "../page"
+import { cloneDeep } from 'lodash'
 
 
 
@@ -38,7 +39,7 @@ class AppPanning {
     const clientPos = this.page.pos.getClientPos(event)
 
     this.active = true
-    this.currentPos = $static.utils.deepCopy(clientPos)
+    this.currentPos = cloneDeep(clientPos)
   }
 
   update(event: PointerEvent) {
@@ -50,7 +51,7 @@ class AppPanning {
     this.page.camera.pos.x -= (clientPos.x - this.currentPos.x) / this.page.camera.zoom
     this.page.camera.pos.y -= (clientPos.y - this.currentPos.y) / this.page.camera.zoom
 
-    this.currentPos = $static.utils.deepCopy(clientPos)
+    this.currentPos = cloneDeep(clientPos)
   }
 
   finish(event: PointerEvent) {

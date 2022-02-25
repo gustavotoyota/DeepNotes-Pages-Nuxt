@@ -1,4 +1,5 @@
 import { Context } from "@nuxt/types"
+import { cloneDeep } from "lodash"
 import { Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
 import { Note } from "./notes"
@@ -79,7 +80,7 @@ class AppResizing {
   
     // New client rect
   
-    const newClientRect = $static.utils.deepCopy(oldClientRect)
+    const newClientRect = cloneDeep(oldClientRect)
   
     if (this.side!.includes('w'))
       newClientRect.start.x = event.clientX
