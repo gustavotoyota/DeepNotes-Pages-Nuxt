@@ -26,19 +26,22 @@ class AppDeleting {
 
 
 
-  private _performAux(notes: Note[]) {
+  private _performAux(notes: Note[], noteIds: string[]) {
     for (const note of notes) {
-      if (this.page.activeElem.is(note))
-        this.page.activeElem.clear()
-
       note.removeFromRegion()
-      Vue.delete(this.page.collab.store.notes, note.id)
 
-      this._performAux(note.children)
+      this._performAux(note.children, noteIds)
+      
+      noteIds.push(note.id)
     }
   }
   perform() {
-    this._performAux(this.page.selection.notes)
+    const noteIds: string[] = []
+    
+    this._performAux(this.page.selection.notes, noteIds)
+    
+    for (const noteId of noteIds)
+      Vue.delete(this.page.collab.store.notes, noteId)
 
     this.page.selection.clear()
   }
