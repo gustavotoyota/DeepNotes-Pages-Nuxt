@@ -1,8 +1,9 @@
 <template>
 
   <div id="display"
-  style="height: 100%;
-  overflow: hidden"
+  style="flex: 1;
+  position: relative;
+  overflow: hidden;"
   @wheel="onWheel"
   @pointerdown.middle.prevent="onPointerDown">
 

@@ -1,6 +1,6 @@
 <template>
   
-  <Display/>
+  <ContentDisplay/>
 
 </template>
 

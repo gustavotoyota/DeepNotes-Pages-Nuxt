@@ -4,12 +4,13 @@
   spellcheck="false">
 
     <MainMenu/>
+
     <LeftSidebar/>
 
-    <v-main>
+    <MainContent>
       <Nuxt/>
-    </v-main>
-    
+    </MainContent>
+
     <RightSidebar/>
 
   </v-app>

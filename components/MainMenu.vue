@@ -1,7 +1,8 @@
 <template>
 
-  <v-app-bar app height="56"
-  clipped-left clipped-right>
+  <v-app-bar app
+  clipped-left clipped-right
+  dense>
 
     <a style="display: flex"
     :href="$ctx.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
