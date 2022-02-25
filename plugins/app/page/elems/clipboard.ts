@@ -64,22 +64,18 @@ class AppClipboard {
 
 
 
-  copy(notes?: Note[]) {
+  private _copyAux(notes: Note[]): INoteClipboard[] {
     const clipboardNotes = []
 
 
 
-
-    const isRoot = notes == null
-
-    notes = notes ?? this.page.selection.notes
 
     for (const note of notes) {
       const clipboardNote = {
         title: note.collab.title.toDelta(),
         body: note.collab.body.toDelta(),
         
-        children: this.copy(note.children),
+        children: this._copyAux(note.children),
       } as Partial<INoteClipboard>
 
 
@@ -101,19 +97,46 @@ class AppClipboard {
 
 
 
-    if (isRoot)
-      $static.clipboard.set(JSON.stringify(clipboardNotes))
+    return clipboardNotes as INoteClipboard[]
+  }
+  copy() {
+    const clipboardNotes = this._copyAux(this.page.selection.notes)
 
 
 
 
-    return clipboardNotes
+    // Calculate center position
+
+    const centerPos = { x: 0, y: 0 }
+
+    for (const clipboardNote of clipboardNotes) {
+      centerPos.x += clipboardNote.pos.x
+      centerPos.y += clipboardNote.pos.y
+    }
+
+    centerPos.x /= clipboardNotes.length
+    centerPos.y /= clipboardNotes.length
+
+
+
+
+    // Subtract center from note positions
+    
+    for (const clipboardNote of clipboardNotes) {
+      clipboardNote.pos.x -= centerPos.x
+      clipboardNote.pos.y -= centerPos.y
+    }
+
+
+
+    
+    $static.clipboard.set(JSON.stringify(clipboardNotes))
   }
   
   
   
   
-  _pasteAux(clipboardNotes: INoteClipboard[], parent?: Nullable<Note>): Note[] {
+  private _pasteAux(clipboardNotes: INoteClipboard[], parent?: Nullable<Note>): Note[] {
     const notes = []
 
 
@@ -146,9 +169,23 @@ class AppClipboard {
     return notes
   }
   async paste(text?: string) {
-    const clipboardText = text ?? await $static.clipboard.get()
+    // Get clipboard notes from clipboard
 
+    const clipboardText = text ?? await $static.clipboard.get()
     const clipboardNotes = JSON.parse(clipboardText) as INoteClipboard[]
+
+
+
+
+    // Center notes around camera position
+
+    for (const clipboardNote of clipboardNotes) {
+      clipboardNote.pos.x += this.page.camera.pos.x
+      clipboardNote.pos.y += this.page.camera.pos.y
+    }
+
+
+
 
     const notes = this._pasteAux(clipboardNotes)
 
