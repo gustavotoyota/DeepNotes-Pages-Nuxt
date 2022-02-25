@@ -28,7 +28,7 @@ class AppCloning {
 
 
 
-  clone(notes: Note[], parent: Nullable<Note>, destIndex?: number): Note[] {
+  private _performAux(notes: Note[], parent: Nullable<Note>, destIndex?: number): Note[] {
     const clones: Note[] = []
 
 
@@ -59,7 +59,7 @@ class AppCloning {
 
       const clone: Note = this.page.notes.create(parent, destIndex, collabOverrides)
 
-      this.clone(note.children, clone)
+      this._performAux(note.children, clone)
       
       clones.push(clone)
     }
@@ -69,14 +69,10 @@ class AppCloning {
 
     return clones
   }
-
-
-
-
   perform() {
     let destIndex = (this.page.selection.notes.at(-1)?.index ?? -1) + 1
 
-    const clones = this.clone(this.page.selection.notes, null, destIndex)
+    const clones = this._performAux(this.page.selection.notes, null, destIndex)
 
     this.page.selection.set(...clones)
 

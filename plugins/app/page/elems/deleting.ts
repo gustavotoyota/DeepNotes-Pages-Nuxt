@@ -26,18 +26,19 @@ class AppDeleting {
 
 
 
-  perform(notes?: Note[]) {
-    notes = notes ?? this.page.selection.notes
-
+  private _performAux(notes: Note[]) {
     for (const note of notes) {
       if (this.page.activeElem.is(note))
         this.page.activeElem.clear()
 
-      this.perform(note.children)
-
       note.removeFromRegion()
       Vue.delete(this.page.collab.store.notes, note.id)
+
+      this._performAux(note.children)
     }
+  }
+  perform() {
+    this._performAux(this.page.selection.notes)
 
     this.page.selection.clear()
   }
