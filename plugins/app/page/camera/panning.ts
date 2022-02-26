@@ -16,7 +16,6 @@ export {
 class AppPanning {
   page: AppPage
 
-  active!: boolean
   currentPos!: IVec2
 
 
@@ -25,7 +24,6 @@ class AppPanning {
   constructor(page: AppPage) {
     this.page = page
     
-    $static.vue.ref(this, 'panning.active', () => false)
     $static.vue.ref(this, 'panning.currentPos', () => null)
   }
   
@@ -36,28 +34,43 @@ class AppPanning {
     if (this.page.camera.lockPos)
       return
 
+
+
+
     const clientPos = this.page.pos.getClientPos(event)
 
-    this.active = true
     this.currentPos = cloneDeep(clientPos)
+
+
+
+
+    document.addEventListener('pointermove', this._update)
+    document.addEventListener('pointerup', this._finish)
   }
 
-  update(event: PointerEvent) {
-    if (!this.active)
-      return
 
+
+
+  private _update = function (this: AppPanning, event: PointerEvent) {
     const clientPos = this.page.pos.getClientPos(event)
 
     this.page.camera.pos.x -= (clientPos.x - this.currentPos.x) / this.page.camera.zoom
     this.page.camera.pos.y -= (clientPos.y - this.currentPos.y) / this.page.camera.zoom
 
     this.currentPos = cloneDeep(clientPos)
-  }
+  }.bind(this)
 
-  finish(event: PointerEvent) {
-    if (!this.active)
+
+
+
+  private _finish = function (this: AppPanning, event: PointerEvent) {
+    if (event.pointerType === 'mouse' && event.button !== 1)
       return
 
-    this.active = false
-  }
+
+
+
+    document.removeEventListener('pointermove', this._update)
+    document.removeEventListener('pointerup', this._finish)
+  }.bind(this)
 }

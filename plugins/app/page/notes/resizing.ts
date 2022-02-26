@@ -17,8 +17,6 @@ export {
 class AppResizing {
   page: AppPage
 
-  active!: boolean
-
   side!: Nullable<string>
   section!: Nullable<string>
 
@@ -28,8 +26,6 @@ class AppResizing {
   constructor(page: AppPage) {
     this.page = page
 
-    $static.vue.ref(this, 'active', () => false)
-
     $static.vue.ref(this, 'side', () => null)
     $static.vue.ref(this, 'section', () => null)
   }
@@ -38,8 +34,6 @@ class AppResizing {
 
 
   start(event: PointerEvent, note: Note, side: string, section?: Nullable<string>) {
-    this.active = true
-
     this.side = side
     this.section = section ?? null
 
@@ -47,18 +41,18 @@ class AppResizing {
 
     
     this.page.activeElem.set(note)
+
+
+
+
+    document.addEventListener('pointermove', this._update)
+    document.addEventListener('pointerup', this._finish)
   }
 
 
 
 
-  update(event: PointerEvent) {
-    if (!this.active)
-      return
-    
-
-
-
+  private _update = function (this: AppResizing, event: PointerEvent) {
     const activeNote = this.page.activeElem.get as Note
     
     const frameClientRect = activeNote.getClientRect('frame')
@@ -127,15 +121,13 @@ class AppResizing {
           + (newWorldRect.end.y - oldWorldRect.end.y) * note.collab.anchor.y
       }
     })
-  }
+  }.bind(this)
 
 
 
 
-  finish(event: PointerEvent) {
-    if (!this.active)
-      return
-  
-    this.active = false
-  }
+  private _finish = function (this: AppResizing, event: PointerEvent) {
+    document.removeEventListener('pointermove', this._update)
+    document.removeEventListener('pointerup', this._finish)
+  }.bind(this)
 }

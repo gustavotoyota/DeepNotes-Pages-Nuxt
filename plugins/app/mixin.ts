@@ -30,57 +30,6 @@ export default async function (ctx: Context, inject: Inject) {
       onBeforeUnmount(() => {
         document.removeEventListener('pointerdown', onPointerDownCapture, true)
       })
-  
-  
-  
-  
-  
-      // Pointer move
-  
-      onMounted(() => {
-        document.addEventListener('pointermove', onPointerMove)
-      })
-  
-      function onPointerMove(event: PointerEvent) {
-        ctx.$app.page.panning.update(event)
-        
-        ctx.$app.page.boxSelection.update(event)
-
-        ctx.$app.page.dragging.update(event)
-        ctx.$app.page.resizing.update(event)
-      }
-  
-      onBeforeUnmount(() => {
-        document.removeEventListener('pointermove', onPointerMove)
-      })
-  
-  
-  
-  
-  
-      // Pointer up
-  
-      onMounted(() => {
-        document.addEventListener('pointerup', onPointerUp)
-      })
-  
-      function onPointerUp(event: PointerEvent) {
-        if (event.button === 1 || event.pointerType !== 'mouse')
-          ctx.$app.page.panning.finish(event)
-        
-        if (event.button === 0 || event.pointerType !== 'mouse')
-          ctx.$app.page.boxSelection.finish(event)
-
-        if (event.button === 0 || event.pointerType !== 'mouse')
-          ctx.$app.page.dragging.finish(event)
-
-        if (event.button === 0 || event.pointerType !== 'mouse')
-          ctx.$app.page.resizing.finish(event)
-      }
-  
-      onBeforeUnmount(() => {
-        document.removeEventListener('pointerup', onPointerUp)
-      })
 
 
 

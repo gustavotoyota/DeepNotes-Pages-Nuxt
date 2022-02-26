@@ -21,7 +21,6 @@ const MIN_DISTANCE = 5
 class AppBoxSelection {
   page: AppPage
 
-  down!: boolean
   active!: boolean
 
   startPos!: IVec2
@@ -33,7 +32,9 @@ class AppBoxSelection {
   constructor(page: AppPage) {
     this.page = page
 
-    $static.vue.ref(this, 'boxSelection.down', () => false)
+
+
+    
     $static.vue.ref(this, 'boxSelection.active', () => false)
   
     $static.vue.ref(this, 'boxSelection.startPos', () => null)
@@ -44,31 +45,30 @@ class AppBoxSelection {
 
 
   start(event: PointerEvent) {
-    if (event.button !== 0)
-      return
-
     const displayPos = this.page.pos.getDisplayPos(event)
 
-    this.down = true
     this.active = false
 
     this.startPos = cloneDeep(displayPos)
     this.endPos = cloneDeep(displayPos)
+
+
+
+    
+    document.addEventListener('pointermove', this._update)
+    document.addEventListener('pointerup', this._finish)
   }
 
-  update(event: PointerEvent) {
-    if (!this.down)
-      return
-
-      
 
 
+  
+  private _update = function (this: AppBoxSelection, event: PointerEvent) {
     const displayPos = this.page.pos.getDisplayPos(event)
 
     if (!this.active) {
       const dist = Math.sqrt(
-        Math.pow(displayPos.x - this.startPos!.x, 2) +
-        Math.pow(displayPos.y - this.startPos!.y, 2)
+        Math.pow(displayPos.x - this.startPos.x, 2) +
+        Math.pow(displayPos.y - this.startPos.y, 2)
       )
   
       this.active = dist >= MIN_DISTANCE
@@ -80,17 +80,20 @@ class AppBoxSelection {
 
     
     this.endPos = cloneDeep(displayPos)
-  }
+  }.bind(this)
 
-  finish(event: PointerEvent) {
-    if (!this.down || event.button !== 0)
+
+
+
+  private _finish = function (this: AppBoxSelection, event: PointerEvent) {
+    if (event.pointerType === 'mouse' && event.button !== 0)
       return
 
 
 
 
-    const startPos = this.page.pos.displayToClient(this.startPos!)
-    const endPos = this.page.pos.displayToClient(this.endPos!)
+    const startPos = this.page.pos.displayToClient(this.startPos)
+    const endPos = this.page.pos.displayToClient(this.endPos)
   
   
 
@@ -123,7 +126,12 @@ class AppBoxSelection {
 
     
     
-    this.down = false
     this.active = false
-  }
+
+
+
+
+    document.removeEventListener('pointermove', this._update)
+    document.removeEventListener('pointerup', this._finish)
+  }.bind(this)
 }

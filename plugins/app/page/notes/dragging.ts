@@ -21,7 +21,6 @@ const MIN_DISTANCE: number = 5;
 class AppDragging {
   page: AppPage
 
-  down!: boolean;
   active!: boolean;
 
   startPos!: IVec2;
@@ -39,7 +38,6 @@ class AppDragging {
 
 
 
-    $static.vue.ref(this, 'dragging.down', () => false)
     $static.vue.ref(this, 'dragging.active', () => false)
     
     $static.vue.ref(this, 'dragging.startPos', () => null)
@@ -62,8 +60,6 @@ class AppDragging {
 
 
 
-
-    this.down = true
     this.active = false
 
     this.startPos = this.page.pos.getClientPos(event)
@@ -71,14 +67,18 @@ class AppDragging {
 
     this.dropRegionId = null
     this.dropIndex = null
+
+
+
+
+    document.addEventListener('pointermove', this._update)
+    document.addEventListener('pointerup', this.finish)
   }
-  update(event: PointerEvent) {
-    if (!this.down)
-      return
 
 
-    
-    
+
+  
+  private _update = function (this: AppDragging, event: PointerEvent) {
     const clientMousePos = this.page.pos.getClientPos(event)
 
     if (!this.active) {
@@ -164,17 +164,32 @@ class AppDragging {
 
 
     this.currentPos = clientMousePos
-  }
-  finish(event: PointerEvent) {
-    if (!this.down)
+  }.bind(this)
+
+
+
+
+  finish = function (this: AppDragging, event: PointerEvent) {
+    if (event.pointerType === 'mouse' && event.button !== 0)
       return
+      
+
+
 
     this.page.collab.doc.transact(() => {
       for (const note of this.page.selection.notes)
         note.collab.dragging = false
     })
 
-    this.down = false
+
+
+
     this.active = false
-  }
+
+
+
+
+    document.removeEventListener('pointermove', this._update)
+    document.removeEventListener('pointerup', this.finish)
+  }.bind(this)
 }
