@@ -200,21 +200,6 @@ class AppPage {
 
 
 
-    // Watch for page name changes
-
-    watch(() => this.data.collab.name, () => {
-      const pathRef = this.project.pathPages.find(pageRef => pageRef.id == this.id)
-      if (pathRef != null)
-        pathRef.name = this.data.collab.name
-
-      const recentRef = this.project.recentPages.find(pageRef => pageRef.id == this.id)
-      if (recentRef != null)
-        recentRef.name = this.data.collab.name
-    }, { immediate: true })
-
-
-
-
     this.collab.startSync()
   }
 

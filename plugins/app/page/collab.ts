@@ -83,6 +83,28 @@ class AppCollab {
 
 
 
+        // Watch for page name changes
+    
+        watch(() => this.page.data.collab.name, () => {
+          const pathRef = this.page.project.pathPages.find(
+            pageRef => pageRef.id == this.page.id)
+
+          if (pathRef != null)
+            pathRef.name = this.page.data.collab.name
+    
+
+            
+
+          const recentRef = this.page.project.recentPages.find(
+            pageRef => pageRef.id == this.page.id)
+
+          if (recentRef != null)
+            recentRef.name = this.page.data.collab.name
+        }, { immediate: true })
+
+
+
+
         // Observe note changes
         
         this.page.notes.mapAndObserveIds(this.page.data.collab.noteIds, null)
