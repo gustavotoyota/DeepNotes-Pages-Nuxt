@@ -22,7 +22,14 @@ export type {
 
 class App {
   project: AppProject
-  page: AppPage
+
+
+
+
+  private _key: number = 0
+  
+  private _page!: AppPage
+  page!: AppPage
 
 
 
@@ -34,6 +41,23 @@ class App {
   
 
     this.project = new AppProject(ctx)
+
+
+
+
+    $static.vue.ref(this, '_key', () => 0)
+
+    $static.vue.computed(this, 'page', {
+      get: () => {
+        this._key
+        return this._page
+      },
+      set: (value: AppPage) => {
+        this._key++
+        this._page = value
+      },
+    })
+
     this.page = new AppPage(ctx.$app.project, ctx.route.params.page_id)
   }
 }
