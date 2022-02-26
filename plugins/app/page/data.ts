@@ -18,19 +18,31 @@ class AppPageData {
   
   collab!: IPageCollab
 
+  name!: string
+
   notes!: Note[]
   arrows!: any[]
 
 
 
 
-  constructor(page: AppPage, id?: string) {
+  constructor(page: AppPage) {
     this.page = page
   
   
   
   
     $static.vue.computed(this, 'collab', () => this.page.collab.store.page)
+
+
+
+      
+    $static.vue.computed(this, 'name', () => {
+      const pageRef = this.page.project.pathPages.find(
+        item => item.id == this.page.id)
+
+      return this.collab.name ?? pageRef?.name ?? ''
+    })
   
   
   

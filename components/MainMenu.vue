@@ -23,8 +23,8 @@
 
     <v-spacer/>
 
-    <v-app-bar-title v-if="$app.page.collab.store != null">
-      {{ $app.page.data.collab.name }}
+    <v-app-bar-title>
+      {{ $app.page.data.name }}
     </v-app-bar-title>
 
     <v-spacer/>

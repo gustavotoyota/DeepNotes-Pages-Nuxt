@@ -123,7 +123,7 @@ class AppPage {
 
   
 
-    this.data = new AppPageData(this, id)
+    this.data = new AppPageData(this)
   
     this.camera = new AppCamera(this)
     this.panning = new AppPanning(this)
@@ -175,7 +175,10 @@ class AppPage {
 
     // Update page path
 
-    if (this.project.pathPages.find(item => item.id == this.id) == null) {
+    const pageRef = this.project.pathPages.find(
+      item => item.id == this.id)
+
+    if (pageRef == null) {
       const index = this.project.pathPages.findIndex(
         item => item.id == this.ctx.$app.project.parentPageId)
 
@@ -194,7 +197,7 @@ class AppPage {
 
     this.project.bumpRecentPage({
       id: this.id,
-      name: '',
+      name: this.data.name,
     })
 
 
