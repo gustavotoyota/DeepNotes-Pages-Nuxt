@@ -5,7 +5,7 @@
   dense>
 
     <a style="display: flex"
-    :href="$ctx.isDev ? 'http://localhost:60379' : 'https://deepnotes.app/'">
+    :href="$ctx.isDev ? 'http://192.168.1.7:60379' : 'https://deepnotes.app/'">
       <img src="/icon.png"
       style="width: 24px; height: 24px;
       position: relative; top: 4px"/>
@@ -30,12 +30,12 @@
     <v-spacer/>
 
     <v-btn depressed
-    :href="$ctx.isDev ? 'http://localhost:60379/' : 'https://deepnotes.app/'">
+    :href="$ctx.isDev ? 'http://192.168.1.7:60379/' : 'https://deepnotes.app/'">
       Home
     </v-btn>
 
     <v-btn depressed
-    :href="$ctx.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
+    :href="$ctx.isDev ? 'http://192.168.1.7:60379/account' : 'https://deepnotes.app/account'">
       Account
     </v-btn>
 

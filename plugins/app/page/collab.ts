@@ -61,7 +61,7 @@ class AppCollab {
 
     this.indexedDbProvider.on('synced', () => {
       this.websocketProvider = new WebsocketProvider(
-      this.page.ctx.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
+      this.page.ctx.isDev ? "ws://192.168.1.7:1234" : "wss://yjs-server.deepnotes.app/",
       name, this.doc)
 
       this.websocketProvider.on('sync', async () => {
