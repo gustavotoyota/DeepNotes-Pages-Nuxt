@@ -20,6 +20,20 @@
 
 
 
+<script lang="ts">
+export default {
+  head() {
+    return {
+      title: this.$app.page.data.name +
+        (this.$app.page.data.name ? ' - ' : '') + 'DeepNotes'
+    }
+  },
+}
+</script>
+
+
+
+
 <script setup lang="ts">
 </script>
 
