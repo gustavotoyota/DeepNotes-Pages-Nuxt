@@ -27,7 +27,7 @@ class AppDropping {
 
 
   perform(event: PointerEvent, regionNote: Note, dropIndex: number) {
-    this.page.dragging.finish(event)
+    this.page.dragging.cancel()
     
 
 

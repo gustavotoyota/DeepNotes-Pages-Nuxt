@@ -52,6 +52,11 @@ class AppPinching {
 
 
 
+        this.page.panning.cancel()
+
+
+
+
         document.addEventListener('pointermove', this._update)
       } else {
         document.removeEventListener('pointermove', this._update)

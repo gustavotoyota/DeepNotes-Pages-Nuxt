@@ -45,14 +45,14 @@ class AppPanning {
 
 
     $static.utils.listenPointerEvents(event, {
-      move: this._update.bind(this),
+      move: this._update,
     })
   }
 
 
 
 
-  private _update(this: AppPanning, event: PointerEvent) {
+  private _update = function (this: AppPanning, event: PointerEvent) {
     if (this.page.pinching.active)
       return
 
@@ -65,5 +65,12 @@ class AppPanning {
     this.page.camera.pos.y -= (clientPos.y - this.currentPos.y) / this.page.camera.zoom
 
     this.currentPos = cloneDeep(clientPos)
-  }
+  }.bind(this)
+
+
+
+
+  cancel = function (this: AppPanning) {
+    document.removeEventListener('pointermove', this._update)
+  }.bind(this)
 }

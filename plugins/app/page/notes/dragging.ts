@@ -71,8 +71,10 @@ class AppDragging {
 
 
 
-    document.addEventListener('pointermove', this._update)
-    document.addEventListener('pointerup', this.finish)
+    $static.utils.listenPointerEvents(event, {
+      move: this._update,
+      up: this._finish,
+    })
   }
 
 
@@ -159,13 +161,17 @@ class AppDragging {
 
 
 
-  finish = function (this: AppDragging, event: PointerEvent) {
+  private _finish = function (this: AppDragging) {
     this.active = false
+  }.bind(this)
 
 
 
+
+  cancel = () => {
+    this._finish()
 
     document.removeEventListener('pointermove', this._update)
-    document.removeEventListener('pointerup', this.finish)
-  }.bind(this)
+    document.removeEventListener('pointerup', this._finish)
+  }
 }

@@ -56,15 +56,15 @@ class AppBoxSelection {
 
 
     $static.utils.listenPointerEvents(event, {
-      move: this._update.bind(this),
-      up: this._finish.bind(this),
+      move: this._update,
+      up: this._finish,
     })
   }
 
 
 
   
-  private _update(this: AppBoxSelection, event: PointerEvent) {
+  private _update = function (this: AppBoxSelection, event: PointerEvent) {
     const displayPos = this.page.pos.getDisplayPos(event)
 
     if (!this.active) {
@@ -82,12 +82,12 @@ class AppBoxSelection {
 
     
     this.endPos = cloneDeep(displayPos)
-  }
+  }.bind(this)
 
 
 
 
-  private _finish(this: AppBoxSelection, event: PointerEvent) {
+  private _finish = function (this: AppBoxSelection, event: PointerEvent) {
     const startPos = this.page.pos.displayToClient(this.startPos)
     const endPos = this.page.pos.displayToClient(this.endPos)
   
@@ -123,5 +123,5 @@ class AppBoxSelection {
     
     
     this.active = false
-  }
+  }.bind(this)
 }
