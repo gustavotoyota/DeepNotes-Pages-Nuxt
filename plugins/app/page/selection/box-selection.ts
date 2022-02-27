@@ -54,15 +54,17 @@ class AppBoxSelection {
 
 
 
-    
-    document.addEventListener('pointermove', this._update)
-    document.addEventListener('pointerup', this._finish)
+
+    $static.utils.listenPointerEvents(event, {
+      move: this._update.bind(this),
+      up: this._finish.bind(this),
+    })
   }
 
 
 
   
-  private _update = function (this: AppBoxSelection, event: PointerEvent) {
+  private _update(this: AppBoxSelection, event: PointerEvent) {
     const displayPos = this.page.pos.getDisplayPos(event)
 
     if (!this.active) {
@@ -80,18 +82,12 @@ class AppBoxSelection {
 
     
     this.endPos = cloneDeep(displayPos)
-  }.bind(this)
+  }
 
 
 
 
-  private _finish = function (this: AppBoxSelection, event: PointerEvent) {
-    if (event.pointerType === 'mouse' && event.button !== 0)
-      return
-
-
-
-
+  private _finish(this: AppBoxSelection, event: PointerEvent) {
     const startPos = this.page.pos.displayToClient(this.startPos)
     const endPos = this.page.pos.displayToClient(this.endPos)
   
@@ -127,11 +123,5 @@ class AppBoxSelection {
     
     
     this.active = false
-
-
-
-
-    document.removeEventListener('pointermove', this._update)
-    document.removeEventListener('pointerup', this._finish)
-  }.bind(this)
+  }
 }

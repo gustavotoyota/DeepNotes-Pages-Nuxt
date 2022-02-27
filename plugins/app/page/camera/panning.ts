@@ -44,14 +44,15 @@ class AppPanning {
 
 
 
-    document.addEventListener('pointermove', this._update)
-    document.addEventListener('pointerup', this._finish)
+    $static.utils.listenPointerEvents(event, {
+      move: this._update.bind(this),
+    })
   }
 
 
 
 
-  private _update = function (this: AppPanning, event: PointerEvent) {
+  private _update(this: AppPanning, event: PointerEvent) {
     if (this.page.pinching.active)
       return
 
@@ -64,19 +65,5 @@ class AppPanning {
     this.page.camera.pos.y -= (clientPos.y - this.currentPos.y) / this.page.camera.zoom
 
     this.currentPos = cloneDeep(clientPos)
-  }.bind(this)
-
-
-
-
-  private _finish = function (this: AppPanning, event: PointerEvent) {
-    if (event.pointerType === 'mouse' && event.button !== 1)
-      return
-
-
-
-
-    document.removeEventListener('pointermove', this._update)
-    document.removeEventListener('pointerup', this._finish)
-  }.bind(this)
+  }
 }

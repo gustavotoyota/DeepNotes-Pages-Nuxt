@@ -170,12 +170,6 @@ class AppDragging {
 
 
   finish = function (this: AppDragging, event: PointerEvent) {
-    if (event.pointerType === 'mouse' && event.button !== 0)
-      return
-      
-
-
-
     this.page.collab.doc.transact(() => {
       for (const note of this.page.selection.notes)
         note.collab.dragging = false

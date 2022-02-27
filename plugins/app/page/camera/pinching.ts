@@ -67,19 +67,9 @@ class AppPinching {
 
     Vue.set(this.pointers, downEvent.pointerId, displayPos)
 
-
-
-
-    const func = (upEvent: PointerEvent) => {
-      if (upEvent.pointerId !== downEvent.pointerId)
-        return
-
-      Vue.delete(this.pointers, upEvent.pointerId)
-
-      document.removeEventListener('pointerup', func)
-    }
-
-    document.addEventListener('pointerup', func)
+    $static.utils.listenPointerEvents(downEvent, {
+      up: (upEvent) => { Vue.delete(this.pointers, upEvent.pointerId) },
+    })
   }
 
 
