@@ -77,6 +77,8 @@ const props = defineProps<{
   flex-direction: column;
   
   overflow: auto;
+
+  touch-action: pan-x pan-y !important;
 }
 
 

@@ -16,6 +16,38 @@ class StaticUtils {
     return elem.scrollWidth > elem.clientWidth
       && elem.offsetHeight > elem.clientHeight
   }
+  
+
+
+
+  hasScrollbar(elem: HTMLElement) {
+    return this.hasHorizScrollbar(elem)
+      || this.hasVertScrollbar(elem)
+  }
+
+
+
+
+  isTouchOverScrollbar(event: TouchEvent, zoom?: number) {
+    const elem = event.target as HTMLElement
+
+    const clientRect = elem.getBoundingClientRect()
+
+    zoom = zoom ?? 1
+
+    const offsetX = (event.targetTouches[0].clientX - clientRect.x) / zoom
+    const offsetY = (event.targetTouches[0].clientY - clientRect.y) / zoom
+
+    if (this.hasVertScrollbar(elem)
+    && offsetX > elem.clientWidth)
+      return true
+
+    if (this.hasHorizScrollbar(elem)
+    && offsetY > elem.clientHeight) 
+      return true
+
+    return false
+  }
 
 
 
@@ -23,12 +55,12 @@ class StaticUtils {
   isMouseOverScrollbar(event: PointerEvent) {
     const elem = event.target as HTMLElement
 
-    if (this.hasHorizScrollbar(elem)
-    && event.offsetY > elem.clientHeight) 
-      return true
-
     if (this.hasVertScrollbar(elem)
     && event.offsetX > elem.clientWidth)
+      return true
+
+    if (this.hasHorizScrollbar(elem)
+    && event.offsetY > elem.clientHeight) 
       return true
 
     return false

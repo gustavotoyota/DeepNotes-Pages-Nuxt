@@ -6,6 +6,7 @@
     'cursor': (note.collab.linkedPageId == null || note.selected) ? null : 'pointer',
     'background-color': backgroundColor,
   }"
+  @touchstart="onTouchStart"
   @pointerdown.left.stop="onPointerDown"
   @click="onClick">
 
@@ -40,6 +41,15 @@ const backgroundColor = computed(() => {
   else
     return `#424242`
 })
+
+
+
+
+function onTouchStart(event: TouchEvent) {
+  if ($static.utils.hasScrollbar(event.target as HTMLElement)
+  && !$static.utils.isTouchOverScrollbar(event, ctx.$app.page.camera.zoom))
+    event.preventDefault()
+}
 
 
 

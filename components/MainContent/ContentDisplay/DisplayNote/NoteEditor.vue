@@ -175,6 +175,8 @@ watch(() => props.note.editing, onEditToggle)
   overflow: auto;
   
   white-space: nowrap;
+
+  touch-action: pan-x pan-y !important;
 }
 
 .note-editor /deep/ .ql-editor > * {
