@@ -90,16 +90,6 @@ class AppDragging {
       this.active = dist >= MIN_DISTANCE
       if (!this.active)
         return
-        
-
-
-      
-      // Remove dragging styles
-
-      this.page.collab.doc.transact(() => {
-        for (const selectedNote of this.page.selection.notes)
-          selectedNote.collab.dragging = selectedNote.collab.movable
-      })
 
 
 
@@ -152,7 +142,7 @@ class AppDragging {
 
     this.page.collab.doc.transact(() => {
       for (const note of this.page.selection.notes) {
-        if (!note.collab.dragging)
+        if (!note.dragging)
           continue
 
         note.collab.pos.x += delta.x
@@ -170,14 +160,6 @@ class AppDragging {
 
 
   finish = function (this: AppDragging, event: PointerEvent) {
-    this.page.collab.doc.transact(() => {
-      for (const note of this.page.selection.notes)
-        note.collab.dragging = false
-    })
-
-
-
-
     this.active = false
 
 

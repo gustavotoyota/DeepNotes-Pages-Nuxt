@@ -210,8 +210,6 @@ interface INoteCollab {
   container: boolean
   childIds: string[]
 
-  dragging: boolean
-
   zIndex: number
 }
 
@@ -238,6 +236,7 @@ class Note extends Elem {
   selected!: boolean
   active!: boolean
   editing!: boolean
+  dragging!: boolean
 
   sizeProp!: string
   size!: INoteSize
@@ -284,6 +283,8 @@ class Note extends Elem {
       this.page.activeElem.is(this as Elem))
     $static.vue.computed(this, 'editing', () =>
       this.page.editing.active && this.active)
+    $static.vue.computed(this, 'dragging', () =>
+      this.page.dragging.active && this.selected)
 
 
 
