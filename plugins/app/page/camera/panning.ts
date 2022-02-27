@@ -52,6 +52,12 @@ class AppPanning {
 
 
   private _update = function (this: AppPanning, event: PointerEvent) {
+    if (this.page.pinching.active)
+      return
+
+
+      
+
     const clientPos = this.page.pos.getClientPos(event)
 
     this.page.camera.pos.x -= (clientPos.x - this.currentPos.x) / this.page.camera.zoom

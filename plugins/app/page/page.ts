@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { AppCamera } from './camera/camera'
 import { AppPanning } from './camera/panning'
 import { AppZooming } from './camera/zooming'
+import { AppPinching } from './camera/pinching'
 
 import { AppPos } from './space/pos'
 import { AppSizes } from './space/sizes'
@@ -37,7 +38,6 @@ import { AppDropping } from './notes/dropping'
 import { AppArrows } from './arrows/arrows'
 import { AppPageData } from './data'
 import { AppProject } from '../project'
-import { watch, watchEffect } from '@nuxtjs/composition-api'
 
 
 
@@ -76,6 +76,7 @@ class AppPage {
   camera: AppCamera
   panning: AppPanning
   zooming: AppZooming
+  pinching: AppPinching
 
   pos: AppPos
   sizes: AppSizes
@@ -128,6 +129,7 @@ class AppPage {
     this.camera = new AppCamera(this)
     this.panning = new AppPanning(this)
     this.zooming = new AppZooming(this)
+    this.pinching = new AppPinching(this)
   
     this.pos = new AppPos(this)
     this.sizes = new AppSizes(this)

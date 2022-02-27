@@ -5,7 +5,8 @@
   position: relative;
   overflow: hidden;"
   @wheel="onWheel"
-  @pointerdown.middle.prevent="onPointerDown">
+  @pointerdown.left="onLeftPointerDown"
+  @pointerdown.middle.prevent="onMiddlePointerDown">
 
     <DisplayBackground/>
     <DisplayView/>
@@ -29,6 +30,7 @@
 
 <script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
+import Vue from "vue";
 
 const ctx = useContext()
 
@@ -39,9 +41,15 @@ function onWheel(event: WheelEvent) {
   ctx.$app.page.zooming.perform(event)
 }
 
-function onPointerDown(event: PointerEvent) {
-  if (event.button === 1)
-    ctx.$app.page.panning.start(event)
+function onLeftPointerDown(event: PointerEvent) {
+  ctx.$app.page.pinching.addPointer(event)
+
+  if (ctx.$app.page.pinching.active)
+    event.stopPropagation()
+}
+
+function onMiddlePointerDown(event: PointerEvent) {
+  ctx.$app.page.panning.start(event)
 }
 </script>
 
