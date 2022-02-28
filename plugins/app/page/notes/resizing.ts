@@ -26,8 +26,11 @@ class AppResizing {
   constructor(page: AppPage) {
     this.page = page
 
-    $static.vue.ref(this, 'side', () => null)
-    $static.vue.ref(this, 'section', () => null)
+
+
+    
+    $static.vue.ref(this, 'resizing.side', () => null)
+    $static.vue.ref(this, 'resizing.section', () => null)
   }
 
 

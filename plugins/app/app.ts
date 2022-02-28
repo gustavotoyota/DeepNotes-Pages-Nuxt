@@ -26,9 +26,8 @@ class App {
 
 
 
-  private _key: number = 0
+  private _key!: number
   
-  private _page!: AppPage
   page!: AppPage
 
 
@@ -45,20 +44,20 @@ class App {
 
 
 
+    let page: AppPage = new AppPage(ctx.$app.project, ctx.route.params.page_id)
+    
     $static.vue.ref(this, '_key', () => 0)
 
     $static.vue.computed(this, 'page', {
       get: () => {
         this._key
-        return this._page
+        return page
       },
       set: (value: AppPage) => {
         this._key++
-        this._page = value
+        page = value
       },
     })
-
-    this.page = new AppPage(ctx.$app.project, ctx.route.params.page_id)
   }
 }
 

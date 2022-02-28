@@ -29,8 +29,11 @@ class AppProject {
   constructor(ctx: Context) {
     this.ctx = ctx
 
-    $static.vue.ref(this, 'project.pathPages', () => [])
-    $static.vue.ref(this, 'project.recentPages', () => [])
+
+
+
+    $static.vue.ref(this, 'project.pathPages', () => null)
+    $static.vue.ref(this, 'project.recentPages', () => null)
 
     $static.vue.ref(this, 'project.collapsedLeftSidebar', () => true)
     $static.vue.ref(this, 'project.collapsedRightSidebar', () => true)
@@ -40,12 +43,21 @@ class AppProject {
 
 
   async init() {
+    if (this.pathPages != null)
+      return
+
+
+
+
     const data = (await this.ctx.$axios.post('/api/project/data', {
       pageId: this.ctx.route.params.page_id,
     })).data
 
-    this.ctx.$app.project.pathPages = data.path
-    this.ctx.$app.project.recentPages = data.recent
+
+
+
+    this.ctx.$app.project.pathPages = data.pathPages
+    this.ctx.$app.project.recentPages = data.recentPages
   }
 
 
