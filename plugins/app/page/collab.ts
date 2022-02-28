@@ -1,6 +1,7 @@
 import { Context } from "@nuxt/types"
 import { watch } from "@nuxtjs/composition-api"
 import { getYjsValue, SyncedArray, SyncedMap, syncedStore, SyncedText } from "@syncedstore/core"
+import { debounce } from "lodash"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
 import { Doc } from "yjs"
@@ -82,9 +83,26 @@ class AppCollab {
 
 
 
+    // Create name update function
+
+    const updateName = debounce(() => {
+      this.page.ctx.$axios.post('/api/page/update-name', {
+        pageId: this.page.id,
+        pageName: this.page.data.collab.name,
+      })
+    }, 2000)
+
+
+
+
     // Watch for page name changes
 
     watch(() => this.page.data.collab.name, () => {
+      this.page.data.auxName = this.page.data.collab.name
+
+
+
+
       const pathRef = this.page.project.pathPages.find(
         pageRef => pageRef.id == this.page.id)
 
@@ -99,6 +117,11 @@ class AppCollab {
 
       if (recentRef != null)
         recentRef.name = this.page.data.collab.name
+
+
+
+
+      updateName()
     }, { immediate: true })
 
 

@@ -201,6 +201,8 @@ class AppPage {
       parentPageId: this.ctx.$app.project.parentPageId,
     })).data
 
+    this.data.auxName = pageData.name
+
     if (pageData.camera) {
       this.camera.pos = pageData.camera.pos
       this.camera.zoom = pageData.camera.zoom

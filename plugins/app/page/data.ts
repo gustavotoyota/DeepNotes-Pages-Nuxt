@@ -18,6 +18,7 @@ class AppPageData {
   
   collab!: IPageCollab
 
+  auxName!: Nullable<string>
   name!: string
 
   notes!: Note[]
@@ -36,12 +37,20 @@ class AppPageData {
 
 
 
+
+    $static.vue.ref(this, 'auxName', () => null)
       
     $static.vue.computed(this, 'name', () => {
+      if (this.collab.name != null)
+        return this.collab.name
+
+      if (this.auxName != null)
+        return this.auxName
+
       const pageRef = this.page.project.pathPages.find(
         item => item.id == this.page.id)
 
-      return this.collab.name ?? pageRef?.name ?? ''
+      return pageRef?.name ?? ''
     })
   
   
