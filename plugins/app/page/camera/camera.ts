@@ -1,7 +1,8 @@
-import { Context } from "@nuxt/types"
+import { watch } from "@nuxtjs/composition-api"
+import { debounce } from "lodash"
 import { IVec2 } from "~/types/deep-notes"
-import { AppPage } from "../page"
 import { Note } from "../notes/notes"
+import { AppPage } from "../page"
 
 
 
@@ -28,11 +29,37 @@ class AppCamera {
   constructor(page: AppPage) {
     this.page = page
 
+
+
+
     $static.vue.ref(this, 'camera.pos', () => ({ x: 0, y: 0 }))
     $static.vue.ref(this, 'camera.zoom', () => 1)
 
     $static.vue.ref(this, 'camera.lockPos', () => false)
     $static.vue.ref(this, 'camera.lockZoom', () => false)
+
+
+
+
+    const updateCamera = debounce(() => {
+      this.page.ctx.$axios.post('/api/page/update-camera', {
+        pos: { x: this.pos.x, y: this.pos.y },
+        zoom: this.zoom,
+
+        lockPos: this.lockPos,
+        lockZoom: this.lockZoom,
+      })
+    }, 2000)
+
+    watch([
+      () => this.pos.x,
+      () => this.pos.y,
+      () => this.zoom,
+      () => this.lockPos,
+      () => this.lockZoom,
+    ], () => {
+      updateCamera()
+    })
   }
 
 
