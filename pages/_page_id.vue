@@ -10,8 +10,7 @@
 <script lang="ts">
 export default {
   async fetch(ctx: Context) {
-    if (ctx.$app.project.pathPages.length === 0)
-      await ctx.$app.project.init()
+    await ctx.$app.project.init()
   }
 }
 </script>
