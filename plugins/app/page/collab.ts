@@ -48,74 +48,71 @@ class AppCollab {
 
 
 
-  startSync() {
-    if (!process.client)
-      return
-
-
-
-      
-    const name = `page-${this.page.id}-1`
-
-    this.indexedDbProvider = new IndexeddbPersistence(name, this.doc)
-
-    this.indexedDbProvider.on('synced', () => {
-      this.websocketProvider = new WebsocketProvider(
-      this.page.ctx.isDev ? "ws://192.168.1.7:1234" : "wss://yjs-server.deepnotes.app/",
-      name, this.doc)
-
-      this.websocketProvider.on('sync', async () => {
-        // Update project
-    
-        const pageName = (await this.page.ctx.$axios.post('/api/project/update', {
-          pageId: this.page.id,
-          parentPageId: this.page.ctx.$app.project.parentPageId,
-        })).data
-    
-    
-    
-    
-        // Initialize page collab
-    
-        if (this.page.data.collab.name == null)
-          this.page.resetCollab(pageName)
+  async startSync() {
+    const roomName = `page-${this.page.id}-1`
 
 
 
 
-        // Watch for page name changes
-    
-        watch(() => this.page.data.collab.name, () => {
-          const pathRef = this.page.project.pathPages.find(
-            pageRef => pageRef.id == this.page.id)
-
-          if (pathRef != null)
-            pathRef.name = this.page.data.collab.name
-    
-
-            
-
-          const recentRef = this.page.project.recentPages.find(
-            pageRef => pageRef.id == this.page.id)
-
-          if (recentRef != null)
-            recentRef.name = this.page.data.collab.name
-        }, { immediate: true })
+    this.indexedDbProvider = new IndexeddbPersistence(roomName, this.doc)
+    this.websocketProvider = new WebsocketProvider(
+      this.page.ctx.isDev ? "ws://192.168.1.3:1234" : "wss://yjs-server.deepnotes.app/",
+      roomName, this.doc)
 
 
 
 
-        // Observe note changes
+    const promises = []
+
+    promises.push(new Promise((resolve) => this.indexedDbProvider.on('synced', resolve)))
+    promises.push(new Promise((resolve) => this.websocketProvider.on('sync', resolve)))
+
+    await Promise.all(promises)
+  }
+
+
+
+
+  postSync() {
+    // Initialize page collab
+
+    if (this.page.data.collab.name == null)
+      this.page.resetCollab(this.page.data.name)
+
+
+
+
+    // Watch for page name changes
+
+    watch(() => this.page.data.collab.name, () => {
+      const pathRef = this.page.project.pathPages.find(
+        pageRef => pageRef.id == this.page.id)
+
+      if (pathRef != null)
+        pathRef.name = this.page.data.collab.name
+
+
         
-        this.page.notes.mapAndObserveIds(this.page.data.collab.noteIds, null)
-        this.page.notes.observeMap()
+
+      const recentRef = this.page.project.recentPages.find(
+        pageRef => pageRef.id == this.page.id)
+
+      if (recentRef != null)
+        recentRef.name = this.page.data.collab.name
+    }, { immediate: true })
 
 
 
 
-        this.page.loaded = true
-      })
-    })
+    // Observe note changes
+    
+    this.page.notes.mapAndObserveIds(this.page.data.collab.noteIds, null)
+    this.page.notes.observeMap()
+
+
+
+
+    this.page.loaded = true
   }
 
 

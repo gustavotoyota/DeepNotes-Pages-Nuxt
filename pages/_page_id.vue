@@ -28,10 +28,24 @@ const ctx = useContext()
 
 
 
-// Reset page
+// Create page
 
 if (ctx.$app.page.id !== ctx.route.value.params.page_id)
   ctx.$app.page = new AppPage(ctx.$app.project, ctx.route.value.params.page_id)
+
+
+
+
+// Synchronize page
+
+if (process.client) {
+  Promise.all([
+    ctx.$app.page.init(),
+    ctx.$app.page.collab.startSync(),
+  ]).then(() => {
+    ctx.$app.page.collab.postSync()
+  })
+}
 </script>
 
 

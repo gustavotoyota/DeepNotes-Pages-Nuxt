@@ -158,23 +158,12 @@ class AppPage {
     this.dropping = new AppDropping(this)
     
     this.arrows = new AppArrows(this)
-
-
-
-
-    this.init()
   }
 
 
 
 
   async init() {
-    if (!process.client)
-      return
-
-
-
-
     // Update page path
 
     const pageRef = this.project.pathPages.find(
@@ -188,7 +177,7 @@ class AppPage {
 
       this.project.pathPages.push({
         id: this.id,
-        name: '',
+        name: this.data.name,
       })  
     }
 
@@ -205,7 +194,20 @@ class AppPage {
 
 
 
-    this.collab.startSync()
+    // Update project
+
+    const pageData = (await this.ctx.$axios.post('/api/page/data', {
+      pageId: this.id,
+      parentPageId: this.ctx.$app.project.parentPageId,
+    })).data
+
+    if (pageData.camera) {
+      this.camera.pos = pageData.camera.pos
+      this.camera.zoom = pageData.camera.zoom
+
+      this.camera.lockPos = pageData.camera.lockPos
+      this.camera.lockZoom = pageData.camera.lockZoom
+    }
   }
 
 
