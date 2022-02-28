@@ -43,11 +43,15 @@ class AppCamera {
 
     const updateCamera = debounce(() => {
       this.page.ctx.$axios.post('/api/page/update-camera', {
-        pos: { x: this.pos.x, y: this.pos.y },
-        zoom: this.zoom,
+        pageId: this.page.id,
 
-        lockPos: this.lockPos,
-        lockZoom: this.lockZoom,
+        camera: {
+          pos: { x: this.pos.x, y: this.pos.y },
+          zoom: this.zoom,
+
+          lockPos: this.lockPos,
+          lockZoom: this.lockZoom,
+        },
       })
     }, 2000)
 
