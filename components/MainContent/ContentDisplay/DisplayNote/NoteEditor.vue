@@ -262,6 +262,25 @@ watch(() => props.note.editing, onEditToggle)
 .note-editor /deep/ p.ql-indent-9 {
   padding-left: 9em !important;
 }
+
+
+
+
+
+/* Anchor links */
+
+.note-editor /deep/ a {
+  text-decoration: none !important;
+
+  color: #64B5F6;
+}
+
+.note-editor /deep/ a::before {
+  display: none;
+}
+.note-editor /deep/ a::after {
+  display: none;
+}
 </style>
 
 
