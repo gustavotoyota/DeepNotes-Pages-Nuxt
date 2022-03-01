@@ -281,6 +281,26 @@ watch(() => props.note.editing, onEditToggle)
 .note-editor /deep/ a::after {
   display: none;
 }
+
+
+
+
+/* Code blocks */
+
+.note-editor /deep/ pre.ql-syntax {
+  min-width: 100%;
+  width: fit-content;
+
+  white-space: pre;
+}
+
+.note-editor.wrap /deep/ pre.ql-syntax {
+  white-space: pre-wrap;
+}
+
+.note-editor /deep/ pre.ql-syntax:empty {
+  display: none;
+}
 </style>
 
 
