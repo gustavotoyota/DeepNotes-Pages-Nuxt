@@ -57,7 +57,7 @@ class AppCollab {
 
     this.indexedDbProvider = new IndexeddbPersistence(roomName, this.doc)
     this.websocketProvider = new WebsocketProvider(
-      this.page.ctx.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
+      this.page.ctx.isDev ? "ws://192.168.1.3:1234" : "wss://yjs-server.deepnotes.app/",
       roomName, this.doc)
 
 
