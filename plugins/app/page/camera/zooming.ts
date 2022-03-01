@@ -29,12 +29,6 @@ class AppZooming {
 
 
   perform(event: WheelEvent) {
-    if (this.page.camera.lockZoom)
-      return
-    
-
-
-
     // Skip if handled
 
     if (event.altKey)

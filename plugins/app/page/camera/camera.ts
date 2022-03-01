@@ -18,6 +18,8 @@ class AppCamera {
   page: AppPage
 
   pos!: IVec2
+
+  _zoom!: number
   zoom!: number
 
   lockPos!: boolean
@@ -35,7 +37,17 @@ class AppCamera {
 
 
     $static.vue.ref(this, 'camera.pos', () => ({ x: 0, y: 0 }))
-    $static.vue.ref(this, 'camera.zoom', () => 1)
+
+    $static.vue.ref(this, 'camera._zoom', () => 1)
+    $static.vue.computed(this, 'zoom', {
+      get: () => { return this._zoom },
+      set: (value: number) => {
+        if (this.loaded && this.lockZoom)
+          return
+
+        this._zoom = value
+      },
+    })
 
     $static.vue.ref(this, 'camera.lockPos', () => false)
     $static.vue.ref(this, 'camera.lockZoom', () => false)
@@ -71,9 +83,6 @@ class AppCamera {
 
   
   resetZoom() {
-    if (this.lockZoom)
-      return
-      
     this.zoom = 1
   }
 
@@ -132,16 +141,14 @@ class AppCamera {
   
     
   
-    if (!this.lockZoom) {
-      const displayRect = this.page.rects.fromDisplay()
-  
-      this.zoom = Math.min(
-        (Math.min(70, displayRect.size.x / 4) - displayRect.size.x / 2) /
-        (worldTopLeft.x - this.pos.x),
-        (Math.min(35, displayRect.size.y / 4) - displayRect.size.y / 2) /
-        (worldTopLeft.y - this.pos.y))
-  
-      this.zoom = Math.min(Math.max(this.zoom, this.page.zooming.minZoom), 1)
-    }
+    const displayRect = this.page.rects.fromDisplay()
+
+    this.zoom = Math.min(
+      (Math.min(70, displayRect.size.x / 4) - displayRect.size.x / 2) /
+      (worldTopLeft.x - this.pos.x),
+      (Math.min(35, displayRect.size.y / 4) - displayRect.size.y / 2) /
+      (worldTopLeft.y - this.pos.y))
+
+    this.zoom = Math.min(Math.max(this.zoom, this.page.zooming.minZoom), 1)
   }
 }
