@@ -212,11 +212,6 @@ class AppPage {
 
       this.camera.loaded = true
     }
-
-
-
-
-    return pageData
   }
 
 
