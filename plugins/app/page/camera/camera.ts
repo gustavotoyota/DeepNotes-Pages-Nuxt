@@ -39,11 +39,18 @@ class AppCamera {
 
     $static.vue.ref(this, 'camera.lockPos', () => false)
     $static.vue.ref(this, 'camera.lockZoom', () => false)
+  }
 
 
 
 
-    const updateCamera = debounce(() => {
+  watchChanges() {
+    watch([
+      () => this.pos,
+      () => this.zoom,
+      () => this.lockPos,
+      () => this.lockZoom,
+    ], debounce(() => {
       this.page.ctx.$axios.post('/api/page/update-camera', {
         pageId: this.page.id,
 
@@ -55,16 +62,7 @@ class AppCamera {
           lockZoom: this.lockZoom,
         },
       })
-    }, 2000)
-
-    watch([
-      () => this.pos,
-      () => this.zoom,
-      () => this.lockPos,
-      () => this.lockZoom,
-    ], () => {
-      updateCamera()
-    }, {
+    }, 2000), {
       deep: true,
     })
   }

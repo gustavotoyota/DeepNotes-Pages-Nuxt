@@ -91,29 +91,14 @@ class AppCollab {
       this.page.camera.loaded = true
     }
 
-
-
-
-    // Create name update function
-
-    const updateName = debounce(() => {
-      this.page.ctx.$axios.post('/api/page/update-name', {
-        pageId: this.page.id,
-        pageName: this.page.data.collab.name,
-      })
-    }, 2000)
+    this.page.camera.watchChanges()
 
 
 
 
-    // Watch for page name changes
+    // Keet path and recent page names updated
 
     watch(() => this.page.data.collab.name, () => {
-      this.page.data.auxName = this.page.data.collab.name
-
-
-
-
       const pathRef = this.page.project.pathPages.find(
         pageRef => pageRef.id == this.page.id)
 
@@ -128,12 +113,19 @@ class AppCollab {
 
       if (recentRef != null)
         recentRef.name = this.page.data.collab.name
-
-
-
-
-      updateName()
     }, { immediate: true })
+
+
+
+
+    // Keep page name updated on database
+
+    watch(() => this.page.data.collab.name, debounce(() => {
+      this.page.ctx.$axios.post('/api/page/update-name', {
+        pageId: this.page.id,
+        pageName: this.page.data.collab.name,
+      })
+    }, 2000))
 
 
 
