@@ -22,20 +22,30 @@
     </v-toolbar>
 
     <v-list dense>
+      
+      <v-tooltip right
+      :disabled="!$app.project.collapsedLeftSidebar"
+      v-for="pageRef in $app.page.project.pathPages" :key="pageRef.id">
 
-      <v-list-item
-      v-for="pageRef in $app.page.project.pathPages" :key="pageRef.id"
-      :input-value="pageRef.id == $app.page.id"
-      @click="$app.page.navigateTo(pageRef.id)"
-      link>
-        <v-list-item-icon>
-          <v-icon>mdi-note</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          {{ (pageRef.id == $app.page.id) ? 
-            $app.page.data.name : pageRef.name }}
-        </v-list-item-title>
-      </v-list-item>
+        <template v-slot:activator="{ on }">
+
+          <v-list-item v-on="on"
+          :input-value="pageRef.id == $app.page.id"
+          @click="$app.page.navigateTo(pageRef.id)"
+          link>
+            <v-list-item-icon>
+              <v-icon>mdi-note</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ (pageRef.id == $app.page.id) ? $app.page.data.name : pageRef.name }}
+            </v-list-item-title>
+          </v-list-item>
+
+        </template>
+
+        <span>{{ (pageRef.id == $app.page.id) ? $app.page.data.name : pageRef.name }}</span>
+
+      </v-tooltip>
 
     </v-list>
 
