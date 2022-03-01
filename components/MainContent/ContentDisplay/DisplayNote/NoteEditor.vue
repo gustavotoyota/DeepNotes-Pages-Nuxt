@@ -190,6 +190,45 @@ watch(() => props.note.editing, onEditToggle)
 .note-editor.wrap /deep/ .ql-editor {
   white-space: normal;
 }
+
+
+
+
+/* Lists */
+
+.note-editor /deep/ ul {
+  padding-left: 0 !important;
+}
+.note-editor /deep/ li {
+  padding-left: 1em !important;
+}
+.note-editor /deep/ li.ql-indent-1 {
+  padding-left: 2em !important;
+}
+.note-editor /deep/ li.ql-indent-2 {
+  padding-left: 3em !important;
+}
+.note-editor /deep/ li.ql-indent-3 {
+  padding-left: 4em !important;
+}
+.note-editor /deep/ li.ql-indent-4 {
+  padding-left: 5em !important;
+}
+.note-editor /deep/ li.ql-indent-5 {
+  padding-left: 6em !important;
+}
+.note-editor /deep/ li.ql-indent-6 {
+  padding-left: 7em !important;
+}
+.note-editor /deep/ li.ql-indent-7 {
+  padding-left: 8em !important;
+}
+.note-editor /deep/ li.ql-indent-8 {
+  padding-left: 9em !important;
+}
+.note-editor /deep/ li.ql-indent-9 {
+  padding-left: 10em !important;
+}
 </style>
 
 
