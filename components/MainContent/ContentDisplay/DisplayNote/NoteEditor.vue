@@ -229,6 +229,39 @@ watch(() => props.note.editing, onEditToggle)
 .note-editor /deep/ li.ql-indent-9 {
   padding-left: 10em !important;
 }
+
+
+
+
+/* Indentation */
+
+.note-editor /deep/ p.ql-indent-1 {
+  padding-left: 1em !important;
+}
+.note-editor /deep/ p.ql-indent-2 {
+  padding-left: 2em !important;
+}
+.note-editor /deep/ p.ql-indent-3 {
+  padding-left: 3em !important;
+}
+.note-editor /deep/ p.ql-indent-4 {
+  padding-left: 4em !important;
+}
+.note-editor /deep/ p.ql-indent-5 {
+  padding-left: 5em !important;
+}
+.note-editor /deep/ p.ql-indent-6 {
+  padding-left: 6em !important;
+}
+.note-editor /deep/ p.ql-indent-7 {
+  padding-left: 7em !important;
+}
+.note-editor /deep/ p.ql-indent-8 {
+  padding-left: 8em !important;
+}
+.note-editor /deep/ p.ql-indent-9 {
+  padding-left: 9em !important;
+}
 </style>
 
 
