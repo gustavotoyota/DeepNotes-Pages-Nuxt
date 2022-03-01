@@ -5,20 +5,17 @@
   clipped
   permanent
   touchless
-  :mini-variant.sync="$app.project.collapsedRightSidebar"
+  stateless
   right
-  width="300">
+  :value="false"
+  :width="$app.project.collapsedRightSidebar ? 0 : 300">
 
     <div style="height: 100%;
+    width: 300px;
     display: flex;
     flex-direction: column">
 
-      <v-toolbar style="flex: none">
-        <v-btn icon @click="$app.project.collapsedRightSidebar = !$app.project.collapsedRightSidebar">
-          <v-icon v-if="$app.project.collapsedRightSidebar">mdi-chevron-left</v-icon>
-          <v-icon v-else>mdi-chevron-right</v-icon>
-        </v-btn>
-
+      <v-toolbar dense style="flex: none">
         <v-toolbar-title>
           Properties
         </v-toolbar-title>
