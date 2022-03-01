@@ -18,7 +18,10 @@ class AppProject {
   pathPages!: IPageRef[]
   recentPages!: IPageRef[]
 
+  allowLeftSidebarModification: boolean = false
+  private _collapsedLeftSidebar!: boolean
   collapsedLeftSidebar!: boolean
+
   collapsedRightSidebar!: boolean
 
   parentPageId: Nullable<string> = null
@@ -35,7 +38,18 @@ class AppProject {
     $static.vue.ref(this, 'project.pathPages', () => null)
     $static.vue.ref(this, 'project.recentPages', () => null)
 
-    $static.vue.ref(this, 'project.collapsedLeftSidebar', () => true)
+    $static.vue.ref(this, 'project._collapsedLeftSidebar', () => false)
+    $static.vue.computed(this, 'collapsedLeftSidebar', {
+      get: () => { return this._collapsedLeftSidebar },
+      set: (value: boolean) => {
+        if (!this.allowLeftSidebarModification)
+          return
+
+        this._collapsedLeftSidebar = value
+        this.allowLeftSidebarModification = false
+      },
+    })
+
     $static.vue.ref(this, 'project.collapsedRightSidebar', () => true)
   }
 
@@ -69,5 +83,13 @@ class AppProject {
       this.ctx.$app.project.recentPages.splice(index, 1)
 
     this.ctx.$app.project.recentPages.push(page)
+  }
+
+
+
+
+  toggleLeftSidebar() {
+    this.allowLeftSidebarModification = true
+    this.collapsedLeftSidebar = !this.collapsedLeftSidebar
   }
 }
