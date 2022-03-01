@@ -23,6 +23,8 @@ class AppCamera {
   lockPos!: boolean
   lockZoom!: boolean
 
+  loaded: boolean = false
+
 
 
 
@@ -56,13 +58,14 @@ class AppCamera {
     }, 2000)
 
     watch([
-      () => this.pos.x,
-      () => this.pos.y,
+      () => this.pos,
       () => this.zoom,
       () => this.lockPos,
       () => this.lockZoom,
     ], () => {
       updateCamera()
+    }, {
+      deep: true,
     })
   }
 
@@ -122,8 +125,10 @@ class AppCamera {
   
   
     if (!this.lockPos) {
-      this.pos.x = (worldTopLeft.x + worldBottomRight.x) / 2
-      this.pos.y = (worldTopLeft.y + worldBottomRight.y) / 2
+      this.pos = {
+        x: (worldTopLeft.x + worldBottomRight.x) / 2,
+        y: (worldTopLeft.y + worldBottomRight.y) / 2,
+      }
     }
   
   

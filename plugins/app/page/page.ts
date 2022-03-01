@@ -209,7 +209,14 @@ class AppPage {
 
       this.camera.lockPos = pageData.camera.lockPos
       this.camera.lockZoom = pageData.camera.lockZoom
+
+      this.camera.loaded = true
     }
+
+
+
+
+    return pageData
   }
 
 
