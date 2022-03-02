@@ -2,7 +2,7 @@
   
   <div v-if="note.collab.resizable && note.selected
   && (note.parent == null
-  || (side === 's' && !note.parent.collab.horizontal)
+  || side === 's'
   || (side === 'e' && note.parent.collab.horizontal))"
   class="note-handle"
   :style="{
