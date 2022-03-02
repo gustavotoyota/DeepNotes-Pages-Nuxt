@@ -261,8 +261,6 @@ class Note extends Elem {
   width!: string
   targetWidth!: string
 
-  height!: string
-
   children!: Note[]
   
 
@@ -427,19 +425,6 @@ class Note extends Elem {
         return 'auto'
       else
         return '0px'
-    })
-
-
-
-
-    $static.vue.computed(this, 'height', () => {
-      if (this.parent == null)
-        return 'auto'
-
-      if (this.parent.collab.horizontal)
-        return '100%'
-      else
-        return 'auto'
     })
 
 

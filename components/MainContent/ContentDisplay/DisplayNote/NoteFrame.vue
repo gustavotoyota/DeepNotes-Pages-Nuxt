@@ -5,8 +5,6 @@
     'min-width': note.minWidth,
     'width': note.width,
 
-    'height': note.height,
-
     'position': note.parentId == null ? 'absolute' : 'relative',
     'transform': note.parentId == null ? `translate(` +
       `${-note.collab.anchor.x * 100}%, ${-note.collab.anchor.y * 100}%)` : undefined,
