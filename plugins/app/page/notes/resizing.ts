@@ -88,7 +88,7 @@ class AppResizing {
     if (this.side.includes('s'))
       newClientRect.end.y = event.clientY
 
-    if (event.ctrlKey) {
+    if (event.ctrlKey && activeNote.parent == null) {
       const oldCenterPos = {
         x: oldClientRect.start.x + oldClientRect.size.x / 2,
         y: oldClientRect.start.y + oldClientRect.size.y / 2,
