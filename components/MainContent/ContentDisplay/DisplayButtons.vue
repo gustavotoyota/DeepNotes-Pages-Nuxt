@@ -6,19 +6,19 @@
     
     <div style="margin-top: 1px">
 
-      <v-btn style="min-width: 0; width: 36px; padding: 0"
-      @click="$app.page.camera.resetZoom()">
-        <v-icon>mdi-magnify-remove-outline</v-icon>
-      </v-btn>
+      <DisplayButton
+      tooltip="Reset zoom"
+      icon="magnify-remove-outline"
+      @click="$app.page.camera.resetZoom()"/>
 
     </div>
 
     <div style="margin-top: 1px">
 
-      <v-btn style="min-width: 0; width: 36px; padding: 0"
-      @click="$app.page.camera.fitToScreen()">
-        <v-icon>mdi-image-filter-center-focus-weak</v-icon>
-      </v-btn>
+      <DisplayButton
+      tooltip="Fit to screen"
+      icon="image-filter-center-focus-weak"
+      @click="$app.page.camera.fitToScreen()"/>
       
     </div>
 
