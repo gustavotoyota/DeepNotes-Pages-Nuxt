@@ -46,9 +46,11 @@ const backgroundColor = computed(() => {
 
 
 function onTouchStart(event: TouchEvent) {
-  if (!$static.utils.hasScrollbar(event.target as HTMLElement)
-  || ($static.utils.hasScrollbar(event.target as HTMLElement)
-  && !$static.utils.isTouchOverScrollbar(event, ctx.$app.page.camera.zoom)))
+  const hasScrollbar = $static.utils.hasScrollbar(event.target as HTMLElement)
+
+  if (getComputedStyle(event.target as Element).touchAction !== 'none'
+  && (!hasScrollbar || (hasScrollbar
+  && !$static.utils.isTouchOverScrollbar(event, ctx.$app.page.camera.zoom))))
     event.preventDefault()
 }
 
