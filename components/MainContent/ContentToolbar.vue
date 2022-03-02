@@ -14,93 +14,96 @@
 
 
 
-
-    <Gap width="16px"/>
-
-
-
-
-    <ToolbarButton
-    tooltip="Duplicate"
-    icon="content-duplicate"
-    :disabled="!$app.page.activeElem.exists"
-    @click="$app.page.cloning.perform()"/>
-
-    <ToolbarButton
-    tooltip="Cut"
-     icon="content-cut"
-    :disabled="!$app.page.activeElem.exists"
-    @click="$app.page.clipboard.cut()"/>
-
-    <ToolbarButton
-    tooltip="Copy"
-    icon="content-copy"
-    :disabled="!$app.page.activeElem.exists"
-    @click="$app.page.clipboard.copy()"/>
-
-    <ToolbarButton
-    tooltip="Paste"
-    icon="content-paste"
-    @click="$app.page.clipboard.paste()"/>
+    <div style="flex: 1;
+    display: flex;
+    width: 0">
+      <Gap width="16px"/>
 
 
 
 
-    <v-divider vertical inset class="mx-2"/>
+      <ToolbarButton
+      tooltip="Duplicate"
+      icon="content-duplicate"
+      :disabled="!$app.page.activeElem.exists"
+      @click="$app.page.cloning.perform()"/>
+
+      <ToolbarButton
+      tooltip="Cut"
+      icon="content-cut"
+      :disabled="!$app.page.activeElem.exists"
+      @click="$app.page.clipboard.cut()"/>
+
+      <ToolbarButton
+      tooltip="Copy"
+      icon="content-copy"
+      :disabled="!$app.page.activeElem.exists"
+      @click="$app.page.clipboard.copy()"/>
+
+      <ToolbarButton
+      tooltip="Paste"
+      icon="content-paste"
+      @click="$app.page.clipboard.paste()"/>
 
 
 
 
-    <ToolbarButton
-    tooltip="Select all"
-    icon="select-all"
-    @click="$app.page.selection.selectAll()"
-    :dense="false"/>
-
-    <ToolbarButton
-    tooltip="Delete"
-    icon="delete-outline"
-    :disabled="!$app.page.activeElem.exists"
-    @click="$app.page.deleting.perform()"
-    :dense="false"/>
+      <v-divider vertical inset class="mx-2"/>
 
 
 
 
-    <v-divider vertical inset class="mx-2"/>
+      <ToolbarButton
+      tooltip="Select all"
+      icon="select-all"
+      @click="$app.page.selection.selectAll()"
+      :dense="false"/>
+
+      <ToolbarButton
+      tooltip="Delete"
+      icon="delete-outline"
+      :disabled="!$app.page.activeElem.exists"
+      @click="$app.page.deleting.perform()"
+      :dense="false"/>
 
 
 
 
-    <ToolbarButton
-    tooltip="Align left"
-    icon="format-align-left"
-    :disabled="!$app.page.activeElem.exists"/>
-
-    <ToolbarButton
-    tooltip="Align center"
-    icon="format-align-center"
-    :disabled="!$app.page.activeElem.exists"/>
-
-    <ToolbarButton
-    tooltip="Align right"
-    icon="format-align-right"
-    :disabled="!$app.page.activeElem.exists"/>
-
-    <ToolbarButton
-    tooltip="Justify"
-    icon="format-align-justify"
-    :disabled="!$app.page.activeElem.exists"/>
+      <v-divider vertical inset class="mx-2"/>
 
 
 
 
-    <v-spacer/>
+      <ToolbarButton
+      tooltip="Align left"
+      icon="format-align-left"
+      :disabled="!$app.page.activeElem.exists"/>
+
+      <ToolbarButton
+      tooltip="Align center"
+      icon="format-align-center"
+      :disabled="!$app.page.activeElem.exists"/>
+
+      <ToolbarButton
+      tooltip="Align right"
+      icon="format-align-right"
+      :disabled="!$app.page.activeElem.exists"/>
+
+      <ToolbarButton
+      tooltip="Justify"
+      icon="format-align-justify"
+      :disabled="!$app.page.activeElem.exists"/>
 
 
 
 
-    <Gap width="16px"/>
+      <v-spacer/>
+
+
+
+
+      <Gap width="16px"/>
+    </div>
 
 
 
@@ -125,5 +128,7 @@
 .v-toolbar /deep/ .v-toolbar__content {
   padding-left: 0;
   padding-right: 0;
+
+  justify-content: center;
 }
 </style>
