@@ -20,19 +20,27 @@
 
 
 
-    <ToolbarButton icon="content-duplicate"
+    <ToolbarButton
+    tooltip="Duplicate"
+    icon="content-duplicate"
     :disabled="!$app.page.activeElem.exists"
     @click="$app.page.cloning.perform()"/>
 
-    <ToolbarButton icon="content-cut"
+    <ToolbarButton
+    tooltip="Cut"
+     icon="content-cut"
     :disabled="!$app.page.activeElem.exists"
     @click="$app.page.clipboard.cut()"/>
 
-    <ToolbarButton icon="content-copy"
+    <ToolbarButton
+    tooltip="Copy"
+    icon="content-copy"
     :disabled="!$app.page.activeElem.exists"
     @click="$app.page.clipboard.copy()"/>
 
-    <ToolbarButton icon="content-paste"
+    <ToolbarButton
+    tooltip="Paste"
+    icon="content-paste"
     @click="$app.page.clipboard.paste()"/>
 
 
@@ -43,11 +51,15 @@
 
 
 
-    <ToolbarButton icon="select-all"
+    <ToolbarButton
+    tooltip="Select all"
+    icon="select-all"
     @click="$app.page.selection.selectAll()"
     :dense="false"/>
 
-    <ToolbarButton icon="delete-outline"
+    <ToolbarButton
+    tooltip="Delete"
+    icon="delete-outline"
     :disabled="!$app.page.activeElem.exists"
     @click="$app.page.deleting.perform()"
     :dense="false"/>
@@ -60,16 +72,24 @@
 
 
 
-    <ToolbarButton icon="format-align-left"
+    <ToolbarButton
+    tooltip="Align left"
+    icon="format-align-left"
     :disabled="!$app.page.activeElem.exists"/>
 
-    <ToolbarButton icon="format-align-center"
+    <ToolbarButton
+    tooltip="Align center"
+    icon="format-align-center"
     :disabled="!$app.page.activeElem.exists"/>
 
-    <ToolbarButton icon="format-align-right"
+    <ToolbarButton
+    tooltip="Align right"
+    icon="format-align-right"
     :disabled="!$app.page.activeElem.exists"/>
 
-    <ToolbarButton icon="format-align-justify"
+    <ToolbarButton
+    tooltip="Justify"
+    icon="format-align-justify"
     :disabled="!$app.page.activeElem.exists"/>
 
 
