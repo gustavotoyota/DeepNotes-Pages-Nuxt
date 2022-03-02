@@ -43,6 +43,10 @@
 
 
 
+    <ToolbarButton icon="select-all"
+    @click="$app.page.selection.selectAll()"
+    :dense="false"/>
+
     <ToolbarButton icon="delete-outline"
     :disabled="!$app.page.activeElem.exists"
     @click="$app.page.deleting.perform()"
