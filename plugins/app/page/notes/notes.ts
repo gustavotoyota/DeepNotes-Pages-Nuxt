@@ -1,11 +1,10 @@
-import { Context } from '@nuxt/types'
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
+import { merge } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
 import { IVec2, Nullable } from "~/types/deep-notes"
-import { AppPage } from '../page'
 import { Elem } from '../elems/elems'
-import { cloneDeep, merge, pull } from 'lodash'
+import { AppPage } from '../page'
 
 
 
@@ -107,6 +106,7 @@ class AppNotes {
         readOnly: false,
   
         container: false,
+        horizontal: false,
         childIds: [],
   
         dragging: false,
@@ -208,6 +208,7 @@ interface INoteCollab {
   readOnly: boolean
 
   container: boolean
+  horizontal: boolean
   childIds: string[]
 
   zIndex: number
@@ -259,6 +260,8 @@ class Note extends Elem {
   minWidth!: string
   width!: string
   targetWidth!: string
+
+  height!: string
 
   children!: Note[]
   
@@ -398,9 +401,12 @@ class Note extends Elem {
     })
     $static.vue.computed(this, 'width', {
       get: () => {
-        if (this.parentId != null)
-          return 'auto'
-        else if (this.size.x === 'expanded')
+        if (this.parent != null) {
+          if (this.parent.collab.horizontal)
+            return this.size.x
+          else
+            return 'auto'
+        } else if (this.size.x === 'expanded')
           return this.collab.expandedSize.x
         else
           return this.size.x
@@ -413,13 +419,30 @@ class Note extends Elem {
       },
     })
     $static.vue.computed(this, 'targetWidth', () => {
-      if (this.parent != null)
-        return this.parent.targetWidth
+      if (this.parent != null) {
+        if (this.parent.collab.horizontal)
+          return 'auto'
+        else
+          return this.parent.targetWidth
+      }
 
       if (this.width === 'auto')
         return 'auto'
       else
         return '0px'
+    })
+
+
+
+
+    $static.vue.computed(this, 'height', () => {
+      if (this.parent == null)
+        return 'auto'
+
+      if (this.parent.collab.horizontal)
+        return '100%'
+      else
+        return 'auto'
     })
 
 
@@ -479,7 +502,9 @@ class Note extends Elem {
 
 
 
-    let auxNode = this.getNode('frame') as Node
+    const frameNode = this.getNode('frame')
+
+    let auxNode = frameNode as Node
 
     while (auxNode != null) {
       if ($static.utils.hasVertScrollbar(auxNode as HTMLElement))
@@ -493,8 +518,6 @@ class Note extends Elem {
 
 
 
-
-    const frameNode = this.getNode('frame')
 
     frameNode.scrollIntoView({
       behavior: 'smooth',

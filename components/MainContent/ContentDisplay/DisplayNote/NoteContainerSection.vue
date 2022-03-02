@@ -5,7 +5,10 @@
   :style="{ height: note.containerHeight }">
     
     <div class="container-content"
-    :style="{ 'width': note.targetWidth }">
+    :style="{
+      'width': note.targetWidth,
+      'flex-direction': note.collab.horizontal ? 'row' : 'column',
+    }">
 
       <!-- Placeholder -->
 
@@ -26,17 +29,27 @@
 
       <!-- Children -->
 
-      <DisplayNote
-      v-for="(child, index) in note.children" :key="child.id"
-      :note="child"
-      :style="{ 'margin-top': index === 0 ? '0' : '5px' }"/>
+      <div v-for="(child, index) in note.children" :key="child.id"
+      style="flex: none; display: flex; flex-direction: column"
+      :style="{
+        'flex-direction': note.collab.horizontal ? 'row' : 'column',
+      }">
 
+        <DisplayNote
+        :note="child"/>
+        
+        <NoteDropZone
+        always-visible
+        v-if="index < note.children.length - 1"
+        :parent-note="note"
+        :index="index + 1"
+        style="position: static;
+        min-width: 5px; min-height: 5px"/>
 
-
-
-      <!-- Bottom drop zone -->
+      </div>
         
       <NoteDropZone
+      always-visible
       :parent-note="note"
       :index="note.children.length"
       style="position: static; flex: 1"/>
@@ -74,7 +87,6 @@ const props = defineProps<{
   padding: 9px;
 
   display: flex;
-  flex-direction: column;
   
   overflow: auto;
 

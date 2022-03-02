@@ -79,6 +79,17 @@
         note.collab.container = value
         note.collab.hasBody = note.collab.hasBody || note.numSections === 0
       })"/>
+
+      <Gap width="16px" style="flex: none"/>
+      
+      <v-checkbox hide-details label="Horizontal"
+      style="flex: 1; margin-top: 0; padding-top: 0"
+      :disabled="!activeNote.collab.container"
+      :input-value="activeNote.collab.horizontal"
+      @change="changeProp($event, (note, value) => {
+        note.collab.horizontal = value
+      })">
+      </v-checkbox>
     </div>
 
 

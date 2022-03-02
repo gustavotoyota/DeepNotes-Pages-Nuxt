@@ -1,14 +1,15 @@
 <template>
 
-  <div v-if="$app.page.dragging.active"
+  <div v-if="alwaysVisible || $app.page.dragging.active"
   class="drop-zone"
   :class="{
-    'active': $app.page.dragging.dropRegionId == parentNote.id
+    'active': $app.page.dragging.active
+      && $app.page.dragging.dropRegionId == parentNote.id
       && $app.page.dragging.dropIndex === index
   }"
   @pointerenter="onPointerEnter"
   @pointerleave="onPointerLeave"
-  @pointerup.left.stop="onPointerUp"/>
+  @pointerup.left="onPointerUp"/>
   
 </template>
 
@@ -24,6 +25,7 @@ const ctx = useContext()
 const props = defineProps<{
   parentNote: Note
   index: number
+  alwaysVisible?: boolean
 }>()
 
 
@@ -46,6 +48,11 @@ function onPointerLeave(event: PointerEvent) {
 }
 
 function onPointerUp(event: PointerEvent) {
+  if (!ctx.$app.page.dragging.active)
+    return
+
+  event.stopPropagation()
+
   ctx.$app.page.dropping.perform(event, props.parentNote, props.index)
 }
 </script>
@@ -58,7 +65,7 @@ function onPointerUp(event: PointerEvent) {
   background-color: #42A5F5;
   opacity: 0;
 
-  z-index: 2147483647;
+  z-index: 2147483646;
 }
 .drop-zone.active {
   opacity: 0.25;
