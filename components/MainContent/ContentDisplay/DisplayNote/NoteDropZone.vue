@@ -9,7 +9,7 @@
   }"
   @pointerenter="onPointerEnter"
   @pointerleave="onPointerLeave"
-  @pointerup.left.stop="onPointerUp"/>
+  @pointerup.left="onPointerUp"/>
   
 </template>
 
@@ -48,6 +48,11 @@ function onPointerLeave(event: PointerEvent) {
 }
 
 function onPointerUp(event: PointerEvent) {
+  if (!ctx.$app.page.dragging.active)
+    return
+
+  event.stopPropagation()
+
   ctx.$app.page.dropping.perform(event, props.parentNote, props.index)
 }
 </script>
@@ -60,7 +65,7 @@ function onPointerUp(event: PointerEvent) {
   background-color: #42A5F5;
   opacity: 0;
 
-  z-index: 2147483647;
+  z-index: 2147483646;
 }
 .drop-zone.active {
   opacity: 0.25;

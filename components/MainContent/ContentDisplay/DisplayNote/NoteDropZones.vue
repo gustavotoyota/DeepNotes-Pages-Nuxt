@@ -6,12 +6,22 @@
     <NoteDropZone
     :parent-note="note.parent"
     :index="note.index"
-    style="top: 0%; bottom: 50%"/>
+    :style="{
+      'top': note.parent.collab.horizontal ? '0' : '0%',
+      'bottom': note.parent.collab.horizontal ? '0' : '50%',
+      'left': note.parent.collab.horizontal ? '0%' : '0',
+      'right': note.parent.collab.horizontal ? '50%' : '0',
+    }"/>
   
     <NoteDropZone
     :parent-note="note.parent"
     :index="note.index + 1"
-    style="top: 50%; bottom: 0%"/>
+    :style="{
+      'top': note.parent.collab.horizontal ? '0' : '50%',
+      'bottom': note.parent.collab.horizontal ? '0' : '0%',
+      'left': note.parent.collab.horizontal ? '50%' : '0',
+      'right': note.parent.collab.horizontal ? '0%' : '0',
+    }"/>
 
   </div>
 

@@ -5,7 +5,10 @@
   :style="{ height: note.containerHeight }">
     
     <div class="container-content"
-    :style="{ 'width': note.targetWidth }">
+    :style="{
+      'width': note.targetWidth,
+      'flex-direction': note.collab.horizontal ? 'row' : 'column',
+    }">
 
       <!-- Placeholder -->
 
@@ -27,7 +30,10 @@
       <!-- Children -->
 
       <div v-for="(child, index) in note.children" :key="child.id"
-      style="flex: none; display: flex; flex-direction: column">
+      style="flex: none; display: flex; flex-direction: column"
+      :style="{
+        'flex-direction': note.collab.horizontal ? 'row' : 'column',
+      }">
 
         <DisplayNote
         :note="child"/>
@@ -81,7 +87,6 @@ const props = defineProps<{
   padding: 9px;
 
   display: flex;
-  flex-direction: column;
   
   overflow: auto;
 
