@@ -1,9 +1,10 @@
 <template>
 
-  <div v-if="$app.page.dragging.active"
+  <div v-if="alwaysVisible || $app.page.dragging.active"
   class="drop-zone"
   :class="{
-    'active': $app.page.dragging.dropRegionId == parentNote.id
+    'active': $app.page.dragging.active
+      && $app.page.dragging.dropRegionId == parentNote.id
       && $app.page.dragging.dropIndex === index
   }"
   @pointerenter="onPointerEnter"
@@ -24,6 +25,7 @@ const ctx = useContext()
 const props = defineProps<{
   parentNote: Note
   index: number
+  alwaysVisible?: boolean
 }>()
 
 

@@ -1,12 +1,12 @@
 <template>
 
-  <div v-if="note.parent != null">
+  <div v-if="note.parent != null
+  && $app.page.dragging.active">
   
     <NoteDropZone
     :parent-note="note.parent"
     :index="note.index"
-    style="bottom: 50%"
-    :style="{ 'top': note.index === 0 ? '0': '-5px' }"/>
+    style="top: 0%; bottom: 50%"/>
   
     <NoteDropZone
     :parent-note="note.parent"
