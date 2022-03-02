@@ -419,12 +419,9 @@ class Note extends Elem {
       },
     })
     $static.vue.computed(this, 'targetWidth', () => {
-      if (this.parent != null) {
-        if (this.parent.collab.horizontal)
-          return 'auto'
-        else
-          return this.parent.targetWidth
-      }
+      if (this.parent != null
+      && this.parent.targetWidth === '0px')
+        return '0px'
 
       if (this.width === 'auto')
         return 'auto'
