@@ -17,7 +17,7 @@ export {
 class AppResizing {
   page: AppPage
 
-  side!: Nullable<string>
+  side!: string
   section!: Nullable<string>
 
 
@@ -29,7 +29,7 @@ class AppResizing {
 
 
     
-    $static.vue.ref(this, 'resizing.side', () => null)
+    $static.vue.ref(this, 'resizing.side', () => '')
     $static.vue.ref(this, 'resizing.section', () => null)
   }
 
@@ -79,14 +79,30 @@ class AppResizing {
   
     const newClientRect = cloneDeep(oldClientRect)
   
-    if (this.side!.includes('w'))
+    if (this.side.includes('w'))
       newClientRect.start.x = event.clientX
-    if (this.side!.includes('n'))
+    if (this.side.includes('n'))
       newClientRect.start.y = event.clientY
-    if (this.side!.includes('e'))
+    if (this.side.includes('e'))
       newClientRect.end.x = event.clientX
-    if (this.side!.includes('s'))
+    if (this.side.includes('s'))
       newClientRect.end.y = event.clientY
+
+    if (event.ctrlKey) {
+      const oldCenterPos = {
+        x: oldClientRect.start.x + oldClientRect.size.x / 2,
+        y: oldClientRect.start.y + oldClientRect.size.y / 2,
+      }
+
+      if (this.side.includes('w'))
+        newClientRect.end.x = oldCenterPos.x + oldCenterPos.x - event.clientX
+      if (this.side.includes('n'))
+        newClientRect.end.y = oldCenterPos.y + oldCenterPos.y - event.clientY
+      if (this.side.includes('e'))
+        newClientRect.start.x = oldCenterPos.x + oldCenterPos.x - event.clientX
+      if (this.side.includes('s'))
+        newClientRect.start.y = oldCenterPos.y + oldCenterPos.y - event.clientY
+    }
   
     this.page.rects.updateSize(newClientRect)
   
