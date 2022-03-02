@@ -100,22 +100,16 @@ defineProps<{
 
   height: 100%;
 
-  border: 1px solid;
   border-radius: 4px;
-  border-color: rgb(33, 33, 33) #888888 #888888 rgb(33, 33, 33);
 
-  padding: 8px;
-
-  color: #e0e0e0;
+  overflow: hidden;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  overflow: hidden;
   
+  color: #e0e0e0;
   font-size: 13px;
-  background-color: #686868;
 }
 
 
