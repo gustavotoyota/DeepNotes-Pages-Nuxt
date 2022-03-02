@@ -22,7 +22,7 @@
 
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   tooltip: string,
   icon: string,
 }>()

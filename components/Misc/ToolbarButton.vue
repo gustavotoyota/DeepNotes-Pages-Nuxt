@@ -24,7 +24,7 @@
 
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   icon: string,
   disabled?: boolean,
   dense?: boolean,

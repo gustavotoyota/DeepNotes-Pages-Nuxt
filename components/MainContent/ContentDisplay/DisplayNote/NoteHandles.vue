@@ -21,7 +21,7 @@ import { Note } from '~/plugins/app/page/notes/notes';
 
 
 
-const props = defineProps<{
+defineProps<{
   note: Note
 }>()
 </script>
