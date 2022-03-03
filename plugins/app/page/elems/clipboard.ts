@@ -177,19 +177,50 @@ class AppClipboard {
 
 
 
-    // Center notes around camera position
+    // Center notes around destination
 
-    for (const clipboardNote of clipboardNotes) {
-      clipboardNote.pos.x += this.page.camera.pos.x
-      clipboardNote.pos.y += this.page.camera.pos.y
+    if (this.page.activeRegion.id == null) {
+      let destCenter: IVec2
+
+      if (this.page.activeElem.exists) {
+        const auxPos = (this.page.activeElem.get as Note).collab.pos
+
+        destCenter = {
+          x: auxPos.x + 8,
+          y: auxPos.y + 8,
+        }
+      } else
+        destCenter = this.page.camera.pos
+
+
+
+        
+      for (const clipboardNote of clipboardNotes) {
+        clipboardNote.pos.x += destCenter.x
+        clipboardNote.pos.y += destCenter.y
+      }
     }
 
 
 
 
+    // Determine destination index
+
+    let destIndex
+    
+    if (this.page.selection.notes.length > 0)
+      destIndex = this.page.selection.notes.at(-1)!.index + 1
+    else
+      destIndex = this.page.activeRegion.notes.length
+
+
+
+
+    // Insert notes into structure
+
     const noteIds = this._pasteAux(clipboardNotes)
 
-    this.page.activeRegion.noteIds.push(...noteIds)
+    this.page.activeRegion.noteIds.splice(destIndex, 0, ...noteIds)
 
 
 
