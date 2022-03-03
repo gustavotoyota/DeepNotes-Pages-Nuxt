@@ -77,6 +77,7 @@ export default {
   },
 
   auth: {
+    plugins: [{ src: "node_modules/nuxt-auth-auto-refresh/dist/index.js", ssr: false }],
     cookie: {
       options: {
         domain: isDev ? null : 'deepnotes.app',
