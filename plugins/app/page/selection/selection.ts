@@ -41,8 +41,8 @@ class AppSelection {
 
 
 
-    $static.vue.ref(this, 'selection.noteSet', () => ({}))
-    $static.vue.ref(this, 'selection.arrowSet', () => ({}))
+    $static.vue.ssrRef(this, 'selection.noteSet', () => ({}))
+    $static.vue.ssrRef(this, 'selection.arrowSet', () => ({}))
 
 
 
@@ -65,9 +65,16 @@ class AppSelection {
 
 
 
+  has(elem: Elem) {
+    return elem.id in (this[`${elem.type}Set`] as object)
+  }
+
+
+
+
   clear(activeRegionId?: Nullable<string>) {
-    this.noteSet = {}
-    this.arrowSet = {}
+    for (const elem of this.elems)
+      this.remove(elem)
 
     this.page.activeElem.clear()
 
@@ -78,22 +85,15 @@ class AppSelection {
 
 
 
-  has(elem: Elem) {
-    return this.page.activeRegion.id == elem.parentId
-      && (elem.id in (this[`${elem.type}Set`] as object))
-  }
-
-
-
-
   add(...elems: Elem[]) {
     for (const elem of elems) {
-      if (this.has(elem))
+      if (elem.selected)
         continue
 
       if (elem.parentId != this.page.activeRegion.id)
         this.clear(elem.parentId)
 
+      elem.selected = true
       Vue.set(this[`${elem.type}Set`] as object, elem.id, true)
       
       if (!this.page.activeElem.exists)
@@ -105,9 +105,10 @@ class AppSelection {
   }
   remove(...elems: Elem[]) {
     for (const elem of elems) {
-      if (!this.has(elem))
+      if (!elem.selected)
         continue
 
+      elem.selected = false
       Vue.delete(this[`${elem.type}Set`] as object, elem.id)
 
       if (this.page.activeElem.is(elem))

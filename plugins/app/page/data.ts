@@ -38,7 +38,7 @@ class AppPageData {
 
 
 
-    $static.vue.ref(this, 'auxName', () => null)
+    $static.vue.ssrRef(this, 'auxName', () => null)
       
     $static.vue.computed(this, 'name', () => {
       if (this.collab.name != null)

@@ -34,7 +34,7 @@ class AppPinching {
 
 
 
-    $static.vue.ref(this, 'pinching.pointers', () => ({}))
+    $static.vue.ssrRef(this, 'pinching.pointers', () => ({}))
 
 
 

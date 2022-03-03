@@ -46,7 +46,7 @@ class AppClickSelection {
     // Clear selection if not holding Ctrl or Shift
     // And the clicked element is not selected
 
-    if (!event.ctrlKey && !event.shiftKey && !this.page.selection.has(elem))
+    if (!event.ctrlKey && !event.shiftKey && !elem.selected)
       this.page.selection.clear(elem.parentId)
 
 
@@ -55,7 +55,7 @@ class AppClickSelection {
     // Remove element if selected and holding Ctrl
     // Else, just change the active element
 
-    if (event.ctrlKey && this.page.selection.has(elem))
+    if (event.ctrlKey && elem.selected)
       this.page.selection.remove(elem)
     else
       this.page.activeElem.set(elem)

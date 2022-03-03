@@ -38,13 +38,13 @@ class AppDragging {
 
 
 
-    $static.vue.ref(this, 'dragging.active', () => false)
+    $static.vue.ssrRef(this, 'dragging.active', () => false)
     
-    $static.vue.ref(this, 'dragging.startPos', () => null)
-    $static.vue.ref(this, 'dragging.currentPos', () => null)
+    $static.vue.ssrRef(this, 'dragging.startPos', () => null)
+    $static.vue.ssrRef(this, 'dragging.currentPos', () => null)
     
-    $static.vue.ref(this, 'dragging.dropRegionId', () => null)
-    $static.vue.ref(this, 'dragging.dropIndex', () => null)
+    $static.vue.ssrRef(this, 'dragging.dropRegionId', () => null)
+    $static.vue.ssrRef(this, 'dragging.dropIndex', () => null)
   }
   
   

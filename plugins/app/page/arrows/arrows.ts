@@ -31,7 +31,7 @@ class AppArrows {
 
 
 
-    $static.vue.ref(this, 'arrows.map', () => ({}))
+    $static.vue.ssrRef(this, 'arrows.map', () => ({}))
 
 
 

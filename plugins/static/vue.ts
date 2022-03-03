@@ -1,4 +1,4 @@
-import { computed, ssrRef } from '@nuxtjs/composition-api'
+import { computed, ref, ssrRef } from '@nuxtjs/composition-api'
 import Vue from 'vue'
 
 
@@ -12,7 +12,19 @@ export {
 
 
 class StaticVue {
-  ref(obj: object, refKey: string, refValue: () => any) {
+  ref(obj: object, key: string, refValue: any) {
+    const auxRef = ref(refValue)
+
+    Object.defineProperty(obj, key, {
+      get() { return auxRef.value },
+      set(value) { return auxRef.value = value },
+    })
+  }
+
+
+
+
+  ssrRef(obj: object, refKey: string, refValue: () => any) {
     const auxRef = ssrRef(refValue, refKey)
 
     const key = refKey.split('.').at(-1) ?? ''

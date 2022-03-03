@@ -35,10 +35,10 @@ class AppProject {
 
 
 
-    $static.vue.ref(this, 'project.pathPages', () => null)
-    $static.vue.ref(this, 'project.recentPages', () => null)
+    $static.vue.ssrRef(this, 'project.pathPages', () => null)
+    $static.vue.ssrRef(this, 'project.recentPages', () => null)
 
-    $static.vue.ref(this, 'project._collapsedLeftSidebar', () => false)
+    $static.vue.ssrRef(this, 'project._collapsedLeftSidebar', () => false)
     $static.vue.computed(this, 'collapsedLeftSidebar', {
       get: () => { return this._collapsedLeftSidebar },
       set: (value: boolean) => {
@@ -50,7 +50,7 @@ class AppProject {
       },
     })
 
-    $static.vue.ref(this, 'project.collapsedRightSidebar', () => true)
+    $static.vue.ssrRef(this, 'project.collapsedRightSidebar', () => true)
   }
 
 

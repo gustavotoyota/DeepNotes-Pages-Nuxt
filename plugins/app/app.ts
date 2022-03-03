@@ -46,7 +46,7 @@ class App {
 
     let page: AppPage = new AppPage(ctx.$app.project, ctx.route.params.page_id)
     
-    $static.vue.ref(this, '_key', () => 0)
+    $static.vue.ssrRef(this, '_key', () => 0)
 
     $static.vue.computed(this, 'page', {
       get: () => {

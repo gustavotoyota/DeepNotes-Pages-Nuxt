@@ -25,7 +25,7 @@ class AppEditing {
   constructor(page: AppPage) {
     this.page = page
 
-    $static.vue.ref(this, 'editing.active', () => false)
+    $static.vue.ssrRef(this, 'editing.active', () => false)
   }
 
 

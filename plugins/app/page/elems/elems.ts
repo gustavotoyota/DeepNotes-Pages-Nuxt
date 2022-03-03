@@ -1,4 +1,5 @@
 import { Context } from '@nuxt/types'
+import { ref } from '@nuxtjs/composition-api'
 import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
 import { Nullable } from '~/types/deep-notes'
@@ -39,6 +40,10 @@ class Elem {
   type: string
   parentId: Nullable<string>
   
+  active!: boolean
+
+  selected!: boolean
+  
   constructor(page: AppPage, options: {
     id?: string,
     type: string,
@@ -49,6 +54,20 @@ class Elem {
     this.id = options.id ?? uuidv4()
     this.type = options.type
     this.parentId = options.parentId ?? null
+
+
+
+    
+    $static.vue.computed(this, 'active', () =>
+      this.page.activeElem.is(this))
+
+
+
+
+    $static.vue.ref(this, 'selected', this.page.selection.has(this))
+
+
+    
     
     const elems = this.page[`${this.type}s`] as
       { map: { [key: string]: Elem } }

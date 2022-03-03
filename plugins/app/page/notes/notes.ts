@@ -38,7 +38,7 @@ class AppNotes {
 
 
 
-    $static.vue.ref(this, 'notes.map', () => ({}))
+    $static.vue.ssrRef(this, 'notes.map', () => ({}))
 
 
 
@@ -234,8 +234,6 @@ class Note extends Elem {
 
   collab!: INoteCollab
 
-  selected!: boolean
-  active!: boolean
   editing!: boolean
   dragging!: boolean
 
@@ -278,10 +276,6 @@ class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'selected', () =>
-      this.page.selection.has(this))
-    $static.vue.computed(this, 'active', () =>
-      this.page.activeElem.is(this as Elem))
     $static.vue.computed(this, 'editing', () =>
       this.page.editing.active && this.active)
     $static.vue.computed(this, 'dragging', () =>

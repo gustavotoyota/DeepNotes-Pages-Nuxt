@@ -29,8 +29,8 @@ class AppResizing {
 
 
     
-    $static.vue.ref(this, 'resizing.side', () => '')
-    $static.vue.ref(this, 'resizing.section', () => null)
+    $static.vue.ssrRef(this, 'resizing.side', () => '')
+    $static.vue.ssrRef(this, 'resizing.section', () => null)
   }
 
 

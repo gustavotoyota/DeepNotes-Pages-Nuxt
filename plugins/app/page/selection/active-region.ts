@@ -38,7 +38,7 @@ class AppActiveRegion {
 
 
 
-    $static.vue.ref(this, 'activeRegion.id', () => null)
+    $static.vue.ssrRef(this, 'activeRegion.id', () => null)
 
 
 

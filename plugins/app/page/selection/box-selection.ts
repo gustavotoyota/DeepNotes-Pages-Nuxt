@@ -35,10 +35,10 @@ class AppBoxSelection {
 
 
     
-    $static.vue.ref(this, 'boxSelection.active', () => false)
+    $static.vue.ssrRef(this, 'boxSelection.active', () => false)
   
-    $static.vue.ref(this, 'boxSelection.startPos', () => null)
-    $static.vue.ref(this, 'boxSelection.endPos', () => null)
+    $static.vue.ssrRef(this, 'boxSelection.startPos', () => null)
+    $static.vue.ssrRef(this, 'boxSelection.endPos', () => null)
   }
 
 
@@ -113,7 +113,7 @@ class AppBoxSelection {
       || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)
         continue
   
-      if (this.page.selection.has(note) && !event.shiftKey)
+      if (note.selected && !event.shiftKey)
         this.page.selection.remove(note)
       else
         this.page.selection.add(note)

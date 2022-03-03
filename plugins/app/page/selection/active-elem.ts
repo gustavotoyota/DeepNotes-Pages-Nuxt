@@ -32,8 +32,8 @@ class AppActiveElem {
 
 
 
-    $static.vue.ref(this, 'activeElem.id', () => null)
-    $static.vue.ref(this, 'activeElem.type', () => 'page')
+    $static.vue.ssrRef(this, 'activeElem.id', () => null)
+    $static.vue.ssrRef(this, 'activeElem.type', () => 'page')
   
   
   
