@@ -70,24 +70,41 @@ class AppCloning {
     return cloneIds
   }
   perform() {
-    const cloneIds = this._performAux(this.page.selection.notes)
+    // Determine destination index
+
+    let destIndex
     
-    let destIndex = (this.page.selection.notes.at(-1)?.index ?? -1) + 1
+    if (this.page.selection.notes.length > 0)
+      destIndex = this.page.selection.notes.at(-1)!.index + 1
+    else
+      destIndex = this.page.activeRegion.notes.length
+
+
+
+    
+    // Insert clones into structure
+
+    const cloneIds = this._performAux(this.page.selection.notes)
+
     this.page.activeRegion.noteIds.splice(destIndex, 0, ...cloneIds)
 
 
 
 
+    // Select and reposition clones
+
     const clones = this.page.notes.fromIds(cloneIds)
 
     this.page.selection.set(...clones)
 
-    this.page.collab.doc.transact(() => {
-      for (const clone of clones) {
-        clone.collab.pos.x += 8
-        clone.collab.pos.y += 8
-      }
-    })
+    if (this.page.activeRegion.id == null) {
+      this.page.collab.doc.transact(() => {
+        for (const clone of clones) {
+          clone.collab.pos.x += 8
+          clone.collab.pos.y += 8
+        }
+      })
+    }
 
 
 
