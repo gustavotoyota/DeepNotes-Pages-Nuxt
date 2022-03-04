@@ -5,7 +5,7 @@
     <template v-slot:activator="{ on }">
 
       <v-btn text small
-      :disabled="disabled"
+      :disabled="!$app.page.loaded || disabled"
       style="min-width: 0; width: 28px"
       @click="$emit('click', $event)"
       v-on="on">
