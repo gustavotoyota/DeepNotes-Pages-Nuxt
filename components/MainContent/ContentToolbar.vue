@@ -23,12 +23,6 @@
 
 
       <ToolbarButton
-      tooltip="Duplicate"
-      icon="content-duplicate"
-      :disabled="!$app.page.activeElem.exists"
-      @click="$app.page.cloning.perform()"/>
-
-      <ToolbarButton
       tooltip="Cut"
       icon="content-cut"
       :disabled="!$app.page.activeElem.exists"
@@ -44,6 +38,28 @@
       tooltip="Paste"
       icon="content-paste"
       @click="$app.page.clipboard.paste()"/>
+
+      <ToolbarButton
+      tooltip="Duplicate"
+      icon="content-duplicate"
+      :disabled="!$app.page.activeElem.exists"
+      @click="$app.page.cloning.perform()"/>
+      
+
+
+
+      <v-divider vertical inset class="mx-2"/>
+
+
+
+
+      <ToolbarButton
+      tooltip="Undo"
+      icon="undo"/>
+
+      <ToolbarButton
+      tooltip="Redo"
+      icon="redo"/>
 
 
 
