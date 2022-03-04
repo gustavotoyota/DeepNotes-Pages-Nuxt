@@ -451,6 +451,12 @@ class Note extends Elem {
   
     return this.page.rects.fromDOM(domClientRect)
   }
+  getDisplayRect(part: string) {
+    return this.page.rects.clientToDisplay(this.getClientRect(part))
+  }
+  getWorldRect(part: string) {
+    return this.page.rects.clientToWorld(this.getClientRect(part))
+  }
 
 
 

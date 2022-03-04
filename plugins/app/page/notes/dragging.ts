@@ -1,4 +1,5 @@
 import { Context } from '@nuxt/types';
+import Vue from 'vue';
 import { IVec2, Nullable } from "~/types/deep-notes";
 import { AppPage } from '../page';
 import { Note } from './notes';
@@ -40,9 +41,6 @@ class AppDragging {
 
     $static.vue.ssrRef(this, '$app.page.dragging.active', () => false)
     
-    $static.vue.ssrRef(this, '$app.page.dragging.startPos', () => null)
-    $static.vue.ssrRef(this, '$app.page.dragging.currentPos', () => null)
-    
     $static.vue.ssrRef(this, '$app.page.dragging.dropRegionId', () => null)
     $static.vue.ssrRef(this, '$app.page.dragging.dropIndex', () => null)
   }
@@ -82,6 +80,10 @@ class AppDragging {
   
   private _update = function (this: AppDragging, event: PointerEvent) {
     const clientMousePos = this.page.pos.getClientPos(event)
+    const worldMousePos = this.page.pos.clientToWorld(clientMousePos)
+
+
+
 
     if (!this.active) {
       const dist = Math.sqrt(
@@ -103,17 +105,16 @@ class AppDragging {
 
       
       if (this.page.activeRegion.id != null) {
-        // Adjust note positions and sizes
+        // Store note positions
 
         this.page.collab.doc.transact(() => {
           for (const selectedNote of this.page.selection.notes) {
-            const clientRect = selectedNote.getClientRect('frame')
-            const worldRect = this.page.rects.clientToWorld(clientRect)
-    
-            selectedNote.collab.pos.x = worldRect.start.x + worldRect.size.x * selectedNote.collab.anchor.x
-            selectedNote.collab.pos.y = worldRect.start.y + worldRect.size.y * selectedNote.collab.anchor.y
+            const worldRect = selectedNote.getWorldRect('frame')
 
-            selectedNote.width = `${worldRect.size.x}px`
+            selectedNote.collab.pos.x = worldRect.start.x +
+              worldRect.size.x * selectedNote.collab.anchor.x
+            selectedNote.collab.pos.y = worldRect.start.y +
+              worldRect.size.y * selectedNote.collab.anchor.y
           }
         })
 
@@ -134,6 +135,28 @@ class AppDragging {
         }
 
         this.page.activeRegion.id = null
+
+
+
+
+        // Adjust note positions and sizes
+        // With mouse in the center of the active element
+
+        Vue.nextTick(() => {
+          const activeWorldRect = (this.page.activeElem.get as Note).getWorldRect('frame')
+
+          const mouseOffset = {
+            x: worldMousePos.x - (activeWorldRect.start.x + activeWorldRect.end.x) / 2,
+            y: worldMousePos.y - (activeWorldRect.start.y + activeWorldRect.end.y) / 2,
+          }
+            
+          this.page.collab.doc.transact(() => {
+            for (const selectedNote of this.page.selection.notes) {
+              selectedNote.collab.pos.x += mouseOffset.x
+              selectedNote.collab.pos.y += mouseOffset.y
+            }
+          })
+        })
       }
     }
 
