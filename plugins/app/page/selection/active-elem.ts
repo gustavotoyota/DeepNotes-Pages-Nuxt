@@ -66,32 +66,26 @@ class AppActiveElem {
 
 
   clear() {
-    if (this.get != null)
-      this.get.active = false
-
-    this.id = null
-    this.type = 'page'
+    this.set(null)
   }
 
 
 
 
   set(elem: Nullable<Elem>) {
-    if (elem == null) {
-      this.clear()
-      return
-    }
-
-    if (elem.active)
+    if (elem?.id == this.id)
       return
 
     if (this.get != null)
       this.get.active = false
-
-    elem.active = true
     
-    this.id = elem.id
-    this.type = elem.type
+    this.id = elem?.id ?? null
+    this.type = elem?.type ?? 'page'
+
+    if (elem == null)
+      return
+    
+    elem.active = true
 
     this.page.selection.add(elem)
   
