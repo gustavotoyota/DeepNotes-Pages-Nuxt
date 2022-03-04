@@ -17,7 +17,7 @@
 
       <v-toolbar dense style="flex: none">
         <v-toolbar-title>
-          Properties
+          {{ $static.utils.capitalizeFirst($app.page.activeElem.type) }} Properties
         </v-toolbar-title>
       </v-toolbar>
 
