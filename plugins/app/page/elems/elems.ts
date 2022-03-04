@@ -58,8 +58,7 @@ class Elem {
 
 
     
-    $static.vue.computed(this, 'active', () =>
-      this.page.activeElem.is(this))
+    $static.vue.ref(this, 'active', this.page.activeElem.is(this))
 
 
 

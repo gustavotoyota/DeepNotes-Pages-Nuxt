@@ -111,7 +111,7 @@ class AppSelection {
       elem.selected = false
       Vue.delete(this[`${elem.type}Set`] as object, elem.id)
 
-      if (this.page.activeElem.is(elem))
+      if (elem.active)
         this.page.activeElem.set(this.elems.at(-1) ?? null)
     }
   }

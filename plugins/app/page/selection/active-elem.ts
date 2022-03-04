@@ -59,14 +59,16 @@ class AppActiveElem {
   
   
   is(elem: Elem) {
-    return　elem.parentId == this.page.activeRegion.id
-      && elem.id == this.id
+    return elem.id == this.id
   }
 
 
 
 
   clear() {
+    if (this.get != null)
+      this.get.active = false
+
     this.id = null
     this.type = 'page'
   }
@@ -80,8 +82,13 @@ class AppActiveElem {
       return
     }
 
-    if (this.is(elem))
+    if (elem.active)
       return
+
+    if (this.get != null)
+      this.get.active = false
+
+    elem.active = true
     
     this.id = elem.id
     this.type = elem.type
