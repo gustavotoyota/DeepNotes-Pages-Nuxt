@@ -27,8 +27,12 @@ class App {
 
 
   private _key!: number
-  
   page!: AppPage
+
+
+
+
+  loaded!: boolean
 
 
 
@@ -58,6 +62,12 @@ class App {
         page = value
       },
     })
+
+
+
+
+    
+    $static.vue.ssrRef(this, 'loaded', () => false)
   }
 }
 

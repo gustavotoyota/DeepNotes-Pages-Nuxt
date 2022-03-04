@@ -1,19 +1,34 @@
 <template>
+
+  <div>
   
-  <v-app
-  spellcheck="false">
+    <v-app v-show="$app.loaded"
+    spellcheck="false">
 
-    <MainMenu/>
+      <MainMenu/>
 
-    <LeftSidebar/>
+      <LeftSidebar/>
 
-    <MainContent>
-      <Nuxt/>
-    </MainContent>
+      <MainContent>
+        <Nuxt/>
+      </MainContent>
 
-    <RightSidebar/>
+      <RightSidebar/>
 
-  </v-app>
+    </v-app>
+    
+
+
+    
+    <v-overlay :value="!$app.loaded"
+    :opacity="1">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
+  </div>
 
 </template>
 

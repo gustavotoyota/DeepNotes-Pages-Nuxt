@@ -142,6 +142,15 @@ export default async function (ctx: Context, inject: Inject) {
           await db.put('recentPages', ctx.$app.project.recentPages, 'value')
         }, { deep: true, immediate: true })
       })
+
+
+
+
+      // Mark app as loaded
+
+      onMounted(() => {
+        ctx.$app.loaded = true
+      })
     }
   })
 }
