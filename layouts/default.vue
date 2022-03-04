@@ -1,26 +1,23 @@
 <template>
 
-  <div>
+  <v-app
+  spellcheck="false">
+
+    <MainMenu/>
+
+    <LeftSidebar/>
+
+    <MainContent>
+      <Nuxt/>
+    </MainContent>
+
+    <RightSidebar/>
   
-    <v-app v-show="$app.loaded"
-    spellcheck="false">
-
-      <MainMenu/>
-
-      <LeftSidebar/>
-
-      <MainContent>
-        <Nuxt/>
-      </MainContent>
-
-      <RightSidebar/>
-
-    </v-app>
-    
 
 
-    
-    <v-overlay :value="!$app.loaded"
+  
+    <v-overlay
+    v-if="!$app.loaded"
     :opacity="1">
       <v-progress-circular
         indeterminate
@@ -28,7 +25,7 @@
       ></v-progress-circular>
     </v-overlay>
 
-  </div>
+  </v-app>
 
 </template>
 
