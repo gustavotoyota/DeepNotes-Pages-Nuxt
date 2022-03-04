@@ -95,6 +95,12 @@ class AppDragging {
 
 
 
+
+      for (const selectedNote of this.page.selection.notes)
+        selectedNote.dragging = true
+
+
+
       
       if (this.page.activeRegion.id != null) {
         // Adjust note positions and sizes
@@ -148,7 +154,7 @@ class AppDragging {
 
     this.page.collab.doc.transact(() => {
       for (const note of this.page.selection.notes) {
-        if (!note.dragging)
+        if (!note.collab.movable)
           continue
 
         note.collab.pos.x += delta.x
@@ -167,6 +173,9 @@ class AppDragging {
 
   private _finish = function (this: AppDragging) {
     this.active = false
+
+    for (const selectedNote of this.page.selection.notes)
+      selectedNote.dragging = false
   }.bind(this)
 
 
