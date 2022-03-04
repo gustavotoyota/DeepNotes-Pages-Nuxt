@@ -41,24 +41,24 @@ class AppSelection {
 
 
 
-    $static.vue.ssrRef(this, 'selection.noteSet', () => ({}))
-    $static.vue.ssrRef(this, 'selection.arrowSet', () => ({}))
+    $static.vue.ssrRef(this, '$app.page.selection.noteSet', () => ({}))
+    $static.vue.ssrRef(this, '$app.page.selection.arrowSet', () => ({}))
 
 
 
 
-    $static.vue.computed(this, 'noteIds', () => Object.keys(this.noteSet))
-    $static.vue.computed(this, 'arrowIds', () => Object.keys(this.arrowSet))
-    $static.vue.computed(this, 'elemIds', () => this.noteIds.concat(this.arrowIds))
+    $static.vue.computed(this, '$app.page.selection.noteIds', () => Object.keys(this.noteSet))
+    $static.vue.computed(this, '$app.page.selection.arrowIds', () => Object.keys(this.arrowSet))
+    $static.vue.computed(this, '$app.page.selection.elemIds', () => this.noteIds.concat(this.arrowIds))
 
 
 
 
-    $static.vue.computed(this, 'notes', () => 
+    $static.vue.computed(this, '$app.page.selection.notes', () => 
       this.page.notes.fromIds(this.noteIds))
-    $static.vue.computed(this, 'arrows', () => 
+    $static.vue.computed(this, '$app.page.selection.arrows', () => 
       this.page.arrows.fromIds(this.arrowIds))
-    $static.vue.computed(this, 'elems', () => 
+    $static.vue.computed(this, '$app.page.selection.elems', () => 
       this.arrows.concat(this.notes))
   }
 

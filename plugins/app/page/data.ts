@@ -33,14 +33,14 @@ class AppPageData {
   
   
   
-    $static.vue.computed(this, 'collab', () => this.page.collab.store.page)
+    $static.vue.computed(this, '$app.page.data.collab', () => this.page.collab.store.page)
 
 
 
 
-    $static.vue.ssrRef(this, 'auxName', () => null)
+    $static.vue.ssrRef(this, '$app.page.data.auxName', () => null)
       
-    $static.vue.computed(this, 'name', () => {
+    $static.vue.computed(this, '$app.page.data.name', () => {
       if (this.collab.name != null)
         return this.collab.name
 
@@ -56,11 +56,11 @@ class AppPageData {
   
   
   
-    $static.vue.computed(this, 'notes', () =>
+    $static.vue.computed(this, '$app.page.data.notes', () =>
       this.collab?.noteIds
         .map(noteId => this.page.notes.map[noteId])
         .filter(note => note != null))
-    $static.vue.computed(this, 'arrows', () =>
+    $static.vue.computed(this, '$app.page.data.arrows', () =>
       this.collab?.arrowIds
         .map(arrowId => this.page.arrows.map[arrowId])
         .filter(arrow => arrow != null))

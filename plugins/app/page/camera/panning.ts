@@ -24,7 +24,7 @@ class AppPanning {
   constructor(page: AppPage) {
     this.page = page
     
-    $static.vue.ssrRef(this, 'panning.currentPos', () => null)
+    $static.vue.ssrRef(this, '$app.page.panning.currentPos', () => null)
   }
   
 

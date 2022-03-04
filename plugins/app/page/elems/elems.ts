@@ -62,10 +62,10 @@ class Elem {
 
 
     
-    $static.vue.ref(this, 'active', this.page.activeElem.is(this))
-    $static.vue.ref(this, 'selected', this.page.selection.has(this))
+    $static.vue.ref(this, 'elem.active', this.page.activeElem.is(this))
+    $static.vue.ref(this, 'elem.selected', this.page.selection.has(this))
 
-    $static.vue.ref(this, 'index', 0)
+    $static.vue.ref(this, 'elem.index', -1)
 
 
     

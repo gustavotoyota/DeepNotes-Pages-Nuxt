@@ -117,9 +117,9 @@ class AppPage {
 
 
 
-    $static.vue.ssrRef(this, 'page.id', () => id ?? uuidv4())
+    $static.vue.ssrRef(this, '$app.page.id', () => id ?? uuidv4())
 
-    $static.vue.ssrRef(this, 'page.loaded', () => false)
+    $static.vue.ssrRef(this, '$app.page.loaded', () => false)
 
 
   

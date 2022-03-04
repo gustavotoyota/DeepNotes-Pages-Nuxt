@@ -38,12 +38,12 @@ class AppActiveRegion {
 
 
 
-    $static.vue.ssrRef(this, 'activeRegion.id', () => null)
+    $static.vue.ssrRef(this, '$app.page.activeRegion.id', () => null)
 
 
 
 
-    $static.vue.computed(this, 'parent', () => {
+    $static.vue.computed(this, '$app.page.activeRegion.parent', () => {
       if (this.id == null)
         return null
       else
@@ -53,13 +53,13 @@ class AppActiveRegion {
 
 
 
-    $static.vue.computed(this, 'noteIds', () => {
+    $static.vue.computed(this, '$app.page.activeRegion.noteIds', () => {
       if (this.id == null)
         return this.page.data.collab.noteIds
       else
         return this.page.notes.collab[this.id].childIds
     })
-    $static.vue.computed(this, 'notes', () =>
+    $static.vue.computed(this, '$app.page.activeRegion.notes', () =>
       this.noteIds
         .map(noteId => this.page.notes.map[noteId])
         .filter(note => note != null))
@@ -67,13 +67,13 @@ class AppActiveRegion {
 
 
 
-    $static.vue.computed(this, 'arrowIds', () => {
+    $static.vue.computed(this, '$app.page.activeRegion.arrowIds', () => {
       if (this.id == null)
         return this.page.data.collab.arrowIds
       else
         return []
     })
-    $static.vue.computed(this, 'arrows', () =>
+    $static.vue.computed(this, '$app.page.activeRegion.arrows', () =>
       this.arrowIds
         .map(arrowId => this.page.arrows.map[arrowId])
         .filter(arrow => arrow != null))
@@ -81,7 +81,7 @@ class AppActiveRegion {
 
 
 
-    $static.vue.computed(this, 'elems', () =>
+    $static.vue.computed(this, '$app.page.activeRegion.elems', () =>
       (this.notes as Elem[]).concat(this.arrows as Elem[]))
   }
 }

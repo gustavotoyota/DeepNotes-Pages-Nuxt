@@ -31,13 +31,13 @@ class AppArrows {
 
 
 
-    $static.vue.ssrRef(this, 'arrows.map', () => ({}))
+    $static.vue.ssrRef(this, '$app.page.arrows.map', () => ({}))
 
 
 
 
-    $static.vue.computed(this, 'ids', () => Object.keys(this.map))
-    $static.vue.computed(this, 'array', () => Object.values(this.map))
+    $static.vue.computed(this, '$app.page.arrows.ids', () => Object.keys(this.map))
+    $static.vue.computed(this, '$app.page.arrows.array', () => Object.values(this.map))
   }
 
 

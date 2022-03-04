@@ -32,13 +32,13 @@ class AppActiveElem {
 
 
 
-    $static.vue.ssrRef(this, 'activeElem.id', () => null)
-    $static.vue.ssrRef(this, 'activeElem.type', () => 'page')
+    $static.vue.ssrRef(this, '$app.page.activeElem.id', () => null)
+    $static.vue.ssrRef(this, '$app.page.activeElem.type', () => 'page')
   
   
   
   
-    $static.vue.computed(this, 'get', () => {
+    $static.vue.computed(this, '$app.page.activeElem.get', () => {
       if (this.id == null)
         return null
 
@@ -52,7 +52,7 @@ class AppActiveElem {
       
       return activeElem
     })
-    $static.vue.computed(this, 'exists', () => this.get != null)
+    $static.vue.computed(this, '$app.page.activeElem.exists', () => this.get != null)
   }
 
   

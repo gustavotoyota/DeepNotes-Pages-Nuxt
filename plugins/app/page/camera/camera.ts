@@ -36,10 +36,10 @@ class AppCamera {
 
 
 
-    $static.vue.ssrRef(this, 'camera.pos', () => ({ x: 0, y: 0 }))
+    $static.vue.ssrRef(this, '$app.page.camera.pos', () => ({ x: 0, y: 0 }))
 
-    $static.vue.ssrRef(this, 'camera._zoom', () => 1)
-    $static.vue.computed(this, 'zoom', {
+    $static.vue.ssrRef(this, '$app.page.camera._zoom', () => 1)
+    $static.vue.computed(this, '$app.page.camera.zoom', {
       get: () => { return this._zoom },
       set: (value: number) => {
         if (this.loaded && this.lockZoom)
@@ -49,8 +49,8 @@ class AppCamera {
       },
     })
 
-    $static.vue.ssrRef(this, 'camera.lockPos', () => false)
-    $static.vue.ssrRef(this, 'camera.lockZoom', () => false)
+    $static.vue.ssrRef(this, '$app.page.camera.lockPos', () => false)
+    $static.vue.ssrRef(this, '$app.page.camera.lockZoom', () => false)
   }
 
 

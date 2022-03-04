@@ -34,12 +34,12 @@ class AppPinching {
 
 
 
-    $static.vue.ssrRef(this, 'pinching.pointers', () => ({}))
+    $static.vue.ssrRef(this, '$app.page.pinching.pointers', () => ({}))
 
 
 
 
-    $static.vue.computed(this, 'active', () => 
+    $static.vue.computed(this, '$app.page.pinching.active', () => 
       Object.keys(this.pointers).length >= 2)
     
     watch(() => this.active, () => {

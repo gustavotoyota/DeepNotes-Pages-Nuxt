@@ -35,10 +35,10 @@ class AppBoxSelection {
 
 
     
-    $static.vue.ssrRef(this, 'boxSelection.active', () => false)
+    $static.vue.ssrRef(this, '$app.page.boxSelection.active', () => false)
   
-    $static.vue.ssrRef(this, 'boxSelection.startPos', () => null)
-    $static.vue.ssrRef(this, 'boxSelection.endPos', () => null)
+    $static.vue.ssrRef(this, '$app.page.boxSelection.startPos', () => null)
+    $static.vue.ssrRef(this, '$app.page.boxSelection.endPos', () => null)
   }
 
 

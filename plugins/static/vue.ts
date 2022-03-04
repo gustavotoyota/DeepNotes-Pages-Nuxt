@@ -12,8 +12,10 @@ export {
 
 
 class StaticVue {
-  ref(obj: object, key: string, refValue: any) {
+  ref(obj: object, fullPath: string, refValue: any) {
     const auxRef = ref(refValue)
+
+    const key = fullPath.split('.').at(-1) ?? ''
 
     Object.defineProperty(obj, key, {
       get() { return auxRef.value },
@@ -24,10 +26,10 @@ class StaticVue {
 
 
 
-  ssrRef(obj: object, refKey: string, refValue: () => any) {
-    const auxRef = ssrRef(refValue, refKey)
+  ssrRef(obj: object, fullPath: string, refValue: () => any) {
+    const auxRef = ssrRef(refValue, fullPath)
 
-    const key = refKey.split('.').at(-1) ?? ''
+    const key = fullPath.split('.').at(-1) ?? ''
 
     Object.defineProperty(obj, key, {
       get() { return auxRef.value },
@@ -38,8 +40,23 @@ class StaticVue {
 
   
 
-  computed(obj: object, key: string, options: any) {
-    const auxComputed = computed(options) as any
+  computed(obj: object, fullPath: string, options: any) {
+    if (options instanceof Function)
+      options = { get: options }
+
+    const modifiedOptions = {
+      get: () => {
+        if (process.env.NODE_ENV === 'development')
+          console.log(`Computed getter: ${fullPath}`)
+
+        return options.get()
+      },
+      set: options.set,
+    }
+
+    const auxComputed = computed(modifiedOptions) as any
+
+    const key = fullPath.split('.').at(-1) ?? ''
   
     Object.defineProperty(obj, key, {
       get() { return auxComputed.value },

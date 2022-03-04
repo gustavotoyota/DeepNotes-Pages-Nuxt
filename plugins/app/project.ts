@@ -35,11 +35,11 @@ class AppProject {
 
 
 
-    $static.vue.ssrRef(this, 'project.pathPages', () => null)
-    $static.vue.ssrRef(this, 'project.recentPages', () => null)
+    $static.vue.ssrRef(this, '$app.project.pathPages', () => null)
+    $static.vue.ssrRef(this, '$app.project.recentPages', () => null)
 
-    $static.vue.ssrRef(this, 'project._collapsedLeftSidebar', () => false)
-    $static.vue.computed(this, 'collapsedLeftSidebar', {
+    $static.vue.ssrRef(this, '$app.project._collapsedLeftSidebar', () => false)
+    $static.vue.computed(this, '$app.project.collapsedLeftSidebar', {
       get: () => { return this._collapsedLeftSidebar },
       set: (value: boolean) => {
         if (!this.allowLeftSidebarModification)
@@ -50,7 +50,7 @@ class AppProject {
       },
     })
 
-    $static.vue.ssrRef(this, 'project.collapsedRightSidebar', () => true)
+    $static.vue.ssrRef(this, '$app.project.collapsedRightSidebar', () => true)
   }
 
 

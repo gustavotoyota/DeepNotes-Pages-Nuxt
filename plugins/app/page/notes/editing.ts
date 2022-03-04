@@ -28,9 +28,9 @@ class AppEditing {
   constructor(page: AppPage) {
     this.page = page
 
-    $static.vue.ssrRef(this, 'editing.note', () => null)
+    $static.vue.ssrRef(this, '$app.page.editing.note', () => null)
 
-    $static.vue.computed(this, 'active', () => this.note != null)
+    $static.vue.computed(this, '$app.page.editing.active', () => this.note != null)
   }
 
 

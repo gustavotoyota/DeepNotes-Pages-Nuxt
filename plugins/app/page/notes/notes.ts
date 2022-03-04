@@ -38,18 +38,18 @@ class AppNotes {
 
 
 
-    $static.vue.ssrRef(this, 'notes.map', () => ({}))
+    $static.vue.ssrRef(this, '$app.page.notes.map', () => ({}))
 
 
 
 
-    $static.vue.computed(this, 'ids', () => Object.keys(this.map))
-    $static.vue.computed(this, 'array', () => Object.values(this.map))
+    $static.vue.computed(this, '$app.page.notes.ids', () => Object.keys(this.map))
+    $static.vue.computed(this, '$app.page.notes.array', () => Object.values(this.map))
 
 
     
 
-    $static.vue.computed(this, 'collab', () => this.page.collab.store.notes)
+    $static.vue.computed(this, '$app.page.notes.collab', () => this.page.collab.store.notes)
   }
 
 
@@ -268,27 +268,27 @@ class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'collab', () =>
+    $static.vue.computed(this, 'note.collab', () =>
       this.page.notes.collab[this.id])
 
 
     
 
-    $static.vue.ref(this, 'editing', false)
-    $static.vue.ref(this, 'dragging', this.page.dragging.active && this.selected)
+    $static.vue.ref(this, 'note.editing', false)
+    $static.vue.ref(this, 'note.dragging', this.page.dragging.active && this.selected)
 
 
 
 
-    $static.vue.computed(this, 'sizeProp', () =>
+    $static.vue.computed(this, 'note.sizeProp', () =>
       this.collab.collapsed ? 'collapsedSize' : 'expandedSize')
-    $static.vue.computed(this, 'size', () =>
+    $static.vue.computed(this, 'note.size', () =>
       this.collab[this.sizeProp])
 
 
 
 
-    $static.vue.computed(this, 'topSection', () => {
+    $static.vue.computed(this, 'note.topSection', () => {
       if (this.collab.hasTitle)
         return 'title'
       else if (this.collab.hasBody)
@@ -296,7 +296,7 @@ class Note extends Elem {
       else if (this.collab.container)
         return 'container'
     })
-    $static.vue.computed(this, 'bottomSection', () => {
+    $static.vue.computed(this, 'note.bottomSection', () => {
       if (this.collab.collapsed)
         return this.topSection
       else if (this.collab.container)
@@ -306,7 +306,7 @@ class Note extends Elem {
       else if (this.collab.hasTitle)
         return 'title'
     })
-    $static.vue.computed(this, 'numSections', () => {
+    $static.vue.computed(this, 'note.numSections', () => {
       let numSections = 0
     
       if (this.collab.hasTitle)
@@ -323,7 +323,7 @@ class Note extends Elem {
 
 
     const makeSectionHeight = (section: string) => {
-      $static.vue.computed(this, `${section}Height`, {
+      $static.vue.computed(this, `note.${section}Height`, {
         get: () => {
           if (this.collab.collapsed
           && this.collab.collapsedSize.y[section] === 'auto'
@@ -353,7 +353,7 @@ class Note extends Elem {
 
 
     
-    $static.vue.computed(this, 'parent', () => {
+    $static.vue.computed(this, 'note.parent', () => {
       if (this.parentId == null)
         return null
       else
@@ -363,15 +363,15 @@ class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'siblingIds', () =>
+    $static.vue.computed(this, 'note.siblingIds', () =>
       this.page.regions.getNoteIds(this.parent))
-    $static.vue.computed(this, 'siblings', () =>
+    $static.vue.computed(this, 'note.siblings', () =>
       this.page.regions.getNotes(this.parent))
 
 
 
     
-    $static.vue.computed(this, 'minWidth', () => {
+    $static.vue.computed(this, 'note.minWidth', () => {
       if (this.collab.container
       && this.collab.childIds.length === 0)
         return '165px'
@@ -381,7 +381,7 @@ class Note extends Elem {
 
       return '21px'
     })
-    $static.vue.computed(this, 'width', {
+    $static.vue.computed(this, 'note.width', {
       get: () => {
         if (this.parent != null) {
           if (this.parent.collab.horizontal)
@@ -400,7 +400,7 @@ class Note extends Elem {
           this.size.x = value
       },
     })
-    $static.vue.computed(this, 'targetWidth', () => {
+    $static.vue.computed(this, 'note.targetWidth', () => {
       if (this.parent != null
       && this.parent.targetWidth === '0px'
       && !this.parent.collab.horizontal)
@@ -415,7 +415,7 @@ class Note extends Elem {
 
 
     
-    $static.vue.computed(this, 'children', () =>
+    $static.vue.computed(this, 'note.children', () =>
       this.collab.childIds
         .map(childId => this.page.notes.map[childId])
         .filter(child => child != null))
