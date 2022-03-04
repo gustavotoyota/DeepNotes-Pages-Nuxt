@@ -232,9 +232,10 @@ interface INoteSize {
 class Note extends Elem {
   [key: string]: unknown
 
+  editing!: boolean
+
   collab!: INoteCollab
 
-  editing!: boolean
   dragging!: boolean
 
   sizeProp!: string
@@ -266,6 +267,11 @@ class Note extends Elem {
     super(page, { id, type: 'note', parentId })
 
 
+    
+
+    $static.vue.ref(this, 'editing', false)
+
+
 
 
     $static.vue.computed(this, 'collab', () =>
@@ -274,8 +280,6 @@ class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'editing', () =>
-      this.page.editing.active && this.active)
     $static.vue.computed(this, 'dragging', () =>
       this.page.dragging.active && this.selected)
 

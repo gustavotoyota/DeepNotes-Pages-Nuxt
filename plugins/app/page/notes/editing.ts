@@ -2,6 +2,7 @@ import { Context } from "@nuxt/types";
 import { AppPage } from "../page";
 import { Elem } from "../elems/elems";
 import { Note } from "./notes";
+import { Nullable } from "~/types/deep-notes";
 
 
 
@@ -16,8 +17,10 @@ export {
 class AppEditing {
   page: AppPage
 
-  active!: boolean
+  note!: Nullable<Note>
   section!: string
+
+  active!: boolean
 
 
 
@@ -25,7 +28,9 @@ class AppEditing {
   constructor(page: AppPage) {
     this.page = page
 
-    $static.vue.ssrRef(this, 'editing.active', () => false)
+    $static.vue.ssrRef(this, 'editing.note', () => null)
+
+    $static.vue.computed(this, 'active', () => this.note != null)
   }
 
 
@@ -40,19 +45,26 @@ class AppEditing {
 
 
 
-    this.page.selection.clear()
-    this.page.activeElem.set(note as Elem)
 
-
+    this.note = note
+    note.editing = true
 
     this.section = section ?? note.topSection
-    this.active = true
+
+    this.page.selection.set(note as Elem)
   }
 
 
 
   
   stop() {
-    this.active = false
+    if (this.note == null)
+      return
+
+
+      
+    
+    this.note.editing = false
+    this.note = null
   }
 }

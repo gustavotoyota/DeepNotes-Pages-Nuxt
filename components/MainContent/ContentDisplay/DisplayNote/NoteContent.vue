@@ -66,7 +66,7 @@ function onPointerDown(event: PointerEvent) {
   && !props.note.selected)
     return
 
-  if (ctx.$app.page.editing.active && props.note.active)
+  if (ctx.$app.page.editing.note === props.note)
     return
 
   ctx.$app.page.editing.stop()
