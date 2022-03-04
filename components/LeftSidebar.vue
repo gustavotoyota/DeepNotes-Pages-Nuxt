@@ -16,7 +16,7 @@
       </v-list-item-icon>
 
       <v-toolbar-title>
-        Page Path
+        Path
       </v-toolbar-title>
 
     </v-toolbar>
