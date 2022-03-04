@@ -36,7 +36,8 @@
       }">
 
         <DisplayNote
-        :note="child"/>
+        :note="child"
+        :index="index"/>
         
         <NoteDropZone
         always-visible

@@ -116,7 +116,11 @@ class AppDragging {
 
         // Move notes to page region
 
-        for (const selectedNote of this.page.selection.notes) {
+        const selectedNotes = this.page.selection.notes.slice()
+
+        selectedNotes.sort((a: Note, b: Note) => b.index - a.index)
+
+        for (const selectedNote of selectedNotes) {
           selectedNote.removeFromRegion()
           
           this.page.data.collab.noteIds.push(selectedNote.id)

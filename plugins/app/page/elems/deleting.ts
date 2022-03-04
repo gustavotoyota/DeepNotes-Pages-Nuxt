@@ -27,6 +27,10 @@ class AppDeleting {
 
 
   private _performAux(notes: Note[], noteIds: string[]) {
+    notes = notes.slice()
+    
+    notes.sort((a: Note, b: Note) => b.index - a.index)
+
     for (const note of notes) {
       note.removeFromRegion()
 

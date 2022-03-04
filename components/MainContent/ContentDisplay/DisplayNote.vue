@@ -45,14 +45,23 @@
 </template>
 
 <script setup lang="ts">
+import { watchEffect } from '@nuxtjs/composition-api';
 import { Note } from '~/plugins/app/page/notes/notes';
 
 
 
 
-defineProps<{
+const props = defineProps<{
   note: Note
+  index: number
 }>()
+
+
+
+
+watchEffect(() => {
+  props.note.index = props.index
+})
 </script>
 
 <style scoped>

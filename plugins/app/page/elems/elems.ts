@@ -41,8 +41,12 @@ class Elem {
   parentId: Nullable<string>
   
   active!: boolean
-
   selected!: boolean
+  
+  index!: number
+
+
+
   
   constructor(page: AppPage, options: {
     id?: string,
@@ -59,11 +63,9 @@ class Elem {
 
     
     $static.vue.ref(this, 'active', this.page.activeElem.is(this))
-
-
-
-
     $static.vue.ref(this, 'selected', this.page.selection.has(this))
+
+    $static.vue.ref(this, 'index', 0)
 
 
     

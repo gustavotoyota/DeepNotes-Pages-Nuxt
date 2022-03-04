@@ -12,8 +12,9 @@
     }">
 
       <DisplayNote
-      v-for="note in $app.page.data.notes" :key="note.id"
-      :note="note"/>
+      v-for="(note, index) in $app.page.data.notes" :key="note.id"
+      :note="note"
+      :index="index"/>
 
     </div>
 

@@ -32,15 +32,14 @@ class AppDropping {
 
 
 
-    const selectedNotes = this.page.selection.notes.splice(0).reverse()
+    const selectedNotes = this.page.selection.notes.slice()
+    
+    selectedNotes.sort((a: Note, b: Note) => b.index - a.index)
 
     for (const selectedNote of selectedNotes) {
-      if (selectedNote === regionNote)
-        continue
-
       selectedNote.removeFromRegion()
 
-      regionNote.collab.childIds.splice(dropIndex, 0, selectedNote.id)
+      regionNote.collab.childIds.splice(dropIndex++, 0, selectedNote.id)
       selectedNote.parentId = regionNote.id
     }
 

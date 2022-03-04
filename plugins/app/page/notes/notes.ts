@@ -253,8 +253,6 @@ class Note extends Elem {
   siblingIds!: string[]
   siblings!: Note[]
 
-  index!: number
-
   minWidth!: string
   width!: string
   targetWidth!: string
@@ -371,12 +369,6 @@ class Note extends Elem {
       this.page.regions.getNoteIds(this.parent))
     $static.vue.computed(this, 'siblings', () =>
       this.page.regions.getNotes(this.parent))
-
-
-
-
-    $static.vue.computed(this, 'index', () =>
-      this.siblings.findIndex(note => note.id == this.id))
 
 
 
