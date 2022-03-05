@@ -416,9 +416,7 @@ class Note extends Elem {
 
     
     $static.vue.computed(this, 'note.children', () =>
-      this.collab.childIds
-        .map(childId => this.page.notes.map[childId])
-        .filter(child => child != null))
+      this.page.notes.fromIds(this.collab.childIds))
   }
 
 

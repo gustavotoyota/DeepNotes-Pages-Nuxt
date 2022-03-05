@@ -60,9 +60,7 @@ class AppActiveRegion {
         return this.page.notes.collab[this.id].childIds
     })
     $static.vue.computed(this, '$app.page.activeRegion.notes', () =>
-      this.noteIds
-        .map(noteId => this.page.notes.map[noteId])
-        .filter(note => note != null))
+      this.page.notes.fromIds(this.noteIds))
 
 
 
@@ -74,9 +72,7 @@ class AppActiveRegion {
         return []
     })
     $static.vue.computed(this, '$app.page.activeRegion.arrows', () =>
-      this.arrowIds
-        .map(arrowId => this.page.arrows.map[arrowId])
-        .filter(arrow => arrow != null))
+      this.page.arrows.fromIds(this.arrowIds))
 
 
 

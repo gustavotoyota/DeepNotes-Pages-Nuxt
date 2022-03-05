@@ -57,12 +57,8 @@ class AppPageData {
   
   
     $static.vue.computed(this, '$app.page.data.notes', () =>
-      this.collab?.noteIds
-        .map(noteId => this.page.notes.map[noteId])
-        .filter(note => note != null))
+      this.page.notes.fromIds(this.collab.noteIds))
     $static.vue.computed(this, '$app.page.data.arrows', () =>
-      this.collab?.arrowIds
-        .map(arrowId => this.page.arrows.map[arrowId])
-        .filter(arrow => arrow != null))
+      this.page.arrows.fromIds(this.collab.arrowIds))
   }
 }
