@@ -39,12 +39,14 @@ if (ctx.$app.page.id !== ctx.route.value.params.page_id)
 // Synchronize page
 
 if (process.client) {
-  Promise.all([
-    ctx.$app.page.init(),
-    ctx.$app.page.collab.startSync(),
-  ]).then(() => {
-    ctx.$app.page.collab.postSync()
-  })
+  (async () => {
+    const [pageData] = await Promise.all([
+      ctx.$app.page.init(),
+      ctx.$app.page.collab.startSync(),
+    ])
+
+    ctx.$app.page.collab.postSync(pageData)
+  })()
 }
 </script>
 

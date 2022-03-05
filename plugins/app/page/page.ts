@@ -1,5 +1,6 @@
 import { Context } from '@nuxt/types'
 import { v4 as uuidv4 } from 'uuid'
+import { Base64 } from 'js-base64'
 
 
 
@@ -203,6 +204,9 @@ class AppPage {
 
     this.data.auxName = pageData.name
 
+    if (pageData.stateUpdate)
+      pageData.stateUpdate = Base64.toUint8Array(pageData.stateUpdate)
+
     if (pageData.camera) {
       this.camera.pos = pageData.camera.pos
       this.camera.zoom = pageData.camera.zoom
@@ -212,6 +216,11 @@ class AppPage {
 
       this.camera.loaded = true
     }
+
+
+
+
+    return pageData
   }
 
 

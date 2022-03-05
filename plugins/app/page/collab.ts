@@ -1,10 +1,9 @@
 import { Context } from "@nuxt/types"
 import { watch } from "@nuxtjs/composition-api"
-import { getYjsValue, SyncedArray, SyncedMap, syncedStore, SyncedText } from "@syncedstore/core"
+import { getYjsValue, SyncedArray, SyncedMap, syncedStore, SyncedText, Y } from "@syncedstore/core"
 import { debounce } from "lodash"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
-import { Doc } from "yjs"
 import type { IArrowCollab } from "./arrows/arrows"
 import type { INoteCollab } from "./notes/notes"
 import { AppPage, IPageCollab } from "./page"
@@ -23,7 +22,7 @@ class AppCollab {
   page: AppPage
 
   store: IAppCollabStore
-  doc: Doc
+  doc: Y.Doc
 
   indexedDbProvider!: IndexeddbPersistence
   websocketProvider!: WebsocketProvider
@@ -43,7 +42,7 @@ class AppCollab {
       arrows: {},
     })
 
-    this.doc = getYjsValue(this.store) as Doc
+    this.doc = getYjsValue(this.store) as Y.Doc
   }
 
 
@@ -74,10 +73,12 @@ class AppCollab {
 
 
 
-  postSync() {
+  postSync(pageData: any) {
     // Initialize page collab
 
-    if (this.page.data.collab.name == null)
+    if (pageData.stateUpdate)
+      Y.applyUpdateV2(this.doc, pageData.stateUpdate)
+    else if (this.page.data.collab.name == null)
       this.page.resetCollab(this.page.data.name)
 
 
@@ -96,7 +97,7 @@ class AppCollab {
 
 
 
-    // Keet path and recent page names updated
+    // Keep path and recent page names updated
 
     watch(() => this.page.data.collab.name, () => {
       const pathRef = this.page.project.pathPages.find(
@@ -156,7 +157,7 @@ class AppCollab {
       for (const value of yjsValue)
         cloneArray.push(this.clone(value))
       return cloneArray
-    } else if (yjsValue instanceof Doc
+    } else if (yjsValue instanceof Y.Doc
     || yjsValue instanceof SyncedMap) {
       const cloneObj: { [key: string]: unknown } = {}
       for (const [key, value] of Object.entries(obj as object))
