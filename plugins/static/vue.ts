@@ -41,20 +41,22 @@ class StaticVue {
   
 
   computed(obj: object, fullPath: string, options: any) {
-    if (options instanceof Function)
-      options = { get: options }
+    // if (options instanceof Function)
+    //   options = { get: options }
 
-    const modifiedOptions = {
-      get: () => {
-        if (process.env.NODE_ENV === 'development')
-          console.log(`Computed getter: ${fullPath}`)
+    // const modifiedOptions = {
+    //   get: () => {
+    //     if (process.env.NODE_ENV === 'development')
+    //       console.log(`Computed getter: ${fullPath}`)
 
-        return options.get()
-      },
-      set: options.set,
-    }
+    //     return options.get()
+    //   },
+    //   set: options.set,
+    // }
 
-    const auxComputed = computed(modifiedOptions) as any
+    // const auxComputed = computed(modifiedOptions) as 
+    
+    const auxComputed = computed(options) as any
 
     const key = fullPath.split('.').at(-1) ?? ''
   
