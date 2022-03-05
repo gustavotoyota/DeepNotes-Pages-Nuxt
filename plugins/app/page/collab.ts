@@ -49,22 +49,20 @@ class AppCollab {
 
 
   async startSync() {
+    const promises = []
+
     const roomName = `page-${this.page.id}-1`
 
+    if (!this.page.ctx.isDev) {
+      this.indexedDbProvider = new IndexeddbPersistence(roomName, this.doc)
 
+      promises.push(new Promise((resolve) => this.indexedDbProvider.on('synced', resolve)))
+    }
 
-
-    this.indexedDbProvider = new IndexeddbPersistence(roomName, this.doc)
     this.websocketProvider = new WebsocketProvider(
       this.page.ctx.isDev ? "ws://192.168.1.3:1234" : "wss://yjs-server.deepnotes.app/",
       roomName, this.doc)
-
-
-
-
-    const promises = []
-
-    promises.push(new Promise((resolve) => this.indexedDbProvider.on('synced', resolve)))
+      
     promises.push(new Promise((resolve) => this.websocketProvider.on('sync', resolve)))
 
     await Promise.all(promises)
