@@ -35,13 +35,14 @@ class AppDropping {
     const selectedNotes = this.page.selection.notes.slice()
     
     selectedNotes.sort((a: Note, b: Note) => b.index - a.index)
-
-    for (const selectedNote of selectedNotes) {
-      selectedNote.removeFromRegion()
-
-      regionNote.collab.childIds.splice(dropIndex++, 0, selectedNote.id)
-      selectedNote.parentId = regionNote.id
-    }
+    
+    this.page.collab.doc.transact(() => {
+      for (const selectedNote of selectedNotes) {
+        selectedNote.removeFromRegion()
+        regionNote.collab.childIds.splice(dropIndex++, 0, selectedNote.id)
+        selectedNote.parentId = regionNote.id
+      }
+    })
 
     this.page.activeRegion.id = regionNote.id
 

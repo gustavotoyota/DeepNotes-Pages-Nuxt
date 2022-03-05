@@ -126,13 +126,14 @@ class AppDragging {
         const selectedNotes = this.page.selection.notes.slice()
 
         selectedNotes.sort((a: Note, b: Note) => b.index - a.index)
-
-        for (const selectedNote of selectedNotes) {
-          selectedNote.removeFromRegion()
-          
-          this.page.data.collab.noteIds.push(selectedNote.id)
-          selectedNote.parentId = null
-        }
+        
+        this.page.collab.doc.transact(() => {
+          for (const selectedNote of selectedNotes) {
+            selectedNote.removeFromRegion()
+            this.page.data.collab.noteIds.push(selectedNote.id)
+            selectedNote.parentId = null
+          }
+        })
 
         this.page.activeRegion.id = null
 
