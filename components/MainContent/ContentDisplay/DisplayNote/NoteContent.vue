@@ -1,9 +1,8 @@
 <template>
 
-  <v-sheet class="note-content"
-  elevation="6"
+  <div class="note-content"
   :style="{
-    'cursor': (note.collab.linkedPageId == null || note.selected) ? null : 'pointer',
+    'cursor': (note.collab.linkedPageId == null || note.selected) ? undefined : 'pointer',
     'background-color': backgroundColor,
   }"
   @touchstart="onTouchStart"
@@ -12,7 +11,7 @@
 
     <slot/>
 
-  </v-sheet>
+  </div>
   
 </template>
 
@@ -100,5 +99,7 @@ function onClick(event: MouseEvent) {
   height: 100%;
 
   overflow: hidden;
+
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px 0 rgba(0,0,0,.14),0 1px 18px 0 rgba(0,0,0,.12)!important;
 }
 </style>
