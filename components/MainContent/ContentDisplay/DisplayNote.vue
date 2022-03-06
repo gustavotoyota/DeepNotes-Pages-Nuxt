@@ -4,9 +4,9 @@
   v-if="note != null"
   :note="note">
 
-    <NoteFrame :note="note">
+    <NoteDropZones :note="note"/>
 
-      <NoteDropZones :note="note"/>
+    <NoteFrame :note="note">
 
       <NoteHandles :note="note"/>
 

@@ -3,8 +3,9 @@
   <div :id="`note-${note.id}`"
   :class="{ anchor: note.parentId == null }"
   :style="{
-    'left': `${note.collab.pos.x}px`,
-    'top': `${note.collab.pos.y}px`,
+    'position': note.parentId == null ? 'absolute' : 'relative',
+    'left': note.parentId == null ? `${note.collab.pos.x}px` : undefined,
+    'top': note.parentId == null ? `${note.collab.pos.y}px` : undefined,
     'z-index': note.parentId == null ? note.collab.zIndex : undefined,
   }">
 
