@@ -2,6 +2,7 @@ import { Context } from "@nuxt/types"
 import { watch } from "@nuxtjs/composition-api"
 import { getYjsValue, SyncedArray, SyncedMap, syncedStore, SyncedText, Y } from "@syncedstore/core"
 import { debounce } from "lodash"
+import Vue from "vue"
 import { IndexeddbPersistence } from "y-indexeddb"
 import { WebsocketProvider } from "y-websocket"
 import type { IArrowCollab } from "./arrows/arrows"
@@ -163,6 +164,38 @@ class AppCollab {
       return cloneObj
     } else
       return obj
+  }
+
+
+
+
+  clean() {
+    const visitedIds = new Set<string>()
+
+    const stack = [...this.page.data.notes]
+
+    while (stack.length > 0) {
+      const note = stack.pop()
+      if (note == null)
+        continue
+
+      visitedIds.add(note.id)
+
+      stack.push(...note.children)
+    }
+
+
+
+
+    const excessNoteIds = Object.keys(this.page.notes.collab).filter(
+      noteId => !visitedIds.has(noteId))
+
+    console.log('Excess:', excessNoteIds)
+
+    this.page.collab.doc.transact(() => {
+      for (const excessNoteId of excessNoteIds)
+        Vue.delete(this.page.notes.collab, excessNoteId)
+    })
   }
 }
 
