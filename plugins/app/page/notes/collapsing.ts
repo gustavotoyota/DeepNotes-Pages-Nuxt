@@ -31,16 +31,17 @@ class AppCollapsing {
       
       note.bringToTop()
     })
+
+    this.page.undoRedo.resetCapturing()
   }
   collapse(note: Note) {
-    if (!note.collab.collapsible)
-      return
-    
     this.page.collab.doc.transact(() => {
       note.collab.collapsed = true
       
       note.bringToTop()
     })
+    
+    this.page.undoRedo.resetCapturing()
   }
 
 

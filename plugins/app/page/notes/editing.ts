@@ -66,5 +66,12 @@ class AppEditing {
     
     this.note.editing = false
     this.note = null
+
+
+
+    
+    // Reset undo-redo capturing
+    
+    this.page.undoRedo.resetCapturing()
   }
 }

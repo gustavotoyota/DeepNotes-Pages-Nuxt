@@ -48,5 +48,12 @@ class AppDeleting {
     })
 
     this.page.selection.clear()
+
+
+
+    
+    // Reset undo-redo capturing
+    
+    this.page.undoRedo.resetCapturing()
   }
 }

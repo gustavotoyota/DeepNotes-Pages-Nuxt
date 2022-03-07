@@ -21,6 +21,7 @@ import { AppClickSelection } from './selection/click-selection'
 import { AppBoxSelection } from './selection/box-selection'
 
 import { AppCollab } from './collab'
+import { AppUndoRedo } from './undo-redo'
 
 import { AppRegions } from './regions'
 
@@ -90,6 +91,7 @@ class AppPage {
   boxSelection: AppBoxSelection
   
   collab: AppCollab
+  undoRedo: AppUndoRedo
 
   regions: AppRegions
 
@@ -143,6 +145,7 @@ class AppPage {
     this.boxSelection = new AppBoxSelection(this)
 
     this.collab = new AppCollab(this)
+    this.undoRedo = new AppUndoRedo(this)
   
     this.regions = new AppRegions(this)
     

@@ -98,6 +98,8 @@ class AppDragging {
 
 
 
+      // Update dragging states
+
       for (const selectedNote of this.page.selection.notes)
         selectedNote.dragging = true
 
@@ -200,6 +202,8 @@ class AppDragging {
 
     for (const selectedNote of this.page.selection.notes)
       selectedNote.dragging = false
+
+    this.page.undoRedo.resetCapturing()
   }.bind(this)
 
 

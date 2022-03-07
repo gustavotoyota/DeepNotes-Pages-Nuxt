@@ -30,7 +30,6 @@ class AppCollab {
 
 
 
-
   constructor(page: AppPage) {
     this.page = page
 
@@ -134,6 +133,11 @@ class AppCollab {
     
     this.page.notes.mapAndObserveIds(this.page.data.collab.noteIds, null)
     this.page.notes.observeMap()
+
+
+
+
+    this.page.undoRedo.init()
 
 
 

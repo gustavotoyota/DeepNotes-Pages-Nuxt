@@ -108,6 +108,15 @@ class AppCloning {
 
 
 
+    
+    // Reset undo-redo capturing
+    
+    this.page.undoRedo.resetCapturing()
+
+
+
+
+    // Scroll into view
 
     Vue.nextTick(() => {
       const lastSelectedNote = this.page.selection.notes.at(-1) as Note

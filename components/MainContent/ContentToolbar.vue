@@ -55,11 +55,15 @@
 
       <ToolbarButton
       tooltip="Undo"
-      icon="undo"/>
+      icon="undo"
+      :disabled="!$app.page.undoRedo.canUndo"
+      @click="$app.page.undoRedo.undo()"/>
 
       <ToolbarButton
       tooltip="Redo"
-      icon="redo"/>
+      icon="redo"
+      :disabled="!$app.page.undoRedo.canRedo"
+      @click="$app.page.undoRedo.redo()"/>
 
 
 

@@ -27,11 +27,6 @@ class AppDropping {
 
 
   perform(event: PointerEvent, regionNote: Note, dropIndex: number) {
-    this.page.dragging.cancel()
-    
-
-
-
     const selectedNotes = this.page.selection.notes.slice()
     
     selectedNotes.sort((a: Note, b: Note) => b.index - a.index)
@@ -54,5 +49,10 @@ class AppDropping {
       
       lastSelectedNote.scrollIntoView()
     })
+
+
+
+    
+    this.page.dragging.cancel()
   }
 }

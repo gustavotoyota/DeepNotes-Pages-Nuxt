@@ -148,5 +148,10 @@ class AppResizing {
   private _finish = function (this: AppResizing, event: PointerEvent) {
     document.removeEventListener('pointermove', this._update)
     document.removeEventListener('pointerup', this._finish)
+
+
+
+
+    this.page.undoRedo.resetCapturing()
   }.bind(this)
 }

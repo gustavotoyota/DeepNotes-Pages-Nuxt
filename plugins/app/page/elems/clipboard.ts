@@ -230,6 +230,13 @@ class AppClipboard {
     const notes = this.page.notes.fromIds(noteIds)
 
     this.page.selection.set(...notes)
+
+
+
+
+    // Reset undo-redo capturing
+    
+    this.page.undoRedo.resetCapturing()
   }
   
   
