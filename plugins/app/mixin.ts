@@ -69,6 +69,11 @@ export default async function (ctx: Context, inject: Inject) {
           ctx.$app.page.clipboard.paste()
         if (event.ctrlKey && event.code === 'KeyX')
           ctx.$app.page.clipboard.cut()
+        
+        if (event.ctrlKey && event.code === 'KeyZ')
+          ctx.$app.page.undoRedo.undo()
+        if (event.ctrlKey && event.code === 'KeyY')
+          ctx.$app.page.undoRedo.redo()
 
         if (event.code === 'F2' && ctx.$app.page.activeElem.exists)
           ctx.$app.page.editing.start(ctx.$app.page.activeElem.get as Note)
