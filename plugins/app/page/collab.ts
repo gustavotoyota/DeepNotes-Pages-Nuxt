@@ -51,7 +51,7 @@ class AppCollab {
   async startSync() {
     const promises = []
 
-    const roomName = `page-${this.page.id}-1`
+    const roomName = `page-${this.page.id}-2`
 
     if (!this.page.ctx.isDev) {
       this.indexedDbProvider = new IndexeddbPersistence(roomName, this.doc)
