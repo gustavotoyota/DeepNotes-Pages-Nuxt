@@ -148,6 +148,8 @@
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.anchor.x"
         @change="changeProp($event, (note, value) => {
+          const worldRect = note.getWorldRect('frame')
+          note.collab.pos.x += (value - note.collab.anchor.x) * worldRect.size.x
           note.collab.anchor.x = value
         })"/>
       </div>
@@ -172,6 +174,8 @@
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.anchor.y"
         @change="changeProp($event, (note, value) => {
+          const worldRect = note.getWorldRect('frame')
+          note.collab.pos.y += (value - note.collab.anchor.y) * worldRect.size.y
           note.collab.anchor.y = value
         })"/>
       </div>
