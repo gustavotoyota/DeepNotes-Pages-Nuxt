@@ -1,5 +1,4 @@
-import { Context } from "@nuxt/types"
-import Vue from "vue"
+import { nextTick } from "@nuxtjs/composition-api"
 import { AppPage } from "../page"
 import { Note } from "./notes"
 
@@ -44,7 +43,7 @@ class AppDropping {
 
 
 
-    Vue.nextTick(() => {
+    nextTick(() => {
       const lastSelectedNote = this.page.selection.notes.at(-1) as Note
       
       lastSelectedNote.scrollIntoView()

@@ -1,5 +1,4 @@
-import { Context } from '@nuxt/types';
-import Vue from 'vue';
+import { nextTick } from '@nuxtjs/composition-api';
 import { IVec2, Nullable } from "~/types/deep-notes";
 import { AppPage } from '../page';
 import { Note } from './notes';
@@ -145,7 +144,7 @@ class AppDragging {
         // Adjust note positions and sizes
         // With mouse in the center of the active element
 
-        Vue.nextTick(() => {
+        nextTick(() => {
           const activeWorldRect = (this.page.activeElem.get as Note).getWorldRect('frame')
 
           const mouseOffset = {

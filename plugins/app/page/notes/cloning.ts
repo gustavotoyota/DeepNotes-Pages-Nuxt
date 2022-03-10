@@ -1,7 +1,5 @@
-import { Context } from "@nuxt/types"
+import { nextTick } from "@nuxtjs/composition-api"
 import { cloneDeep, pull } from "lodash"
-import Vue from "vue"
-import { Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
 import { INoteCollab, Note } from "./notes"
 
@@ -118,7 +116,7 @@ class AppCloning {
 
     // Scroll into view
 
-    Vue.nextTick(() => {
+    nextTick(() => {
       const lastSelectedNote = this.page.selection.notes.at(-1) as Note
       
       lastSelectedNote.scrollIntoView()
