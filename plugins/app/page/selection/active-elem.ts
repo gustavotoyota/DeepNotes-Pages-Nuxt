@@ -7,14 +7,7 @@ import { Note } from "../notes/notes"
 
 
 
-export {
-  AppActiveElem,
-}
-
-
-
-
-class AppActiveElem {
+export class AppActiveElem {
   page: AppPage
 
   id!: Nullable<string>

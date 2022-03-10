@@ -6,14 +6,7 @@ import { Note } from "./notes/notes";
 
 
 
-export {
-  AppRegions
-};
-
-
-
-
-class AppRegions {
+export class AppRegions {
   page: AppPage
 
 

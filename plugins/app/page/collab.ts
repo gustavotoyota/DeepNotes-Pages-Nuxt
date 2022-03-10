@@ -12,14 +12,7 @@ import { AppPage, IPageCollab } from "./page"
 
 
 
-export {
-  AppCollab,
-}
-
-
-
-
-class AppCollab {
+export class AppCollab {
   page: AppPage
 
   store: IAppCollabStore

@@ -6,21 +6,13 @@ import { AppPage } from "../page"
 
 
 
-export {
-  IRect,
-  AppRects,
-}
-
-
-
-
-interface IRect {
+export interface IRect {
   start: { x: number, y: number }
   end: { x: number, y: number }
   size: { x: number, y: number }
 }
 
-class AppRects {
+export class AppRects {
   page: AppPage
 
 

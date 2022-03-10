@@ -7,14 +7,7 @@ import { AppPage } from "../page"
 
 
 
-export {
-  AppClipboard,
-}
-
-
-
-
-interface INoteClipboard {
+export interface INoteClipboard {
   [key: string]: unknown
 
   linkedPageId: Nullable<string>
@@ -51,7 +44,7 @@ interface INoteClipboard {
 
 
 
-class AppClipboard {
+export class AppClipboard {
   page: AppPage
 
 

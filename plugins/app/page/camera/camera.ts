@@ -7,14 +7,7 @@ import { AppPage } from "../page"
 
 
 
-export {
-  AppCamera,
-}
-
-
-
-
-class AppCamera {
+export class AppCamera {
   page: AppPage
 
   pos!: IVec2

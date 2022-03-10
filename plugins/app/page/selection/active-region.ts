@@ -8,14 +8,7 @@ import { Elem } from "../elems/elems";
 
 
 
-export {
-  AppActiveRegion,
-};
-
-
-
-
-class AppActiveRegion {
+export class AppActiveRegion {
   page: AppPage
 
   id!: Nullable<string>

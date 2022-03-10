@@ -9,14 +9,7 @@ import { Note } from '../notes/notes'
 
 
 
-export {
-  AppSelection,
-}
-
-
-
-
-class AppSelection {
+export class AppSelection {
   [key: string]: unknown
   
   page: AppPage

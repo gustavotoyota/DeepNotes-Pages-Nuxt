@@ -5,14 +5,7 @@ import { IPageRef } from "./page/page"
 
 
 
-export {
-  AppProject,
-}
-
-
-
-
-class AppProject {
+export class AppProject {
   ctx: Context
 
   pathPages!: IPageRef[]

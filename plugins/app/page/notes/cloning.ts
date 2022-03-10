@@ -6,14 +6,7 @@ import { INoteCollab, Note } from "./notes"
 
 
 
-export {
-  AppCloning,
-}
-
-
-
-
-class AppCloning {
+export class AppCloning {
   page: AppPage
 
 

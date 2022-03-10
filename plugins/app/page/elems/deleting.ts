@@ -6,14 +6,7 @@ import { Note } from "../notes/notes"
 
 
 
-export {
-  AppDeleting,
-}
-
-
-
-
-class AppDeleting {
+export class AppDeleting {
   page: AppPage
 
 

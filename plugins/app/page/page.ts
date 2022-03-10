@@ -44,16 +44,7 @@ import { AppProject } from '../project'
 
 
 
-export {
-  AppPage,
-  IPageCollab,
-  IPageRef,
-}
-
-
-
-
-class AppPage {
+export class AppPage {
   [key: string]: unknown
 
 
@@ -253,7 +244,7 @@ class AppPage {
   }
 }
 
-interface IPageCollab {
+export interface IPageCollab {
   name: string,
 
   noteIds: string[],
@@ -262,7 +253,7 @@ interface IPageCollab {
   nextZIndex: number
 }
 
-interface IPageRef {
+export interface IPageRef {
   id: string
   name: string
 }

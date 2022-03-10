@@ -5,14 +5,7 @@ import { Note } from "./notes"
 
 
 
-export {
-  AppCollapsing,
-}
-
-
-
-
-class AppCollapsing {
+export class AppCollapsing {
   page: AppPage
 
 

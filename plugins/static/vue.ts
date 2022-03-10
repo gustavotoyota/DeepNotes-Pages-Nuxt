@@ -4,14 +4,7 @@ import Vue from 'vue'
 
 
 
-export {
-  StaticVue,
-}
-
-
-
-
-class StaticVue {
+export class StaticVue {
   ref(obj: object, fullPath: string, refValue: any) {
     const auxRef = ref(refValue)
 

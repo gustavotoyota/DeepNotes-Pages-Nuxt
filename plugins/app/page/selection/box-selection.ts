@@ -6,19 +6,12 @@ import { AppPage } from "../page"
 
 
 
-export {
-  AppBoxSelection,
-}
-
-
-
-
 const MIN_DISTANCE = 5
 
 
 
 
-class AppBoxSelection {
+export class AppBoxSelection {
   page: AppPage
 
   active!: boolean

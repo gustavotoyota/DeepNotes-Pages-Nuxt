@@ -6,19 +6,12 @@ import { Note } from './notes';
 
 
 
-export {
-  AppDragging,
-};
-
-
-
-
 const MIN_DISTANCE: number = 5;
 
 
 
 
-class AppDragging {
+export class AppDragging {
   page: AppPage
 
   active!: boolean;

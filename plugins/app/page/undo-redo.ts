@@ -5,14 +5,7 @@ import { AppPage } from './page'
 
 
 
-export {
-  AppUndoRedo,
-}
-
-
-
-
-class AppUndoRedo {
+export class AppUndoRedo {
   page: AppPage
 
   undoManager: Nullable<Y.UndoManager> = null

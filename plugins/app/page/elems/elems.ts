@@ -8,15 +8,7 @@ import { AppPage } from '../page'
 
 
 
-export {
-  AppElems,
-  Elem,
-}
-
-
-
-
-class AppElems {
+export class AppElems {
   page: AppPage
 
 
@@ -33,7 +25,7 @@ class AppElems {
   }
 }
 
-class Elem {
+export class Elem {
   page: AppPage
 
   id: string

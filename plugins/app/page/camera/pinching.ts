@@ -8,14 +8,7 @@ import Vue from "vue"
 
 
 
-export {
-  AppPinching,
-}
-
-
-
-
-class AppPinching {
+export class AppPinching {
   page: AppPage
 
   pointers!: { [key: string]: IVec2 }

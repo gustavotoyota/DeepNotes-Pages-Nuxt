@@ -5,14 +5,7 @@ import { AppPage } from "../page"
 
 
 
-export {
-  AppZooming,
-}
-
-
-
-
-class AppZooming {
+export class AppZooming {
   page: AppPage
 
   minZoom: number = 0 // Math.pow(1 / 1.2, 16)

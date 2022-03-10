@@ -7,14 +7,7 @@ import { Note } from "./notes"
 
 
 
-export {
-  AppResizing,
-}
-
-
-
-
-class AppResizing {
+export class AppResizing {
   page: AppPage
 
   side!: string

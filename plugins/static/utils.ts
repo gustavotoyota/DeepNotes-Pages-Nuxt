@@ -1,13 +1,9 @@
 import { Nullable } from "~/types/deep-notes"
 
-export {
-  StaticUtils,
-}
 
 
 
-
-class StaticUtils {
+export class StaticUtils {
   hasVertScrollbar(elem: HTMLElement) {
     return elem.scrollHeight > elem.clientHeight
       && elem.offsetWidth > elem.clientWidth

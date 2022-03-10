@@ -6,14 +6,7 @@ import { cloneDeep } from 'lodash'
 
 
 
-export {
-  AppPanning,
-}
-
-
-
-
-class AppPanning {
+export class AppPanning {
   page: AppPage
 
   currentPos!: IVec2

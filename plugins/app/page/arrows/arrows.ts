@@ -5,16 +5,7 @@ import { Elem } from "../elems/elems"
 
 
 
-export {
-  AppArrows,
-  Arrow,
-  IArrowCollab,
-}
-
-
-
-
-class AppArrows {
+export class AppArrows {
   page: AppPage
 
 
@@ -56,11 +47,11 @@ class AppArrows {
 
 
 
-class Arrow extends Elem {
+export class Arrow extends Elem {
   constructor(page: AppPage, id?: string) {
     super(page, { id, type: 'arrow' })
   }
 }
 
-interface IArrowCollab {
+export interface IArrowCollab {
 }

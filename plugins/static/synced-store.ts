@@ -3,14 +3,7 @@ import { SyncedText } from "@syncedstore/core";
 
 
 
-export {
-  StaticSyncedStore,
-};
-
-
-
-
-class StaticSyncedStore {
+export class StaticSyncedStore {
   createText(delta: object) {
     const clone = new SyncedText()
     

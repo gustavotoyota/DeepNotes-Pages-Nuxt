@@ -9,14 +9,7 @@ import { nextTick } from "@nuxtjs/composition-api";
 
 
 
-export {
-  AppEditing,
-};
-
-
-
-
-class AppEditing {
+export class AppEditing {
   page: AppPage
 
   note!: Nullable<Note>

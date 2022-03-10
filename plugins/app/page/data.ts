@@ -6,14 +6,7 @@ import { Note } from './notes/notes'
 
 
 
-export {
-  AppPageData,
-}
-
-
-
-
-class AppPageData {
+export class AppPageData {
   page: AppPage
   
   collab!: IPageCollab

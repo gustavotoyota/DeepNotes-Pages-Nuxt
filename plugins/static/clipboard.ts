@@ -1,11 +1,4 @@
-export {
-  StaticClipboard,
-}
-
-
-
-
-class StaticClipboard {
+export class StaticClipboard {
   async get (): Promise<string> {
     if (navigator.clipboard && navigator.clipboard.readText)
       return await navigator.clipboard.readText()

@@ -6,14 +6,7 @@ import { Note } from "../notes/notes"
 
 
 
-export {
-  AppClickSelection,
-}
-
-
-
-
-class AppClickSelection {
+export class AppClickSelection {
   page: AppPage
 
 

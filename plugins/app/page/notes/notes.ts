@@ -10,17 +10,7 @@ import { AppPage } from '../page'
 
 
 
-export {
-  AppNotes,
-  Note,
-  INoteCollab,
-  INoteSize,
-}
-
-
-
-
-class AppNotes {
+export class AppNotes {
   page: AppPage
   
 
@@ -179,7 +169,7 @@ class AppNotes {
   }
 }
 
-interface INoteCollab {
+export interface INoteCollab {
   [key: string]: unknown
 
   linkedPageId: Nullable<string>
@@ -215,7 +205,7 @@ interface INoteCollab {
   zIndex: number
 }
 
-interface INoteSize {
+export interface INoteSize {
   x: string
 
   y: {
@@ -230,7 +220,7 @@ interface INoteSize {
 
 
   
-class Note extends Elem {
+export class Note extends Elem {
   [key: string]: unknown
 
   collab!: INoteCollab

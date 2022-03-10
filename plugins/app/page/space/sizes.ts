@@ -5,14 +5,7 @@ import { AppPage } from "../page"
 
 
 
-export {
-  AppSizes,
-}
-
-
-
-
-class AppSizes {
+export class AppSizes {
   page: AppPage
 
 

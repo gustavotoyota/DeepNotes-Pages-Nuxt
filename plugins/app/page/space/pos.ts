@@ -5,14 +5,7 @@ import { AppPage } from "../page"
 
 
 
-export {
-  AppPos,
-}
-
-
-
-
-class AppPos {
+export class AppPos {
   page: AppPage
 
 
