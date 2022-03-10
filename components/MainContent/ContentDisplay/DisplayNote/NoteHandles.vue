@@ -1,6 +1,6 @@
 <template>
   
-  <div>
+  <div v-if="note.collab.resizable && note.selected">
     <NoteHandle :note="note" side="nw" :section="note.topSection"/>
     <NoteHandle :note="note" side="n" :section="note.topSection"/>
     <NoteHandle :note="note" side="ne" :section="note.topSection"/>
