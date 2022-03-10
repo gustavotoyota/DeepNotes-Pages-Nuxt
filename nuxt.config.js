@@ -35,7 +35,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/external/highlight', mode: 'client' },
-    { src: '~/plugins/external/quill-editor', mode: 'client' },
+    { src: '~/plugins/external/quill', mode: 'client' },
     { src: '~/plugins/external/syncedstore' },
     
     { src: '~/plugins/static/static' },
