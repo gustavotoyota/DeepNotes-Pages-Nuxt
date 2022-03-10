@@ -25,8 +25,6 @@ class AppCamera {
   lockPos!: boolean
   lockZoom!: boolean
 
-  loaded: boolean = false
-
 
 
 
@@ -42,7 +40,7 @@ class AppCamera {
     $static.vue.computed(this, '$app.page.camera.zoom', {
       get: () => { return this._zoom },
       set: (value: number) => {
-        if (this.loaded && this.lockZoom)
+        if (this.lockZoom)
           return
 
         this._zoom = value

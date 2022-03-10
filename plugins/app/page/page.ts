@@ -198,7 +198,7 @@ class AppPage {
 
 
 
-    // Update project
+    // Update page data
 
     const pageData = (await this.ctx.$axios.post('/api/page/data', {
       pageId: this.id,
@@ -209,16 +209,6 @@ class AppPage {
 
     if (pageData.stateUpdate)
       pageData.stateUpdate = Base64.toUint8Array(pageData.stateUpdate)
-
-    if (pageData.camera) {
-      this.camera.pos = pageData.camera.pos
-      this.camera.zoom = pageData.camera.zoom
-
-      this.camera.lockPos = pageData.camera.lockPos
-      this.camera.lockZoom = pageData.camera.lockZoom
-
-      this.camera.loaded = true
-    }
 
 
 

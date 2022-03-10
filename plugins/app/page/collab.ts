@@ -83,12 +83,15 @@ class AppCollab {
 
 
     // Setup camera
-    
-    if (!this.page.camera.loaded) {
-      this.page.camera.fitToScreen()
 
-      this.page.camera.loaded = true
-    }
+    if (pageData.camera) {
+      this.page.camera.pos = pageData.camera.pos
+      this.page.camera.zoom = pageData.camera.zoom
+
+      this.page.camera.lockPos = pageData.camera.lockPos
+      this.page.camera.lockZoom = pageData.camera.lockZoom
+    } else
+      this.page.camera.fitToScreen()
 
     this.page.camera.watchChanges()
 
