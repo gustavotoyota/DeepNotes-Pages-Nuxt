@@ -16,6 +16,8 @@ import { SyncedText } from "@syncedstore/core";
 import Quill from "quill";
 import { QuillBinding } from 'y-quill'
 import { Note } from "~/plugins/app/page/notes/notes";
+import { quillOptions } from "~/plugins/static/quill";
+import { Newable } from '~/types/deep-notes'
 
 
 
@@ -44,53 +46,9 @@ const editor = ref(null)
 let quill: Quill
 
 onMounted(() => {
-  const Quill = require('quill')
+  const Quill = require('quill') as Newable<Quill>
 
-  quill = new Quill(editor.value, {
-    theme: 'bubble',
-
-    placeholder: '',
-
-    modules: {
-      syntax: true,
-
-      cursors: true,
-
-      keyboard: {
-        bindings: {
-          'indent code-block': null,
-          'outdent code-block': null,
-        },
-      },
-
-      toolbar: [
-        [
-          'bold',
-          'italic',
-          'underline',
-          'strike',
-          { 'header': 1 },
-          { 'header': 2 },
-          { align: '' },
-          { align: 'center' },
-          { align: 'right' },
-          { align: 'justify' },
-        ],
-        [
-          { 'indent': '-1' },
-          { 'indent': '+1' },
-          { 'script': 'sub' },
-          { 'script': 'super' },
-          'blockquote',
-          'code-block',
-          'link',
-          'image',
-          'formula',
-          'clean',
-        ],
-      ],
-    },
-  })
+  quill = new Quill(editor.value, quillOptions)
 
   props.note[`${props.section}Quill`] = quill
 

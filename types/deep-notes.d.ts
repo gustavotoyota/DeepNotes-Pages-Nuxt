@@ -6,26 +6,15 @@ import { Context } from '@nuxt/types';
 
 
 
-export type {
-  IVec2,
+export type Nullable<T> = T | null;
+export type Nilable<T> = T | null | undefined;
+export type Newable<T> = { new (...args: any[]): T }
 
-  Exact,
-
-  Nullable,
-  Nilable,
-}
-
-
-
-
-type Nullable<T> = T | null;
-type Nilable<T> = T | null | undefined;
-
-type Exact<T, Shape = T> = T extends Shape ?
+export type Exact<T, Shape = T> = T extends Shape ?
   (Exclude<keyof T, keyof Shape> extends never ?
     T : never): never;
 
-interface IVec2 {
+export interface IVec2 {
   x: number;
   y: number;
 }
