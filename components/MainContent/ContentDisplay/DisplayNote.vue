@@ -1,8 +1,6 @@
 <template>
 
-  <NoteAnchor
-  v-if="note != null"
-  :note="note">
+  <NoteAnchor :note="note">
 
     <NoteDropZones :note="note"/>
 
