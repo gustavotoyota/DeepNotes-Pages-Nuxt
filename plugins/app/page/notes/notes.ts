@@ -1,5 +1,6 @@
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
 import { merge } from 'lodash'
+import Quill from "quill"
 import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
 import { IVec2, Nullable } from "~/types/deep-notes"
@@ -243,6 +244,9 @@ class Note extends Elem {
   topSection!: string
   bottomSection!: string
   numSections!: number
+
+  titleQuill!: Quill
+  bodyQuill!: Quill
 
   titleHeight!: string
   bodyHeight!: string

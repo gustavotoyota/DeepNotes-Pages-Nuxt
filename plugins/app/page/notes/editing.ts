@@ -3,6 +3,8 @@ import { AppPage } from "../page";
 import { Elem } from "../elems/elems";
 import { Note } from "./notes";
 import { Nullable } from "~/types/deep-notes";
+import Quill from "quill";
+import { nextTick } from "@nuxtjs/composition-api";
 
 
 
@@ -18,7 +20,6 @@ class AppEditing {
   page: AppPage
 
   note!: Nullable<Note>
-  section!: string
 
   active!: boolean
 
@@ -49,9 +50,34 @@ class AppEditing {
     this.note = note
     note.editing = true
 
-    this.section = section ?? note.topSection
-
     this.page.selection.set(note as Elem)
+
+
+
+
+    // Setup Quill
+
+    nextTick(() => {
+      for (const section of ['title', 'body']) {
+        const quill = note[`${section}Quill`] as Quill
+        if (quill == null)
+          continue
+
+        quill.enable(true)
+        // @ts-ignore
+        quill.history.clear()
+      }
+
+
+
+
+      section = section ?? note.topSection
+      const quill = note[`${section}Quill`] as Quill
+  
+      quill.focus()
+      quill.setSelection(0, 0)
+      quill.setSelection(0, Infinity, 'user')
+    })
   }
 
 
@@ -60,6 +86,21 @@ class AppEditing {
   stop() {
     if (this.note == null)
       return
+
+
+
+
+    for (const section of ['title', 'body']) {
+      const quill = this.note[`${section}Quill`] as Quill
+      if (quill == null)
+        continue
+
+      quill.enable(false)
+      // @ts-ignore
+      quill.setSelection(null)
+      // @ts-ignore
+      quill.theme.tooltip.hide()
+    }
 
 
       

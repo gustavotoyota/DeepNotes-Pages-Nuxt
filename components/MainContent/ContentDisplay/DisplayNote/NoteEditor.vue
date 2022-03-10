@@ -92,7 +92,9 @@ onMounted(() => {
     },
   })
 
-  quill.enable(false)
+  props.note[`${props.section}Quill`] = quill
+
+  quill.enable(props.note.editing)
 
   new QuillBinding(text.value, quill,
     ctx.$app.page.collab.websocketProvider.awareness)
@@ -111,40 +113,6 @@ onBeforeUnmount(() => {
 const fixPadding = computed(() =>
   props.note.collab.collapsible
   && props.section === props.note.topSection)
-
-
-
-
-// Enable on editing
-
-function onEditToggle() {
-  quill.enable(props.note.editing)
-  
-  if (props.note.editing) {
-    if (props.section !== ctx.$app.page.editing.section)
-      return
-
-    // @ts-ignore
-    quill.history.clear()
-
-    quill.focus()
-    quill.setSelection(0, 0)
-    quill.setSelection(0, Infinity, 'user')
-  } else {
-    // @ts-ignore
-    quill.setSelection(null)
-    // @ts-ignore
-    quill.theme.tooltip.hide()
-    return
-  }
-}
-
-onMounted(() => {
-  if (props.note.editing)
-    onEditToggle()
-})
-
-watch(() => props.note.editing, onEditToggle)
 </script>
 
 
