@@ -58,6 +58,9 @@ export class AppBoxSelection {
         up: this._pointerUp,
       })
     } else {
+      if (this.touchTimer != null)
+        this.clearTimer()
+
       this.touchTimer = setTimeout(() => {
         this.active = true
         this.touchTimer = null
@@ -73,7 +76,7 @@ export class AppBoxSelection {
 
       $static.utils.listenPointerEvents(event, {
         move: this._timerPointerMove,
-        up: this._timerPointerUp,
+        up: this.clearTimer,
       })
     }
   }
@@ -162,10 +165,10 @@ export class AppBoxSelection {
 
     if (dist >= MIN_DISTANCE) {
       this.page.panning.start(this.downEvent)
-      this._timerPointerUp(event)
+      this.clearTimer()
     }
   }.bind(this)
-  private _timerPointerUp = function (this: AppBoxSelection, event: PointerEvent) {
+  clearTimer = function (this: AppBoxSelection) {
     if (this.touchTimer == null)
       return
 

@@ -46,6 +46,7 @@ export class AppPinching {
 
 
         this.page.panning.cancel()
+        this.page.boxSelection.clearTimer()
 
 
 
