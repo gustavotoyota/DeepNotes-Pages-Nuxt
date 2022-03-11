@@ -6,6 +6,8 @@
 
     <NoteFrame :note="note">
 
+      <NoteArrowHandles :note="note"/>
+
       <NoteHandles :note="note"/>
 
       <NoteContent :note="note">
