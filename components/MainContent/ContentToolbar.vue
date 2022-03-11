@@ -186,7 +186,7 @@
 
 <script setup lang="ts">
 import { useContext } from '@nuxtjs/composition-api';
-import { Quill } from 'quill'
+import type { Quill } from 'quill'
 
 
 
@@ -208,10 +208,9 @@ function format(funcName: string, ...args: any[]) {
         const selection = quill.getSelection()
 
         if (quill.isEnabled()) {
-          if (selection != null) {
+          if (selection != null)
             // @ts-ignore
             quill[funcName](selection.index, selection.length, ...args)
-          }
         } else
           // @ts-ignore
           quill[funcName](0, Infinity, ...args)

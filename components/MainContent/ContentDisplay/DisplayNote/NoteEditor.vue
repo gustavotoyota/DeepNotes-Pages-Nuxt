@@ -11,13 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, useContext, watch } from "@nuxtjs/composition-api";
-import { SyncedText } from "@syncedstore/core";
-import Quill from "quill";
-import { QuillBinding } from 'y-quill'
-import { Note } from "~/plugins/app/page/notes/notes";
+import { computed, onBeforeUnmount, onMounted, ref, useContext } from "@nuxtjs/composition-api";
+import type { SyncedText } from "@syncedstore/core";
+import type { Quill } from 'quill';
+import { QuillBinding } from 'y-quill';
+import type { Note } from "~/plugins/app/page/notes/notes";
 import { quillOptions } from "~/plugins/static/quill";
-import { Newable, Nullable } from '~/types/deep-notes'
+import { Nullable } from '~/types/deep-notes';
 
 
 
@@ -47,6 +47,8 @@ let quill: Quill
 let quillBinding: Nullable<QuillBinding> = null
 
 onMounted(() => {
+  const Quill = require('quill')
+
   quill = new Quill(editor.value ?? '', quillOptions)
 
   props.note[`${props.section}Quill`] = quill
