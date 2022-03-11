@@ -23,10 +23,7 @@ function onPointerDown(event: PointerEvent) {
   if (!event.ctrlKey && !event.shiftKey)
     ctx.$app.page.selection.clear(null)
     
-  if (event.pointerType === 'mouse')
-    ctx.$app.page.boxSelection.start(event)
-  else
-    ctx.$app.page.panning.start(event)
+  ctx.$app.page.boxSelection.start(event)
 }
 
 function onDoubleClick(event: MouseEvent) {
