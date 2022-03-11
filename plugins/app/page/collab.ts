@@ -86,7 +86,8 @@ export class AppCollab {
     } else
       this.page.camera.fitToScreen()
 
-    this.page.camera.watchChanges()
+    if (!this.page.ctx.isDev)
+      this.page.camera.watchChanges()
 
 
 
