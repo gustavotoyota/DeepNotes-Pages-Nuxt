@@ -8,7 +8,7 @@
 
       <NoteArrowHandles :note="note"/>
 
-      <NoteHandles :note="note"/>
+      <NoteResizeHandles :note="note"/>
 
       <NoteContent :note="note">
       

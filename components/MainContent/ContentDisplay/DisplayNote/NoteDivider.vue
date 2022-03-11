@@ -4,7 +4,7 @@
 
     <v-divider/>
     
-    <NoteHandle :note="note" side="s" :section="section"/>
+    <NoteResizeHandle :note="note" side="s" :section="section"/>
 
   </div>
   
