@@ -1,6 +1,6 @@
 <template>
   
-  <div v-if="!(note.collab.collapsed
+  <div v-show="!(note.collab.collapsed
   && note.topSection === section
   && note.collab.collapsedSize.x === 'auto')"
   :style="{

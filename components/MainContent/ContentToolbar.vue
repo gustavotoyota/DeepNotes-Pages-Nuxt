@@ -97,22 +97,62 @@
       <ToolbarButton
       tooltip="Align left"
       icon="format-align-left"
-      :disabled="!$app.page.activeElem.exists"/>
+      :disabled="!$app.page.activeElem.exists"
+      @click="format('formatLine', 'align', '')"/>
 
       <ToolbarButton
       tooltip="Align center"
       icon="format-align-center"
-      :disabled="!$app.page.activeElem.exists"/>
+      :disabled="!$app.page.activeElem.exists"
+      @click="format('formatLine', 'align', 'center')"/>
 
       <ToolbarButton
       tooltip="Align right"
       icon="format-align-right"
-      :disabled="!$app.page.activeElem.exists"/>
+      :disabled="!$app.page.activeElem.exists"
+      @click="format('formatLine', 'align', 'right')"/>
 
       <ToolbarButton
       tooltip="Justify"
       icon="format-align-justify"
-      :disabled="!$app.page.activeElem.exists"/>
+      :disabled="!$app.page.activeElem.exists"
+      @click="format('formatLine', 'align', 'justify')"/>
+
+
+
+
+      <v-divider vertical inset class="mx-2"/>
+
+
+
+
+      <ToolbarButton
+      tooltip="Header 1"
+      icon="format-header-1"
+      :dense="false"
+      :disabled="!$app.page.activeElem.exists"
+      @click="format('formatLine', 'header', 1)"/>
+
+      <ToolbarButton
+      tooltip="Header 2"
+      icon="format-header-2"
+      :dense="false"
+      :disabled="!$app.page.activeElem.exists"
+      @click="format('formatLine', 'header', 2)"/>
+
+
+
+
+      <v-divider vertical inset class="mx-2"/>
+
+
+
+
+      <ToolbarButton
+      tooltip="Clear format"
+      icon="format-clear"
+      :disabled="!$app.page.activeElem.exists"
+      @click="format('removeFormat')"/>
 
 
 
@@ -140,6 +180,46 @@
   </v-toolbar>
 
 </template>
+
+
+
+
+<script setup lang="ts">
+import { useContext } from '@nuxtjs/composition-api';
+import { Quill } from 'quill'
+
+
+
+
+const ctx = useContext()
+
+
+
+
+function format(funcName: string, ...args: any[]) {
+  ctx.$app.page.collab.doc.transact(() => {
+    for (const selectedNote of ctx.$app.page.selection.notes) {
+      for (const section of ['title', 'body']) {
+        const quill = selectedNote[`${section}Quill`] as Quill
+
+        if (quill == null)
+          continue
+
+        const selection = quill.getSelection()
+
+        if (quill.isEnabled()) {
+          if (selection != null) {
+            // @ts-ignore
+            quill[funcName](selection.index, selection.length, ...args)
+          }
+        } else
+          // @ts-ignore
+          quill[funcName](0, Infinity, ...args)
+      }
+    }
+  })
+}
+</script>
 
 
 

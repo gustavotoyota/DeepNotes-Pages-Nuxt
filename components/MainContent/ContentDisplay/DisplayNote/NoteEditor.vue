@@ -17,7 +17,7 @@ import Quill from "quill";
 import { QuillBinding } from 'y-quill'
 import { Note } from "~/plugins/app/page/notes/notes";
 import { quillOptions } from "~/plugins/static/quill";
-import { Newable } from '~/types/deep-notes'
+import { Newable, Nullable } from '~/types/deep-notes'
 
 
 
@@ -41,24 +41,28 @@ const props = defineProps<{
 const text = computed(() => 
   props.note.collab[props.section] as SyncedText)
 
-const editor = ref(null)
+const editor = ref<Nullable<Element>>(null)
 
 let quill: Quill
+let quillBinding: Nullable<QuillBinding> = null
 
 onMounted(() => {
-  const Quill = require('quill') as Newable<Quill>
-
-  quill = new Quill(editor.value, quillOptions)
+  quill = new Quill(editor.value ?? '', quillOptions)
 
   props.note[`${props.section}Quill`] = quill
 
   quill.enable(props.note.editing)
 
-  new QuillBinding(text.value, quill,
+  quillBinding = new QuillBinding(text.value, quill,
     ctx.$app.page.collab.websocketProvider.awareness)
 })
 
 onBeforeUnmount(() => {
+  if (quillBinding != null)
+    quillBinding.destroy()
+
+  props.note[`${props.section}Quill`] = null
+
   // @ts-ignore
   document.body.removeChild(quill.theme.tooltip.root.parentNode)
 })
