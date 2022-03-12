@@ -148,7 +148,7 @@
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.anchor.x"
         @change="changeProp($event, (note, value) => {
-          const worldRect = note.getWorldRect('frame')
+          const worldRect = note.getWorldRect('note-frame')
           note.collab.pos.x += (value - note.collab.anchor.x) * worldRect.size.x
           note.collab.anchor.x = value
         })"/>
@@ -174,7 +174,7 @@
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.anchor.y"
         @change="changeProp($event, (note, value) => {
-          const worldRect = note.getWorldRect('frame')
+          const worldRect = note.getWorldRect('note-frame')
           note.collab.pos.y += (value - note.collab.anchor.y) * worldRect.size.y
           note.collab.anchor.y = value
         })"/>
@@ -408,7 +408,7 @@ const width = computed({
   set(value: string) {
     for (const note of ctx.$app.page.selection.notes) {
       if (value === 'custom') {
-        const clientRect = note.getClientRect('frame')
+        const clientRect = note.getClientRect('note-frame')
 
         note.size.x = `${ctx.$app.page.sizes.screenToWorld1D(clientRect.size.x)}px`
       } else
@@ -433,7 +433,7 @@ function sectionHeight(section: string) {
     set(value: string) {
       changeProp(value, (note, value) => {
         if (value === 'custom') {
-          const node = note.getNode(`${section}-section`)
+          const node = note.getNode(`note-${section}-section`)
           const clientRect = node.getBoundingClientRect()
 
           note.size.y[section] = `${ctx.$app.page.sizes.screenToWorld1D(clientRect.height)}px`

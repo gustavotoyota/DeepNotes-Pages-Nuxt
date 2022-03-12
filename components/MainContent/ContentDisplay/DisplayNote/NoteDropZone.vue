@@ -1,7 +1,7 @@
 <template>
 
   <div v-if="alwaysVisible || $app.page.dragging.active"
-  class="drop-zone"
+  class="note-drop-zone"
   :class="{
     'active': $app.page.dragging.active
       && $app.page.dragging.dropRegionId == parentNote.id
@@ -58,7 +58,7 @@ function onPointerUp(event: PointerEvent) {
 </script>
 
 <style scoped>
-.drop-zone {
+.note-drop-zone {
   position: absolute;
   left: 0; right: 0;
 
@@ -67,7 +67,7 @@ function onPointerUp(event: PointerEvent) {
 
   z-index: 2147483646;
 }
-.drop-zone.active {
+.note-drop-zone.active {
   opacity: 0.25;
 }
 </style>

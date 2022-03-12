@@ -1,7 +1,8 @@
 <template>
 
   <div :id="`note-${note.id}`"
-  :class="{ anchor: note.parentId == null }"
+  class="note-anchor"
+  :class="{ 'absolute': note.parentId == null }"
   :style="{
     'position': note.parentId == null ? 'absolute' : 'relative',
     'left': note.parentId == null ? `${note.collab.pos.x}px` : undefined,
@@ -27,7 +28,7 @@ defineProps<{
 </script>
 
 <style scoped>
-.anchor {
+.absolute {
   position: absolute;
   
   width: 0;

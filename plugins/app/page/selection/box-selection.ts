@@ -128,7 +128,7 @@ export class AppBoxSelection {
   
 
     for (const note of this.page.data.notes) {
-      const clientRect = note.getClientRect('frame')
+      const clientRect = note.getClientRect('note-frame')
   
       if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
       || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)

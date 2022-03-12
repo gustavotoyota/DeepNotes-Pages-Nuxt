@@ -103,7 +103,7 @@ export class AppDragging {
 
         this.page.collab.doc.transact(() => {
           for (const selectedNote of this.page.selection.notes) {
-            const worldRect = selectedNote.getWorldRect('frame')
+            const worldRect = selectedNote.getWorldRect('note-frame')
 
             selectedNote.collab.pos.x = worldRect.start.x +
               worldRect.size.x * selectedNote.collab.anchor.x
@@ -138,7 +138,7 @@ export class AppDragging {
         // With mouse in the center of the active element
 
         nextTick(() => {
-          const activeWorldRect = (this.page.activeElem.get as Note).getWorldRect('frame')
+          const activeWorldRect = (this.page.activeElem.get as Note).getWorldRect('note-frame')
 
           const mouseOffset = {
             x: worldMousePos.x - (activeWorldRect.start.x + activeWorldRect.end.x) / 2,

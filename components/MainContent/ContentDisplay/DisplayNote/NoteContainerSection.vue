@@ -1,10 +1,10 @@
 <template>
   
-  <div class="container-section"
+  <div class="note-container-section"
   style="display: flex; min-height: 56.453px"
   :style="{ height: note.containerHeight }">
     
-    <div class="container-content"
+    <div class="note-container-content"
     :style="{
       'width': note.targetWidth,
       'flex-direction': note.collab.horizontal ? 'row' : 'column',
@@ -13,7 +13,7 @@
       <!-- Placeholder -->
 
       <div v-if="note.children.length === 0"
-      class="container-placeholder">
+      class="note-container-placeholder">
 
         Drop notes here
         
@@ -82,7 +82,7 @@ defineProps<{
 
 
 <style scoped>
-.container-content {
+.note-container-content {
   flex: 1;
 
   padding: 9px;
@@ -96,7 +96,7 @@ defineProps<{
 
 
 
-.container-placeholder {
+.note-container-placeholder {
   position: relative;
 
   width: 100%;
@@ -117,12 +117,12 @@ defineProps<{
 
 
 
-.container-drop-zone {
+.note-container-drop-zone {
   background-color: #42A5F5;
 
   opacity: 0;
 }
-.container-drop-zone.active {
+.note-container-drop-zone.active {
   opacity: 0.25;
 }
 </style>

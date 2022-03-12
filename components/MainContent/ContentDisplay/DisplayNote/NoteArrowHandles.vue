@@ -1,27 +1,27 @@
 <template>
 
   <div v-if="note.parentId == null && note.selected"
-  class="arrow-handles">
+  class="note-arrow-handles">
 
-    <img class="arrow-handle"
+    <img class="note-arrow-handle"
     draggable="false"
     style="top: 50%; left: -35px;
     transform: translate(0, -50%)"
     src="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyOHB4IiBoZWlnaHQ9IjE4cHgiIHZlcnNpb249IjEuMSI+PHBhdGggZD0ibSAxIDkgTCAxMiAxIEwgMTIgNiBMIDI2IDYgTCAyNiAxMiBMIDEyIDEyIEwgMTIgMTggeiIgc3Ryb2tlPSIjZmZmIiBmaWxsPSIjMjliNmYyIi8+PC9zdmc+"/>
 
-    <img class="arrow-handle"
+    <img class="note-arrow-handle"
     draggable="false"
     style="top: 50%; right: -35px;
     transform: translate(0, -50%)"
     src="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyNnB4IiBoZWlnaHQ9IjE4cHgiIHZlcnNpb249IjEuMSI+PHBhdGggZD0ibSAxIDYgTCAxNCA2IEwgMTQgMSBMIDI2IDkgTCAxNCAxOCBMIDE0IDEyIEwgMSAxMiB6IiBzdHJva2U9IiNmZmYiIGZpbGw9IiMyOWI2ZjIiLz48L3N2Zz4="/>
 
-    <img class="arrow-handle"
+    <img class="note-arrow-handle"
     draggable="false"
     style="top: -35px; left: 50%;
     transform: translate(-50%, 0)"
     src="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjI4cHgiIHZlcnNpb249IjEuMSI+PHBhdGggZD0ibSA2IDI2IEwgMTIgMjYgTCAxMiAxMiBMIDE4IDEyIEwgOSAxIEwgMSAxMiBMIDYgMTIgeiIgc3Ryb2tlPSIjZmZmIiBmaWxsPSIjMjliNmYyIi8+PC9zdmc+"/>
   
-    <img class="arrow-handle"
+    <img class="note-arrow-handle"
     draggable="false"
     style="bottom: -35px; left: 50%;
     transform: translate(-50%, 0)"
@@ -49,7 +49,7 @@ defineProps<{
 
 
 <style scoped>
-.arrow-handles {
+.note-arrow-handles {
   position: absolute;
 
   left: 0; top: 0;
@@ -63,7 +63,7 @@ defineProps<{
 
 
 
-.arrow-handle {
+.note-arrow-handle {
   position: absolute;
 
   opacity: 0.15;
@@ -72,7 +72,7 @@ defineProps<{
 
   pointer-events: auto;
 }
-.arrow-handle:hover {
+.note-arrow-handle:hover {
   opacity: 1;
 }
 </style>

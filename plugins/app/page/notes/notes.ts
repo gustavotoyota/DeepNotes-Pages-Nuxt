@@ -467,7 +467,7 @@ export class Note extends Elem {
 
 
 
-    const frameNode = this.getNode('frame')
+    const frameNode = this.getNode('note-frame')
 
     let auxNode = frameNode as Node
 

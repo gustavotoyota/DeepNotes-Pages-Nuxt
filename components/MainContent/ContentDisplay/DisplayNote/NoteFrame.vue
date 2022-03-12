@@ -1,6 +1,6 @@
 <template>
 
-  <div class="frame"
+  <div class="note-frame"
   :style="{
     'min-width': note.minWidth,
     'width': note.width,

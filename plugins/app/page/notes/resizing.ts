@@ -51,9 +51,9 @@ export class AppResizing {
   private _update = function (this: AppResizing, event: PointerEvent) {
     const activeNote = this.page.activeElem.get as Note
     
-    const frameClientRect = activeNote.getClientRect('frame')
+    const frameClientRect = activeNote.getClientRect('note-frame')
     const sectionClientRect = this.section != null ?
-      activeNote.getClientRect(`${this.section}-section`) :
+      activeNote.getClientRect(`note-${this.section}-section`) :
       frameClientRect
 
 

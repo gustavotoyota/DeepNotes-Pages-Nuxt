@@ -1,7 +1,7 @@
 <template>
 
   <div v-if="note.collab[`has${capitalizedSection}`]"
-  :class="`${section}-section`"
+  :class="`note-${section}-section`"
   style="display: flex; min-height: 36.453px"
   :style="{ height: note[`${section}Height`] }">
   
