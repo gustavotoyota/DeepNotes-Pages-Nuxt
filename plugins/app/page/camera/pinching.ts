@@ -62,11 +62,15 @@ export class AppPinching {
 
 
   addPointer(downEvent: PointerEvent) {
-    const displayPos = this.page.pos.getDisplayPos(downEvent)
+    const updateFunc = (event: PointerEvent) => {
+      const displayPos = this.page.pos.getDisplayPos(event)
+      Vue.set(this.pointers, event.pointerId, displayPos)
+    }
 
-    Vue.set(this.pointers, downEvent.pointerId, displayPos)
+    updateFunc(downEvent)
 
     $static.utils.listenPointerEvents(downEvent, {
+      move: updateFunc,
       up: (upEvent) => { Vue.delete(this.pointers, upEvent.pointerId) },
     })
   }
