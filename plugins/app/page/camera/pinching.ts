@@ -121,7 +121,11 @@ export class AppPinching {
       
     // Compute ratio
 
-    const ratio = displayDistance / this.displayDistance
+    let ratio
+    if (this.page.camera.lockZoom)
+      ratio = 1
+    else
+      ratio = displayDistance / this.displayDistance
 
 
 
@@ -135,9 +139,9 @@ export class AppPinching {
 
     const worldCenterPos = this.page.pos.displayToWorld(displayCenterPos)
 
-    this.page.camera.pos.x = -centerOffset.x + worldCenterPos.x +
+    this.page.camera.pos.x = worldCenterPos.x - centerOffset.x +
       (this.page.camera.pos.x - worldCenterPos.x) / ratio
-    this.page.camera.pos.y = -centerOffset.y + worldCenterPos.y +
+    this.page.camera.pos.y = worldCenterPos.y - centerOffset.y +
       (this.page.camera.pos.y - worldCenterPos.y) / ratio
 
 
@@ -145,8 +149,7 @@ export class AppPinching {
     
     // Camera zoom update
     
-    this.page.camera.zoom = Math.min(Math.max(this.page.camera.zoom * ratio,
-      this.page.zooming.minZoom), this.page.zooming.maxZoom)
+    this.page.camera.zoom = this.page.camera.zoom * ratio
 
 
 

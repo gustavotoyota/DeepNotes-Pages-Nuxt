@@ -140,6 +140,6 @@ export class AppCamera {
       (Math.min(35, displayRect.size.y / 4) - displayRect.size.y / 2) /
       (worldTopLeft.y - this.pos.y))
 
-    this.zoom = Math.min(Math.max(this.zoom, this.page.zooming.minZoom), 1)
+    this.zoom = Math.min(this.zoom, 1)
   }
 }

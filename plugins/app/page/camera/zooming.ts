@@ -8,9 +8,6 @@ import { AppPage } from "../page"
 export class AppZooming {
   page: AppPage
 
-  minZoom: number = 0 // Math.pow(1 / 1.2, 16)
-  maxZoom: number = Infinity // Math.pow(1.2, 12)
-
 
 
 
@@ -42,8 +39,6 @@ export class AppZooming {
 
     const multiplier = event.deltaY > 0 ? (1 / 1.2) : 1.2
 
-    this.page.camera.zoom = Math.min(Math.max(
-      this.page.camera.zoom * multiplier,
-      this.minZoom), this.maxZoom)
+    this.page.camera.zoom = this.page.camera.zoom * multiplier
   }
 }
