@@ -30,7 +30,7 @@
       <!-- Children -->
 
       <div v-for="(child, index) in note.children" :key="child.id"
-      style="flex: none; display: flex; flex-direction: column"
+      class="note-container-child"
       :style="{
         'flex-direction': note.collab.horizontal ? 'row' : 'column',
       }">
@@ -39,13 +39,17 @@
         :note="child"
         :index="index"/>
         
-        <NoteDropZone
-        always-visible
-        v-if="index < note.children.length - 1"
-        :parent-note="note"
-        :index="index + 1"
-        style="position: static;
-        min-width: 5px; min-height: 5px"/>
+        <div style="position: relative">
+
+          <NoteDropZone
+          always-visible
+          v-if="index < note.children.length - 1"
+          :parent-note="note"
+          :index="index + 1"
+          style="position: absolute;
+          min-width: 6px; min-height: 6px"/>
+
+        </div>
 
       </div>
         
@@ -85,7 +89,7 @@ defineProps<{
 .note-container-content {
   flex: 1;
 
-  padding: 9px;
+  padding: 6px;
 
   display: flex;
   
@@ -124,5 +128,16 @@ defineProps<{
 }
 .note-container-drop-zone.active {
   opacity: 0.25;
+}
+
+
+
+
+.note-container-child {
+  flex: none;
+  
+  display: flex;
+
+  margin: 3px;
 }
 </style>
