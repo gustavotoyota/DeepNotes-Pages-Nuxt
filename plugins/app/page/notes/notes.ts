@@ -98,6 +98,8 @@ export class AppNotes {
   
         container: false,
         horizontal: false,
+        wrapChildren: false,
+        fullWidthChildren: true,
         childIds: [],
   
         dragging: false,
@@ -200,6 +202,8 @@ export interface INoteCollab {
 
   container: boolean
   horizontal: boolean
+  wrapChildren: boolean
+  fullWidthChildren: boolean
   childIds: string[]
 
   zIndex: number
@@ -378,7 +382,7 @@ export class Note extends Elem {
     $static.vue.computed(this, 'note.width', {
       get: () => {
         if (this.parent != null) {
-          if (this.parent.collab.horizontal)
+          if (this.parent.collab.horizontal || !this.parent.collab.fullWidthChildren)
             return this.size.x
           else
             return 'auto'
@@ -397,9 +401,10 @@ export class Note extends Elem {
     $static.vue.computed(this, 'note.targetWidth', () => {
       if (this.parent != null
       && this.parent.targetWidth === '0px'
-      && !this.parent.collab.horizontal)
+      && !this.parent.collab.horizontal
+      && this.parent.collab.fullWidthChildren)
         return '0px'
-
+      
       if (this.width === 'auto')
         return 'auto'
       else
