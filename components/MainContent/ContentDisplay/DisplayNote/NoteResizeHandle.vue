@@ -3,7 +3,7 @@
   <div v-if="note.collab.resizable && note.selected
   && (note.parent == null
   || side === 's'
-  || (['e', 'se'].includes(side) && note.parent.collab.horizontal))"
+  || (['e', 'se'].includes(side) && (note.parent.collab.horizontal || !note.parent.collab.fullWidthChildren)))"
   class="note-handle"
   :style="{
     'left': left,

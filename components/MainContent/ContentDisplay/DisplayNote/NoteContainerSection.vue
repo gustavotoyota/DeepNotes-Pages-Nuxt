@@ -8,6 +8,7 @@
     :style="{
       'width': note.targetWidth,
       'flex-direction': note.collab.horizontal ? 'row' : 'column',
+      'flex-wrap': note.collab.wrapChildren ? 'wrap': undefined,
     }">
 
       <!-- Placeholder -->
@@ -33,6 +34,7 @@
       class="note-container-child"
       :style="{
         'flex-direction': note.collab.horizontal ? 'row' : 'column',
+        'width': !note.collab.horizontal && note.collab.fullWidthChildren ? 'calc(100% - 6px)' : 'min-content',
       }">
 
         <DisplayNote
@@ -42,7 +44,6 @@
         <div style="position: relative">
 
           <NoteDropZone
-          always-visible
           v-if="index < note.children.length - 1"
           :parent-note="note"
           :index="index + 1"
@@ -54,7 +55,6 @@
       </div>
         
       <NoteDropZone
-      always-visible
       :parent-note="note"
       :index="note.children.length"
       style="position: static; flex: 1"/>

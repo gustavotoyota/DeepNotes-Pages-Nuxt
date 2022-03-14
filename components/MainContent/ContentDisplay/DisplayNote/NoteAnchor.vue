@@ -28,6 +28,13 @@ defineProps<{
 </script>
 
 <style scoped>
+.note-anchor {
+  width: 100%;
+}
+
+
+
+
 .absolute {
   position: absolute;
   
