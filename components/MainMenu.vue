@@ -21,6 +21,8 @@
 
     <Gap width="16px"/>
 
+    <v-spacer/>
+
     <v-app-bar-title>
       {{ $app.page.data.name }}
     </v-app-bar-title>
