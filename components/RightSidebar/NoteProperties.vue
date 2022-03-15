@@ -66,85 +66,6 @@
 
 
 
-    <!-- Container -->
-
-    <v-divider class="mt-4"/>
-      
-    <div class="mx-5 mt-4">
-      <div style="display: flex">
-        <v-checkbox hide-details label="Container"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.container"
-        @change="changeProp($event, (note, value) => {
-          note.collab.container = value
-          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
-        })"/>
-
-        <Gap width="16px" style="flex: none"/>
-        
-        <v-checkbox hide-details label="Horizontal"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :disabled="!activeNote.collab.container"
-        :input-value="activeNote.collab.horizontal"
-        @change="changeProp($event, (note, value) => {
-          note.collab.horizontal = value
-        })"/>
-      </div>
-      
-      <Gap height="10px"/>
-      
-      <div style="display: flex">
-        <v-checkbox hide-details label="Full-width children"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :disabled="!activeNote.collab.container || activeNote.collab.horizontal"
-        :input-value="activeNote.collab.fullWidthChildren"
-        @change="changeProp($event, (note, value) => {
-          note.collab.fullWidthChildren = value
-        })"/>
-
-        <Gap width="16px" style="flex: none"/>
-        
-        <v-checkbox hide-details label="Wrap children"
-        style="flex: 1; margin-top: 0; padding-top: 0"
-        :disabled="!activeNote.collab.container"
-        :input-value="activeNote.collab.wrapChildren"
-        @change="changeProp($event, (note, value) => {
-          note.collab.wrapChildren = value
-        })"/>
-      </div>
-    </div>
-
-
-
-
-    <!-- Collapsible/Collapsed -->
-
-    <v-divider class="mt-4"/>
-      
-    <div class="mx-5 mt-4"
-    style="display: flex">
-      <v-checkbox hide-details label="Collapsible"
-      style="flex: 1; margin-top: 0; padding-top: 0"
-      :input-value="activeNote.collab.collapsible"
-      @change="changeProp($event, (note, value) => {
-        note.collab.collapsible = value
-        note.collab.collapsed = note.collab.collapsed && value
-      })"/>
-
-      <Gap width="16px" style="flex: none"/>
-      
-      <v-checkbox hide-details label="Collapsed"
-      style="flex: 1; margin-top: 0; padding-top: 0"
-      :disabled="!activeNote.collab.collapsible"
-      :input-value="activeNote.collab.collapsed"
-      @change="changeProp($event, (note, value) => {
-        $app.page.collapsing.set(note, value)
-      })"/>
-    </div>
-
-
-
-
     <!-- Anchor -->
 
     <v-divider class="mt-4"/>
@@ -204,6 +125,107 @@
 
 
 
+    <!-- Collapsible/Collapsed -->
+
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4">
+      <div style="display: flex">
+        <v-checkbox hide-details label="Collapsible"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.collapsible"
+        @change="changeProp($event, (note, value) => {
+          note.collab.collapsible = value
+        })"/>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <v-checkbox hide-details label="Collapsed"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :disabled="!activeNote.collab.collapsible"
+        :input-value="activeNote.collab.collapsed"
+        @change="changeProp($event, (note, value) => {
+          note.collab.collapsed = value
+        })"/>
+      </div>
+      
+      <Gap height="10px"/>
+
+      <div style="display: flex">
+        <v-checkbox hide-details label="Local collapsing"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :disabled="!activeNote.collab.collapsible"
+        :input-value="activeNote.collab.localCollapsing"
+        @change="changeProp($event, (note, value) => {
+          note.collab.localCollapsing = value
+        })"/>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <v-checkbox hide-details label="Locally collapsed"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :disabled="!activeNote.collab.collapsible || !activeNote.collab.localCollapsing"
+        :input-value="activeNote.locallyCollapsed"
+        @change="changeProp($event, (note, value) => {
+          note.locallyCollapsed = value
+        })"/>
+      </div>
+    </div>
+
+
+
+
+    <!-- Container -->
+
+    <v-divider class="mt-4"/>
+      
+    <div class="mx-5 mt-4">
+      <div style="display: flex">
+        <v-checkbox hide-details label="Container"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :input-value="activeNote.collab.container"
+        @change="changeProp($event, (note, value) => {
+          note.collab.container = value
+          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+        })"/>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <v-checkbox hide-details label="Horizontal"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :disabled="!activeNote.collab.container"
+        :input-value="activeNote.collab.horizontal"
+        @change="changeProp($event, (note, value) => {
+          note.collab.horizontal = value
+        })"/>
+      </div>
+      
+      <Gap height="10px"/>
+      
+      <div style="display: flex">
+        <v-checkbox hide-details label="Full-width children"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :disabled="!activeNote.collab.container || activeNote.collab.horizontal"
+        :input-value="activeNote.collab.fullWidthChildren"
+        @change="changeProp($event, (note, value) => {
+          note.collab.fullWidthChildren = value
+        })"/>
+
+        <Gap width="16px" style="flex: none"/>
+        
+        <v-checkbox hide-details label="Wrap children"
+        style="flex: 1; margin-top: 0; padding-top: 0"
+        :disabled="!activeNote.collab.container"
+        :input-value="activeNote.collab.wrapChildren"
+        @change="changeProp($event, (note, value) => {
+          note.collab.wrapChildren = value
+        })"/>
+      </div>
+    </div>
+
+
+
+
     <!-- Width -->
 
     <v-divider class="mt-4"/>
@@ -223,7 +245,7 @@
           background-color="#181818"
           :items="[
             { text: 'Auto', value: 'auto' },
-            ...(activeNote.collab.collapsed ? [{ text: 'Expanded', value: 'expanded' }] : []),
+            ...(activeNote.collapsed ? [{ text: 'Expanded', value: 'expanded' }] : []),
             { text: 'Custom', value: 'custom' },
           ]" item-text="text" item-value="value"
           :menu-props="{ top: false, offsetY: true }"

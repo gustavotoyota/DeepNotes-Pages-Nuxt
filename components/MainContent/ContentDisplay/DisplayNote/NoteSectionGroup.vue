@@ -1,11 +1,11 @@
 <template>
   
-  <div v-show="!(note.collab.collapsed
+  <div v-show="!(note.collapsed
   && note.topSection === section
   && note.collab.collapsedSize.x === 'auto')"
   :style="{
     'height': note.topSection === section
-      && note.collab.collapsed ? '0' : undefined,
+      && note.collapsed ? '0' : undefined,
   }">
 
     <slot/>

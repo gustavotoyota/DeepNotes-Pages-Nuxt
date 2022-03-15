@@ -20,7 +20,10 @@ export class AppCollapsing {
 
   expand(note: Note) {
     this.page.collab.doc.transact(() => {
-      note.collab.collapsed = false
+      if (note.collab.localCollapsing)
+        note.locallyCollapsed = false
+      else
+        note.collab.collapsed = false
       
       note.bringToTop()
     })
@@ -29,7 +32,10 @@ export class AppCollapsing {
   }
   collapse(note: Note) {
     this.page.collab.doc.transact(() => {
-      note.collab.collapsed = true
+      if (note.collab.localCollapsing)
+        note.locallyCollapsed = true
+      else
+        note.collab.collapsed = true
       
       note.bringToTop()
     })
@@ -40,7 +46,7 @@ export class AppCollapsing {
 
 
   set(note: Note, collapsed: boolean) {
-    if (collapsed === note.collab.collapsed)
+    if (collapsed === note.collapsed)
       return
   
     if (collapsed)
@@ -52,6 +58,6 @@ export class AppCollapsing {
 
 
   toggle(note: Note) {
-    this.set(note, !note.collab.collapsed)
+    this.set(note, !note.collapsed)
   }
 }

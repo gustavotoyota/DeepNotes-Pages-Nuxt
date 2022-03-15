@@ -10,7 +10,7 @@
     @click.left.stop="$app.page.collapsing.toggle(note)"
     @dblclick.left.stop>
 
-      <v-icon v-if="note.collab.collapsed">mdi-chevron-down</v-icon>
+      <v-icon v-if="note.collapsed">mdi-chevron-down</v-icon>
       <v-icon v-else>mdi-chevron-up</v-icon>
 
     </v-btn>

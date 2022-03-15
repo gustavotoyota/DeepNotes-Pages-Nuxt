@@ -68,6 +68,7 @@ export class AppNotes {
   
         collapsible: false,
         collapsed: false,
+        localCollapsing: false,
   
         expandedSize: {
           x: 'auto',
@@ -188,6 +189,7 @@ export interface INoteCollab {
 
   collapsible: boolean
   collapsed: boolean
+  localCollapsing: boolean
 
   expandedSize: INoteSize
   collapsedSize: INoteSize
@@ -231,6 +233,9 @@ export class Note extends Elem {
 
   editing!: boolean
   dragging!: boolean
+  locallyCollapsed!: boolean
+
+  collapsed!: boolean
 
   sizeProp!: string
   size!: INoteSize
@@ -274,12 +279,26 @@ export class Note extends Elem {
 
     $static.vue.ref(this, 'note.editing', false)
     $static.vue.ref(this, 'note.dragging', this.page.dragging.active && this.selected)
+    $static.vue.ref(this, 'note.locallyCollapsed', this.collab.collapsed)
+
+
+
+    
+    $static.vue.computed(this, 'note.collapsed', () => {
+      if (!this.collab.collapsible)
+        return false
+
+      if (!this.collab.localCollapsing)
+        return this.collab.collapsed
+
+      return this.locallyCollapsed ?? this.collapsed
+    })
 
 
 
 
     $static.vue.computed(this, 'note.sizeProp', () =>
-      this.collab.collapsed ? 'collapsedSize' : 'expandedSize')
+      this.collapsed ? 'collapsedSize' : 'expandedSize')
     $static.vue.computed(this, 'note.size', () =>
       this.collab[this.sizeProp])
 
@@ -295,7 +314,7 @@ export class Note extends Elem {
         return 'container'
     })
     $static.vue.computed(this, 'note.bottomSection', () => {
-      if (this.collab.collapsed)
+      if (this.collapsed)
         return this.topSection
       else if (this.collab.container)
         return 'container'
@@ -323,7 +342,7 @@ export class Note extends Elem {
     const makeSectionHeight = (section: string) => {
       $static.vue.computed(this, `note.${section}Height`, {
         get: () => {
-          if (this.collab.collapsed
+          if (this.collapsed
           && this.collab.collapsedSize.y[section] === 'auto'
           && this.topSection === section) {
             if (this.numSections === 1)
