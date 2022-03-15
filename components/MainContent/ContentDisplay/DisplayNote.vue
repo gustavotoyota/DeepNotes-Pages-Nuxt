@@ -11,6 +11,8 @@
       <NoteResizeHandles :note="note"/>
 
       <NoteContent :note="note">
+
+        <NoteLinkIcon :note="note"/>
       
         <NoteTextSection :note="note" section="title"/>
 
