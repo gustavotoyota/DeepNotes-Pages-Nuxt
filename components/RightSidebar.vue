@@ -6,9 +6,9 @@
   permanent
   touchless
   stateless
-  right
-  :value="false"
-  :width="$app.project.collapsedRightSidebar ? 0 : 300">
+  :mini-variant.sync="$app.project.collapsedRightSidebar"
+  width="300"
+  right>
 
     <div style="height: 100%;
     width: 300px;
@@ -16,9 +16,18 @@
     flex-direction: column">
 
       <v-toolbar dense style="flex: none">
+      
         <v-toolbar-title>
-          {{ $static.utils.capitalizeFirst($app.page.activeElem.type) }} Properties
+
+          <v-icon style="position: relative; left: 1px; top: -1px">mdi-chart-box</v-icon>
+
+          <span v-if="!$app.project.collapsedRightSidebar"
+          style="position: relative; top: 1px">
+            {{ $static.utils.capitalizeFirst($app.page.activeElem.type) }} Properties
+          </span>
+
         </v-toolbar-title>
+
       </v-toolbar>
 
 

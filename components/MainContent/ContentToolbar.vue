@@ -170,7 +170,7 @@
 
     <v-btn rounded style="flex: none; min-width: 0; width: 48px; height: 48px;
     border-top-right-radius: 0; border-bottom-right-radius: 0" color="grey darken-3"
-    @click="$app.project.collapsedRightSidebar = !$app.project.collapsedRightSidebar">
+    @click="$app.project.toggleRightSidebar()">
       <span style="position: relative; left: 2px; top: 1px">
         <v-icon v-if="$app.project.collapsedRightSidebar" dense>mdi-chevron-left</v-icon>
         <v-icon v-else dense>mdi-chevron-right</v-icon>

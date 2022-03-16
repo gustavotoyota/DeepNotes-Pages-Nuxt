@@ -11,12 +11,15 @@
 
     <v-toolbar dense>
 
-      <v-list-item-icon>
-        <v-icon>mdi-animation</v-icon>
-      </v-list-item-icon>
-
       <v-toolbar-title>
-        Path
+
+        <v-icon style="position: relative; top: -1px">mdi-animation</v-icon>
+
+        <span v-if="!$app.project.collapsedLeftSidebar"
+        style="position: relative; top: 1px">
+          Path
+        </span>
+
       </v-toolbar-title>
 
     </v-toolbar>

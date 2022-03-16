@@ -15,6 +15,8 @@ export class AppProject {
   private _collapsedLeftSidebar!: boolean
   collapsedLeftSidebar!: boolean
 
+  allowRightSidebarModification: boolean = false
+  private _collapsedRightSidebar!: boolean
   collapsedRightSidebar!: boolean
 
   parentPageId: Nullable<string> = null
@@ -31,6 +33,9 @@ export class AppProject {
     $static.vue.ssrRef(this, '$app.project.pathPages', () => null)
     $static.vue.ssrRef(this, '$app.project.recentPages', () => null)
 
+
+
+
     $static.vue.ssrRef(this, '$app.project._collapsedLeftSidebar', () => false)
     $static.vue.computed(this, '$app.project.collapsedLeftSidebar', {
       get: () => { return this._collapsedLeftSidebar },
@@ -43,7 +48,20 @@ export class AppProject {
       },
     })
 
-    $static.vue.ssrRef(this, '$app.project.collapsedRightSidebar', () => true)
+
+
+
+    $static.vue.ssrRef(this, '$app.project._collapsedRightSidebar', () => true)
+    $static.vue.computed(this, '$app.project.collapsedRightSidebar', {
+      get: () => { return this._collapsedRightSidebar },
+      set: (value: boolean) => {
+        if (!this.allowRightSidebarModification)
+          return
+
+        this._collapsedRightSidebar = value
+        this.allowRightSidebarModification = false
+      },
+    })
   }
 
 
@@ -84,5 +102,9 @@ export class AppProject {
   toggleLeftSidebar() {
     this.allowLeftSidebarModification = true
     this.collapsedLeftSidebar = !this.collapsedLeftSidebar
+  }
+  toggleRightSidebar() {
+    this.allowRightSidebarModification = true
+    this.collapsedRightSidebar = !this.collapsedRightSidebar
   }
 }

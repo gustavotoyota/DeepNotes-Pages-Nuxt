@@ -1,6 +1,102 @@
 <template>
 
-  <div>
+  <v-list v-if="$app.project.collapsedRightSidebar" dense>
+      
+    <v-tooltip left>
+
+      <template v-slot:activator="{ on }">
+
+        <v-list-item v-on="on"
+        :input-value="activeNote.collab.hasTitle"
+        @click="changeProp(!activeNote.collab.hasTitle, (note, value) => {
+          note.collab.hasTitle = value
+          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+        })">
+          <v-list-item-icon>
+            <v-icon>mdi-page-layout-header</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+
+      </template>
+
+      <span>Has head</span>
+
+    </v-tooltip>
+      
+
+
+
+    <v-tooltip left>
+
+      <template v-slot:activator="{ on }">
+
+        <v-list-item v-on="on"
+        @click="swapTitleAndBody">
+          <v-list-item-icon>
+            <v-icon>mdi-swap-vertical</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+
+      </template>
+
+      <span>Swap title and body</span>
+
+    </v-tooltip>
+      
+
+
+
+    <v-tooltip left>
+
+      <template v-slot:activator="{ on }">
+
+        <v-list-item v-on="on"
+        :input-value="activeNote.collab.hasBody"
+        @click="changeProp(!activeNote.collab.hasBody, (note, value) => {
+          note.collab.hasBody = value
+          note.collab.hasTitle = note.collab.hasTitle || note.numSections === 0
+        })">
+          <v-list-item-icon>
+            <v-icon>mdi-page-layout-body</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+
+      </template>
+
+      <span>Has body</span>
+
+    </v-tooltip>
+      
+
+
+
+    <v-tooltip left>
+
+      <template v-slot:activator="{ on }">
+
+        <v-list-item v-on="on"
+        :input-value="activeNote.collab.container"
+        @click="changeProp(!activeNote.collab.container, (note, value) => {
+          note.collab.container = value
+          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+        })">
+          <v-list-item-icon>
+            <v-icon>mdi-page-layout-footer</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+
+      </template>
+
+      <span>Container</span>
+
+    </v-tooltip>
+
+  </v-list>
+
+
+
+
+  <div v-else>
 
     <!-- Linked page -->
     
