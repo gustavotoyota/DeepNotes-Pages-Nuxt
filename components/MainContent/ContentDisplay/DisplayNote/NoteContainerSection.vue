@@ -54,10 +54,22 @@
 
       </div>
         
-      <NoteDropZone
-      :parent-note="note"
-      :index="note.children.length"
-      style="position: static; flex: 1"/>
+
+
+        
+      <div style="flex: 1;
+      position: relative">
+
+        <NoteDropZone
+        :parent-note="note"
+        :index="note.children.length"
+        style="right: 3px; bottom: 3px"
+        :style="{
+          left: note.collab.horizontal ? '-3px' : '3px',
+          top: note.collab.horizontal ? '3px' : '-3px',
+        }"/>
+
+      </div>
       
     </div>
 
