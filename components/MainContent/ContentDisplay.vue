@@ -18,10 +18,11 @@
 
     <v-overlay :value="!$app.page.loaded"
     absolute :z-index="0" :opacity="1">
+
       <v-progress-circular
-        indeterminate
-        size="64"
-      ></v-progress-circular>
+      indeterminate
+      size="44"/>
+
     </v-overlay>
 
   </div>
