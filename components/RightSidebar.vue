@@ -1,6 +1,7 @@
 <template>
 
   <v-navigation-drawer
+  class="right-sidebar"
   app   
   clipped
   permanent
@@ -48,9 +49,19 @@
   
 </template>
 
+
+
+
 <script setup lang="ts">
 </script>
 
-<style>
 
+
+
+<style scoped>
+/* List item icon ripple bug fix */
+
+.right-sidebar /deep/ .v-list-item__icon {
+  margin-left: 0 !important;
+}
 </style>
