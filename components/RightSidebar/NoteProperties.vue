@@ -66,6 +66,62 @@
       <span>Has body</span>
 
     </v-tooltip>
+
+
+
+
+    <v-divider style="border-color: rgba(255, 255, 255, 0.5)"/>
+      
+
+
+
+    <v-tooltip left>
+
+      <template v-slot:activator="{ on }">
+
+        <v-list-item v-on="on"
+        :input-value="activeNote.collab.collapsible"
+        @click="changeProp(!activeNote.collab.collapsible, (note, value) => {
+          note.collab.collapsible = value
+        })">
+          <v-list-item-icon>
+            <v-icon>mdi-minus-box</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+
+      </template>
+
+      <span>Collapsible</span>
+
+    </v-tooltip>
+      
+
+
+
+    <v-tooltip left>
+
+      <template v-slot:activator="{ on }">
+
+        <v-list-item v-on="on"
+        :input-value="activeNote.collapsed"
+        @click="changeProp(!activeNote.collapsed, (note, value) => {
+          $app.page.collapsing.set(note, value)
+        })">
+          <v-list-item-icon>
+            <v-icon>mdi-chevron-up-box-outline</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+
+      </template>
+
+      <span>Collapsed</span>
+
+    </v-tooltip>
+
+
+
+    
+    <v-divider style="border-color: rgba(255, 255, 255, 0.5)"/>
       
 
 
