@@ -17,16 +17,13 @@
     flex-direction: column">
 
       <v-toolbar dense style="flex: none">
+
+        <v-icon style="position: relative; left: 1px; top: 1px">mdi-chart-box</v-icon>
       
-        <v-toolbar-title>
-
-          <v-icon style="position: relative; left: 1px; top: -1px">mdi-chart-box</v-icon>
-
-          <span v-if="!$app.project.collapsedRightSidebar"
-          style="position: relative; top: 1px">
-            {{ $static.utils.capitalizeFirst($app.page.activeElem.type) }} Properties
-          </span>
-
+        <v-toolbar-title v-if="!$app.project.collapsedRightSidebar"
+        style="margin-left: 23px;
+        position: relative; top: 1px">
+          {{ $static.utils.capitalizeFirst($app.page.activeElem.type) }} Properties
         </v-toolbar-title>
 
       </v-toolbar>

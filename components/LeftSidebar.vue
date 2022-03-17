@@ -11,16 +11,43 @@
 
     <v-toolbar dense>
 
-      <v-toolbar-title>
+      <v-icon style="position: relative; top: 1px">mdi-animation</v-icon>
 
-        <v-icon style="position: relative; top: -1px">mdi-animation</v-icon>
 
-        <span v-if="!$app.project.collapsedLeftSidebar"
-        style="position: relative; top: 1px">
-          Path
-        </span>
 
+
+      <v-toolbar-title v-if="!$app.project.collapsedLeftSidebar"
+      style="margin-left: 23px;
+      position: relative; top: 1px">
+        Path
       </v-toolbar-title>
+
+
+
+
+      <template v-if="!$app.project.collapsedLeftSidebar">
+        <v-spacer/>
+
+
+
+        
+        <v-btn icon :width="36" :height="36"
+        :disabled="$app.project.pageIndex <= 0"
+        @click="$app.project.navigatePath(-1)">
+          <v-icon>mdi-arrow-up</v-icon>
+        </v-btn>
+
+        <v-btn icon :width="36" :height="36"
+        :disabled="$app.project.pageIndex >= $app.project.pathPages.length - 1"
+        @click="$app.project.navigatePath(+1)">
+          <v-icon>mdi-arrow-down</v-icon>
+        </v-btn>
+
+
+
+
+        <Gap width="0"/>
+      </template>
 
     </v-toolbar>
 
@@ -34,7 +61,7 @@
 
           <v-list-item v-on="on"
           :input-value="pageRef.id == $app.page.id"
-          @click="$app.page.navigateTo(pageRef.id)"
+          @click="$app.project.navigateTo(pageRef.id)"
           link>
             <v-list-item-icon>
               <v-icon>mdi-note</v-icon>
@@ -56,9 +83,21 @@
   
 </template>
 
+
+
+
 <script setup lang="ts">
 </script>
 
-<style>
 
+
+
+<style scoped>
+.v-toolbar /deep/ .v-toolbar__content {
+  padding-right: 9px;
+}
+
+.v-list-item__icon {
+  margin-right: 24px !important;
+}
 </style>

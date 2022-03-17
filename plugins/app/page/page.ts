@@ -229,18 +229,9 @@ export class AppPage {
   async create(name: string) {
     const id = (await this.ctx.$axios.post('/api/page/create', { name })).data
 
-    this.navigateTo(id, true)
+    this.project.navigateTo(id, true)
 
     return id
-  }
-
-
-
-
-  navigateTo(id: string, fromParent?: boolean) {
-    this.ctx.$app.project.parentPageId = fromParent ? this.id : null
-
-    $nuxt.$router.push({ path: `/${id}` })
   }
 }
 

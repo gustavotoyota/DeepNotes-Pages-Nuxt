@@ -20,6 +20,8 @@ export class AppProject {
   collapsedRightSidebar!: boolean
 
   parentPageId: Nullable<string> = null
+  
+  pageIndex!: number
 
 
 
@@ -62,6 +64,12 @@ export class AppProject {
         this.allowRightSidebarModification = false
       },
     })
+
+
+
+
+    $static.vue.computed(this, '$app.project.pageIndex', () => 
+      this.pathPages.findIndex(pageRef => pageRef.id === this.ctx.$app.page.id))
   }
 
 
@@ -83,6 +91,18 @@ export class AppProject {
 
     this.ctx.$app.project.pathPages = data.pathPages
     this.ctx.$app.project.recentPages = data.recentPages
+  }
+
+
+
+
+  navigateTo(id: string, fromParent?: boolean) {
+    this.parentPageId = fromParent ? this.ctx.$app.page.id : null
+
+    $nuxt.$router.push({ path: `/${id}` })
+  }
+  navigatePath(offset: number) {
+    this.navigateTo(this.pathPages[this.pageIndex + offset].id)
   }
 
 
