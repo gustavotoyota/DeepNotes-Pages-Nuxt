@@ -1,151 +1,64 @@
 <template>
 
   <v-list v-if="$app.project.collapsedRightSidebar" dense>
-      
-    <v-tooltip left>
 
-      <template v-slot:activator="{ on }">
+    <SidebarMinibutton tooltip="Has head"
+    icon="page-layout-header"
+    :value="activeNote.collab.hasTitle"
+    @click="changeProp(!activeNote.collab.hasTitle, (note, value) => {
+      note.collab.hasTitle = value
+      note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+    })"/>
 
-        <v-list-item v-on="on"
-        :input-value="activeNote.collab.hasTitle"
-        @click="changeProp(!activeNote.collab.hasTitle, (note, value) => {
-          note.collab.hasTitle = value
-          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
-        })">
-          <v-list-item-icon>
-            <v-icon>mdi-page-layout-header</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
+    <SidebarMinibutton tooltip="Swap title and body"
+    icon="swap-vertical"
+    @click="swapTitleAndBody"/>
 
-      </template>
-
-      <span>Has head</span>
-
-    </v-tooltip>
-      
-
-
-
-    <v-tooltip left>
-
-      <template v-slot:activator="{ on }">
-
-        <v-list-item v-on="on"
-        @click="swapTitleAndBody">
-          <v-list-item-icon>
-            <v-icon>mdi-swap-vertical</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
-
-      </template>
-
-      <span>Swap title and body</span>
-
-    </v-tooltip>
-      
-
-
-
-    <v-tooltip left>
-
-      <template v-slot:activator="{ on }">
-
-        <v-list-item v-on="on"
-        :input-value="activeNote.collab.hasBody"
-        @click="changeProp(!activeNote.collab.hasBody, (note, value) => {
-          note.collab.hasBody = value
-          note.collab.hasTitle = note.collab.hasTitle || note.numSections === 0
-        })">
-          <v-list-item-icon>
-            <v-icon>mdi-page-layout-body</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
-
-      </template>
-
-      <span>Has body</span>
-
-    </v-tooltip>
+    <SidebarMinibutton tooltip="Has body"
+    icon="page-layout-body"
+    :value="activeNote.collab.hasBody"
+    @click="changeProp(!activeNote.collab.hasBody, (note, value) => {
+      note.collab.hasBody = value
+      note.collab.hasTitle = note.collab.hasTitle || note.numSections === 0
+    })"/>
 
 
 
 
     <v-divider style="border-color: rgba(255, 255, 255, 0.5)"/>
-      
 
 
 
-    <v-tooltip left>
 
-      <template v-slot:activator="{ on }">
+    <SidebarMinibutton tooltip="Collapsible"
+    icon="minus-box"
+    :value="activeNote.collab.collapsible"
+    @click="changeProp(!activeNote.collab.collapsible, (note, value) => {
+      note.collab.collapsible = value
+    })"/>
 
-        <v-list-item v-on="on"
-        :input-value="activeNote.collab.collapsible"
-        @click="changeProp(!activeNote.collab.collapsible, (note, value) => {
-          note.collab.collapsible = value
-        })">
-          <v-list-item-icon>
-            <v-icon>mdi-minus-box</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
-
-      </template>
-
-      <span>Collapsible</span>
-
-    </v-tooltip>
-      
-
-
-
-    <v-tooltip left>
-
-      <template v-slot:activator="{ on }">
-
-        <v-list-item v-on="on"
-        :input-value="activeNote.collapsed"
-        @click="changeProp(!activeNote.collapsed, (note, value) => {
-          $app.page.collapsing.set(note, value)
-        })">
-          <v-list-item-icon>
-            <v-icon>mdi-chevron-up-box-outline</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
-
-      </template>
-
-      <span>Collapsed</span>
-
-    </v-tooltip>
+    <SidebarMinibutton tooltip="Collapsed"
+    icon="chevron-up-box-outline"
+    :value="activeNote.collapsed"
+    @click="changeProp(!activeNote.collapsed, (note, value) => {
+      $app.page.collapsing.set(note, value)
+    })"/>
 
 
 
     
     <v-divider style="border-color: rgba(255, 255, 255, 0.5)"/>
-      
 
 
 
-    <v-tooltip left>
 
-      <template v-slot:activator="{ on }">
-
-        <v-list-item v-on="on"
-        :input-value="activeNote.collab.container"
-        @click="changeProp(!activeNote.collab.container, (note, value) => {
-          note.collab.container = value
-          note.collab.hasBody = note.collab.hasBody || note.numSections === 0
-        })">
-          <v-list-item-icon>
-            <v-icon>mdi-page-layout-footer</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
-
-      </template>
-
-      <span>Container</span>
-
-    </v-tooltip>
+    <SidebarMinibutton tooltip="Container"
+    icon="page-layout-footer"
+    :value="activeNote.collab.container"
+    @click="changeProp(!activeNote.collab.container, (note, value) => {
+      note.collab.container = value
+      note.collab.hasBody = note.collab.hasBody || note.numSections === 0
+    })"/>
 
   </v-list>
 

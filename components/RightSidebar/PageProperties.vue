@@ -2,44 +2,15 @@
 
   <v-list v-if="$app.project.collapsedRightSidebar" dense>
 
-    <v-tooltip left>
+    <SidebarMinibutton tooltip="Lock position"
+    icon="axis-arrow-lock"
+    :value="$app.page.camera.lockPos"
+    @click="$app.page.camera.lockPos = !$app.page.camera.lockPos"/>
 
-      <template v-slot:activator="{ on }">
-
-        <v-list-item v-on="on"
-        :input-value="$app.page.camera.lockPos"
-        @click="$app.page.camera.lockPos = !$app.page.camera.lockPos">
-          <v-list-item-icon>
-            <v-icon>mdi-axis-arrow-lock</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
-
-      </template>
-
-      <span>Lock position</span>
-
-    </v-tooltip>
-
-
-
-
-    <v-tooltip left>
-
-      <template v-slot:activator="{ on }">
-
-        <v-list-item v-on="on"
-        :input-value="$app.page.camera.lockZoom"
-        @click="$app.page.camera.lockZoom = !$app.page.camera.lockZoom">
-          <v-list-item-icon>
-            <v-icon>mdi-arrow-vertical-lock</v-icon>
-          </v-list-item-icon>
-        </v-list-item>
-
-      </template>
-
-      <span>Lock zoom</span>
-
-    </v-tooltip>
+    <SidebarMinibutton tooltip="Lock zoom"
+    icon="arrow-vertical-lock"
+    :value="$app.page.camera.lockZoom"
+    @click="$app.page.camera.lockZoom = !$app.page.camera.lockZoom"/>
 
   </v-list>
 
