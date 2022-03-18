@@ -3,6 +3,26 @@ export const quillOptions = {
 
   placeholder: '',
 
+  formats: [
+    'bold',
+    'code',
+    'italic',
+    'link',
+    'strike',
+    'script',
+    'underline',
+    'blockquote',
+    'header',
+    'indent',
+    'list',
+    'align',
+    'direction',
+    'code-block',
+    'formula',
+    'image',
+    'video',
+  ],
+
   modules: {
     syntax: true,
 
