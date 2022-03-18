@@ -196,6 +196,8 @@ export class AppPage {
       parentPageId: this.ctx.$app.project.parentPageId,
     })).data
 
+    this.ctx.$app.project.parentPageId = null
+
     this.data.auxName = pageData.name
 
     if (pageData.stateUpdate)
