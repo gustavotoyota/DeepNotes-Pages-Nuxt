@@ -16,8 +16,9 @@
 
     <div style="flex: 1;
     display: flex;
-    width: 0">
-      <Gap width="16px"/>
+    width: 0;
+    overflow: hidden">
+      <Gap width="10px"/>
 
 
 
@@ -48,7 +49,7 @@
 
 
 
-      <v-divider vertical inset class="mx-2"/>
+      <v-divider vertical class="mx-2"/>
 
 
 
@@ -68,7 +69,7 @@
 
 
 
-      <v-divider vertical inset class="mx-2"/>
+      <v-divider vertical class="mx-2"/>
 
 
 
@@ -89,7 +90,7 @@
 
 
 
-      <v-divider vertical inset class="mx-2"/>
+      <v-divider vertical class="mx-2"/>
 
 
 
@@ -121,7 +122,7 @@
 
 
 
-      <v-divider vertical inset class="mx-2"/>
+      <v-divider vertical class="mx-2"/>
 
 
 
@@ -143,7 +144,7 @@
 
 
 
-      <v-divider vertical inset class="mx-2"/>
+      <v-divider vertical class="mx-2"/>
 
 
 
@@ -158,12 +159,29 @@
 
 
       <v-spacer/>
-
-
-
-
-      <Gap width="16px"/>
     </div>
+
+
+
+    
+    <Gap width="8px"/>
+
+
+
+    
+    <v-btn icon large
+    :width="32" :height="32">
+      <v-icon>mdi-cog</v-icon>
+    </v-btn>
+
+    <Gap width="6px"/>
+    
+    <ContentToolbarPopup/>
+
+
+
+
+    <Gap width="12px"/>
 
 
 

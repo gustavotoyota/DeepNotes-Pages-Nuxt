@@ -1,6 +1,9 @@
 <template>
 
-  <v-menu bottom offset-y
+  <v-menu
+  left
+  bottom
+  offset-y
   :min-width="150">
 
     <template v-slot:activator="{ on, attrs }">
@@ -41,14 +44,6 @@
 
 
 <style scoped>
-.v-menu__content {
-  left: auto !important;
-  right: 5px;
-}
-
-
-
-
 .v-list {
   padding: 0 !important;
 }
