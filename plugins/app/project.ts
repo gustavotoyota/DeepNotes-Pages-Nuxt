@@ -38,7 +38,7 @@ export class AppProject {
 
 
 
-    $static.vue.ssrRef(this, '$app.project._collapsedLeftSidebar', () => false)
+    $static.vue.ssrRef(this, '$app.project._collapsedLeftSidebar', () => true)
     $static.vue.computed(this, '$app.project.collapsedLeftSidebar', {
       get: () => { return this._collapsedLeftSidebar },
       set: (value: boolean) => {
