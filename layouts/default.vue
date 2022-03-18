@@ -3,8 +3,6 @@
   <v-app
   spellcheck="false">
 
-    <MainMenu/>
-
     <LeftSidebar/>
 
     <MainContent>
