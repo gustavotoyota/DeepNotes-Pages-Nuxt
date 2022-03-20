@@ -169,10 +169,7 @@
 
 
     
-    <v-btn icon large
-    :width="32" :height="32">
-      <v-icon>mdi-cog</v-icon>
-    </v-btn>
+    <ContentToolbarSettings/>
 
     <Gap width="6px"/>
     
