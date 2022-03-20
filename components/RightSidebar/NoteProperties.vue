@@ -131,6 +131,17 @@
 
 
 
+    <!-- Template -->
+
+    <v-divider class="mt-4"/>
+
+    <div class="mx-5 mt-4">
+      <SaveAsTemplateDialog/>
+    </div>
+
+
+
+
     <!-- Anchor -->
 
     <v-divider class="mt-4"/>
