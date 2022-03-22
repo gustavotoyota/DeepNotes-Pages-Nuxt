@@ -40,18 +40,14 @@ import { AppDropping } from './notes/dropping'
 import { AppArrows } from './arrows/arrows'
 import { AppPageData } from './data'
 import { AppProject } from '../project'
+import { App } from '../app'
 
 
 
 
 export class AppPage {
-  [key: string]: unknown
-
-
-
-
   ctx: Context
-
+  app: App
   project: AppProject
 
 
@@ -105,7 +101,8 @@ export class AppPage {
 
   constructor(project: AppProject, id?: string) {
     this.ctx = project.ctx
-
+    
+    this.app = project.ctx.$app
     this.project = project
 
 

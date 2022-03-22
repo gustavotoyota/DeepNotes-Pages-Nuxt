@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { AppPage } from "../page"
-import { Elem } from "../elems/elems"
+import { Elem, ElemType } from "../elems/elems"
 
 
 
@@ -49,7 +49,7 @@ export class AppArrows {
 
 export class Arrow extends Elem {
   constructor(page: AppPage, id?: string) {
-    super(page, { id, type: 'arrow' })
+    super(page, { id, type: ElemType.ARROW })
   }
 }
 

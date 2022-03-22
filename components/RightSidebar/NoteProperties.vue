@@ -472,7 +472,7 @@
 
 <script setup lang="ts">
 import { computed, useContext } from "@nuxtjs/composition-api"
-import { Note } from "~/plugins/app/page/notes/notes";
+import { Note, NoteSection } from "~/plugins/app/page/notes/notes";
 
 const ctx = useContext()
 
@@ -540,7 +540,7 @@ const width = computed({
 
 // Section heights
 
-function sectionHeight(section: string) {
+function sectionHeight(section: NoteSection) {
   return computed({
     get(): string {
       if (activeNote.value.size.y[section].endsWith('px'))
@@ -562,9 +562,9 @@ function sectionHeight(section: string) {
   })
 }
 
-const titleHeight = sectionHeight('title')
-const bodyHeight = sectionHeight('body')
-const containerHeight = sectionHeight('container')
+const titleHeight = sectionHeight(NoteSection.TITLE)
+const bodyHeight = sectionHeight(NoteSection.BODY)
+const containerHeight = sectionHeight(NoteSection.CONTAINER)
 </script>
 
 <style>

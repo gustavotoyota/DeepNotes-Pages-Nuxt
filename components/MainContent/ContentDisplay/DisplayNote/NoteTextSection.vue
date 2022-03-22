@@ -26,21 +26,21 @@
 
 <script setup lang="ts">
 import { computed } from "@nuxtjs/composition-api"
-import { Note } from "~/plugins/app/page/notes/notes";
+import { Note, NoteSection } from "~/plugins/app/page/notes/notes";
 
 
 
 
 const props = defineProps<{
   note: Note
-  section: string
+  section: NoteSection
 }>()
 
 
 
 
 const capitalizedSection = computed(() =>
-  $static.utils.capitalizeFirst(props.section))
+  $static.utils.capitalizeFirst(props.section) as 'Title' | 'Body')
 </script>
 
 <style>

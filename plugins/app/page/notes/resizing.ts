@@ -2,7 +2,7 @@ import { Context } from "@nuxt/types"
 import { cloneDeep } from "lodash"
 import { Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
-import { Note } from "./notes"
+import { Note, NoteSection } from "./notes"
 
 
 
@@ -11,7 +11,7 @@ export class AppResizing {
   page: AppPage
 
   side!: string
-  section!: Nullable<string>
+  section!: Nullable<NoteSection>
 
 
 
@@ -29,7 +29,7 @@ export class AppResizing {
 
 
 
-  start(event: PointerEvent, note: Note, side: string, section?: Nullable<string>) {
+  start(event: PointerEvent, note: Note, side: string, section?: Nullable<NoteSection>) {
     this.side = side
     this.section = section ?? null
 
@@ -123,7 +123,7 @@ export class AppResizing {
 
         if (this.section != null
         && newClientRect.size.y !== oldClientRect.size.y)
-          note[`${this.section}Height`] = `${newWorldRect.size.y}px`
+          note[`${this.section}Height` as `${NoteSection}Height`] = `${newWorldRect.size.y}px`
 
         note.collab.pos.x +=
           (newWorldRect.start.x - oldWorldRect.start.x) * (1 - note.collab.anchor.x)

@@ -19,65 +19,25 @@ export class AppCloning {
 
 
 
-  private _performAux(notes: Note[]): string[] {
-    const cloneIds = []
-
-
-
-  
-    parent = parent ?? notes[0].parent
-
-
-
-
-    for (const note of notes) {
-      // Create overrides
-
-      const collabOverrides = {} as Partial<INoteCollab>
-
-      collabOverrides.title = $static.syncedStore.cloneText(note.collab.title)
-      collabOverrides.body = $static.syncedStore.cloneText(note.collab.body)
-
-      const collabKeys = Object.keys(note.collab)
-      pull(collabKeys, 'title', 'body', 'childIds', 'zIndex', 'dragging')
-      for (const collabKey of collabKeys)
-        collabOverrides[collabKey] = cloneDeep(note.collab[collabKey])
-
-      collabOverrides.childIds = this._performAux(note.children)
-
-
-
-
-      // Create clone
-
-      const cloneId = this.page.notes.create(collabOverrides)
-      
-      cloneIds.push(cloneId)
-    }
-
-
-    
-
-    return cloneIds
-  }
   perform() {
-    // Determine destination index
+    // Serialize selection
+
+    const serialContainer = this.page.app.serialization.serialize({
+      noteIds: this.page.selection.noteIds,
+      arrowIds: [],
+    })
+
+
+
+
+    // Deserialize into structure
 
     let destIndex
-    
     if (this.page.selection.notes.length > 0)
       destIndex = this.page.selection.notes.at(-1)!.index + 1
-    else
-      destIndex = this.page.activeRegion.notes.length
 
-
-
-    
-    // Insert clones into structure
-
-    const cloneIds = this._performAux(this.page.selection.notes)
-
-    this.page.activeRegion.noteIds.splice(destIndex, 0, ...cloneIds)
+    const cloneIds = this.page.app.serialization.deserialize(
+      serialContainer, this.page.activeRegion, destIndex)
 
 
 

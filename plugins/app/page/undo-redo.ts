@@ -1,6 +1,8 @@
 import { getYjsValue, Y } from '@syncedstore/core'
 import { Nullable } from '~/types/deep-notes'
-import { AppPage } from './page'
+import { IArrowCollab } from './arrows/arrows'
+import { INoteCollab } from './notes/notes'
+import { AppPage, IPageCollab } from './page'
 
 
 
@@ -40,12 +42,9 @@ export class AppUndoRedo {
 
   init() {
     this.undoManager = new Y.UndoManager([
-        // @ts-ignore
-        getYjsValue(this.page.collab.store.page),
-        // @ts-ignore
-        getYjsValue(this.page.collab.store.notes),
-        // @ts-ignore
-        getYjsValue(this.page.collab.store.arrows)
+        getYjsValue(this.page.collab.store.page) as Y.AbstractType<IPageCollab>,
+        getYjsValue(this.page.collab.store.notes) as Y.AbstractType<INoteCollab>,
+        getYjsValue(this.page.collab.store.arrows) as Y.AbstractType<IArrowCollab>,
       ],
       { captureTimeout: 1000000000 },
     )
