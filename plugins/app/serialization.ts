@@ -1,9 +1,7 @@
 import { Context } from "@nuxt/types"
 import { cloneDeep, pull } from "lodash"
-import { IVec2, Nullable } from "~/types/deep-notes"
-import { Arrow, IArrowCollab } from "./page/arrows/arrows"
-import { INoteCollab, INoteSize, Note } from "./page/notes/notes"
-import { v4 as uuidv4 } from 'uuid'
+import { Nullable } from "~/types/deep-notes"
+import { INoteCollab } from "./page/notes/notes"
 
 
 
@@ -21,7 +19,9 @@ export interface ISerialContainer {
   arrows: ISerialArrow[]
 }
 
-export interface ISerialNote extends Omit<INoteCollab, 'title' | 'body' | 'childIds' | 'zIndex'>, ISerialContainer {
+export interface ISerialNote
+extends Omit<INoteCollab, 'title' | 'body' | 'childIds' | 'zIndex'>,
+ISerialContainer {
   title: object
   body: object
 }

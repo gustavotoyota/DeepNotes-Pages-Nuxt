@@ -23,7 +23,9 @@
 
         <v-combobox dense outlined hide-details
         label="Name"
-        background-color="#181818"/>
+        background-color="#181818"
+        :items="items"
+        v-model="templateItem"/>
 
       </v-card-text>
 
@@ -43,7 +45,8 @@
         <v-btn
         color="blue darken-1"
         text
-        @click="dialog = false">
+        :disabled="templateItem == null"
+        @click="save">
           Ok
         </v-btn>
 
@@ -59,10 +62,70 @@
 
 
 <script setup lang="ts">
-import { ref } from '@nuxtjs/composition-api';
+import { computed, ref, useContext, watchEffect } from '@nuxtjs/composition-api';
+import _ from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
+import { ITemplate } from '~/plugins/app/templates';
+import { Nullable } from '~/types/deep-notes';
+
+
+
+
+const ctx = useContext()
 
 
 
 
 const dialog = ref(false)
+
+const templateItem = ref(null as any)
+
+
+
+
+const items = computed(() => {
+  const items = []
+
+  for (const template of ctx.$app.templates.list) {
+    items.push({
+      text: template.name,
+      value: template.id,
+    })
+  }
+
+  return items
+})
+
+
+
+
+function save() {
+  if (ctx.$app.page.activeElem.id != null) {
+    const templateNote = ctx.$app.serialization.serialize({
+      noteIds: [ctx.$app.page.activeElem.id],
+      arrowIds: [],
+    }).notes[0]
+
+
+
+
+    if (_.isString(templateItem.value)) {
+      ctx.$app.templates.list.push({
+        id: uuidv4(),
+        name: templateItem.value,
+        data: templateNote,
+      })
+    } else {
+      const template = ctx.$app.templates.list.find(
+        item => item.id === templateItem.value.value) as ITemplate
+
+      template.data = templateNote
+    }
+  }
+
+
+
+
+  dialog.value = false
+}
 </script>

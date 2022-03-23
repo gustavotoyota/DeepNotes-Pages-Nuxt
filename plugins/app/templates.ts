@@ -1,13 +1,11 @@
-import { INoteCollab } from "./page/notes/notes"
-import { v4 as uuidv4 } from 'uuid'
 import { Context } from "@nuxt/types"
+import { v4 as uuidv4 } from 'uuid'
 import { ISerialNote } from "./serialization"
-import { reactive } from "@nuxtjs/composition-api"
 
 
 
 
-interface ITemplate {
+export interface ITemplate {
   id: string
   name: string
   data: ISerialNote
@@ -19,8 +17,8 @@ interface ITemplate {
 export class AppTemplates {
   ctx: Context
 
-  list: ITemplate[]
-  defaultId: string
+  list!: ITemplate[]
+  defaultId!: string
 
   default!: ITemplate
 
@@ -33,7 +31,7 @@ export class AppTemplates {
 
 
 
-    this.list = reactive([{
+    $static.vue.ssrRef(this, '$app.templates.list', () => [{
       id: uuidv4(),
       
       name: 'Default',
@@ -92,7 +90,7 @@ export class AppTemplates {
       },
     }])
 
-    this.defaultId = this.list[0].id
+    $static.vue.ssrRef(this, '$app.templates.defaultId', () => this.list[0].id)
 
 
     
