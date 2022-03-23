@@ -11,14 +11,14 @@
 </template>
 
 <script setup lang="ts">
-import { Note } from '~/plugins/app/page/notes/notes';
+import { Note, NoteSection } from '~/plugins/app/page/notes/notes';
 
 
 
 
 defineProps<{
   note: Note
-  section: string
+  section: NoteSection
 }>()
 </script>
 

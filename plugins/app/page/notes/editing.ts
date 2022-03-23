@@ -1,7 +1,7 @@
 import { Context } from "@nuxt/types";
 import { AppPage } from "../page";
 import { Elem } from "../elems/elems";
-import { Note } from "./notes";
+import { Note, NoteTextSection } from "./notes";
 import { Nullable } from "~/types/deep-notes";
 import Quill from "quill";
 import { nextTick } from "@nuxtjs/composition-api";
@@ -52,7 +52,7 @@ export class AppEditing {
 
     nextTick(() => {
       for (const section of ['title', 'body']) {
-        const quill = note[`${section}Quill`] as Quill
+        const quill = note[`${section}Quill` as `${NoteTextSection}Quill`] as Quill
         if (quill == null)
           continue
 
@@ -65,7 +65,7 @@ export class AppEditing {
 
 
       section = section ?? note.topSection
-      const quill = note[`${section}Quill`] as Quill
+      const quill = note[`${section}Quill` as `${NoteTextSection}Quill`] as Quill
   
       quill.focus()
       quill.setSelection(0, 0)
@@ -84,7 +84,7 @@ export class AppEditing {
 
 
     for (const section of ['title', 'body']) {
-      const quill = this.note[`${section}Quill`] as Quill
+      const quill = this.note[`${section}Quill` as `${NoteTextSection}Quill`] as Quill
       if (quill == null)
         continue
 

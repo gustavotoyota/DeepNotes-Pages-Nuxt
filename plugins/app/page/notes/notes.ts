@@ -4,8 +4,21 @@ import Quill from "quill"
 import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
 import { IVec2, Nullable } from "~/types/deep-notes"
-import { Elem } from '../elems/elems'
+import { Elem, ElemType } from '../elems/elems'
 import { AppPage } from '../page'
+
+
+
+
+export enum NoteSection {
+  TITLE = 'title',
+  BODY = 'body',
+  CONTAINER = 'container',
+}
+
+export type NoteTextSection = Exclude<NoteSection, NoteSection.CONTAINER>
+
+
 
 
 
@@ -46,71 +59,15 @@ export class AppNotes {
 
 
 
-  create(overrides?: object) {
+  create(noteCollab: INoteCollab) {
     const noteId = uuidv4()
 
+    
 
 
+    noteCollab.zIndex = this.page.data.collab.nextZIndex++
 
     this.page.collab.doc.transact(() => {
-      const noteCollab = {
-        linkedPageId: null,
-  
-        anchor: { x: 0.5, y: 0.5 },
-  
-        pos: { x: 0, y: 0 },
-  
-        hasTitle: false,
-        hasBody: true,
-        
-        title: new SyncedText(),
-        body: new SyncedText(),
-  
-        collapsible: false,
-        collapsed: false,
-        localCollapsing: false,
-  
-        expandedSize: {
-          x: 'auto',
-  
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-        collapsedSize: {
-          x: 'expanded',
-          
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-  
-        movable: true,
-        resizable: true,
-  
-        wrapTitle: true,
-        wrapBody: true,
-        
-        readOnly: false,
-  
-        container: false,
-        horizontal: false,
-        wrapChildren: false,
-        fullWidthChildren: true,
-        childIds: [],
-  
-        dragging: false,
-  
-        zIndex: this.page.data.collab.nextZIndex++
-      } as INoteCollab
-
-      if (overrides != null)
-        merge(noteCollab, overrides)
-
       Vue.set(this.collab, noteId, noteCollab)
     })
 
@@ -173,8 +130,6 @@ export class AppNotes {
 }
 
 export interface INoteCollab {
-  [key: string]: unknown
-
   linkedPageId: Nullable<string>
 
   anchor: IVec2
@@ -215,8 +170,6 @@ export interface INoteSize {
   x: string
 
   y: {
-    [key: string]: string
-
     title: string
     body: string
     container: string
@@ -227,8 +180,6 @@ export interface INoteSize {
 
   
 export class Note extends Elem {
-  [key: string]: unknown
-
   collab!: INoteCollab
 
   editing!: boolean
@@ -237,15 +188,15 @@ export class Note extends Elem {
 
   collapsed!: boolean
 
-  sizeProp!: string
+  sizeProp!: 'collapsedSize' | 'expandedSize'
   size!: INoteSize
 
-  topSection!: string
-  bottomSection!: string
+  topSection!: NoteSection
+  bottomSection!: NoteSection
   numSections!: number
 
-  titleQuill!: Quill
-  bodyQuill!: Quill
+  titleQuill: Nullable<Quill> = null
+  bodyQuill: Nullable<Quill> = null
 
   titleHeight!: string
   bodyHeight!: string
@@ -266,7 +217,7 @@ export class Note extends Elem {
 
 
   constructor(page: AppPage, id: string, parentId: Nullable<string>) {
-    super(page, { id, type: 'note', parentId })
+    super(page, { id, type: ElemType.NOTE, parentId })
 
 
 
@@ -339,7 +290,7 @@ export class Note extends Elem {
 
 
 
-    const makeSectionHeight = (section: string) => {
+    const makeSectionHeight = (section: NoteSection) => {
       $static.vue.computed(this, `note.${section}Height`, {
         get: () => {
           if (this.collapsed
@@ -363,9 +314,9 @@ export class Note extends Elem {
       })
     }
 
-    makeSectionHeight('title')
-    makeSectionHeight('body')
-    makeSectionHeight('container')
+    makeSectionHeight(NoteSection.TITLE)
+    makeSectionHeight(NoteSection.BODY)
+    makeSectionHeight(NoteSection.CONTAINER)
 
 
 

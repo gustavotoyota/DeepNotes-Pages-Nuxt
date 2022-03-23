@@ -15,7 +15,7 @@ import { computed, onBeforeUnmount, onMounted, ref, useContext } from "@nuxtjs/c
 import type { SyncedText } from "@syncedstore/core";
 import type { Quill } from 'quill';
 import { QuillBinding } from 'y-quill';
-import type { Note } from "~/plugins/app/page/notes/notes";
+import type { Note, NoteTextSection } from "~/plugins/app/page/notes/notes";
 import { quillOptions } from "~/plugins/static/quill";
 import { Nullable } from '~/types/deep-notes';
 
@@ -29,7 +29,7 @@ const ctx = useContext()
 
 const props = defineProps<{
   note: Note
-  section: string
+  section: NoteTextSection
   wrap: boolean
 }>()
 
@@ -51,7 +51,7 @@ onMounted(() => {
 
   quill = new Quill(editor.value ?? '', quillOptions)
 
-  props.note[`${props.section}Quill`] = quill
+  props.note[`${props.section}Quill` as `${NoteTextSection}Quill`] = quill
 
   quill.enable(props.note.editing)
 
@@ -63,7 +63,7 @@ onBeforeUnmount(() => {
   if (quillBinding != null)
     quillBinding.destroy()
 
-  props.note[`${props.section}Quill`] = null
+  props.note[`${props.section}Quill` as `${NoteTextSection}Quill`] = null
 
   // @ts-ignore
   document.body.removeChild(quill.theme.tooltip.root.parentNode)

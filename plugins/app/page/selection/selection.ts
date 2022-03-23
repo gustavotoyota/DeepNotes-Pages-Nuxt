@@ -3,15 +3,15 @@ import Vue from 'vue'
 import { Nullable } from "~/types/deep-notes"
 import { AppPage } from '../page'
 import { Arrow } from '../arrows/arrows'
-import { Elem } from '../elems/elems'
+import { Elem, ElemType } from '../elems/elems'
 import { Note } from '../notes/notes'
+import { watch } from '@vue/runtime-dom'
+import { watchEffect } from '@nuxtjs/composition-api'
 
 
 
 
 export class AppSelection {
-  [key: string]: unknown
-  
   page: AppPage
 
   noteSet!: { [key: string]: boolean }
@@ -59,7 +59,7 @@ export class AppSelection {
 
 
   has(elem: Elem) {
-    return elem.id in (this[`${elem.type}Set`] as object)
+    return elem.id in (this[`${elem.type}Set` as `${ElemType}Set`] as object)
   }
 
 
@@ -68,6 +68,9 @@ export class AppSelection {
   clear(activeRegionId?: Nullable<string>) {
     for (const elem of this.elems)
       this.remove(elem)
+
+    this.noteSet = {}
+    this.arrowSet = {}
 
     this.page.activeElem.clear()
 
@@ -87,7 +90,7 @@ export class AppSelection {
         this.clear(elem.parentId)
 
       elem.selected = true
-      Vue.set(this[`${elem.type}Set`] as object, elem.id, true)
+      Vue.set(this[`${elem.type}Set` as `${ElemType}Set`] as object, elem.id, true)
       
       if (!this.page.activeElem.exists)
         this.page.activeElem.set(elem)
@@ -102,7 +105,7 @@ export class AppSelection {
         continue
 
       elem.selected = false
-      Vue.delete(this[`${elem.type}Set`] as object, elem.id)
+      Vue.delete(this[`${elem.type}Set` as `${ElemType}Set`] as object, elem.id)
 
       if (elem.active)
         this.page.activeElem.set(this.elems.at(-1) ?? null)

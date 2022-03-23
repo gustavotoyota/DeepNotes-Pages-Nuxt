@@ -169,10 +169,7 @@
 
 
     
-    <v-btn icon large
-    :width="32" :height="32">
-      <v-icon>mdi-cog</v-icon>
-    </v-btn>
+    <ContentToolbarSettings/>
 
     <Gap width="6px"/>
     
@@ -205,6 +202,7 @@
 <script setup lang="ts">
 import { useContext } from '@nuxtjs/composition-api';
 import type { Quill } from 'quill'
+import { NoteTextSection } from '~/plugins/app/page/notes/notes';
 
 
 
@@ -214,11 +212,11 @@ const ctx = useContext()
 
 
 
-function format(funcName: string, ...args: any[]) {
+function format(funcName: 'formatLine' | 'removeFormat', ...args: any[]) {
   ctx.$app.page.collab.doc.transact(() => {
     for (const selectedNote of ctx.$app.page.selection.notes) {
       for (const section of ['title', 'body']) {
-        const quill = selectedNote[`${section}Quill`] as Quill
+        const quill = selectedNote[`${section}Quill` as `${NoteTextSection}Quill`] as Quill
 
         if (quill == null)
           continue
@@ -227,10 +225,8 @@ function format(funcName: string, ...args: any[]) {
 
         if (quill.isEnabled()) {
           if (selection != null)
-            // @ts-ignore
             quill[funcName](selection.index, selection.length, ...args)
         } else
-          // @ts-ignore
           quill[funcName](0, Infinity, ...args)
       }
     }

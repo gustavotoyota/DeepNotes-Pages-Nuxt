@@ -9,6 +9,8 @@ import { AppProject } from './project'
 import { AppPage } from './page/page'
 
 import { Nullable } from '~/types/deep-notes'
+import { AppTemplates } from './templates'
+import { AppSerialization } from './serialization'
 
 
 
@@ -22,6 +24,9 @@ export type {
 
 class App {
   project: AppProject
+
+  serialization: AppSerialization
+  templates: AppTemplates
 
 
 
@@ -44,6 +49,9 @@ class App {
   
 
     this.project = new AppProject(ctx)
+
+    this.serialization = new AppSerialization(ctx)
+    this.templates = new AppTemplates(ctx)
 
 
 

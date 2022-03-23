@@ -27,9 +27,10 @@ function onPointerDown(event: PointerEvent) {
 }
 
 function onDoubleClick(event: MouseEvent) {
-  const noteId = ctx.$app.page.notes.create()
-
-  ctx.$app.page.data.collab.noteIds.push(noteId)
+  const [noteId] = ctx.$app.serialization.deserialize({
+    notes: [ctx.$app.templates.default.data],
+    arrows: [],
+  }, ctx.$app.page.data.collab)
 
 
 

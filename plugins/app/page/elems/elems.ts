@@ -8,28 +8,19 @@ import { AppPage } from '../page'
 
 
 
-export class AppElems {
-  page: AppPage
-
-
-
-
-  ids!: string[]
-  array!: Elem[]
-
-
-
-
-  constructor(page: AppPage) {
-    this.page = page
-  }
+export enum ElemType {
+  NOTE = 'note',
+  ARROW = 'arrow',
 }
+
+
+
 
 export class Elem {
   page: AppPage
 
   id: string
-  type: string
+  type: ElemType
   parentId: Nullable<string>
   
   active!: boolean
@@ -42,7 +33,7 @@ export class Elem {
   
   constructor(page: AppPage, options: {
     id?: string,
-    type: string,
+    type: ElemType,
     parentId?: Nullable<string>,
   }) {
     this.page = page
@@ -62,8 +53,27 @@ export class Elem {
 
     
     
-    const elems = this.page[`${this.type}s`] as
-      { map: { [key: string]: Elem } }
+    const elems = this.page[`${this.type}s` as `${ElemType}s`]
     Vue.set(elems.map, this.id, this)
+  }
+}
+
+
+
+
+export class AppElems {
+  page: AppPage
+
+
+
+
+  ids!: string[]
+  array!: Elem[]
+
+
+
+
+  constructor(page: AppPage) {
+    this.page = page
   }
 }
