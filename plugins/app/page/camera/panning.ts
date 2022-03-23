@@ -1,7 +1,7 @@
 import { Context } from "@nuxt/types"
-import { IVec2 } from "~/types/deep-notes"
 import { AppPage } from "../page"
 import { cloneDeep } from 'lodash'
+import { IVec2 } from "~/plugins/static/types"
 
 
 

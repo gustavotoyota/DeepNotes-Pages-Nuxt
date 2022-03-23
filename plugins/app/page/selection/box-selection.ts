@@ -1,5 +1,6 @@
 import { cloneDeep } from "lodash"
-import { IVec2, Nullable } from "~/types/deep-notes"
+import { IVec2 } from "~/plugins/static/types"
+import { Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
 
 

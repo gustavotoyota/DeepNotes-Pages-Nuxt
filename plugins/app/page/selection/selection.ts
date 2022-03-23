@@ -1,12 +1,9 @@
-import { Context } from '@nuxt/types'
 import Vue from 'vue'
 import { Nullable } from "~/types/deep-notes"
-import { AppPage } from '../page'
 import { Arrow } from '../arrows/arrows'
 import { Elem, ElemType } from '../elems/elems'
 import { Note } from '../notes/notes'
-import { watch } from '@vue/runtime-dom'
-import { watchEffect } from '@nuxtjs/composition-api'
+import { AppPage } from '../page'
 
 
 

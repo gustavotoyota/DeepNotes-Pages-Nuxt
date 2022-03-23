@@ -1,8 +1,6 @@
-import { Context } from "@nuxt/types"
-import { cloneDeep, pull } from "lodash"
-import { IVec2, Nullable } from "~/types/deep-notes"
+import { IVec2 } from "~/plugins/static/types"
 import { ISerialContainer } from "../../serialization"
-import { INoteCollab, INoteSize, Note } from "../notes/notes"
+import { Note } from "../notes/notes"
 import { AppPage } from "../page"
 
 
@@ -22,7 +20,7 @@ export class AppClipboard {
 
 
   copy() {
-    const clipboardContainer = this.page.app.serialization.serialize({
+    let clipboardContainer = this.page.app.serialization.serialize({
       noteIds: this.page.selection.noteIds,
       arrowIds: [],
     })
@@ -54,8 +52,10 @@ export class AppClipboard {
 
 
 
-    
-    $static.clipboard.set(JSON.stringify(clipboardContainer))
+
+    clipboardContainer = ISerialContainer.parse(clipboardContainer)
+    const clipboardText = JSON.stringify(clipboardContainer)
+    $static.clipboard.set(clipboardText)
   }
   
   
@@ -65,7 +65,8 @@ export class AppClipboard {
     // Get clipboard notes from clipboard
 
     const clipboardText = text ?? await $static.clipboard.get()
-    const clipboardContainer = JSON.parse(clipboardText) as ISerialContainer
+    let clipboardContainer = JSON.parse(clipboardText)
+    clipboardContainer = ISerialContainer.parse(clipboardContainer)
 
 
 

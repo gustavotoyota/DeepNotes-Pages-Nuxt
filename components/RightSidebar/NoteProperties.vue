@@ -473,6 +473,7 @@
 <script setup lang="ts">
 import { computed, useContext } from "@nuxtjs/composition-api"
 import { Note, NoteSection } from "~/plugins/app/page/notes/notes";
+import { Op } from "~/plugins/static/types"
 
 const ctx = useContext()
 
@@ -500,8 +501,8 @@ const activeNote = computed(() => ctx.$app.page.activeElem.get as Note)
 
 function swapTitleAndBody() {
   changeProp(null, (note: Note, value: any) => {
-    const titleDelta = note.collab.title.toDelta()
-    const bodyDelta = note.collab.body.toDelta()
+    const titleDelta: Op[] = note.collab.title.toDelta()
+    const bodyDelta: Op[] = note.collab.body.toDelta()
 
     note.collab.title.delete(0, note.collab.title.length)
     note.collab.body.delete(0, note.collab.body.length)

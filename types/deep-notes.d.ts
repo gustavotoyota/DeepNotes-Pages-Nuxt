@@ -14,11 +14,6 @@ export type Exact<T, Shape = T> = T extends Shape ?
   (Exclude<keyof T, keyof Shape> extends never ?
     T : never): never;
 
-export interface IVec2 {
-  x: number;
-  y: number;
-}
-
 declare module '@nuxt/types' {
   interface Context {
     $ctx: Context

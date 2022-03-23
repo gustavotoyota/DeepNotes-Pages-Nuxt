@@ -1,9 +1,10 @@
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
-import { merge } from 'lodash'
 import Quill from "quill"
 import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
-import { IVec2, Nullable } from "~/types/deep-notes"
+import { z } from "zod"
+import { IVec2 } from "~/plugins/static/types"
+import { Nullable } from "~/types/deep-notes"
 import { Elem, ElemType } from '../elems/elems'
 import { AppPage } from '../page'
 
@@ -17,8 +18,6 @@ export enum NoteSection {
 }
 
 export type NoteTextSection = Exclude<NoteSection, NoteSection.CONTAINER>
-
-
 
 
 
@@ -67,9 +66,7 @@ export class AppNotes {
 
     noteCollab.zIndex = this.page.data.collab.nextZIndex++
 
-    this.page.collab.doc.transact(() => {
-      Vue.set(this.collab, noteId, noteCollab)
-    })
+    Vue.set(this.collab, noteId, noteCollab)
 
 
 
@@ -129,58 +126,68 @@ export class AppNotes {
   }
 }
 
-export interface INoteCollab {
-  linkedPageId: Nullable<string>
 
-  anchor: IVec2
 
-  pos: IVec2
 
-  hasTitle: boolean
-  hasBody: boolean
+export const INoteSize = z.object({
+  x: z.string(),
+
+  y: z.object({
+    title: z.string(),
+    body: z.string(),
+    container: z.string(),
+  }),
+})
+
+export type INoteSize = z.infer<typeof INoteSize>
+
+
+
+
+export const INoteCollab = z.object({
+  linkedPageId: z.string().nullable().default(null),
+
+  anchor: IVec2,
+
+  pos: IVec2,
+
+  hasTitle: z.boolean().default(false),
+  hasBody: z.boolean().default(true),
+
+  title: z.any() as z.ZodType<SyncedText>,
+  body: z.any() as z.ZodType<SyncedText>,
+
+  collapsible: z.boolean().default(false),
+  collapsed: z.boolean().default(false),
+  localCollapsing: z.boolean().default(false),
+
+  expandedSize: INoteSize,
+  collapsedSize: INoteSize,
+
+  movable: z.boolean().default(true),
+  resizable: z.boolean().default(true),
+
+  wrapTitle: z.boolean().default(true),
+  wrapBody: z.boolean().default(true),
   
-  title: SyncedText
-  body: SyncedText
+  readOnly: z.boolean().default(false),
 
-  collapsible: boolean
-  collapsed: boolean
-  localCollapsing: boolean
+  container: z.boolean().default(false),
+  horizontal: z.boolean().default(false),
+  wrapChildren: z.boolean().default(false),
+  fullWidthChildren: z.boolean().default(true),
+  childIds: z.string().array().default(() => []),
 
-  expandedSize: INoteSize
-  collapsedSize: INoteSize
+  zIndex: z.number(),
+})
 
-  movable: boolean
-  resizable: boolean
-
-  wrapTitle: boolean
-  wrapBody: boolean
-  
-  readOnly: boolean
-
-  container: boolean
-  horizontal: boolean
-  wrapChildren: boolean
-  fullWidthChildren: boolean
-  childIds: string[]
-
-  zIndex: number
-}
-
-export interface INoteSize {
-  x: string
-
-  y: {
-    title: string
-    body: string
-    container: string
-  },
-}
+export type INoteCollab = z.output<typeof INoteCollab>
 
 
 
   
 export class Note extends Elem {
-  collab!: INoteCollab
+  collab: INoteCollab
 
   editing!: boolean
   dragging!: boolean
@@ -222,8 +229,7 @@ export class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'note.collab', () =>
-      this.page.notes.collab[this.id])
+    this.collab = this.page.notes.collab[this.id]
 
 
     

@@ -1,5 +1,4 @@
-import { Context } from "@nuxt/types"
-import { IVec2 } from "~/types/deep-notes"
+import { IVec2 } from "~/plugins/static/types"
 import { AppPage } from "../page"
 
 

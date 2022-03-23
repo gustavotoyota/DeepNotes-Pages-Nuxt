@@ -1,6 +1,6 @@
 import { watch } from "@nuxtjs/composition-api"
 import { debounce } from "lodash"
-import { IVec2 } from "~/types/deep-notes"
+import { IVec2 } from "~/plugins/static/types"
 import { Note } from "../notes/notes"
 import { AppPage } from "../page"
 

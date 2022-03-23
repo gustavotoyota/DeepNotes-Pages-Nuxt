@@ -1,16 +1,20 @@
-import { Context } from "@nuxt/types"
 import { cloneDeep } from "lodash"
-import { IVec2 } from "~/types/deep-notes"
+import { z } from "zod"
+import { IVec2 } from "~/plugins/static/types"
 import { AppPage } from "../page"
 
 
 
 
-export interface IRect {
-  start: { x: number, y: number }
-  end: { x: number, y: number }
-  size: { x: number, y: number }
-}
+export const IRect = z.object({
+  start: IVec2,
+  end: IVec2,
+  size: IVec2,
+})
+export type IRect = z.infer<typeof IRect>
+
+
+
 
 export class AppRects {
   page: AppPage

@@ -1,9 +1,7 @@
-import { Context } from "@nuxt/types"
-import { IVec2, Nullable } from "~/types/deep-notes"
-import { AppPage } from "../page"
-import { cloneDeep } from 'lodash'
 import { watch } from "@nuxtjs/composition-api"
 import Vue from "vue"
+import { IVec2 } from "~/plugins/static/types"
+import { AppPage } from "../page"
 
 
 
