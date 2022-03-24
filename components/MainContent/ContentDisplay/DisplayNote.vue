@@ -6,7 +6,7 @@
 
     <NoteFrame :note="note">
 
-      <NoteArrowHandles :note="note"/>
+      <!--<NoteArrowHandles :note="note"/>-->
 
       <NoteResizeHandles :note="note"/>
 
