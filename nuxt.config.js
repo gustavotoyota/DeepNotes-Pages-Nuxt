@@ -37,6 +37,7 @@ export default {
     { src: '~/plugins/external/highlight', mode: 'client' },
     { src: '~/plugins/external/quill', mode: 'client' },
     { src: '~/plugins/external/syncedstore' },
+    { src: '~/plugins/external/draggable' },
     
     { src: '~/plugins/static/static' },
 

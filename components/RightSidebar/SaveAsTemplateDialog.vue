@@ -62,11 +62,10 @@
 
 
 <script setup lang="ts">
-import { computed, ref, useContext, watchEffect } from '@nuxtjs/composition-api';
-import _ from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
+import { computed, ref, useContext } from '@nuxtjs/composition-api';
+import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 import { ITemplate } from '~/plugins/app/templates';
-import { Nullable } from '~/types/deep-notes';
 
 
 
@@ -113,6 +112,7 @@ function save() {
       ctx.$app.templates.list.push({
         id: uuidv4(),
         name: templateItem.value,
+        visible: true,
         data: templateNote,
       })
     } else {

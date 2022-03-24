@@ -8,6 +8,7 @@ import { ISerialNote } from "./serialization"
 export interface ITemplate {
   id: string
   name: string
+  visible: boolean
   data: ISerialNote
 }
 
@@ -34,8 +35,8 @@ export class AppTemplates {
     $static.vue.ssrRef(this, '$app.templates.list', () => [
       {
         id: uuidv4(),
-        
         name: 'Body note',
+        visible: true,
 
         data: {
           hasTitle: false,
@@ -44,8 +45,8 @@ export class AppTemplates {
       },
       {
         id: uuidv4(),
-        
         name: 'Head note',
+        visible: true,
 
         data: {
           hasTitle: true,
@@ -54,8 +55,8 @@ export class AppTemplates {
       },
       {
         id: uuidv4(),
-        
         name: 'Head and body',
+        visible: true,
 
         data: {
           hasTitle: true,
@@ -64,8 +65,8 @@ export class AppTemplates {
       },
       {
         id: uuidv4(),
-        
-        name: 'Titled container',
+        name: 'Container with head',
+        visible: true,
 
         data: {
           hasTitle: true,
@@ -73,7 +74,7 @@ export class AppTemplates {
 
           container: true,
         },
-      }
+      },
     ] as ITemplate[])
 
     $static.vue.ssrRef(this, '$app.templates.defaultId', () => this.list[0].id)

@@ -69,12 +69,17 @@
             :input-value="pageRef.id == $app.page.id"
             @click="$app.project.navigateTo(pageRef.id)"
             link>
+            
               <v-list-item-icon>
                 <v-icon>mdi-note</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>
-                {{ (pageRef.id == $app.page.id) ? $app.page.data.name : pageRef.name }}
-              </v-list-item-title>
+
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ (pageRef.id == $app.page.id) ? $app.page.data.name : pageRef.name }}
+                </v-list-item-title>
+              </v-list-item-content>
+
             </v-list-item>
 
           </template>

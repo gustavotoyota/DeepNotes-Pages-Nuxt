@@ -24,14 +24,18 @@
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Account</v-list-item-title>
+        <v-list-item-content>
+          <v-list-item-title>Account</v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
 
       <v-list-item @click="$auth.logout()">
         <v-list-item-icon>
           <v-icon>mdi-logout</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Logout</v-list-item-title>
+        <v-list-item-content>
+          <v-list-item-title>Logout</v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
 
     </v-list>
