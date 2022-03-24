@@ -53,7 +53,6 @@ export class AppClipboard {
 
 
 
-    clipboardContainer = ISerialContainer.parse(clipboardContainer)
     const clipboardText = JSON.stringify(clipboardContainer)
     $static.clipboard.set(clipboardText)
   }

@@ -31,64 +31,50 @@ export class AppTemplates {
 
 
 
-    $static.vue.ssrRef(this, '$app.templates.list', () => [{
-      id: uuidv4(),
-      
-      name: 'Default',
-
-      data: {
-        linkedPageId: null,
-  
-        anchor: { x: 0.5, y: 0.5 },
-  
-        pos: { x: 0, y: 0 },
-  
-        hasTitle: false,
-        hasBody: true,
+    $static.vue.ssrRef(this, '$app.templates.list', () => [
+      {
+        id: uuidv4(),
         
-        title: [],
-        body: [],
-  
-        collapsible: false,
-        collapsed: false,
-        localCollapsing: false,
-  
-        expandedSize: {
-          x: 'auto',
-  
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-        collapsedSize: {
-          x: 'expanded',
-          
-          y: {
-            title: 'auto',
-            body: 'auto',
-            container: 'auto',
-          },
-        },
-  
-        movable: true,
-        resizable: true,
-  
-        wrapTitle: true,
-        wrapBody: true,
-        
-        readOnly: false,
-  
-        container: false,
-        horizontal: false,
-        wrapChildren: false,
-        fullWidthChildren: true,
+        name: 'Body note',
 
-        notes: [],
-        arrows: [],
+        data: {
+          hasTitle: false,
+          hasBody: true,
+        },
       },
-    }])
+      {
+        id: uuidv4(),
+        
+        name: 'Head note',
+
+        data: {
+          hasTitle: true,
+          hasBody: false,
+        },
+      },
+      {
+        id: uuidv4(),
+        
+        name: 'Head and body',
+
+        data: {
+          hasTitle: true,
+          hasBody: true,
+        },
+      },
+      {
+        id: uuidv4(),
+        
+        name: 'Titled container',
+
+        data: {
+          hasTitle: true,
+          hasBody: false,
+
+          container: true,
+        },
+      }
+    ] as ITemplate[])
 
     $static.vue.ssrRef(this, '$app.templates.defaultId', () => this.list[0].id)
 

@@ -27,12 +27,12 @@ export interface ISerialContainer {
   notes: ISerialNote[]
   arrows: ISerialArrow[]
 }
-export const ISerialContainer: z.ZodType<ISerialContainer> = z.lazy(() => 
+export const ISerialContainer = z.lazy(() => 
   z.object({
-    notes: ISerialNote.array(),
-    arrows: ISerialArrow.array(),
+    notes: ISerialNote.array().default([]),
+    arrows: ISerialArrow.array().default([]),
   })
-)
+) as z.ZodType<ISerialContainer>
 
 
 
@@ -50,10 +50,10 @@ export const ISerialNote = z.lazy(() =>
     childIds: true,
     zIndex: true,
   }).extend({
-    title: Op.array(),
-    body: Op.array(),
-    notes: ISerialNote.array(),
-    arrows: ISerialArrow.array(),
+    title: Op.array().default([]),
+    body: Op.array().default([]),
+    notes: ISerialNote.array().default([]),
+    arrows: ISerialArrow.array().default([]),
   })
 ) as z.ZodType<ISerialNote>
 
@@ -179,6 +179,11 @@ export class AppSerialization {
   }
   deserialize(serialContainer: ISerialContainer,
   destContainer: IContainer, destIndex?: Nullable<number>): string[] {
+    serialContainer = ISerialContainer.parse(serialContainer)
+
+
+
+
     const noteIds = this._deserializeAux(serialContainer)
 
 

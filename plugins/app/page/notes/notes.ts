@@ -147,9 +147,9 @@ export type INoteSize = z.infer<typeof INoteSize>
 export const INoteCollab = z.object({
   linkedPageId: z.string().nullable().default(null),
 
-  anchor: IVec2,
+  anchor: IVec2.default({ x: 0.5, y: 0.5 }),
 
-  pos: IVec2,
+  pos: IVec2.default({ x: 0, y: 0 }),
 
   hasTitle: z.boolean().default(false),
   hasBody: z.boolean().default(true),
@@ -161,8 +161,24 @@ export const INoteCollab = z.object({
   collapsed: z.boolean().default(false),
   localCollapsing: z.boolean().default(false),
 
-  expandedSize: INoteSize,
-  collapsedSize: INoteSize,
+  expandedSize: INoteSize.default({
+    x: 'auto',
+
+    y: {
+      title: 'auto',
+      body: 'auto',
+      container: 'auto',
+    },
+  }),
+  collapsedSize: INoteSize.default({
+    x: 'expanded',
+    
+    y: {
+      title: 'auto',
+      body: 'auto',
+      container: 'auto',
+    },
+  }),
 
   movable: z.boolean().default(true),
   resizable: z.boolean().default(true),
@@ -176,9 +192,9 @@ export const INoteCollab = z.object({
   horizontal: z.boolean().default(false),
   wrapChildren: z.boolean().default(false),
   fullWidthChildren: z.boolean().default(true),
-  childIds: z.string().array().default(() => []),
+  childIds: z.string().array().default([]),
 
-  zIndex: z.number(),
+  zIndex: z.number().default(() => $nuxt.$app.page.data.collab.nextZIndex++),
 })
 
 export type INoteCollab = z.output<typeof INoteCollab>
