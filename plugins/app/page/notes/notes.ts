@@ -5,6 +5,7 @@ import Vue from 'vue'
 import { z } from "zod"
 import { IVec2 } from "~/plugins/static/types"
 import { Nullable } from "~/types/deep-notes"
+import { ITemplate } from "../../templates"
 import { Elem, ElemType } from '../elems/elems'
 import { AppPage } from '../page'
 
@@ -72,6 +73,27 @@ export class AppNotes {
 
 
     return noteId
+  }
+  createFromTemplate(template: ITemplate, clientPos: IVec2) {
+    const [noteId] = this.page.app.serialization.deserialize({
+      notes: [template.data],
+      arrows: [],
+    }, this.page.data.collab)
+  
+  
+  
+  
+    const worldPos = this.page.pos.clientToWorld(clientPos)
+  
+  
+  
+  
+    const note = this.page.notes.map[noteId]
+    
+    note.collab.pos.x = worldPos.x
+    note.collab.pos.y = worldPos.y
+  
+    this.page.editing.start(note, note.topSection)
   }
 
 

@@ -17,7 +17,14 @@ const ctx = useContext()
 
 
 
+let lastPointerDownDate = new Date()
+
+
+
+
 function onPointerDown(event: PointerEvent) {
+  lastPointerDownDate = new Date()
+
   ctx.$app.page.editing.stop()
 
   if (!event.ctrlKey && !event.shiftKey)
@@ -27,26 +34,20 @@ function onPointerDown(event: PointerEvent) {
 }
 
 function onDoubleClick(event: MouseEvent) {
-  const [noteId] = ctx.$app.serialization.deserialize({
-    notes: [ctx.$app.templates.default.data],
-    arrows: [],
-  }, ctx.$app.page.data.collab)
+  if (new Date().getTime() - lastPointerDownDate.getTime() > 400) {
+    ctx.$app.templates.showPopup({
+      x: event.clientX,
+      y: event.clientY,
+    })
+    return
+  }
 
 
 
 
   const clientPos = ctx.$app.page.pos.getClientPos(event)
-  const worldPos = ctx.$app.page.pos.clientToWorld(clientPos)
-
-
-
-
-  const note = ctx.$app.page.notes.map[noteId]
   
-  note.collab.pos.x = worldPos.x
-  note.collab.pos.y = worldPos.y
-
-  ctx.$app.page.editing.start(note, note.topSection)
+  ctx.$app.page.notes.createFromTemplate(ctx.$app.templates.default, clientPos)
 }
 </script>
 
