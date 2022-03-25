@@ -228,6 +228,7 @@ const fixPadding = computed(() =>
 
 .note-editor.wrap /deep/ pre.ql-syntax {
   white-space: pre-wrap;
+  max-width: 100%;
 }
 
 .note-editor /deep/ pre.ql-syntax:empty {
