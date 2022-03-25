@@ -10,6 +10,8 @@
     </MainContent>
 
     <RightSidebar/>
+
+    <Snackbar/>
   
 
 

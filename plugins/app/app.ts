@@ -11,6 +11,7 @@ import { AppPage } from './page/page'
 import { Nullable } from '~/types/deep-notes'
 import { AppTemplates } from './templates'
 import { AppSerialization } from './serialization'
+import { AppSnackbar } from './snackbar'
 
 
 
@@ -27,6 +28,7 @@ class App {
 
   serialization: AppSerialization
   templates: AppTemplates
+  snackbar: AppSnackbar
 
 
 
@@ -52,6 +54,7 @@ class App {
 
     this.serialization = new AppSerialization(ctx)
     this.templates = new AppTemplates(ctx)
+    this.snackbar = new AppSnackbar(ctx)
 
 
 
