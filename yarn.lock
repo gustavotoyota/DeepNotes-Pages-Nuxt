@@ -7569,9 +7569,9 @@ queue-microtask@^1.2.2:
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
 quill-cursors@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/quill-cursors/-/quill-cursors-3.1.0.tgz#450f7717c41adedeaa3bdf20d6007bcdbec5181f"
-  integrity sha512-7OZd+uBAWHZHEmcDi7zNBXPN6z69zogyLHu45AoUO5Ak9Xo54hMko8zA/hhZ4iN0bySUsaPo9C56uS1OF/Pyhg==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/quill-cursors/-/quill-cursors-3.1.2.tgz#e6be37fa33330dce05fb32ec4b0d06c8e2c504c9"
+  integrity sha512-oyANfYhqYiRp7OIrX/BurBPb0bvcpqSiS042fGm+T9FNy9UR6MCBzXpCyG7RmnK6OrV2idsdxMbogJ1XSktN5Q==
 
 quill-delta-to-html@^0.12.0:
   version "0.12.0"
