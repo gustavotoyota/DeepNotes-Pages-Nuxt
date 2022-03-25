@@ -83,14 +83,14 @@
             <Gap height="16px"/>
 
             <div style="display: flex">
-              <v-btn @click="selected = Array.from(Array(10)).map((e, i) => i)">
+              <v-btn @click="selectedTemplates = Array.from(Array(10)).map((e, i) => i)">
                 Select all
               </v-btn>
 
               <Gap width="16px"/>
 
               <v-btn
-              @click="selected = []">
+              @click="selectedTemplates = []">
                 Clear all
               </v-btn>
             </div>
@@ -109,17 +109,17 @@
 
                   <v-list-item-group
                   multiple
-                  v-model="selected">
+                  v-model="selectedTemplates">
 
-                    <draggable v-model="$app.templates.list"
+                    <draggable v-model="templates"
                     animation="200">
                     
                       <v-list-item
-                      v-for="template of $app.templates.list" :key="template.id">
+                      v-for="template of templates" :key="template.id">
                         <v-list-item-content>
                           <v-list-item-title>{{ template.name }}</v-list-item-title>
                         </v-list-item-content>
-                        <v-list-item-icon v-if="template.id === $app.templates.defaultId">
+                        <v-list-item-icon v-if="template.id === defaultId">
                           <v-icon>mdi-check-circle</v-icon>
                         </v-list-item-icon>
                         <v-list-item-icon>
@@ -140,16 +140,16 @@
               width: 200px">
 
                 <v-btn block
-                :disabled="selected.length !== 1
-                || $app.templates.defaultId === $app.templates.list[selected[0]].id"
-                @click="$app.templates.defaultId = $app.templates.list[selected[0]].id">
+                :disabled="selectedTemplates.length !== 1
+                || defaultId === templates[selectedTemplates[0]].id"
+                @click="defaultId = templates[selectedTemplates[0]].id">
                   Set as default
                 </v-btn>
                 
                 <Gap height="16px"/>
 
                 <v-btn block
-                :disabled="selected.length !== 1"
+                :disabled="selectedTemplates.length !== 1"
                 @click="">
                   Rename
                 </v-btn>
@@ -157,7 +157,7 @@
                 <Gap height="16px"/>
 
                 <v-btn block
-                :disabled="selected.length === 0"
+                :disabled="selectedTemplates.length === 0"
                 @click="toggleVisibility()">
                   Toggle visibility
                 </v-btn>
@@ -165,7 +165,7 @@
                 <Gap height="16px"/>
 
                 <v-btn block
-                :disabled="selected.length === 0"
+                :disabled="selectedTemplates.length === 0"
                 @click="deleteSelection()">
                   Delete
                 </v-btn>
@@ -196,7 +196,7 @@
         <v-btn
         color="blue darken-1"
         text
-        @click="dialog = false">
+        @click="save()">
           Ok
         </v-btn>
 
@@ -213,8 +213,10 @@
 
 
 <script setup lang="ts">
-import { ref, useContext } from '@nuxtjs/composition-api';
+import { ref, useContext, watch } from '@nuxtjs/composition-api';
+import { cloneDeep } from 'lodash';
 import Vue from 'vue';
+import { ITemplate } from '~/plugins/app/templates';
 
 const ctx = useContext()
 
@@ -222,18 +224,45 @@ const ctx = useContext()
 
 
 const dialog = ref(false)
+const tab = ref('' as string)
 
-const tab = ref('general')
 
-const selected = ref([] as number[])
+
+
+const templates = ref([] as ITemplate[])
+const defaultId = ref('')
+
+const selectedTemplates = ref([] as number[])
+
+
+
+
+watch(dialog, () => {
+  if (!dialog.value)
+    return
+
+  tab.value = 'general'
+
+  templates.value = cloneDeep(ctx.$app.templates.list)
+  defaultId.value = ctx.$app.templates.defaultId
+
+  selectedTemplates.value = []
+})
+
+function save() {
+  dialog.value = false
+
+  ctx.$app.templates.list = templates.value
+  ctx.$app.templates.defaultId = defaultId.value
+}
 
 
 
 
 function toggleVisibility() {
   let allVisible = true
-  for (const index of selected.value) {
-    const template = ctx.$app.templates.list[index]
+  for (const index of selectedTemplates.value) {
+    const template = templates.value[index]
 
     if (template.visible)
       continue
@@ -242,8 +271,8 @@ function toggleVisibility() {
     break
   }
 
-  for (const index of selected.value)
-    ctx.$app.templates.list[index].visible = !allVisible
+  for (const index of selectedTemplates.value)
+    templates.value[index].visible = !allVisible
 }
 
 
@@ -252,21 +281,20 @@ function toggleVisibility() {
 function deleteSelection() {
   // Check if default template is selected
 
-  for (const index of selected.value) {
-    if (ctx.$app.templates.defaultId !== ctx.$app.templates.list[index].id)
+  for (const index of selectedTemplates.value) {
+    if (defaultId.value !== templates.value[index].id)
       continue
 
-    alert('Can\'t delete the default template.')
+    ctx.$app.snackbar.show('Cannot delete default template', 'red')
     return
   }
 
 
 
 
+  for (let i = selectedTemplates.value.length - 1; i >= 0; --i)
+    Vue.delete(templates.value, selectedTemplates.value[i])
 
-  for (let i = selected.value.length - 1; i >= 0; --i)
-    Vue.delete(ctx.$app.templates.list, selected.value[i])
-
-  selected.value = []
+  selectedTemplates.value = []
 }
 </script>
