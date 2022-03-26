@@ -85,6 +85,12 @@ const fixPadding = computed(() =>
 <style scoped>
 .note-editor {
   height: 100%;
+
+  position: relative;
+}
+
+.note-editor /deep/ .ql-container {
+  position: static;
 }
 
 .note-editor /deep/ .ql-editor {

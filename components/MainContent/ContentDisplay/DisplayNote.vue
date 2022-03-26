@@ -10,9 +10,9 @@
 
       <NoteResizeHandles :note="note"/>
 
-      <NoteContent :note="note">
+      <NoteLinkIcon :note="note"/>
 
-        <NoteLinkIcon :note="note"/>
+      <NoteContent :note="note">
       
         <NoteTextSection :note="note" section="title"/>
 
