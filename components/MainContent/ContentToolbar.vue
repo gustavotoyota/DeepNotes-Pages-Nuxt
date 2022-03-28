@@ -168,10 +168,18 @@
 
 
 
+
+    <v-btn icon large
+    :width="32" :height="32"
+    :href="$ctx.isDev ? 'http://192.168.1.3:60379/' : 'https://deepnotes.app/'">
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+
+    <Gap width="4px"/>
     
     <ContentToolbarSettings/>
 
-    <Gap width="6px"/>
+    <Gap width="4px"/>
     
     <ContentToolbarPopup/>
 
