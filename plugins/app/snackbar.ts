@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import _ from "lodash"
+import { debounce } from "lodash"
 
 
 
@@ -32,7 +32,7 @@ export class AppSnackbar {
 
     this._hide()
   }
-  private _hide = _.debounce(() => {
+  private _hide = debounce(() => {
     this.active = false
   }, 3000)
 }

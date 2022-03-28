@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { computed, ref, useContext } from '@nuxtjs/composition-api';
-import _ from 'lodash';
+import { isString } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { ITemplate } from '~/plugins/app/templates';
 
@@ -108,7 +108,7 @@ function save() {
 
 
 
-    if (_.isString(templateItem.value)) {
+    if (isString(templateItem.value)) {
       ctx.$app.templates.list.push({
         id: uuidv4(),
         name: templateItem.value,
