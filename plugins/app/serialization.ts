@@ -50,8 +50,8 @@ export const ISerialNote = z.lazy(() =>
     childIds: true,
     zIndex: true,
   }).extend({
-    title: Op.array().default([]),
-    body: Op.array().default([]),
+    title: Op.array().default([{ insert: '\n' }]),
+    body: Op.array().default([{ insert: '\n' }]),
     notes: ISerialNote.array().default([]),
     arrows: ISerialArrow.array().default([]),
   })
