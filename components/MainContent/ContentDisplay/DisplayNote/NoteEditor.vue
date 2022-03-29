@@ -240,6 +240,15 @@ const fixPadding = computed(() =>
 .note-editor /deep/ pre.ql-syntax:empty {
   display: none;
 }
+
+
+
+
+/* Inline codes */
+
+.note-editor /deep/ code {
+  background-color: #202020 !important;
+}
 </style>
 
 
