@@ -20,7 +20,8 @@
   
     <v-overlay
     v-if="!$app.loaded"
-    :opacity="1">
+    :opacity="1"
+    color="#1e1e1e">
 
       <v-progress-circular
       indeterminate

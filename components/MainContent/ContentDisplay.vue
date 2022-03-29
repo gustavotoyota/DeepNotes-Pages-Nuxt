@@ -16,8 +16,12 @@
 
     
 
-    <v-overlay :value="!$app.page.loaded"
-    absolute :z-index="0" :opacity="1">
+    <v-overlay
+    :value="!$app.page.loaded"
+    absolute
+    :z-index="0"
+    :opacity="1"
+    color="#1e1e1e">
 
       <v-progress-circular
       indeterminate
