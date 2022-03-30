@@ -34,7 +34,7 @@
       class="note-container-child"
       :style="{
         'flex-direction': note.collab.horizontal ? 'row' : 'column',
-        'width': !note.collab.horizontal && note.collab.fullWidthChildren ? 'calc(100% - 6px)' : 'min-content',
+        'width': !note.collab.horizontal && note.collab.stretchChildren ? 'calc(100% - 6px)' : 'min-content',
       }">
 
         <DisplayNote

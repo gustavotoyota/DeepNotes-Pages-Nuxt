@@ -279,12 +279,12 @@
       <Gap height="10px"/>
       
       <div style="display: flex">
-        <v-checkbox hide-details label="Full-width children"
+        <v-checkbox hide-details label="Stretch children"
         style="flex: 1; margin-top: 0; padding-top: 0"
         :disabled="!activeNote.collab.container || activeNote.collab.horizontal"
-        :input-value="activeNote.collab.fullWidthChildren"
+        :input-value="activeNote.collab.stretchChildren"
         @change="changeProp($event, (note, value) => {
-          note.collab.fullWidthChildren = value
+          note.collab.stretchChildren = value
         })"/>
 
         <Gap width="16px" style="flex: none"/>

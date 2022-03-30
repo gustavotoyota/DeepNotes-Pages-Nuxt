@@ -214,7 +214,7 @@ export const INoteCollab = z.object({
   container: z.boolean().default(false),
   horizontal: z.boolean().default(false),
   wrapChildren: z.boolean().default(false),
-  fullWidthChildren: z.boolean().default(true),
+  stretchChildren: z.boolean().default(true),
   
   noteIds: z.string().array().default([]),
   arrowIds: z.string().array().default([]),
@@ -400,7 +400,7 @@ export class Note extends Elem {
     $static.vue.computed(this, 'note.width', {
       get: () => {
         if (this.parent != null) {
-          if (this.parent.collab.horizontal || !this.parent.collab.fullWidthChildren)
+          if (this.parent.collab.horizontal || !this.parent.collab.stretchChildren)
             return this.size.x
           else
             return 'auto'
@@ -420,7 +420,7 @@ export class Note extends Elem {
       if (this.parent != null
       && this.parent.targetWidth === '0px'
       && !this.parent.collab.horizontal
-      && this.parent.collab.fullWidthChildren)
+      && this.parent.collab.stretchChildren)
         return '0px'
       
       if (this.width === 'auto')
