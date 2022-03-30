@@ -40,7 +40,7 @@ const props = defineProps<{
 
 
 const capitalizedSection = computed(() =>
-  $static.utils.capitalizeFirst(props.section) as 'Title' | 'Body')
+  $static.utils.capitalizeFirst(props.section) as 'Head' | 'Body')
 </script>
 
 <style>

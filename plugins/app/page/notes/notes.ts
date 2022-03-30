@@ -13,7 +13,7 @@ import { AppPage } from '../page'
 
 
 export enum NoteSection {
-  TITLE = 'title',
+  HEAD = 'head',
   BODY = 'body',
   CONTAINER = 'container',
 }
@@ -155,7 +155,7 @@ export const INoteSize = z.object({
   x: z.string(),
 
   y: z.object({
-    title: z.string(),
+    head: z.string(),
     body: z.string(),
     container: z.string(),
   }),
@@ -173,10 +173,10 @@ export const INoteCollab = z.object({
 
   pos: IVec2.default({ x: 0, y: 0 }),
 
-  hasTitle: z.boolean().default(false),
+  hasHead: z.boolean().default(false),
   hasBody: z.boolean().default(true),
 
-  title: z.any() as z.ZodType<SyncedText>,
+  head: z.any() as z.ZodType<SyncedText>,
   body: z.any() as z.ZodType<SyncedText>,
 
   collapsible: z.boolean().default(false),
@@ -187,7 +187,7 @@ export const INoteCollab = z.object({
     x: 'auto',
 
     y: {
-      title: 'auto',
+      head: 'auto',
       body: 'auto',
       container: 'auto',
     },
@@ -196,7 +196,7 @@ export const INoteCollab = z.object({
     x: 'expanded',
     
     y: {
-      title: 'auto',
+      head: 'auto',
       body: 'auto',
       container: 'auto',
     },
@@ -205,7 +205,7 @@ export const INoteCollab = z.object({
   movable: z.boolean().default(true),
   resizable: z.boolean().default(true),
 
-  wrapTitle: z.boolean().default(true),
+  wrapHead: z.boolean().default(true),
   wrapBody: z.boolean().default(true),
   
   readOnly: z.boolean().default(false),
@@ -240,10 +240,10 @@ export class Note extends Elem {
   bottomSection!: NoteSection
   numSections!: number
 
-  titleQuill: Nullable<Quill> = null
+  headQuill: Nullable<Quill> = null
   bodyQuill: Nullable<Quill> = null
 
-  titleHeight!: string
+  headHeight!: string
   bodyHeight!: string
   containerHeight!: string
 
@@ -301,8 +301,8 @@ export class Note extends Elem {
 
 
     $static.vue.computed(this, 'note.topSection', () => {
-      if (this.collab.hasTitle)
-        return 'title'
+      if (this.collab.hasHead)
+        return 'head'
       else if (this.collab.hasBody)
         return 'body'
       else if (this.collab.container)
@@ -315,13 +315,13 @@ export class Note extends Elem {
         return 'container'
       else if (this.collab.hasBody)
         return 'body'
-      else if (this.collab.hasTitle)
-        return 'title'
+      else if (this.collab.hasHead)
+        return 'head'
     })
     $static.vue.computed(this, 'note.numSections', () => {
       let numSections = 0
     
-      if (this.collab.hasTitle)
+      if (this.collab.hasHead)
         ++numSections
       if (this.collab.hasBody)
         ++numSections
@@ -358,7 +358,7 @@ export class Note extends Elem {
       })
     }
 
-    makeSectionHeight(NoteSection.TITLE)
+    makeSectionHeight(NoteSection.HEAD)
     makeSectionHeight(NoteSection.BODY)
     makeSectionHeight(NoteSection.CONTAINER)
 

@@ -42,7 +42,7 @@ export class AppTemplates {
         visible: true,
 
         data: {
-          hasTitle: false,
+          hasHead: false,
           hasBody: true,
         },
       },
@@ -52,7 +52,7 @@ export class AppTemplates {
         visible: true,
 
         data: {
-          hasTitle: true,
+          hasHead: true,
           hasBody: false,
         },
       },
@@ -62,7 +62,7 @@ export class AppTemplates {
         visible: true,
 
         data: {
-          hasTitle: true,
+          hasHead: true,
           hasBody: true,
         },
       },
@@ -72,7 +72,7 @@ export class AppTemplates {
         visible: true,
 
         data: {
-          hasTitle: true,
+          hasHead: true,
           hasBody: false,
 
           container: true,

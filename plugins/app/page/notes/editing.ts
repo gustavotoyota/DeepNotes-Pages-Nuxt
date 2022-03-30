@@ -51,7 +51,7 @@ export class AppEditing {
     // Setup Quill
 
     nextTick(() => {
-      for (const section of ['title', 'body']) {
+      for (const section of ['head', 'body']) {
         const quill = note[`${section}Quill` as `${NoteTextSection}Quill`] as Quill
         if (quill == null)
           continue
@@ -83,7 +83,7 @@ export class AppEditing {
 
 
 
-    for (const section of ['title', 'body']) {
+    for (const section of ['head', 'body']) {
       const quill = this.note[`${section}Quill` as `${NoteTextSection}Quill`] as Quill
       if (quill == null)
         continue

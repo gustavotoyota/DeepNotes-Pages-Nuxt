@@ -2,24 +2,24 @@
 
   <v-list v-if="$app.project.collapsedRightSidebar" dense>
 
-    <SidebarMinibutton tooltip="Has head"
+    <SidebarMinibutton tooltip="Head"
     icon="page-layout-header"
-    :value="activeNote.collab.hasTitle"
-    @click="changeProp(!activeNote.collab.hasTitle, (note, value) => {
-      note.collab.hasTitle = value
+    :value="activeNote.collab.hasHead"
+    @click="changeProp(!activeNote.collab.hasHead, (note, value) => {
+      note.collab.hasHead = value
       note.collab.hasBody = note.collab.hasBody || note.numSections === 0
     })"/>
 
-    <SidebarMinibutton tooltip="Swap title and body"
+    <SidebarMinibutton tooltip="Swap head and body"
     icon="swap-vertical"
-    @click="swapTitleAndBody"/>
+    @click="swapHeadAndBody"/>
 
-    <SidebarMinibutton tooltip="Has body"
+    <SidebarMinibutton tooltip="Body"
     icon="page-layout-body"
     :value="activeNote.collab.hasBody"
     @click="changeProp(!activeNote.collab.hasBody, (note, value) => {
       note.collab.hasBody = value
-      note.collab.hasTitle = note.collab.hasTitle || note.numSections === 0
+      note.collab.hasHead = note.collab.hasHead || note.numSections === 0
     })"/>
 
 
@@ -95,36 +95,36 @@
 
 
 
-    <!-- Title/Body -->
+    <!-- Head/Body -->
 
     <v-divider class="mt-4"/>
       
     <div class="mx-5 mt-4"
     style="display: flex; flex-direction: column">
       <div style="display: flex">
-        <v-checkbox hide-details label="Has title"
+        <v-checkbox hide-details label="Head"
         style="flex: 1; margin-top: 0; padding-top: 0"
-        :input-value="activeNote.collab.hasTitle"
+        :input-value="activeNote.collab.hasHead"
         @change="changeProp($event, (note, value) => {
-          note.collab.hasTitle = value
+          note.collab.hasHead = value
           note.collab.hasBody = note.collab.hasBody || note.numSections === 0
         })"/>
 
         <Gap width="16px" style="flex: none"/>
 
-        <v-checkbox hide-details label="Has body"
+        <v-checkbox hide-details label="Body"
         style="flex: 1; margin-top: 0; padding-top: 0"
         :input-value="activeNote.collab.hasBody"
         @change="changeProp($event, (note, value) => {
           note.collab.hasBody = value
-          note.collab.hasTitle = note.collab.hasTitle || note.numSections === 0
+          note.collab.hasHead = note.collab.hasHead || note.numSections === 0
         })"/>
       </div>
 
       <Gap height="12px"/>
 
-      <v-btn @click="swapTitleAndBody">
-        Swap title and body
+      <v-btn @click="swapHeadAndBody">
+        Swap head and body
       </v-btn>
     </div>
 
@@ -357,7 +357,7 @@
         <div>
           <div class="body-2 grey--text text--lighten-1"
           style="margin-left: 1px">
-            Title height:
+            Head height:
           </div>
 
           <Gap height="2px"/>
@@ -369,7 +369,7 @@
             { text: 'Custom', value: 'custom' },
           ]" item-text="text" item-value="value"
           :menu-props="{ top: false, offsetY: true }"
-          v-model="titleHeight">
+          v-model="headHeight">
           </v-select>
         </div>
 
@@ -432,11 +432,11 @@
       
     <div class="mx-5 mt-4"
     style="display: flex">
-      <v-checkbox hide-details label="Wrap title"
+      <v-checkbox hide-details label="Wrap head"
       style="flex: 1; margin-top: 0; padding-top: 0"
-      :input-value="activeNote.collab.wrapTitle"
+      :input-value="activeNote.collab.wrapHead"
       @change="changeProp($event, (note, value) => {
-        note.collab.wrapTitle = value
+        note.collab.wrapHead = value
       })"/>
 
       <Gap width="16px" style="flex: none"/>
@@ -497,18 +497,18 @@ const activeNote = computed(() => ctx.$app.page.activeElem.get as Note)
 
 
 
-// Swap title and body
+// Swap head and body
 
-function swapTitleAndBody() {
+function swapHeadAndBody() {
   changeProp(null, (note: Note, value: any) => {
-    const titleDelta: Op[] = note.collab.title.toDelta()
+    const headDelta: Op[] = note.collab.head.toDelta()
     const bodyDelta: Op[] = note.collab.body.toDelta()
 
-    note.collab.title.delete(0, note.collab.title.length)
+    note.collab.head.delete(0, note.collab.head.length)
     note.collab.body.delete(0, note.collab.body.length)
 
-    note.collab.title.applyDelta(bodyDelta)
-    note.collab.body.applyDelta(titleDelta)
+    note.collab.head.applyDelta(bodyDelta)
+    note.collab.body.applyDelta(headDelta)
   })
 }
 
@@ -563,7 +563,7 @@ function sectionHeight(section: NoteSection) {
   })
 }
 
-const titleHeight = sectionHeight(NoteSection.TITLE)
+const headHeight = sectionHeight(NoteSection.HEAD)
 const bodyHeight = sectionHeight(NoteSection.BODY)
 const containerHeight = sectionHeight(NoteSection.CONTAINER)
 </script>

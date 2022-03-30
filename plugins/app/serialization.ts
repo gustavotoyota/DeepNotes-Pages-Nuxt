@@ -38,19 +38,19 @@ export const ISerialContainer = z.lazy(() =>
 
 
 export interface ISerialNote
-extends Omit<INoteCollab, 'title' | 'body' | 'childIds' | 'zIndex'>,
+extends Omit<INoteCollab, 'head' | 'body' | 'childIds' | 'zIndex'>,
 ISerialContainer {
-  title: Op[]
+  head: Op[]
   body: Op[]
 }
 export const ISerialNote = z.lazy(() =>
   INoteCollab.omit({
-    title: true,
+    head: true,
     body: true,
     childIds: true,
     zIndex: true,
   }).extend({
-    title: Op.array().default([{ insert: '\n' }]),
+    head: Op.array().default([{ insert: '\n' }]),
     body: Op.array().default([{ insert: '\n' }]),
     notes: ISerialNote.array().default([]),
     arrows: ISerialArrow.array().default([]),
@@ -95,9 +95,9 @@ export class AppSerialization {
 
 
 
-      // Title and body
+      // Head and body
 
-      serialNote.title = note.collab.title.toDelta()
+      serialNote.head = note.collab.head.toDelta()
       serialNote.body = note.collab.body.toDelta()
 
 
@@ -106,7 +106,7 @@ export class AppSerialization {
       // Rest of the properties
       
       const collabKeys = Object.keys(note.collab)
-      pull(collabKeys, 'title', 'body', 'childIds', 'zIndex')
+      pull(collabKeys, 'head', 'body', 'childIds', 'zIndex')
       for (const collabKey of collabKeys)
         // @ts-ignore
         serialNote[collabKey] = cloneDeep(note.collab[collabKey])
@@ -138,9 +138,9 @@ export class AppSerialization {
 
 
 
-      // Title and body
+      // Head and body
 
-      collab.title = $static.syncedStore.createText(serialNote.title)
+      collab.head = $static.syncedStore.createText(serialNote.head)
       collab.body = $static.syncedStore.createText(serialNote.body)
 
 
@@ -149,7 +149,7 @@ export class AppSerialization {
       // Rest of the keys
 
       const collabKeys = Object.keys(serialNote)
-      pull(collabKeys, 'title', 'body', 'notes', 'arrows')
+      pull(collabKeys, 'head', 'body', 'notes', 'arrows')
       for (const collabKey of collabKeys)
         // @ts-ignore
         collab[collabKey] = cloneDeep(serialNote[collabKey])

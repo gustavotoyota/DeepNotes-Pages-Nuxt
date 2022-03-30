@@ -14,13 +14,13 @@
 
       <NoteContent :note="note">
       
-        <NoteTextSection :note="note" section="title"/>
+        <NoteTextSection :note="note" section="head"/>
 
-        <NoteSectionGroup :note="note" section="title">
+        <NoteSectionGroup :note="note" section="head">
 
           <NoteDivider
-          v-if="note.collab.hasTitle && note.collab.hasBody"
-          :note="note" section="title"/>
+          v-if="note.collab.hasHead && note.collab.hasBody"
+          :note="note" section="head"/>
       
           <NoteTextSection :note="note" section="body"/>
 
@@ -29,7 +29,7 @@
           :note="note" section="body">
 
             <NoteDivider
-            v-if="note.collab.hasTitle || note.collab.hasBody"
+            v-if="note.collab.hasHead || note.collab.hasBody"
             :note="note" section="body"/>
 
             <NoteContainerSection :note="note"/>

@@ -223,7 +223,7 @@ const ctx = useContext()
 function format(funcName: 'formatLine' | 'removeFormat', ...args: any[]) {
   ctx.$app.page.collab.doc.transact(() => {
     for (const selectedNote of ctx.$app.page.selection.notes) {
-      for (const section of ['title', 'body']) {
+      for (const section of ['head', 'body']) {
         const quill = selectedNote[`${section}Quill` as `${NoteTextSection}Quill`] as Quill
 
         if (quill == null)
