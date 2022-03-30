@@ -82,6 +82,13 @@ export class AppProject {
 
 
 
+    await this.loadData()
+  }
+
+
+
+
+  async loadData() {
     const data = (await this.ctx.$axios.post('/api/project/data', {
       pageId: this.ctx.route.params.page_id,
     })).data

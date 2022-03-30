@@ -165,12 +165,16 @@ export class AppPage {
       const index = this.project.pathPages.findIndex(
         item => item.id == this.ctx.$app.project.parentPageId)
 
-      this.project.pathPages.splice(index + 1)
+      if (index >= 0) {
+        this.project.pathPages.splice(index + 1)
 
-      this.project.pathPages.push({
-        id: this.id,
-        name: this.data.name,
-      })  
+        this.project.pathPages.push({
+          id: this.id,
+          name: this.data.name,
+        })
+      } else {
+        this.project.loadData()
+      }
     }
 
 
