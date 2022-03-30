@@ -38,7 +38,7 @@ export const ISerialContainer = z.lazy(() =>
 
 
 export interface ISerialNote
-extends Omit<INoteCollab, 'head' | 'body' | 'childIds' | 'zIndex'>,
+extends Omit<INoteCollab, 'head' | 'body' | 'noteIds' | 'zIndex'>,
 ISerialContainer {
   head: Op[]
   body: Op[]
@@ -47,7 +47,7 @@ export const ISerialNote = z.lazy(() =>
   INoteCollab.omit({
     head: true,
     body: true,
-    childIds: true,
+    noteIds: true,
     zIndex: true,
   }).extend({
     head: Op.array().default([{ insert: '\n' }]),
@@ -87,10 +87,7 @@ export class AppSerialization {
 
       const note = this.ctx.$app.page.notes.fromIds([noteId])[0]
       
-      const serialNote: Partial<ISerialNote> = this.serialize({
-        noteIds: note.collab.childIds,
-        arrowIds: [],
-      })
+      const serialNote: Partial<ISerialNote> = this.serialize(note.collab)
 
 
 
@@ -106,7 +103,7 @@ export class AppSerialization {
       // Rest of the properties
       
       const collabKeys = Object.keys(note.collab)
-      pull(collabKeys, 'head', 'body', 'childIds', 'zIndex')
+      pull(collabKeys, 'head', 'body', 'noteIds', 'zIndex')
       for (const collabKey of collabKeys)
         // @ts-ignore
         serialNote[collabKey] = cloneDeep(note.collab[collabKey])
@@ -159,7 +156,7 @@ export class AppSerialization {
 
       // Children
 
-      collab.childIds = this._deserializeAux({
+      collab.noteIds = this._deserializeAux({
         notes: serialNote.notes,
         arrows: serialNote.arrows,
       })

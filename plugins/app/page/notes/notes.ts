@@ -6,6 +6,7 @@ import { z } from "zod"
 import { IVec2 } from "~/plugins/static/types"
 import { Nullable } from "~/types/deep-notes"
 import { ITemplate } from "../../templates"
+import { Arrow } from "../arrows/arrows"
 import { Elem, ElemType } from '../elems/elems'
 import { AppPage } from '../page'
 
@@ -102,7 +103,7 @@ export class AppNotes {
   mapAndObserve(noteId: string, parentId: Nullable<string>) {
     const note = new Note(this.page, noteId, parentId)
 
-    this.mapAndObserveIds(note.collab.childIds, note.id)
+    this.mapAndObserveIds(note.collab.noteIds, note.id)
   }
   mapAndObserveIds(noteIds: string[], parentId: Nullable<string>) {
     for (const noteId of noteIds)
@@ -214,7 +215,9 @@ export const INoteCollab = z.object({
   horizontal: z.boolean().default(false),
   wrapChildren: z.boolean().default(false),
   fullWidthChildren: z.boolean().default(true),
-  childIds: z.string().array().default([]),
+  
+  noteIds: z.string().array().default([]),
+  arrowIds: z.string().array().default([]),
 
   zIndex: z.number().default(() => $nuxt.$app.page.data.collab.nextZIndex++),
 })
@@ -256,7 +259,8 @@ export class Note extends Elem {
   width!: string
   targetWidth!: string
 
-  children!: Note[]
+  notes!: Note[]
+  arrows!: Arrow[]
   
 
 
@@ -385,7 +389,7 @@ export class Note extends Elem {
     
     $static.vue.computed(this, 'note.minWidth', () => {
       if (this.collab.container
-      && this.collab.childIds.length === 0)
+      && this.collab.noteIds.length === 0)
         return '165px'
 
       if (this.collab.container)
@@ -428,8 +432,10 @@ export class Note extends Elem {
 
 
     
-    $static.vue.computed(this, 'note.children', () =>
-      this.page.notes.fromIds(this.collab.childIds))
+    $static.vue.computed(this, 'note.notes', () =>
+      this.page.notes.fromIds(this.collab.noteIds))
+    $static.vue.computed(this, 'note.arrows', () =>
+      this.page.arrows.fromIds(this.collab.arrowIds))
   }
 
 

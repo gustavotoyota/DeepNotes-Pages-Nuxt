@@ -23,12 +23,12 @@ export class AppRegions {
     if (regionParent == null)
       return this.page.data.collab.noteIds
     else
-      return regionParent.collab.childIds
+      return regionParent.collab.noteIds
   }
   getNotes(regionParent: Nullable<Note>) {
     if (regionParent == null)
       return this.page.data.notes
     else
-      return regionParent.children
+      return regionParent.notes
   }
 }

@@ -26,7 +26,7 @@ export class AppDropping {
     this.page.collab.doc.transact(() => {
       for (const selectedNote of selectedNotes) {
         selectedNote.removeFromRegion()
-        regionNote.collab.childIds.splice(dropIndex++, 0, selectedNote.id)
+        regionNote.collab.noteIds.splice(dropIndex++, 0, selectedNote.id)
         selectedNote.parentId = regionNote.id
       }
     })

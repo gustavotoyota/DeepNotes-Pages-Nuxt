@@ -13,7 +13,7 @@
 
       <!-- Placeholder -->
 
-      <div v-if="note.children.length === 0"
+      <div v-if="note.notes.length === 0"
       class="note-container-placeholder">
 
         Drop notes here
@@ -30,7 +30,7 @@
 
       <!-- Children -->
 
-      <div v-for="(child, index) in note.children" :key="child.id"
+      <div v-for="(child, index) in note.notes" :key="child.id"
       class="note-container-child"
       :style="{
         'flex-direction': note.collab.horizontal ? 'row' : 'column',
@@ -44,7 +44,7 @@
         <div style="position: relative">
 
           <NoteDropZone
-          v-if="index < note.children.length - 1"
+          v-if="index < note.notes.length - 1"
           :parent-note="note"
           :index="index + 1"
           style="position: absolute;
@@ -62,7 +62,7 @@
 
         <NoteDropZone
         :parent-note="note"
-        :index="note.children.length"
+        :index="note.notes.length"
         style="right: 3px; bottom: 3px"
         :style="{
           left: note.collab.horizontal ? '-3px' : '3px',

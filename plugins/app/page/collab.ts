@@ -201,7 +201,7 @@ export class AppCollab {
 
       visitedIds.add(note.id)
 
-      stack.push(...note.children)
+      stack.push(...note.notes)
     }
 
 

@@ -50,7 +50,7 @@ export class AppActiveRegion {
       if (this.id == null)
         return this.page.data.collab.noteIds
       else
-        return this.page.notes.collab[this.id].childIds
+        return this.page.notes.collab[this.id].noteIds
     })
     $static.vue.computed(this, '$app.page.activeRegion.notes', () =>
       this.page.notes.fromIds(this.noteIds))

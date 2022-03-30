@@ -22,10 +22,7 @@ export class AppCloning {
   perform() {
     // Serialize selection
 
-    const serialContainer = this.page.app.serialization.serialize({
-      noteIds: this.page.selection.noteIds,
-      arrowIds: [],
-    })
+    const serialContainer = this.page.app.serialization.serialize(this.page.selection)
 
 
 

@@ -20,10 +20,7 @@ export class AppClipboard {
 
 
   copy() {
-    let clipboardContainer = this.page.app.serialization.serialize({
-      noteIds: this.page.selection.noteIds,
-      arrowIds: [],
-    })
+    let clipboardContainer = this.page.app.serialization.serialize(this.page.selection)
 
 
 

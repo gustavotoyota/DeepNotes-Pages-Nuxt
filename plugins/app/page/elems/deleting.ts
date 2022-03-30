@@ -26,7 +26,7 @@ export class AppDeleting {
     }
 
     for (const note of notes)
-      this._performAux(note.children, noteIds)
+      this._performAux(note.notes, noteIds)
   }
   perform() {
     const noteIds: string[] = []
