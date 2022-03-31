@@ -1,10 +1,12 @@
 import { Context } from "@nuxt/types"
 import { cloneDeep, pull } from "lodash"
-import { Nullable } from "~/types/deep-notes"
-import { INoteCollab } from "./page/notes/notes"
+import { v4 as uuidv4 } from 'uuid'
+import Vue from "vue"
 import { z } from "zod"
 import { Op } from "~/plugins/static/types"
+import { Nullable } from "~/types/deep-notes"
 import { IContainerCollab } from "./page/container"
+import { INoteCollab } from "./page/notes/notes"
 
 
 
@@ -143,6 +145,8 @@ export class AppSerialization {
         // @ts-ignore
         collab[collabKey] = cloneDeep(serialNote[collabKey])
 
+      collab.zIndex = this.ctx.$app.page.data.collab.nextZIndex++
+
 
 
 
@@ -154,9 +158,16 @@ export class AppSerialization {
       })
 
 
+      
+
+      // Add note data to the store
+      
+      const noteId = uuidv4()
+
+      Vue.set(this.ctx.$app.page.notes.collab, noteId, collab)
 
       
-      const noteId = this.ctx.$app.page.notes.create(collab as INoteCollab)
+
       
       noteIds.push(noteId)
     }

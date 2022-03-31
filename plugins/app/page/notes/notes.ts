@@ -57,25 +57,10 @@ export class AppNotes {
 
     $static.vue.computed(this, '$app.page.notes.collab', () => this.page.collab.store.notes)
   }
+  
 
 
-
-
-  create(noteCollab: INoteCollab) {
-    const noteId = uuidv4()
-
-    
-
-
-    noteCollab.zIndex = this.page.data.collab.nextZIndex++
-
-    Vue.set(this.collab, noteId, noteCollab)
-
-
-
-
-    return noteId
-  }
+  
   createFromTemplate(template: ITemplate, clientPos: IVec2) {
     const [noteId] = this.page.app.serialization.deserialize({
       notes: [template.data],
