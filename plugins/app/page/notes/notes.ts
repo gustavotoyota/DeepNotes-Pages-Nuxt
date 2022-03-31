@@ -7,6 +7,7 @@ import { IVec2 } from "~/plugins/static/types"
 import { Nullable } from "~/types/deep-notes"
 import { ITemplate } from "../../templates"
 import { Arrow } from "../arrows/arrows"
+import { IContainerCollab } from "../container"
 import { Elem, ElemType } from '../elems/elems'
 import { AppPage } from '../page'
 
@@ -167,7 +168,7 @@ export type INoteSize = z.infer<typeof INoteSize>
 
 
 
-export const INoteCollab = z.object({
+export const INoteCollab = IContainerCollab.extend({
   linkedPageId: z.string().nullable().default(null),
 
   anchor: IVec2.default({ x: 0.5, y: 0.5 }),
@@ -215,9 +216,7 @@ export const INoteCollab = z.object({
   horizontal: z.boolean().default(false),
   wrapChildren: z.boolean().default(false),
   stretchChildren: z.boolean().default(true),
-  
-  noteIds: z.string().array().default([]),
-  arrowIds: z.string().array().default([]),
+  spatial: z.boolean().default(false),
 
   zIndex: z.number().default(() => $nuxt.$app.page.data.collab.nextZIndex++),
 })

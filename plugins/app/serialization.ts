@@ -4,15 +4,7 @@ import { Nullable } from "~/types/deep-notes"
 import { INoteCollab } from "./page/notes/notes"
 import { z } from "zod"
 import { Op } from "~/plugins/static/types"
-
-
-
-
-export const IContainer = z.object({
-  noteIds: z.string().array(),
-  arrowIds: z.string().array(),
-})
-export type IContainer = z.infer<typeof IContainer>
+import { IContainerCollab } from "./page/container"
 
 
 
@@ -73,7 +65,7 @@ export class AppSerialization {
 
 
 
-  serialize(container: IContainer): ISerialContainer {
+  serialize(container: IContainerCollab): ISerialContainer {
     const serialContainer: ISerialContainer = {
       notes: [],
       arrows: [],
@@ -175,7 +167,7 @@ export class AppSerialization {
     return noteIds
   }
   deserialize(serialContainer: ISerialContainer,
-  destContainer: IContainer, destIndex?: Nullable<number>): string[] {
+  destContainer: IContainerCollab, destIndex?: Nullable<number>): string[] {
     serialContainer = ISerialContainer.parse(serialContainer)
 
 

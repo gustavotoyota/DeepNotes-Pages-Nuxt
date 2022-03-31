@@ -106,7 +106,7 @@ export class AppProject {
   navigateTo(id: string, fromParent?: boolean) {
     this.parentPageId = fromParent ? this.ctx.$app.page.id : null
 
-    $nuxt.$router.push({ path: `/${id}` })
+    this.ctx.store.$router.push({ path: `/${id}` })
   }
   navigatePath(offset: number) {
     this.navigateTo(this.pathPages[this.pageIndex + offset].id)

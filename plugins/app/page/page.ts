@@ -41,6 +41,8 @@ import { AppArrows } from './arrows/arrows'
 import { AppPageData } from './data'
 import { AppProject } from '../project'
 import { App } from '../app'
+import { IContainerCollab } from './container'
+import { z } from 'zod'
 
 
 
@@ -238,16 +240,21 @@ export class AppPage {
   }
 }
 
-export interface IPageCollab {
-  name: string,
 
-  noteIds: string[],
-  arrowIds: string[],
 
-  nextZIndex: number
-}
 
-export interface IPageRef {
-  id: string
-  name: string
-}
+export const IPageCollab = IContainerCollab.extend({
+  name: z.string(),
+
+  nextZIndex: z.number(),
+})
+export type IPageCollab = z.infer<typeof IPageCollab>
+
+
+
+
+export const IPageRef = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+export type IPageRef = z.infer<typeof IPageRef>
