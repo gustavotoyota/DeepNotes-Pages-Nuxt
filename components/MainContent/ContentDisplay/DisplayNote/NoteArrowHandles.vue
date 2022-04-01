@@ -3,19 +3,19 @@
   <div v-if="note.parentId == null && note.active && !note.dragging"
   class="note-arrow-handles">
 
-    <NoteArrowHandle
+    <NoteArrowHandle :note="note"
     style="top: 50%; left: -24px;
     transform: translate(-50%, -50%) rotateZ(-90deg)"/>
 
-    <NoteArrowHandle
+    <NoteArrowHandle :note="note"
     style="top: 50%; right: -24px;
     transform: translate(50%, -50%) rotateZ(90deg)"/>
 
-    <NoteArrowHandle
+    <NoteArrowHandle :note="note"
     style="top: -24px; left: 50%;
     transform: translate(-50%, -50%) rotateZ(0deg)"/>
 
-    <NoteArrowHandle
+    <NoteArrowHandle :note="note"
     style="bottom: -24px; left: 50%;
     transform: translate(-50%, 50%) rotateZ(180deg)"/>
   

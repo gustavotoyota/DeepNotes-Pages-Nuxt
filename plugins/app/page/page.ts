@@ -1,48 +1,38 @@
 import { Context } from '@nuxt/types'
-import { v4 as uuidv4 } from 'uuid'
 import { Base64 } from 'js-base64'
-
-
-
-
+import { v4 as uuidv4 } from 'uuid'
+import { z } from 'zod'
+import { App } from '../app'
+import { AppProject } from '../project'
+import { AppArrowCreation } from './arrows/arrow-creation'
+import { AppArrows } from './arrows/arrows'
 import { AppCamera } from './camera/camera'
 import { AppPanning } from './camera/panning'
-import { AppZooming } from './camera/zooming'
 import { AppPinching } from './camera/pinching'
-
-import { AppPos } from './space/pos'
-import { AppSizes } from './space/sizes'
-import { AppRects } from './space/rects'
-
-import { AppSelection } from './selection/selection'
-import { AppActiveRegion } from './selection/active-region'
-import { AppActiveElem } from './selection/active-elem'
-import { AppClickSelection } from './selection/click-selection'
-import { AppBoxSelection } from './selection/box-selection'
-
+import { AppZooming } from './camera/zooming'
 import { AppCollab } from './collab'
-import { AppUndoRedo } from './undo-redo'
-
-import { AppRegions } from './regions'
-
-import { AppElems } from './elems/elems'
+import { IContainerCollab } from './container'
+import { AppPageData } from './data'
 import { AppClipboard } from './elems/clipboard'
 import { AppDeleting } from './elems/deleting'
-
-import { AppNotes } from './notes/notes'
-import { AppDragging } from './notes/dragging'
+import { AppElems } from './elems/elems'
 import { AppCloning } from './notes/cloning'
-import { AppEditing } from './notes/editing'
 import { AppCollapsing } from './notes/collapsing'
-import { AppResizing } from './notes/resizing'
+import { AppDragging } from './notes/dragging'
 import { AppDropping } from './notes/dropping'
-
-import { AppArrows } from './arrows/arrows'
-import { AppPageData } from './data'
-import { AppProject } from '../project'
-import { App } from '../app'
-import { IContainerCollab } from './container'
-import { z } from 'zod'
+import { AppEditing } from './notes/editing'
+import { AppNotes } from './notes/notes'
+import { AppResizing } from './notes/resizing'
+import { AppRegions } from './regions'
+import { AppActiveElem } from './selection/active-elem'
+import { AppActiveRegion } from './selection/active-region'
+import { AppBoxSelection } from './selection/box-selection'
+import { AppClickSelection } from './selection/click-selection'
+import { AppSelection } from './selection/selection'
+import { AppPos } from './space/pos'
+import { AppRects } from './space/rects'
+import { AppSizes } from './space/sizes'
+import { AppUndoRedo } from './undo-redo'
 
 
 
@@ -97,6 +87,7 @@ export class AppPage {
   dropping: AppDropping
   
   arrows: AppArrows
+  arrowCreation: AppArrowCreation
 
 
 
@@ -152,6 +143,7 @@ export class AppPage {
     this.dropping = new AppDropping(this)
     
     this.arrows = new AppArrows(this)
+    this.arrowCreation = new AppArrowCreation(this)
   }
 
 

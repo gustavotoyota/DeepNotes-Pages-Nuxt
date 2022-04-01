@@ -1,6 +1,34 @@
-import { Context } from "@nuxt/types"
-import { AppPage } from "../page"
+import { z } from "zod"
+import { IVec2 } from "~/plugins/static/types"
 import { Elem, ElemType } from "../elems/elems"
+import { AppPage } from "../page"
+
+
+
+
+export const IArrowEndpoint = z.object({
+  noteId: z.string().nullable(),
+  pos: IVec2,
+})
+export type IArrowEndpoint = z.infer<typeof IArrowEndpoint>
+
+
+
+
+export class Arrow extends Elem {
+  constructor(page: AppPage, id?: string) {
+    super(page, { id, type: ElemType.ARROW })
+  }
+}
+
+
+
+
+export const IArrowCollab = z.object({
+  start: IArrowEndpoint,
+  end: IArrowEndpoint,
+})
+export type IArrowCollab = z.infer<typeof IArrowCollab>
 
 
 
@@ -42,16 +70,4 @@ export class AppArrows {
   toIds(arrows: Arrow[]): string[] {
     return arrows.map(arrow => arrow.id)
   }
-}
-
-
-
-
-export class Arrow extends Elem {
-  constructor(page: AppPage, id?: string) {
-    super(page, { id, type: ElemType.ARROW })
-  }
-}
-
-export interface IArrowCollab {
 }
