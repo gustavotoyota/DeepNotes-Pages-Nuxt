@@ -5,6 +5,7 @@
     <template v-slot:activator="{ on }">
 
       <v-btn style="min-width: 0; width: 36px; padding: 0"
+      :disabled="!$app.page.loaded || disabled"
       @click="$emit('click', $event)"
       v-on="on">
         <v-icon>mdi-{{ icon }}</v-icon>
@@ -25,5 +26,6 @@
 defineProps<{
   tooltip: string,
   icon: string,
+  disabled?: boolean,
 }>()
 </script>

@@ -3,15 +3,21 @@
   <div id="display"
   style="flex: 1;
   position: relative;
-  overflow: hidden;"
+  overflow: hidden"
   @wheel="onWheel"
   @pointerdown.left="onLeftPointerDown"
   @pointerdown.middle.prevent="onMiddlePointerDown">
 
-    <DisplayBackground/>
-    <DisplayView/>
-    <DisplayBoxSelection/>
-    <DisplayButtons/>
+    <template v-if="$app.page.loaded">
+    
+      <DisplayBackground/>
+
+      <DisplayArrows/>
+      <DisplayView/>
+
+      <DisplayBoxSelection/>
+
+    </template>
 
 
     
@@ -28,6 +34,11 @@
       size="44"/>
 
     </v-overlay>
+    
+
+
+    
+    <DisplayButtons/>
 
   </div>
 
@@ -38,7 +49,9 @@
 
 <script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
-import Vue from "vue";
+
+
+
 
 const ctx = useContext()
 

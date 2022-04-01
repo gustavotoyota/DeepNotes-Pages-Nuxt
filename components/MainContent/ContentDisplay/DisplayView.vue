@@ -2,7 +2,6 @@
 
   <!-- Centralizer -->
   <div class="display-centralizer"
-  v-if="$app.page.data.collab.name != null"
   style="position: absolute; left: 50%; top: 50%">
 
     <!-- Viewbox -->

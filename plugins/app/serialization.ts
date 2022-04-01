@@ -79,7 +79,7 @@ export class AppSerialization {
     for (const noteId of container.noteIds) {
       // Children
 
-      const note = this.ctx.$app.page.notes.fromIds([noteId])[0]
+      const note = this.ctx.$app.page.notes.fromId(noteId)
       
       const serialNote: Partial<ISerialNote> = this.serialize(note.collab)
 

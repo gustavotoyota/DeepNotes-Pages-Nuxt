@@ -125,13 +125,23 @@ export class AppNotes {
 
 
 
+  fromId(nodeId: string): Note {
+    return this.map[nodeId]
+  }
+  toId(note: Note): string {
+    return note.id
+  }
+
+
+
+
   fromIds(noteIds: string[]): Note[] {
     return noteIds
-      .map(noteId => this.map[noteId] as Note)
+      .map(noteId => this.fromId(noteId))
       .filter(note => note != null)
   }
   toIds(notes: Note[]): string[] {
-    return notes.map(note => note.id)
+    return notes.map(note => this.toId(note))
   }
 }
 

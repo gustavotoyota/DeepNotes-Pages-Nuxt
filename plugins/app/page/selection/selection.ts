@@ -49,7 +49,7 @@ export class AppSelection {
     $static.vue.computed(this, '$app.page.selection.arrows', () => 
       this.page.arrows.fromIds(this.arrowIds))
     $static.vue.computed(this, '$app.page.selection.elems', () => 
-      this.arrows.concat(this.notes))
+      (this.arrows as Elem[]).concat(this.notes as Elem[]))
   }
 
 

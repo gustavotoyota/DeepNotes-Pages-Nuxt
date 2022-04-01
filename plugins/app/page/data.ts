@@ -2,6 +2,7 @@ import { Context } from '@nuxt/types'
 import { Nullable } from "~/types/deep-notes"
 import { AppPage, IPageCollab } from './page'
 import { Note } from './notes/notes'
+import { Arrow } from './arrows/arrows'
 
 
 
@@ -15,7 +16,7 @@ export class AppPageData {
   name!: string
 
   notes!: Note[]
-  arrows!: any[]
+  arrows!: Arrow[]
 
 
 
