@@ -140,6 +140,22 @@ export class AppBoxSelection {
       else
         this.page.selection.add(note)
     }
+    
+  
+  
+
+    for (const arrow of this.page.data.arrows) {
+      const clientRect = arrow.getClientRect()
+  
+      if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
+      || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)
+        continue
+  
+      if (arrow.selected && !event.shiftKey)
+        this.page.selection.remove(arrow)
+      else
+        this.page.selection.add(arrow)
+    }
   
 
     

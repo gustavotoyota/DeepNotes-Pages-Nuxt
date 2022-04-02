@@ -75,6 +75,17 @@ export class Arrow extends Elem {
 
     return note.collab.pos
   }
+
+
+
+
+  getClientRect() {
+    const node = document.getElementById(`arrow-${this.id}`)!
+
+    const domClientRect = node.getBoundingClientRect()
+  
+    return this.page.rects.fromDOM(domClientRect)
+  }
 }
 
 

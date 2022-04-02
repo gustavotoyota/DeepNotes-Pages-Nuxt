@@ -11,8 +11,9 @@
         <DisplayArrow v-for="arrow of $app.page.data.arrows" :key="arrow.id"
         :arrow="arrow"/>
         
-        <line v-if="$app.page.arrowCreation.active"
-        :arrow="$app.page.arrowCreation.arrow"/>
+        <DisplayArrow v-if="$app.page.arrowCreation.active"
+        :arrow="$app.page.arrowCreation.arrow"
+        :creating="true"/>
 
       </g>
 

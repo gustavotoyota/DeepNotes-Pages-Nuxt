@@ -35,7 +35,10 @@
       overflow-y: auto"
       class="pb-4">
 
-        <NoteProperties v-if="$app.page.activeElem.exists"/>
+        <template v-if="$app.page.activeElem.get != null">
+          <NoteProperties v-if="$app.page.activeElem.get.type == ElemType.NOTE"/>
+        </template>
+
         <PageProperties v-else/>
 
       </div>
@@ -50,6 +53,7 @@
 
 
 <script setup lang="ts">
+import { ElemType } from '~/plugins/app/page/elems/elems';
 </script>
 
 
