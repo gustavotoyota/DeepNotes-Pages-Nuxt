@@ -1,7 +1,10 @@
 import { reactive } from "@nuxtjs/composition-api";
+import { cloneDeep } from "lodash";
+import { v4 as uuidv4 } from 'uuid';
+import Vue from "vue";
 import { Note } from "../notes/notes";
 import { AppPage } from "../page";
-import { Arrow, IArrowCollab, IArrowEndpoint } from "./arrows";
+import { Arrow, IArrowCollab } from "./arrows";
 
 
 
@@ -54,7 +57,7 @@ export class AppArrowCreation {
 
     $static.utils.listenPointerEvents(event, {
       move: this._update,
-      up: this._finish,
+      up: this.finish,
     })
   }
 
@@ -71,7 +74,24 @@ export class AppArrowCreation {
 
 
   
-  private _finish = function (this: AppArrowCreation, event: PointerEvent) {
+  finish = function (this: AppArrowCreation, event: PointerEvent, note?: Note) {
+    if (!this.active)
+      return
+
+
+      
+
     this.active = false
+
+
+    
+    
+    const arrowId = uuidv4()
+
+    this.arrow.collab.end.noteId = note?.id ?? null
+
+    Vue.set(this.page.arrows.collab, arrowId, cloneDeep(this.arrow.collab))
+
+    this.page.data.collab.arrowIds.push(arrowId)
   }.bind(this)
 }

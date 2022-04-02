@@ -8,18 +8,11 @@
       <g :transform="'scale(' + $app.page.camera.zoom + ') ' +
       'translate(' + -$app.page.camera.pos.x + ', ' + -$app.page.camera.pos.y + ')'">
         
-        <line v-for="arrow of $app.page.data.arrows" :key="arrow.id"
-        :x1="arrow.startPos.x" :y1="arrow.startPos.y"
-        :x2="arrow.endPos.x" :y2="arrow.endPos.y"
-        stroke="blue"/>
+        <DisplayArrow v-for="arrow of $app.page.data.arrows" :key="arrow.id"
+        :arrow="arrow"/>
         
         <line v-if="$app.page.arrowCreation.active"
-        :x1="$app.page.arrowCreation.arrow.startPos.x"
-        :y1="$app.page.arrowCreation.arrow.startPos.y"
-        :x2="$app.page.arrowCreation.arrow.endPos.x"
-        :y2="$app.page.arrowCreation.arrow.endPos.y"
-        stroke="#b0b0b0"
-        stroke-width="3.5"/>
+        :arrow="$app.page.arrowCreation.arrow"/>
 
       </g>
 

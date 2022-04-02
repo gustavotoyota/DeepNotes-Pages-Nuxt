@@ -1,3 +1,5 @@
+import { getYjsValue, SyncedArray, SyncedMap } from "@syncedstore/core"
+import Vue from "vue"
 import { z } from "zod"
 import { IVec2 } from "~/plugins/static/types"
 import { Nullable } from "~/types/deep-notes"
@@ -124,6 +126,40 @@ export class AppArrows {
 
 
 
-  observe() {
+  create(arrowId: string, parentId: Nullable<string>) {
+    new Arrow(this.page, {
+      id: arrowId,
+      parentId: parentId,
+    })
+  }
+  createAndObserveIds(arrowIds: string[], parentId: Nullable<string>) {
+    for (const arrowId of arrowIds)
+      this.create(arrowId, parentId);
+
+    (getYjsValue(arrowIds) as SyncedArray<string>)
+    .observe(event => {
+      for (const delta of event.changes.delta) {
+        if (delta.insert == null)
+          continue
+
+        for (const arrowId of delta.insert)
+          this.create(arrowId, parentId)
+      }
+    })
+  }
+
+
+
+
+  observeMap() {
+    (getYjsValue(this.collab) as SyncedMap<IArrowCollab>)
+    .observe(event => {
+      for (const [noteId, change] of event.changes.keys) {
+        if (change.action !== 'delete')
+          continue
+
+        Vue.delete(this.map, noteId)
+      }
+    })
   }
 }

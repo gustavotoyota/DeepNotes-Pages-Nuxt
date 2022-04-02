@@ -125,10 +125,13 @@ export class AppCollab {
 
 
 
-    // Observe note changes
+    // Observe changes
     
-    this.page.notes.mapAndObserveIds(this.page.data.collab.noteIds, null)
+    this.page.notes.createAndObserveIds(this.page.data.collab.noteIds, null)
     this.page.notes.observeMap()
+
+    this.page.arrows.createAndObserveIds(this.page.data.collab.arrowIds, null)
+    this.page.arrows.observeMap()
 
 
 

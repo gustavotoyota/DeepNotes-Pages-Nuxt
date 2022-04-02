@@ -13,7 +13,7 @@
       <DisplayBackground/>
 
       <DisplayArrows/>
-      <DisplayView/>
+      <DisplayNotes/>
 
       <DisplayBoxSelection/>
 

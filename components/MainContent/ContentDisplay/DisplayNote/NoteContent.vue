@@ -7,6 +7,7 @@
   }"
   @touchstart="onTouchStart"
   @pointerdown.left.stop="onPointerDown"
+  @pointerup.left="onPointerUp"
   @click="onClick">
 
     <slot/>
@@ -65,7 +66,7 @@ function onPointerDown(event: PointerEvent) {
   && !props.note.selected)
     return
 
-  if (ctx.$app.page.editing.note === props.note)
+  if (props.note.editing)
     return
 
   ctx.$app.page.editing.stop()
@@ -75,6 +76,17 @@ function onPointerDown(event: PointerEvent) {
   if (event.button === 0
   && props.note.selected)
     ctx.$app.page.dragging.start(event)
+}
+
+
+
+
+function onPointerUp(event: PointerEvent) {
+  if (ctx.$app.page.arrowCreation.active) {
+    event.stopPropagation()
+    ctx.$app.page.arrowCreation.finish(event, props.note)
+    return
+  }
 }
 
 
