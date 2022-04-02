@@ -104,13 +104,11 @@ export class AppCamera {
     const clientBottomRight = { x: -Infinity, y: -Infinity }
   
     for (const note of notes) {
-      const clientRect = note.getClientRect('note-frame')
+      clientTopLeft.x = Math.min(clientTopLeft.x, note.clientRect.start.x)
+      clientTopLeft.y = Math.min(clientTopLeft.y, note.clientRect.start.y)
   
-      clientTopLeft.x = Math.min(clientTopLeft.x, clientRect.start.x)
-      clientTopLeft.y = Math.min(clientTopLeft.y, clientRect.start.y)
-  
-      clientBottomRight.x = Math.max(clientBottomRight.x, clientRect.end.x)
-      clientBottomRight.y = Math.max(clientBottomRight.y, clientRect.end.y)
+      clientBottomRight.x = Math.max(clientBottomRight.x, note.clientRect.end.x)
+      clientBottomRight.y = Math.max(clientBottomRight.y, note.clientRect.end.y)
     }
   
   

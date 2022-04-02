@@ -165,8 +165,7 @@
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.anchor.x"
         @change="changeProp($event, (note, value) => {
-          const worldRect = note.getWorldRect('note-frame')
-          note.collab.pos.x += (value - note.collab.anchor.x) * worldRect.size.x
+          note.collab.pos.x += (value - note.collab.anchor.x) * note.worldSize.x
           note.collab.anchor.x = value
         })"/>
       </div>
@@ -191,8 +190,7 @@
         :menu-props="{ top: false, offsetY: true }"
         :value="activeNote.collab.anchor.y"
         @change="changeProp($event, (note, value) => {
-          const worldRect = note.getWorldRect('note-frame')
-          note.collab.pos.y += (value - note.collab.anchor.y) * worldRect.size.y
+          note.collab.pos.y += (value - note.collab.anchor.y) * note.worldSize.y
           note.collab.anchor.y = value
         })"/>
       </div>
@@ -519,19 +517,17 @@ function swapHeadAndBody() {
 
 const width = computed({
   get(): string {
-    if (activeNote.value.size.x.endsWith('px'))
+    if (activeNote.value.domSize.x.endsWith('px'))
       return 'custom'
     else
-      return activeNote.value.size.x
+      return activeNote.value.domSize.x
   },
   set(value: string) {
     for (const note of ctx.$app.page.selection.notes) {
-      if (value === 'custom') {
-        const clientRect = note.getClientRect('note-frame')
-
-        note.size.x = `${ctx.$app.page.sizes.screenToWorld1D(clientRect.size.x)}px`
-      } else
-        note.size.x = value
+      if (value === 'custom')
+        note.domSize.x = `${note.worldSize.x}px`
+      else
+        note.domSize.x = value
     }
   },
 })
@@ -544,20 +540,19 @@ const width = computed({
 function sectionHeight(section: NoteSection) {
   return computed({
     get(): string {
-      if (activeNote.value.size.y[section].endsWith('px'))
+      if (activeNote.value.domSize.y[section].endsWith('px'))
         return 'custom'
       else
-        return activeNote.value.size.y[section]
+        return activeNote.value.domSize.y[section]
     },
     set(value: string) {
       changeProp(value, (note, value) => {
         if (value === 'custom') {
-          const node = note.getNode(`note-${section}-section`)
-          const clientRect = node.getBoundingClientRect()
+          const worldRect = note.getWorldRect(`note-${section}-section`)
 
-          note.size.y[section] = `${ctx.$app.page.sizes.screenToWorld1D(clientRect.height)}px`
+          note.domSize.y[section] = `${worldRect.size.y}px`
         } else
-          note.size.y[section] = value
+          note.domSize.y[section] = value
       })
     },
   })

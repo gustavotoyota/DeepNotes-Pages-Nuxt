@@ -1,4 +1,5 @@
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
+import { cloneDeep } from "lodash"
 import Quill from "quill"
 import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
@@ -10,6 +11,7 @@ import { Arrow } from "../arrows/arrows"
 import { IContainerCollab } from "../container"
 import { Elem, ElemType } from '../elems/elems'
 import { AppPage } from '../page'
+import { IRect } from "../space/rects"
 
 
 
@@ -226,12 +228,24 @@ export class Note extends Elem {
 
   editing!: boolean
   dragging!: boolean
-  locallyCollapsed!: boolean
 
+  locallyCollapsed!: boolean
   collapsed!: boolean
 
-  sizeProp!: 'collapsedSize' | 'expandedSize'
-  size!: INoteSize
+  domSizeProp!: 'collapsedSize' | 'expandedSize'
+  domSize!: INoteSize
+
+  worldSize!: IVec2
+  worldTopLeft!: IVec2
+  worldCenter!: IVec2
+  worldBottomRight!: IVec2
+  worldRect!: IRect
+
+  clientSize!: IVec2
+  clientTopLeft!: IVec2
+  clientCenter!: IVec2
+  clientBottomRight!: IVec2
+  clientRect!: IRect
 
   topSection!: NoteSection
   bottomSection!: NoteSection
@@ -239,6 +253,10 @@ export class Note extends Elem {
 
   headQuill: Nullable<Quill> = null
   bodyQuill: Nullable<Quill> = null
+
+  minWidth!: string
+  width!: string
+  targetWidth!: string
 
   headHeight!: string
   bodyHeight!: string
@@ -248,10 +266,6 @@ export class Note extends Elem {
 
   siblingIds!: string[]
   siblings!: Note[]
-
-  minWidth!: string
-  width!: string
-  targetWidth!: string
 
   notes!: Note[]
   arrows!: Arrow[]
@@ -272,11 +286,11 @@ export class Note extends Elem {
 
     $static.vue.ref(this, 'note.editing', false)
     $static.vue.ref(this, 'note.dragging', this.page.dragging.active && this.selected)
-    $static.vue.ref(this, 'note.locallyCollapsed', this.collab.collapsed)
-
+  
 
 
     
+    $static.vue.ref(this, 'note.locallyCollapsed', this.collab.collapsed)
     $static.vue.computed(this, 'note.collapsed', () => {
       if (!this.collab.collapsible)
         return false
@@ -290,10 +304,51 @@ export class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'note.sizeProp', () =>
+    $static.vue.computed(this, 'note.domSizeProp', () =>
       this.collapsed ? 'collapsedSize' : 'expandedSize')
-    $static.vue.computed(this, 'note.size', () =>
-      this.collab[this.sizeProp])
+    $static.vue.computed(this, 'note.domSize', () =>
+      this.collab[this.domSizeProp] as INoteSize)
+
+
+
+
+    $static.vue.ref(this, 'note.worldSize', { x: 0, y: 0 } as IVec2)
+
+    $static.vue.computed(this, 'note.worldTopLeft', () => ({
+      x: this.collab.pos.x - this.collab.anchor.x * this.worldSize.x,
+      y: this.collab.pos.y - this.collab.anchor.y * this.worldSize.y,
+    }))
+    $static.vue.computed(this, 'note.worldCenter', () => ({
+      x: this.collab.pos.x + (0.5 - this.collab.anchor.x) * this.worldSize.x,
+      y: this.collab.pos.y + (0.5 - this.collab.anchor.y) * this.worldSize.y,
+    }))
+    $static.vue.computed(this, 'note.worldBottomRight', () => ({
+      x: this.collab.pos.x + (1 - this.collab.anchor.x) * this.worldSize.x,
+      y: this.collab.pos.y + (1 - this.collab.anchor.y) * this.worldSize.y,
+    }))
+
+    $static.vue.computed(this, 'note.worldRect', () => ({
+      start: this.worldTopLeft,
+      end: this.worldBottomRight,
+    } as IRect))
+
+
+
+    
+    $static.vue.computed(this, 'note.clientSize', () => 
+      this.page.pos.worldToClient(this.worldSize))
+      
+    $static.vue.computed(this, 'note.clientTopLeft', () => 
+      this.page.pos.worldToClient(this.worldTopLeft))
+    $static.vue.computed(this, 'note.clientCenter', () => 
+      this.page.pos.worldToClient(this.worldCenter))
+    $static.vue.computed(this, 'note.clientBottomRight', () => 
+      this.page.pos.worldToClient(this.worldBottomRight))
+
+    $static.vue.computed(this, 'note.clientRect', () => ({
+      start: this.page.pos.worldToClient(this.worldTopLeft),
+      end: this.page.pos.worldToClient(this.worldBottomRight),
+    } as IRect))
 
 
 
@@ -331,6 +386,51 @@ export class Note extends Elem {
 
 
 
+    
+    $static.vue.computed(this, 'note.minWidth', () => {
+      if (this.collab.container
+      && this.collab.noteIds.length === 0)
+        return '165px'
+
+      if (this.collab.container)
+        return '41px'
+
+      return '21px'
+    })
+    $static.vue.computed(this, 'note.width', {
+      get: () => {
+        if (this.parent != null) {
+          if (this.parent.collab.horizontal || !this.parent.collab.stretchChildren)
+            return this.domSize.x
+          else
+            return 'auto'
+        } else if (this.domSize.x === 'expanded')
+          return this.collab.expandedSize.x
+        else
+          return this.domSize.x
+      },
+      set: (value: string) => {
+        if (this.domSize.x === 'expanded')
+          this.collab.expandedSize.x = value
+        else
+          this.domSize.x = value
+      },
+    })
+    $static.vue.computed(this, 'note.targetWidth', () => {
+      if (this.parent != null
+      && this.parent.targetWidth === '0px'
+      && !this.parent.collab.horizontal
+      && this.parent.collab.stretchChildren)
+        return '0px'
+      
+      if (this.width === 'auto')
+        return 'auto'
+      else
+        return '0px'
+    })
+
+
+
 
     const makeSectionHeight = (section: NoteSection) => {
       $static.vue.computed(this, `note.${section}Height`, {
@@ -342,16 +442,16 @@ export class Note extends Elem {
               return '0'
             else
               return this.collab.expandedSize.y[section]
-          } else if (this.size.y[section] === 'auto')
+          } else if (this.domSize.y[section] === 'auto')
             return this.collab.expandedSize.y[section]
           else
-            return this.size.y[section]
+            return this.domSize.y[section]
         },
         set: (value: string) => {
-          if (this.size.y[section] === 'auto')
+          if (this.domSize.y[section] === 'auto')
             this.collab.expandedSize.y[section] = value
           else
-            this.size.y[section] = value
+            this.domSize.y[section] = value
         },
       })
     }
@@ -377,51 +477,6 @@ export class Note extends Elem {
       this.page.regions.getNoteIds(this.parent))
     $static.vue.computed(this, 'note.siblings', () =>
       this.page.regions.getNotes(this.parent))
-
-
-
-    
-    $static.vue.computed(this, 'note.minWidth', () => {
-      if (this.collab.container
-      && this.collab.noteIds.length === 0)
-        return '165px'
-
-      if (this.collab.container)
-        return '41px'
-
-      return '21px'
-    })
-    $static.vue.computed(this, 'note.width', {
-      get: () => {
-        if (this.parent != null) {
-          if (this.parent.collab.horizontal || !this.parent.collab.stretchChildren)
-            return this.size.x
-          else
-            return 'auto'
-        } else if (this.size.x === 'expanded')
-          return this.collab.expandedSize.x
-        else
-          return this.size.x
-      },
-      set: (value: string) => {
-        if (this.size.x === 'expanded')
-          this.collab.expandedSize.x = value
-        else
-          this.size.x = value
-      },
-    })
-    $static.vue.computed(this, 'note.targetWidth', () => {
-      if (this.parent != null
-      && this.parent.targetWidth === '0px'
-      && !this.parent.collab.horizontal
-      && this.parent.collab.stretchChildren)
-        return '0px'
-      
-      if (this.width === 'auto')
-        return 'auto'
-      else
-        return '0px'
-    })
 
 
 

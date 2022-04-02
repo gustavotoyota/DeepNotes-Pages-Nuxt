@@ -129,10 +129,8 @@ export class AppBoxSelection {
   
 
     for (const note of this.page.data.notes) {
-      const clientRect = note.getClientRect('note-frame')
-  
-      if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
-      || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)
+      if (note.clientRect.start.x < topLeft.x || note.clientRect.start.y < topLeft.y
+      || note.clientRect.end.x > bottomRight.x || note.clientRect.end.y > bottomRight.y)
         continue
   
       if (note.selected && !event.shiftKey)

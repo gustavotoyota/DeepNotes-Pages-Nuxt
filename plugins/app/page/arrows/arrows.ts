@@ -67,13 +67,13 @@ export class Arrow extends Elem {
 
 
 
-  getEndpointWorldPos(endpoint: IArrowEndpoint) {
+  getEndpointWorldPos(endpoint: IArrowEndpoint): IVec2 {
     if (endpoint.noteId == null)
       return endpoint.pos
 
     const note = this.page.notes.fromId(endpoint.noteId)
 
-    return note.collab.pos
+    return note.worldCenter
   }
 
 
