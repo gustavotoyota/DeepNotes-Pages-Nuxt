@@ -1,5 +1,5 @@
 import { nextTick } from '@nuxtjs/composition-api';
-import { IVec2 } from '~/plugins/static/types';
+import { Vec2 } from '~/plugins/static/vec2';
 import { Nullable } from "~/types/deep-notes";
 import { AppPage } from '../page';
 import { Note } from './notes';
@@ -17,8 +17,8 @@ export class AppDragging {
 
   active!: boolean;
 
-  startPos!: IVec2;
-  currentPos!: IVec2;
+  startPos!: Vec2;
+  currentPos!: Vec2;
 
   dropRegionId!: Nullable<string>;
   dropIndex!: Nullable<number>;
@@ -79,10 +79,7 @@ export class AppDragging {
 
 
     if (!this.active) {
-      const dist = Math.sqrt(
-        Math.pow(clientMousePos.x - this.startPos.x, 2) +
-        Math.pow(clientMousePos.y - this.startPos.y, 2)
-      )
+      const dist = clientMousePos.sub(this.startPos).length()
   
       this.active = dist >= MIN_DISTANCE
       if (!this.active)
@@ -106,9 +103,9 @@ export class AppDragging {
           for (const selectedNote of this.page.selection.notes) {
             const worldRect = selectedNote.getWorldRect('note-frame')
 
-            selectedNote.collab.pos.x = worldRect.start.x +
+            selectedNote.collab.pos.x = worldRect.topLeft.x +
               worldRect.size.x * selectedNote.collab.anchor.x
-            selectedNote.collab.pos.y = worldRect.start.y +
+            selectedNote.collab.pos.y = worldRect.topLeft.y +
               worldRect.size.y * selectedNote.collab.anchor.y
           }
         })
@@ -141,10 +138,7 @@ export class AppDragging {
         nextTick(() => {
           const activeWorldRect = (this.page.activeElem.get as Note).getWorldRect('note-frame')
 
-          const mouseOffset = {
-            x: worldMousePos.x - (activeWorldRect.start.x + activeWorldRect.end.x) / 2,
-            y: worldMousePos.y - (activeWorldRect.start.y + activeWorldRect.end.y) / 2,
-          }
+          const mouseOffset = worldMousePos.sub(activeWorldRect.center)
             
           this.page.collab.doc.transact(() => {
             for (const selectedNote of this.page.selection.notes) {
@@ -161,10 +155,7 @@ export class AppDragging {
 
     // Calculate delta
 
-    const delta: IVec2 = {
-      x: (clientMousePos.x - this.currentPos.x) / this.page.camera.zoom,
-      y: (clientMousePos.y - this.currentPos.y) / this.page.camera.zoom,
-    };
+    const delta = clientMousePos.sub(this.currentPos).divScalar(this.page.camera.zoom)
 
 
 

@@ -1,7 +1,7 @@
 import { getYjsValue, SyncedArray, SyncedMap } from "@syncedstore/core"
 import Vue from "vue"
 import { z } from "zod"
-import { IVec2 } from "~/plugins/static/types"
+import { IVec2, Vec2 } from "~/plugins/static/vec2"
 import { Nullable } from "~/types/deep-notes"
 import { Elem, ElemType } from "../elems/elems"
 import { AppPage } from "../page"
@@ -33,8 +33,8 @@ export class Arrow extends Elem {
 
 
 
-  startPos!: IVec2
-  endPos!: IVec2
+  startPos!: Vec2
+  endPos!: Vec2
 
 
 
@@ -67,9 +67,9 @@ export class Arrow extends Elem {
 
 
 
-  getEndpointWorldPos(endpoint: IArrowEndpoint): IVec2 {
+  getEndpointWorldPos(endpoint: IArrowEndpoint): Vec2 {
     if (endpoint.noteId == null)
-      return endpoint.pos
+      return new Vec2(endpoint.pos)
 
     const note = this.page.notes.fromId(endpoint.noteId)
 

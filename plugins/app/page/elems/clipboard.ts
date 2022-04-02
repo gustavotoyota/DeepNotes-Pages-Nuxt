@@ -1,4 +1,4 @@
-import { IVec2 } from "~/plugins/static/types"
+import { Vec2 } from "~/plugins/static/vec2"
 import { ISerialContainer } from "../../serialization"
 import { Note } from "../notes/notes"
 import { AppPage } from "../page"
@@ -27,7 +27,7 @@ export class AppClipboard {
 
     // Calculate center position
 
-    const centerPos = { x: 0, y: 0 }
+    let centerPos = new Vec2(0, 0)
 
     for (const clipboardNote of clipboardContainer.notes) {
       centerPos.x += clipboardNote.pos.x
@@ -70,15 +70,12 @@ export class AppClipboard {
     // Center notes around destination
 
     if (this.page.activeRegion.id == null) {
-      let destCenter: IVec2
+      let destCenter: Vec2
 
       if (this.page.activeElem.exists) {
         const auxPos = (this.page.activeElem.get as Note).collab.pos
 
-        destCenter = {
-          x: auxPos.x + 8,
-          y: auxPos.y + 8,
-        }
+        destCenter = new Vec2(auxPos.x, auxPos.y).addScalar(8)
       } else
         destCenter = this.page.camera.pos
 

@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { v4 as uuidv4 } from 'uuid'
-import { IVec2 } from "../static/types"
+import { Vec2 } from "../static/vec2"
 import { ISerialNote } from "./serialization"
 
 
@@ -24,7 +24,7 @@ export class AppTemplates {
   default!: ITemplate
   
   popupVisible!: boolean
-  popupPos!: IVec2
+  popupPos!: Vec2
 
 
 
@@ -89,13 +89,13 @@ export class AppTemplates {
 
 
     $static.vue.ssrRef(this, '$app.templates.popupVisible', () => false)
-    $static.vue.ssrRef(this, '$app.templates.popupPos', () => ({ x: 0, y: 0 }))
+    $static.vue.ssrRef(this, '$app.templates.popupPos', () => (new Vec2(0, 0)))
   }
 
 
 
 
-  showPopup(pos: IVec2) {
+  showPopup(pos: Vec2) {
     this.popupPos = pos
     this.popupVisible = true
   }

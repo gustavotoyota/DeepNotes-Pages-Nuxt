@@ -1,6 +1,6 @@
 import { watch } from "@nuxtjs/composition-api"
 import Vue from "vue"
-import { IVec2 } from "~/plugins/static/types"
+import { Vec2 } from "~/plugins/static/vec2"
 import { AppPage } from "../page"
 
 
@@ -9,11 +9,11 @@ import { AppPage } from "../page"
 export class AppPinching {
   page: AppPage
 
-  pointers!: { [key: string]: IVec2 }
+  pointers!: { [key: string]: Vec2 }
 
   active!: boolean
 
-  displayCenterPos!: IVec2
+  displayCenterPos!: Vec2
   displayDistance!: number
 
 
@@ -79,14 +79,8 @@ export class AppPinching {
   private _getCenterAndDistance() {
     const pointers = Object.values(this.pointers)
 
-    const displayCenterPos = {
-      x: (pointers[0].x + pointers[1].x) / 2,
-      y: (pointers[0].y + pointers[1].y) / 2,
-    }
-
-    const displayDistance = Math.sqrt(
-      Math.pow(pointers[0].x - pointers[1].x, 2) +
-      Math.pow(pointers[0].y - pointers[1].y, 2))
+    const displayCenterPos = pointers[0].add(pointers[1]).divScalar(2)
+    const displayDistance = pointers[0].sub(pointers[1]).length()
 
     return { displayCenterPos, displayDistance }
   }
@@ -130,10 +124,8 @@ export class AppPinching {
 
     // Camera position update
 
-    const centerOffset = this.page.sizes.screenToWorld2D({
-      x: displayCenterPos.x - this.displayCenterPos.x,
-      y: displayCenterPos.y - this.displayCenterPos.y,
-    })
+    const centerOffset = this.page.sizes.screenToWorld2D(
+      displayCenterPos.sub(this.displayCenterPos))
 
     const worldCenterPos = this.page.pos.displayToWorld(displayCenterPos)
 

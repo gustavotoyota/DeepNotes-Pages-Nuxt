@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash"
-import { IVec2 } from "~/plugins/static/types"
+import { Vec2 } from "~/plugins/static/vec2"
 import { Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
 
@@ -16,8 +16,8 @@ export class AppBoxSelection {
 
   active!: boolean
 
-  startPos!: IVec2
-  endPos!: IVec2
+  startPos!: Vec2
+  endPos!: Vec2
 
   downEvent!: PointerEvent
   touchTimer: Nullable<NodeJS.Timeout> = null
@@ -89,10 +89,7 @@ export class AppBoxSelection {
     const displayPos = this.page.pos.getDisplayPos(event)
 
     if (!this.active) {
-      const dist = Math.sqrt(
-        Math.pow(displayPos.x - this.startPos.x, 2) +
-        Math.pow(displayPos.y - this.startPos.y, 2)
-      )
+      const dist = displayPos.sub(this.startPos).length()
   
       this.active = dist >= MIN_DISTANCE
 
@@ -116,21 +113,21 @@ export class AppBoxSelection {
   
 
   
-    const topLeft = {
-      x: Math.min(startPos.x, endPos.x),
-      y: Math.min(startPos.y, endPos.y),
-    }
-    const bottomRight = {
-      x: Math.max(startPos.x, endPos.x),
-      y: Math.max(startPos.y, endPos.y),
-    }
+    const topLeft = new Vec2(
+      Math.min(startPos.x, endPos.x),
+      Math.min(startPos.y, endPos.y),
+    )
+    const bottomRight = new Vec2(
+      Math.max(startPos.x, endPos.x),
+      Math.max(startPos.y, endPos.y),
+    )
     
   
   
 
     for (const note of this.page.data.notes) {
-      if (note.clientRect.start.x < topLeft.x || note.clientRect.start.y < topLeft.y
-      || note.clientRect.end.x > bottomRight.x || note.clientRect.end.y > bottomRight.y)
+      if (note.clientRect.topLeft.x < topLeft.x || note.clientRect.topLeft.y < topLeft.y
+      || note.clientRect.bottomRight.x > bottomRight.x || note.clientRect.bottomRight.y > bottomRight.y)
         continue
   
       if (note.selected && !event.shiftKey)
@@ -145,8 +142,8 @@ export class AppBoxSelection {
     for (const arrow of this.page.data.arrows) {
       const clientRect = arrow.getClientRect()
   
-      if (clientRect.start.x < topLeft.x || clientRect.start.y < topLeft.y
-      || clientRect.end.x > bottomRight.x || clientRect.end.y > bottomRight.y)
+      if (clientRect.topLeft.x < topLeft.x || clientRect.topLeft.y < topLeft.y
+      || clientRect.bottomRight.x > bottomRight.x || clientRect.bottomRight.y > bottomRight.y)
         continue
   
       if (arrow.selected && !event.shiftKey)
@@ -173,10 +170,7 @@ export class AppBoxSelection {
     if (this.active)
       return
 
-    const dist = Math.sqrt(
-      Math.pow(displayPos.x - this.startPos.x, 2) +
-      Math.pow(displayPos.y - this.startPos.y, 2)
-    )
+    const dist = displayPos.sub(this.startPos).length()
 
     if (dist >= MIN_DISTANCE) {
       this.page.panning.start(this.downEvent)

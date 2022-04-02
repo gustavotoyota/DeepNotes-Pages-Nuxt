@@ -1,17 +1,15 @@
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
-import { cloneDeep } from "lodash"
 import Quill from "quill"
-import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
 import { z } from "zod"
-import { IVec2 } from "~/plugins/static/types"
+import { Rect } from "~/plugins/static/rect"
+import { IVec2, Vec2 } from "~/plugins/static/vec2"
 import { Nullable } from "~/types/deep-notes"
 import { ITemplate } from "../../templates"
 import { Arrow } from "../arrows/arrows"
 import { IContainerCollab } from "../container"
 import { Elem, ElemType } from '../elems/elems'
 import { AppPage } from '../page'
-import { IRect } from "../space/rects"
 
 
 
@@ -63,7 +61,7 @@ export class AppNotes {
 
 
   
-  createFromTemplate(template: ITemplate, clientPos: IVec2) {
+  createFromTemplate(template: ITemplate, clientPos: Vec2) {
     const [noteId] = this.page.app.serialization.deserialize({
       notes: [template.data],
       arrows: [],
@@ -235,17 +233,17 @@ export class Note extends Elem {
   domSizeProp!: 'collapsedSize' | 'expandedSize'
   domSize!: INoteSize
 
-  worldSize!: IVec2
-  worldTopLeft!: IVec2
-  worldCenter!: IVec2
-  worldBottomRight!: IVec2
-  worldRect!: IRect
+  worldSize!: Vec2
+  worldTopLeft!: Vec2
+  worldCenter!: Vec2
+  worldBottomRight!: Vec2
+  worldRect!: Rect
 
-  clientSize!: IVec2
-  clientTopLeft!: IVec2
-  clientCenter!: IVec2
-  clientBottomRight!: IVec2
-  clientRect!: IRect
+  clientSize!: Vec2
+  clientTopLeft!: Vec2
+  clientCenter!: Vec2
+  clientBottomRight!: Vec2
+  clientRect!: Rect
 
   topSection!: NoteSection
   bottomSection!: NoteSection
@@ -312,25 +310,17 @@ export class Note extends Elem {
 
 
 
-    $static.vue.ref(this, 'note.worldSize', { x: 0, y: 0 } as IVec2)
+    $static.vue.ref(this, 'note.worldSize', new Vec2(0, 0))
 
-    $static.vue.computed(this, 'note.worldTopLeft', () => ({
-      x: this.collab.pos.x - this.collab.anchor.x * this.worldSize.x,
-      y: this.collab.pos.y - this.collab.anchor.y * this.worldSize.y,
-    }))
-    $static.vue.computed(this, 'note.worldCenter', () => ({
-      x: this.collab.pos.x + (0.5 - this.collab.anchor.x) * this.worldSize.x,
-      y: this.collab.pos.y + (0.5 - this.collab.anchor.y) * this.worldSize.y,
-    }))
-    $static.vue.computed(this, 'note.worldBottomRight', () => ({
-      x: this.collab.pos.x + (1 - this.collab.anchor.x) * this.worldSize.x,
-      y: this.collab.pos.y + (1 - this.collab.anchor.y) * this.worldSize.y,
-    }))
+    $static.vue.computed(this, 'note.worldTopLeft', () =>
+      new Vec2(this.collab.pos).sub(new Vec2(this.collab.anchor).mul(this.worldSize)))
+    $static.vue.computed(this, 'note.worldCenter', () => 
+      new Vec2(this.collab.pos).add(new Vec2(0.5).sub(new Vec2(this.collab.anchor)).mul(this.worldSize)))
+    $static.vue.computed(this, 'note.worldBottomRight', () => 
+      new Vec2(this.collab.pos).add(new Vec2(1).sub(new Vec2(this.collab.anchor)).mul(this.worldSize)))
 
-    $static.vue.computed(this, 'note.worldRect', () => ({
-      start: this.worldTopLeft,
-      end: this.worldBottomRight,
-    } as IRect))
+    $static.vue.computed(this, 'note.worldRect', () => (
+      new Rect(this.worldTopLeft, this.worldBottomRight)))
 
 
 
@@ -345,10 +335,12 @@ export class Note extends Elem {
     $static.vue.computed(this, 'note.clientBottomRight', () => 
       this.page.pos.worldToClient(this.worldBottomRight))
 
-    $static.vue.computed(this, 'note.clientRect', () => ({
-      start: this.page.pos.worldToClient(this.worldTopLeft),
-      end: this.page.pos.worldToClient(this.worldBottomRight),
-    } as IRect))
+    $static.vue.computed(this, 'note.clientRect', () => (
+      new Rect(
+        this.page.pos.worldToClient(this.worldTopLeft),
+        this.page.pos.worldToClient(this.worldBottomRight),
+      )
+    ))
 
 
 
