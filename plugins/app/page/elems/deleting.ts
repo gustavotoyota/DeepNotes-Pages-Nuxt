@@ -2,6 +2,7 @@ import { Context } from "@nuxt/types"
 import Vue from 'vue'
 import { AppPage } from "../page"
 import { Note } from "../notes/notes"
+import { Arrow } from "../arrows/arrows"
 
 
 
@@ -19,26 +20,55 @@ export class AppDeleting {
 
 
 
-  private _performAux(notes: Note[], noteIds: string[]) {
-    for (let i = notes.length - 1; i >= 0; --i) {
-      noteIds.push(notes[i].id)
-      notes[i].removeFromRegion()
-    }
+  private _performAux(notes: Note[], noteSet: Set<Note>, arrowSet: Set<Arrow>) {
+    for (const note of notes) {
+      noteSet.add(note)
 
-    for (const note of notes)
-      this._performAux(note.notes, noteIds)
+      for (const arrow of note.incomingArrows)
+        arrowSet.add(arrow)
+      for (const arrow of note.outgoingArrows)
+        arrowSet.add(arrow)
+      for (const arrow of note.arrows)
+        arrowSet.add(arrow)
+      
+      this._performAux(note.notes, noteSet, arrowSet)
+    }
   }
   perform() {
-    const noteIds: string[] = []
+    const noteSet = new Set<Note>()
+    const arrowSet = new Set<Arrow>()
 
-    this.page.collab.doc.transact(() => {
-      const selectedNotes = this.page.selection.notes
-      selectedNotes.sort((a: Note, b: Note) => a.index - b.index)
-      this._performAux(selectedNotes, noteIds)
+
+
+
+    // Delete notes
+    
+    this._performAux(this.page.selection.notes, noteSet, arrowSet)
+
+    const sortedNotes = Array.from(noteSet).sort((a: Note, b: Note) => b.index - a.index)
+    
+    for (const note of sortedNotes) {
+      note.removeFromRegion()
+      Vue.delete(this.page.collab.store.notes, note.id)
+    }
+
+
+
+
+    // Delete arrows
+
+    for (const arrow of this.page.selection.arrows)
+      arrowSet.add(arrow)
       
-      for (const noteId of noteIds)
-        Vue.delete(this.page.collab.store.notes, noteId)
-    })
+    const sortedArrows = Array.from(arrowSet).sort((a: Arrow, b: Arrow) => b.index - a.index)
+
+    for (const arrow of sortedArrows) {
+      arrow.removeFromRegion()
+      Vue.delete(this.page.collab.store.arrows, arrow.id)
+    }
+
+
+
 
     this.page.selection.clear()
 

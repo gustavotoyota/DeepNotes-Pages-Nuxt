@@ -1,11 +1,10 @@
-import { reactive } from "@nuxtjs/composition-api";
 import { cloneDeep } from "lodash";
 import { v4 as uuidv4 } from 'uuid';
 import Vue from "vue";
 import { Vec2 } from "~/plugins/static/vec2";
 import { Note } from "../notes/notes";
 import { AppPage } from "../page";
-import { Arrow, IArrowCollab } from "./arrows";
+import { Arrow } from "./arrows";
 
 
 
@@ -35,7 +34,6 @@ export class AppArrowCreation {
 
     
     this.arrow = new Arrow(this.page, { addToMap: false })
-    this.arrow.collab = reactive(IArrowCollab.parse({}))
   }
 
 

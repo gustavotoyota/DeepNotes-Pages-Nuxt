@@ -16,7 +16,7 @@
 
 
 <script setup lang="ts">
-import { useContext } from '@nuxtjs/composition-api';
+import { useContext, watchEffect } from '@nuxtjs/composition-api';
 import { Arrow } from '~/plugins/app/page/arrows/arrows'
 
 
@@ -30,6 +30,7 @@ const ctx = useContext()
 const props = defineProps<{
   arrow: Arrow,
   creating?: boolean,
+  index?: number,
 }>()
 
 
@@ -38,6 +39,13 @@ const props = defineProps<{
 function onPointerDown(event: PointerEvent) {
   ctx.$app.page.clickSelection.perform(props.arrow, event)
 }
+
+
+
+
+watchEffect(() => {
+  props.arrow.index = props.index ?? 0
+})
 </script>
 
 

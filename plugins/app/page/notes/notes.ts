@@ -90,6 +90,7 @@ export class AppNotes {
     const note = new Note(this.page, noteId, parentId)
 
     this.createAndObserveIds(note.collab.noteIds, note.id)
+    this.page.arrows.createAndObserveIds(note.collab.arrowIds, parentId)
   }
   createAndObserveIds(noteIds: string[], parentId: Nullable<string>) {
     for (const noteId of noteIds)
@@ -234,16 +235,12 @@ export class Note extends Elem {
   domSize!: INoteSize
 
   worldSize!: Vec2
-  worldTopLeft!: Vec2
-  worldCenter!: Vec2
-  worldBottomRight!: Vec2
   worldRect!: Rect
+  worldCenter!: Vec2
 
   clientSize!: Vec2
-  clientTopLeft!: Vec2
-  clientCenter!: Vec2
-  clientBottomRight!: Vec2
   clientRect!: Rect
+  clientCenter!: Vec2
 
   topSection!: NoteSection
   bottomSection!: NoteSection
@@ -260,13 +257,13 @@ export class Note extends Elem {
   bodyHeight!: string
   containerHeight!: string
 
-  parent!: Nullable<Note>
-
   siblingIds!: string[]
-  siblings!: Note[]
 
   notes!: Note[]
   arrows!: Arrow[]
+
+  incomingArrows: Arrow[] = []
+  outgoingArrows: Arrow[] = []
   
 
 
@@ -311,36 +308,28 @@ export class Note extends Elem {
 
 
     $static.vue.ref(this, 'note.worldSize', new Vec2(0, 0))
-
-    $static.vue.computed(this, 'note.worldTopLeft', () =>
-      new Vec2(this.collab.pos).sub(new Vec2(this.collab.anchor).mul(this.worldSize)))
-    $static.vue.computed(this, 'note.worldCenter', () => 
-      new Vec2(this.collab.pos).add(new Vec2(0.5).sub(new Vec2(this.collab.anchor)).mul(this.worldSize)))
-    $static.vue.computed(this, 'note.worldBottomRight', () => 
-      new Vec2(this.collab.pos).add(new Vec2(1).sub(new Vec2(this.collab.anchor)).mul(this.worldSize)))
-
     $static.vue.computed(this, 'note.worldRect', () => (
-      new Rect(this.worldTopLeft, this.worldBottomRight)))
+      new Rect(
+        new Vec2(this.collab.pos).sub(new Vec2(this.collab.anchor).mul(this.worldSize)),
+        new Vec2(this.collab.pos).add(new Vec2(1).sub(new Vec2(this.collab.anchor)).mul(this.worldSize)),
+      )
+    ))
+    $static.vue.computed(this, 'note.worldCenter', () => 
+      this.worldRect.center)
 
 
 
     
     $static.vue.computed(this, 'note.clientSize', () => 
       this.page.pos.worldToClient(this.worldSize))
-      
-    $static.vue.computed(this, 'note.clientTopLeft', () => 
-      this.page.pos.worldToClient(this.worldTopLeft))
-    $static.vue.computed(this, 'note.clientCenter', () => 
-      this.page.pos.worldToClient(this.worldCenter))
-    $static.vue.computed(this, 'note.clientBottomRight', () => 
-      this.page.pos.worldToClient(this.worldBottomRight))
-
     $static.vue.computed(this, 'note.clientRect', () => (
       new Rect(
-        this.page.pos.worldToClient(this.worldTopLeft),
-        this.page.pos.worldToClient(this.worldBottomRight),
+        this.page.pos.worldToClient(this.worldRect.topLeft),
+        this.page.pos.worldToClient(this.worldRect.bottomRight),
       )
     ))
+    $static.vue.computed(this, 'note.clientCenter', () => 
+      this.page.pos.worldToClient(this.worldCenter))
 
 
 
@@ -454,21 +443,9 @@ export class Note extends Elem {
 
 
 
-    
-    $static.vue.computed(this, 'note.parent', () => {
-      if (this.parentId == null)
-        return null
-      else
-        return this.page.notes.map[this.parentId]
-    })
-
-
-
 
     $static.vue.computed(this, 'note.siblingIds', () =>
       this.page.regions.getNoteIds(this.parent))
-    $static.vue.computed(this, 'note.siblings', () =>
-      this.page.regions.getNotes(this.parent))
 
 
 
@@ -520,7 +497,7 @@ export class Note extends Elem {
 
 
   removeFromRegion() {
-    this.siblingIds.splice(this.index, 1)
+    Vue.delete(this.siblingIds, this.index)
   }
 
 

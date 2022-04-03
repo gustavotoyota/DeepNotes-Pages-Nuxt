@@ -3,6 +3,7 @@ import { ref } from '@nuxtjs/composition-api'
 import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
 import { Nullable } from '~/types/deep-notes'
+import { Note } from '../notes/notes'
 import { AppPage } from '../page'
 
 
@@ -26,6 +27,7 @@ export class Elem {
   active!: boolean
   selected!: boolean
   
+  parent!: Nullable<Note>
   index!: number
 
 
@@ -50,6 +52,13 @@ export class Elem {
     $static.vue.ref(this, 'elem.selected', this.page.selection.has(this))
 
     $static.vue.ref(this, 'elem.index', -1)
+
+    $static.vue.computed(this, 'elem.parent', () => {
+      if (this.parentId == null)
+        return null
+      else
+        return this.page.notes.map[this.parentId]
+    })
 
 
     

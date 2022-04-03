@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from '@nuxtjs/composition-api';
 import { Note } from '~/plugins/app/page/notes/notes';
+import { Vec2 } from '~/plugins/static/vec2';
 
 
 
@@ -44,10 +45,10 @@ const frameElem = ref<Element>()
 
 const resizeObserver = new ResizeObserver((entries) => {
   for (const entry of entries) {
-    props.note.worldSize = {
-      x: entry.contentRect.width,
-      y: entry.contentRect.height,
-    }
+    props.note.worldSize = new Vec2(
+      entry.contentRect.width,
+      entry.contentRect.height,
+    )
   }
 })
 

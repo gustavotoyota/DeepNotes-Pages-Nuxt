@@ -1,4 +1,6 @@
+import { reactive, watch } from "@nuxtjs/composition-api"
 import { getYjsValue, SyncedArray, SyncedMap } from "@syncedstore/core"
+import { cloneDeep, pull } from "lodash"
 import Vue from "vue"
 import { z } from "zod"
 import { IVec2, Vec2 } from "~/plugins/static/vec2"
@@ -38,6 +40,12 @@ export class Arrow extends Elem {
 
 
 
+
+  siblingIds!: string[]
+  siblings!: Arrow[]
+
+
+
   
   constructor(page: AppPage, options: {
     id?: string,
@@ -53,15 +61,45 @@ export class Arrow extends Elem {
 
 
 
-    this.collab = this.page.arrows.collab[this.id]
+    this.collab = this.page.arrows.collab[this.id] ?? reactive(IArrowCollab.parse({}))
 
 
 
-
-    $static.vue.computed(this, 'startPos', () => 
+    
+    $static.vue.computed(this, 'arrow.startPos', () => 
       this.getEndpointWorldPos(this.collab.start))
-    $static.vue.computed(this, 'endPos', () => 
+    $static.vue.computed(this, 'arrow.endPos', () => 
       this.getEndpointWorldPos(this.collab.end))
+
+
+
+    
+    if (options.addToMap === false)
+      return
+
+
+
+
+    $static.vue.computed(this, 'arrow.siblingIds', () =>
+      this.page.regions.getArrowIds(this.parent))
+
+
+
+    
+    watch(() => this.collab.start.noteId, (newValue, oldValue) => {
+      if (newValue == null) {
+        if (typeof oldValue == 'string')
+          pull(this.page.notes.fromId(oldValue).outgoingArrows, this)
+      } else
+        this.page.notes.fromId(newValue).outgoingArrows.push(this)
+    }, { immediate: true })
+    watch(() => this.collab.end.noteId, (newValue, oldValue) => {
+      if (newValue == null) {
+        if (typeof oldValue == 'string')
+          pull(this.page.notes.fromId(oldValue).incomingArrows, this)
+      } else
+        this.page.notes.fromId(newValue).incomingArrows.push(this)
+    }, { immediate: true })
   }
 
 
@@ -72,6 +110,9 @@ export class Arrow extends Elem {
       return new Vec2(endpoint.pos)
 
     const note = this.page.notes.fromId(endpoint.noteId)
+
+    if (note == null)
+      return new Vec2(0, 0)
 
     return note.worldCenter
   }
@@ -85,6 +126,13 @@ export class Arrow extends Elem {
     const domClientRect = node.getBoundingClientRect()
   
     return this.page.rects.fromDOM(domClientRect)
+  }
+
+
+
+
+  removeFromRegion() {
+    Vue.delete(this.siblingIds, this.index)
   }
 }
 
@@ -165,11 +213,27 @@ export class AppArrows {
   observeMap() {
     (getYjsValue(this.collab) as SyncedMap<IArrowCollab>)
     .observe(event => {
-      for (const [noteId, change] of event.changes.keys) {
+      for (const [arrowId, change] of event.changes.keys) {
         if (change.action !== 'delete')
           continue
 
-        Vue.delete(this.map, noteId)
+        const arrow = this.map[arrowId]
+
+        const startNoteId = change.oldValue._map.get('start').content.type._map.get('noteId').content.arr[0]
+        if (startNoteId != null) {
+          const note = this.page.notes.fromId(startNoteId)
+          if (note != null)
+            pull(note.outgoingArrows, arrow)
+        }
+        
+        const endNoteId = change.oldValue._map.get('end').content.type._map.get('noteId').content.arr[0]
+        if (endNoteId != null) {
+          const note = this.page.notes.fromId(endNoteId)
+          if (note != null)
+            pull(note.incomingArrows, arrow)
+        }
+
+        Vue.delete(this.map, arrowId)
       }
     })
   }
