@@ -44,4 +44,14 @@ export class Rect {
   get center(): Vec2 {
     return this.topLeft.add(this.size.divScalar(2))
   }
+
+
+
+
+  grow(amount: number) {
+    return new Rect(
+      this.topLeft.subScalar(amount),
+      this.bottomRight.addScalar(amount),
+    )
+  }
 }

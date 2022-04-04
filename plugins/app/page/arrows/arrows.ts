@@ -1,8 +1,10 @@
-import { reactive, watch } from "@nuxtjs/composition-api"
+import { reactive } from "@nuxtjs/composition-api"
 import { getYjsValue, SyncedArray, SyncedMap } from "@syncedstore/core"
-import { cloneDeep, pull } from "lodash"
+import { pull } from "lodash"
 import Vue from "vue"
 import { z } from "zod"
+import { lineRectIntersection } from "~/plugins/static/geometry"
+import { Line } from "~/plugins/static/line"
 import { IVec2, Vec2 } from "~/plugins/static/vec2"
 import { Nullable } from "~/types/deep-notes"
 import { Elem, ElemType } from "../elems/elems"
@@ -35,9 +37,16 @@ export class Arrow extends Elem {
 
 
 
+  preStartPos!: Vec2
+  preEndPos!: Vec2
+
   startPos!: Vec2
   endPos!: Vec2
+
   centerPos!: Vec2
+
+
+  
 
   siblingIds!: string[]
   siblings!: Arrow[]
@@ -64,10 +73,37 @@ export class Arrow extends Elem {
 
 
     
-    $static.vue.computed(this, 'arrow.startPos', () => 
+    $static.vue.computed(this, 'arrow.preStartPos', () => 
       this.getEndpointWorldPos(this.collab.start))
-    $static.vue.computed(this, 'arrow.endPos', () => 
+    $static.vue.computed(this, 'arrow.preEndPos', () => 
       this.getEndpointWorldPos(this.collab.end))
+
+
+
+      
+    $static.vue.computed(this, 'arrow.startPos', () => {
+      if (this.collab.start.noteId == null)
+        return this.preStartPos
+
+      const note = this.page.notes.fromId(this.collab.start.noteId)
+
+      return lineRectIntersection(
+        new Line(this.preEndPos, this.preStartPos),
+        note.worldRect.grow(10)
+      ) ?? this.preStartPos
+    })
+    $static.vue.computed(this, 'arrow.endPos', () => {
+      if (this.collab.end.noteId == null)
+        return this.preEndPos
+
+      const note = this.page.notes.fromId(this.collab.end.noteId)
+
+      return lineRectIntersection(
+        new Line(this.preStartPos, this.preEndPos),
+        note.worldRect.grow(10)
+      ) ?? this.preEndPos
+    })
+
     $static.vue.computed(this, 'arrow.centerPos', () => 
       this.startPos.lerp(this.endPos, 0.5))
 
@@ -86,20 +122,10 @@ export class Arrow extends Elem {
 
 
     
-    watch(() => this.collab.start.noteId, (newValue, oldValue) => {
-      if (newValue == null) {
-        if (typeof oldValue == 'string')
-          pull(this.page.notes.fromId(oldValue).outgoingArrows, this)
-      } else
-        this.page.notes.fromId(newValue).outgoingArrows.push(this)
-    }, { immediate: true })
-    watch(() => this.collab.end.noteId, (newValue, oldValue) => {
-      if (newValue == null) {
-        if (typeof oldValue == 'string')
-          pull(this.page.notes.fromId(oldValue).incomingArrows, this)
-      } else
-        this.page.notes.fromId(newValue).incomingArrows.push(this)
-    }, { immediate: true })
+    if (this.collab.start.noteId != null)
+      this.page.notes.fromId(this.collab.start.noteId).outgoingArrows.push(this)
+    if (this.collab.end.noteId != null)
+      this.page.notes.fromId(this.collab.end.noteId).incomingArrows.push(this)
   }
 
 
@@ -110,9 +136,6 @@ export class Arrow extends Elem {
       return new Vec2(endpoint.pos)
 
     const note = this.page.notes.fromId(endpoint.noteId)
-
-    if (note == null)
-      return new Vec2(0, 0)
 
     return note.worldCenter
   }
