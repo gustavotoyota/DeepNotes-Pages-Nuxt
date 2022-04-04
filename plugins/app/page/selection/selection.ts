@@ -59,7 +59,7 @@ export class AppSelection {
 
     $static.vue.computed(this, '$app.page.selection.centerPos', (): Vec2 => {
       if (this.elems.length === 0)
-        return this.page.camera.pos
+        return new Vec2(this.page.camera.pos)
 
       let centerPos = new Vec2(0, 0)
 

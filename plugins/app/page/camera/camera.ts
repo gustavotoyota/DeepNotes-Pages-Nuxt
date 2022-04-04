@@ -1,7 +1,7 @@
 import { watch } from "@nuxtjs/composition-api"
 import { debounce } from "lodash"
 import { Rect } from "~/plugins/static/rect"
-import { Vec2 } from "~/plugins/static/vec2"
+import { IVec2, Vec2 } from "~/plugins/static/vec2"
 import { Note } from "../notes/notes"
 import { AppPage } from "../page"
 
@@ -11,7 +11,7 @@ import { AppPage } from "../page"
 export class AppCamera {
   page: AppPage
 
-  pos!: Vec2
+  pos!: IVec2
 
   _zoom!: number
   zoom!: number
@@ -28,7 +28,7 @@ export class AppCamera {
 
 
 
-    $static.vue.ssrRef(this, '$app.page.camera.pos', () => (new Vec2(0, 0)))
+    $static.vue.ssrRef(this, '$app.page.camera.pos', () => ({ x: 0, y: 0 }))
 
     $static.vue.ssrRef(this, '$app.page.camera._zoom', () => 1)
     $static.vue.computed(this, '$app.page.camera.zoom', {
