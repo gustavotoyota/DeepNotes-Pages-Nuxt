@@ -1,5 +1,7 @@
 import { Context } from "@nuxt/types"
 import { cloneDeep } from "lodash"
+import { Rect } from "~/plugins/static/rect"
+import { Vec2 } from "~/plugins/static/vec2"
 import { Nullable } from "~/types/deep-notes"
 import { AppPage } from "../page"
 import { Note, NoteSection } from "./notes"
@@ -61,9 +63,10 @@ export class AppResizing {
 
     // Old client rect
   
-    const oldClientRect = this.page.rects.fromStartEnd(
-      { x: frameClientRect.start.x, y: sectionClientRect.start.y },
-      { x: frameClientRect.end.x, y: sectionClientRect.end.y })
+    const oldClientRect = new Rect(
+      new Vec2(frameClientRect.topLeft.x, sectionClientRect.topLeft.y),
+      new Vec2(frameClientRect.bottomRight.x, sectionClientRect.bottomRight.y),
+    )
   
   
   
@@ -73,31 +76,26 @@ export class AppResizing {
     const newClientRect = cloneDeep(oldClientRect)
   
     if (this.side.includes('w'))
-      newClientRect.start.x = event.clientX
+      newClientRect.topLeft.x = event.clientX
     if (this.side.includes('n'))
-      newClientRect.start.y = event.clientY
+      newClientRect.topLeft.y = event.clientY
     if (this.side.includes('e'))
-      newClientRect.end.x = event.clientX
+      newClientRect.bottomRight.x = event.clientX
     if (this.side.includes('s'))
-      newClientRect.end.y = event.clientY
+      newClientRect.bottomRight.y = event.clientY
 
     if (event.ctrlKey && activeNote.parent == null) {
-      const oldCenterPos = {
-        x: oldClientRect.start.x + oldClientRect.size.x / 2,
-        y: oldClientRect.start.y + oldClientRect.size.y / 2,
-      }
+      const oldCenterPos = oldClientRect.topLeft.lerp(oldClientRect.bottomRight, 0.5)
 
       if (this.side.includes('w'))
-        newClientRect.end.x = oldCenterPos.x + oldCenterPos.x - event.clientX
+        newClientRect.bottomRight.x = oldCenterPos.x + oldCenterPos.x - event.clientX
       if (this.side.includes('n'))
-        newClientRect.end.y = oldCenterPos.y + oldCenterPos.y - event.clientY
+        newClientRect.bottomRight.y = oldCenterPos.y + oldCenterPos.y - event.clientY
       if (this.side.includes('e'))
-        newClientRect.start.x = oldCenterPos.x + oldCenterPos.x - event.clientX
+        newClientRect.topLeft.x = oldCenterPos.x + oldCenterPos.x - event.clientX
       if (this.side.includes('s'))
-        newClientRect.start.y = oldCenterPos.y + oldCenterPos.y - event.clientY
+        newClientRect.topLeft.y = oldCenterPos.y + oldCenterPos.y - event.clientY
     }
-  
-    this.page.rects.updateSize(newClientRect)
   
   
   
@@ -126,11 +124,11 @@ export class AppResizing {
           note[`${this.section}Height` as `${NoteSection}Height`] = `${newWorldRect.size.y}px`
 
         note.collab.pos.x +=
-          (newWorldRect.start.x - oldWorldRect.start.x) * (1 - note.collab.anchor.x)
-          + (newWorldRect.end.x - oldWorldRect.end.x) * note.collab.anchor.x
+          (newWorldRect.topLeft.x - oldWorldRect.topLeft.x) * (1 - note.collab.anchor.x)
+          + (newWorldRect.bottomRight.x - oldWorldRect.bottomRight.x) * note.collab.anchor.x
         note.collab.pos.y +=
-          (newWorldRect.start.y - oldWorldRect.start.y) * (1 - note.collab.anchor.y)
-          + (newWorldRect.end.y - oldWorldRect.end.y) * note.collab.anchor.y
+          (newWorldRect.topLeft.y - oldWorldRect.topLeft.y) * (1 - note.collab.anchor.y)
+          + (newWorldRect.bottomRight.y - oldWorldRect.bottomRight.y) * note.collab.anchor.y
       }
     })
   }.bind(this)

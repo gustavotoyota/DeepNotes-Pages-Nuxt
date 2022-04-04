@@ -4,16 +4,6 @@ import { z } from "zod";
 
 
 
-export const IVec2 = z.object({
-  x: z.number(),
-  y: z.number(),
-})
-
-export type IVec2 = z.infer<typeof IVec2>
-
-
-
-
 export type Op = QuillDelta.Op
 export type AttributeMap = QuillDelta.AttributeMap
 

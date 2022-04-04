@@ -1,9 +1,9 @@
 import { getYjsValue, SyncedArray, SyncedMap, SyncedText } from "@syncedstore/core"
 import Quill from "quill"
-import { v4 as uuidv4 } from 'uuid'
 import Vue from 'vue'
 import { z } from "zod"
-import { IVec2 } from "~/plugins/static/types"
+import { Rect } from "~/plugins/static/rect"
+import { IVec2, Vec2 } from "~/plugins/static/vec2"
 import { Nullable } from "~/types/deep-notes"
 import { ITemplate } from "../../templates"
 import { Arrow } from "../arrows/arrows"
@@ -61,11 +61,13 @@ export class AppNotes {
 
 
   
-  createFromTemplate(template: ITemplate, clientPos: IVec2) {
-    const [noteId] = this.page.app.serialization.deserialize({
+  createFromTemplate(template: ITemplate, clientPos: Vec2) {
+    const { noteIds } = this.page.app.serialization.deserialize({
       notes: [template.data],
       arrows: [],
     }, this.page.data.collab)
+
+    const noteId = noteIds[0]
   
   
   
@@ -90,6 +92,7 @@ export class AppNotes {
     const note = new Note(this.page, noteId, parentId)
 
     this.createAndObserveIds(note.collab.noteIds, note.id)
+    this.page.arrows.createAndObserveIds(note.collab.arrowIds, parentId)
   }
   createAndObserveIds(noteIds: string[], parentId: Nullable<string>) {
     for (const noteId of noteIds)
@@ -226,12 +229,20 @@ export class Note extends Elem {
 
   editing!: boolean
   dragging!: boolean
-  locallyCollapsed!: boolean
 
+  locallyCollapsed!: boolean
   collapsed!: boolean
 
-  sizeProp!: 'collapsedSize' | 'expandedSize'
-  size!: INoteSize
+  domSizeProp!: 'collapsedSize' | 'expandedSize'
+  domSize!: INoteSize
+
+  worldSize!: Vec2
+  worldRect!: Rect
+  worldCenter!: Vec2
+
+  clientSize!: Vec2
+  clientRect!: Rect
+  clientCenter!: Vec2
 
   topSection!: NoteSection
   bottomSection!: NoteSection
@@ -240,21 +251,21 @@ export class Note extends Elem {
   headQuill: Nullable<Quill> = null
   bodyQuill: Nullable<Quill> = null
 
-  headHeight!: string
-  bodyHeight!: string
-  containerHeight!: string
-
-  parent!: Nullable<Note>
-
-  siblingIds!: string[]
-  siblings!: Note[]
-
   minWidth!: string
   width!: string
   targetWidth!: string
 
+  headHeight!: string
+  bodyHeight!: string
+  containerHeight!: string
+
+  siblingIds!: string[]
+
   notes!: Note[]
   arrows!: Arrow[]
+
+  incomingArrows: Arrow[] = []
+  outgoingArrows: Arrow[] = []
   
 
 
@@ -272,11 +283,11 @@ export class Note extends Elem {
 
     $static.vue.ref(this, 'note.editing', false)
     $static.vue.ref(this, 'note.dragging', this.page.dragging.active && this.selected)
-    $static.vue.ref(this, 'note.locallyCollapsed', this.collab.collapsed)
-
+  
 
 
     
+    $static.vue.ref(this, 'note.locallyCollapsed', this.collab.collapsed)
     $static.vue.computed(this, 'note.collapsed', () => {
       if (!this.collab.collapsible)
         return false
@@ -290,10 +301,37 @@ export class Note extends Elem {
 
 
 
-    $static.vue.computed(this, 'note.sizeProp', () =>
+    $static.vue.computed(this, 'note.domSizeProp', () =>
       this.collapsed ? 'collapsedSize' : 'expandedSize')
-    $static.vue.computed(this, 'note.size', () =>
-      this.collab[this.sizeProp])
+    $static.vue.computed(this, 'note.domSize', () =>
+      this.collab[this.domSizeProp] as INoteSize)
+
+
+
+
+    $static.vue.ref(this, 'note.worldSize', new Vec2(0, 0))
+    $static.vue.computed(this, 'note.worldRect', () => (
+      new Rect(
+        new Vec2(this.collab.pos).sub(new Vec2(this.collab.anchor).mul(this.worldSize)),
+        new Vec2(this.collab.pos).add(new Vec2(1).sub(new Vec2(this.collab.anchor)).mul(this.worldSize)),
+      )
+    ))
+    $static.vue.computed(this, 'note.worldCenter', () => 
+      this.worldRect.center)
+
+
+
+    
+    $static.vue.computed(this, 'note.clientSize', () => 
+      this.page.pos.worldToClient(this.worldSize))
+    $static.vue.computed(this, 'note.clientRect', () => (
+      new Rect(
+        this.page.pos.worldToClient(this.worldRect.topLeft),
+        this.page.pos.worldToClient(this.worldRect.bottomRight),
+      )
+    ))
+    $static.vue.computed(this, 'note.clientCenter', () => 
+      this.page.pos.worldToClient(this.worldCenter))
 
 
 
@@ -331,55 +369,6 @@ export class Note extends Elem {
 
 
 
-
-    const makeSectionHeight = (section: NoteSection) => {
-      $static.vue.computed(this, `note.${section}Height`, {
-        get: () => {
-          if (this.collapsed
-          && this.collab.collapsedSize.y[section] === 'auto'
-          && this.topSection === section) {
-            if (this.numSections === 1)
-              return '0'
-            else
-              return this.collab.expandedSize.y[section]
-          } else if (this.size.y[section] === 'auto')
-            return this.collab.expandedSize.y[section]
-          else
-            return this.size.y[section]
-        },
-        set: (value: string) => {
-          if (this.size.y[section] === 'auto')
-            this.collab.expandedSize.y[section] = value
-          else
-            this.size.y[section] = value
-        },
-      })
-    }
-
-    makeSectionHeight(NoteSection.HEAD)
-    makeSectionHeight(NoteSection.BODY)
-    makeSectionHeight(NoteSection.CONTAINER)
-
-
-
-    
-    $static.vue.computed(this, 'note.parent', () => {
-      if (this.parentId == null)
-        return null
-      else
-        return this.page.notes.map[this.parentId]
-    })
-
-
-
-
-    $static.vue.computed(this, 'note.siblingIds', () =>
-      this.page.regions.getNoteIds(this.parent))
-    $static.vue.computed(this, 'note.siblings', () =>
-      this.page.regions.getNotes(this.parent))
-
-
-
     
     $static.vue.computed(this, 'note.minWidth', () => {
       if (this.collab.container
@@ -395,19 +384,19 @@ export class Note extends Elem {
       get: () => {
         if (this.parent != null) {
           if (this.parent.collab.horizontal || !this.parent.collab.stretchChildren)
-            return this.size.x
+            return this.domSize.x
           else
             return 'auto'
-        } else if (this.size.x === 'expanded')
+        } else if (this.domSize.x === 'expanded')
           return this.collab.expandedSize.x
         else
-          return this.size.x
+          return this.domSize.x
       },
       set: (value: string) => {
-        if (this.size.x === 'expanded')
+        if (this.domSize.x === 'expanded')
           this.collab.expandedSize.x = value
         else
-          this.size.x = value
+          this.domSize.x = value
       },
     })
     $static.vue.computed(this, 'note.targetWidth', () => {
@@ -422,6 +411,43 @@ export class Note extends Elem {
       else
         return '0px'
     })
+
+
+
+
+    const makeSectionHeight = (section: NoteSection) => {
+      $static.vue.computed(this, `note.${section}Height`, {
+        get: () => {
+          if (this.collapsed
+          && this.collab.collapsedSize.y[section] === 'auto'
+          && this.topSection === section) {
+            if (this.numSections === 1)
+              return '0'
+            else
+              return this.collab.expandedSize.y[section]
+          } else if (this.domSize.y[section] === 'auto')
+            return this.collab.expandedSize.y[section]
+          else
+            return this.domSize.y[section]
+        },
+        set: (value: string) => {
+          if (this.domSize.y[section] === 'auto')
+            this.collab.expandedSize.y[section] = value
+          else
+            this.domSize.y[section] = value
+        },
+      })
+    }
+
+    makeSectionHeight(NoteSection.HEAD)
+    makeSectionHeight(NoteSection.BODY)
+    makeSectionHeight(NoteSection.CONTAINER)
+
+
+
+
+    $static.vue.computed(this, 'note.siblingIds', () =>
+      this.page.regions.getNoteIds(this.parent))
 
 
 
@@ -473,7 +499,7 @@ export class Note extends Elem {
 
 
   removeFromRegion() {
-    this.siblingIds.splice(this.index, 1)
+    Vue.delete(this.siblingIds, this.index)
   }
 
 

@@ -1,6 +1,7 @@
 <template>
 
   <div class="note-frame"
+  ref="frameElem"
   :style="{
     'min-width': note.minWidth,
     'width': note.width,
@@ -19,16 +20,48 @@
   
 </template>
 
+
+
+
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from '@nuxtjs/composition-api';
 import { Note } from '~/plugins/app/page/notes/notes';
+import { Vec2 } from '~/plugins/static/vec2';
 
 
 
-defineProps<{
+
+const props = defineProps<{
   note: Note
 }>()
+
+
+
+
+const frameElem = ref<Element>()
+
+
+
+
+const resizeObserver = new ResizeObserver((entries) => {
+  for (const entry of entries) {
+    props.note.worldSize = new Vec2(
+      entry.contentRect.width,
+      entry.contentRect.height,
+    )
+  }
+})
+
+onMounted(() => {
+  resizeObserver.observe(frameElem.value!)
+})
+onUnmounted(() => {
+  resizeObserver.unobserve(frameElem.value!)
+})
 </script>
 
-<style>
 
+
+
+<style>
 </style>

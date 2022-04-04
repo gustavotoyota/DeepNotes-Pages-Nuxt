@@ -1,5 +1,6 @@
 import { nextTick } from "@nuxtjs/composition-api"
 import { cloneDeep, pull } from "lodash"
+import { Elem } from "../elems/elems"
 import { AppPage } from "../page"
 import { INoteCollab, Note } from "./notes"
 
@@ -33,7 +34,7 @@ export class AppCloning {
     if (this.page.selection.notes.length > 0)
       destIndex = this.page.selection.notes.at(-1)!.index + 1
 
-    const cloneIds = this.page.app.serialization.deserialize(
+    const { noteIds, arrowIds } = this.page.app.serialization.deserialize(
       serialContainer, this.page.activeRegion, destIndex)
 
 
@@ -41,15 +42,16 @@ export class AppCloning {
 
     // Select and reposition clones
 
-    const clones = this.page.notes.fromIds(cloneIds)
+    const notes = this.page.notes.fromIds(noteIds)
+    const arrows = this.page.arrows.fromIds(arrowIds)
 
-    this.page.selection.set(...clones)
+    this.page.selection.set(...(notes as Elem[]).concat(arrows))
 
     if (this.page.activeRegion.id == null) {
       this.page.collab.doc.transact(() => {
-        for (const clone of clones) {
-          clone.collab.pos.x += 8
-          clone.collab.pos.y += 8
+        for (const note of notes) {
+          note.collab.pos.x += 8
+          note.collab.pos.y += 8
         }
       })
     }
@@ -66,10 +68,12 @@ export class AppCloning {
 
     // Scroll into view
 
-    nextTick(() => {
-      const lastSelectedNote = this.page.selection.notes.at(-1) as Note
-      
-      lastSelectedNote.scrollIntoView()
-    })
+    if (this.page.selection.notes.length > 0) {
+      nextTick(() => {
+        const lastSelectedNote = this.page.selection.notes.at(-1) as Note
+        
+        lastSelectedNote.scrollIntoView()
+      })
+    }
   }
 }

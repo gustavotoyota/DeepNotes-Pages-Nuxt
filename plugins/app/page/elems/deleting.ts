@@ -1,7 +1,7 @@
-import { Context } from "@nuxt/types"
 import Vue from 'vue'
-import { AppPage } from "../page"
+import { Arrow } from "../arrows/arrows"
 import { Note } from "../notes/notes"
+import { AppPage } from "../page"
 
 
 
@@ -19,33 +19,54 @@ export class AppDeleting {
 
 
 
-  private _performAux(notes: Note[], noteIds: string[]) {
-    for (let i = notes.length - 1; i >= 0; --i) {
-      noteIds.push(notes[i].id)
-      notes[i].removeFromRegion()
+  private _performAux(notes: Note[], arrows: Arrow[] = []) {
+    // Delete arrows
+
+    const arrowSet = new Set<Arrow>(arrows)
+
+    for (const note of notes) {
+      for (const arrow of note.incomingArrows)
+        arrowSet.add(arrow)
+      for (const arrow of note.outgoingArrows)
+        arrowSet.add(arrow)
+      for (const arrow of note.arrows)
+        arrowSet.add(arrow)
     }
 
-    for (const note of notes)
-      this._performAux(note.notes, noteIds)
+    const sortedArrows = Array.from(arrowSet).sort(
+      (a: Arrow, b: Arrow) => b.index - a.index)
+
+    for (const arrow of sortedArrows) {
+      arrow.removeFromRegion()
+      Vue.delete(this.page.collab.store.arrows, arrow.id)
+    }
+
+
+
+
+    // Delete notes
+
+    notes.sort((a: Note, b: Note) => b.index - a.index)
+
+    for (const note of notes) {
+      this._performAux(note.notes)
+      
+      note.removeFromRegion()
+      Vue.delete(this.page.collab.store.notes, note.id)
+    }
   }
   perform() {
-    const noteIds: string[] = []
-
     this.page.collab.doc.transact(() => {
-      const selectedNotes = this.page.selection.notes
-      selectedNotes.sort((a: Note, b: Note) => a.index - b.index)
-      this._performAux(selectedNotes, noteIds)
-      
-      for (const noteId of noteIds)
-        Vue.delete(this.page.collab.store.notes, noteId)
+      this._performAux(this.page.selection.notes, this.page.selection.arrows)
     })
+
+
+
 
     this.page.selection.clear()
 
 
 
-    
-    // Reset undo-redo capturing
     
     this.page.undoRedo.resetCapturing()
   }

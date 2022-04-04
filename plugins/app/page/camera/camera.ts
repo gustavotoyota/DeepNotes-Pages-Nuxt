@@ -1,6 +1,7 @@
 import { watch } from "@nuxtjs/composition-api"
 import { debounce } from "lodash"
-import { IVec2 } from "~/plugins/static/types"
+import { Rect } from "~/plugins/static/rect"
+import { IVec2, Vec2 } from "~/plugins/static/vec2"
 import { Note } from "../notes/notes"
 import { AppPage } from "../page"
 
@@ -92,7 +93,7 @@ export class AppCamera {
   
   
     if (notes.length === 0) {
-      this.pos = { x: 0, y: 0 }
+      this.pos = new Vec2(0, 0)
       this.resetZoom()
       return
     }
@@ -100,34 +101,30 @@ export class AppCamera {
   
   
   
-    const clientTopLeft = { x: Infinity, y: Infinity }
-    const clientBottomRight = { x: -Infinity, y: -Infinity }
+    const clientTopLeft = new Vec2(Infinity, Infinity)
+    const clientBottomRight = new Vec2(-Infinity, -Infinity)
   
     for (const note of notes) {
-      const clientRect = note.getClientRect('note-frame')
+      clientTopLeft.x = Math.min(clientTopLeft.x, note.clientRect.topLeft.x)
+      clientTopLeft.y = Math.min(clientTopLeft.y, note.clientRect.topLeft.y)
   
-      clientTopLeft.x = Math.min(clientTopLeft.x, clientRect.start.x)
-      clientTopLeft.y = Math.min(clientTopLeft.y, clientRect.start.y)
-  
-      clientBottomRight.x = Math.max(clientBottomRight.x, clientRect.end.x)
-      clientBottomRight.y = Math.max(clientBottomRight.y, clientRect.end.y)
+      clientBottomRight.x = Math.max(clientBottomRight.x, note.clientRect.bottomRight.x)
+      clientBottomRight.y = Math.max(clientBottomRight.y, note.clientRect.bottomRight.y)
     }
   
   
   
   
-    const worldTopLeft = this.page.pos.clientToWorld(clientTopLeft)
-    const worldBottomRight = this.page.pos.clientToWorld(clientBottomRight)
+    const worldRect = new Rect(
+      this.page.pos.clientToWorld(clientTopLeft),
+      this.page.pos.clientToWorld(clientBottomRight),
+    )
+
   
   
   
-  
-    if (!this.lockPos) {
-      this.pos = {
-        x: (worldTopLeft.x + worldBottomRight.x) / 2,
-        y: (worldTopLeft.y + worldBottomRight.y) / 2,
-      }
-    }
+    if (!this.lockPos)
+      this.pos = worldRect.topLeft.lerp(worldRect.bottomRight, 0.5)
   
   
     
@@ -136,9 +133,9 @@ export class AppCamera {
 
     this.zoom = Math.min(
       (Math.min(70, displayRect.size.x / 4) - displayRect.size.x / 2) /
-      (worldTopLeft.x - this.pos.x),
+      (worldRect.topLeft.x - this.pos.x),
       (Math.min(35, displayRect.size.y / 4) - displayRect.size.y / 2) /
-      (worldTopLeft.y - this.pos.y))
+      (worldRect.topLeft.y - this.pos.y))
 
     this.zoom = Math.min(this.zoom, 1)
   }

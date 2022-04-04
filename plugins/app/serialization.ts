@@ -5,13 +5,24 @@ import Vue from "vue"
 import { z } from "zod"
 import { Op } from "~/plugins/static/types"
 import { Nullable } from "~/types/deep-notes"
+import { IVec2 } from "../static/vec2"
+import { IArrowCollab } from "./page/arrows/arrows"
 import { IContainerCollab } from "./page/container"
 import { INoteCollab } from "./page/notes/notes"
 
 
 
 
-export const ISerialArrow = z.object({})
+export const ISerialArrowEndpoint = z.object({
+  noteIndex: z.number().nullable().default(null),
+  pos: IVec2.default({ x: 0, y: 0 }),
+})
+export type ISerialArrowEndpoint = z.infer<typeof ISerialArrowEndpoint>
+
+export const ISerialArrow = z.object({
+  start: ISerialArrowEndpoint.default({}),
+  end: ISerialArrowEndpoint.default({}),
+})
 export type ISerialArrow = z.infer<typeof ISerialArrow>
 
 
@@ -46,6 +57,7 @@ export const ISerialNote = z.lazy(() =>
   }).extend({
     head: Op.array().default([{ insert: '\n' }]),
     body: Op.array().default([{ insert: '\n' }]),
+    
     notes: ISerialNote.array().default([]),
     arrows: ISerialArrow.array().default([]),
   })
@@ -76,6 +88,10 @@ export class AppSerialization {
 
 
 
+    // Serialize notes
+
+    const noteMap = new Map<string, number>()
+
     for (const noteId of container.noteIds) {
       // Children
 
@@ -105,7 +121,37 @@ export class AppSerialization {
 
 
 
+      noteMap.set(noteId, serialContainer.notes.length)
+      
       serialContainer.notes.push(serialNote as ISerialNote)
+    }
+
+
+
+
+    // Serialize arrows
+
+    for (const arrowId of container.arrowIds) {
+      const arrow = this.ctx.$app.page.arrows.fromId(arrowId)
+
+
+
+
+      const serialArrow: ISerialArrow = {
+        start: {
+          noteIndex: noteMap.get(arrow.collab.start.noteId ?? '') ?? null,
+          pos: arrow.collab.start.pos,
+        },
+        end: {
+          noteIndex: noteMap.get(arrow.collab.end.noteId ?? '') ?? null,
+          pos: arrow.collab.end.pos,
+        },
+      }
+
+
+
+
+      serialContainer.arrows.push(serialArrow)
     }
 
 
@@ -117,22 +163,28 @@ export class AppSerialization {
 
 
 
-  private _deserializeAux(serialContainer: ISerialContainer): string[] {
+  private _deserializeAux(serialContainer: ISerialContainer): IContainerCollab {
+    const noteMap = new Map<number, string>()
+
+
+
+
+    // Deserialize notes
+
     const noteIds = []
-
-
-
     
-    for (const serialNote of serialContainer.notes) {
-      const collab = {} as Partial<INoteCollab>
+    for (let i = 0; i < serialContainer.notes.length; i++) {
+      const serialNote = serialContainer.notes[i]
+
+      const noteCollab = {} as Partial<INoteCollab>
 
 
 
 
       // Head and body
 
-      collab.head = $static.syncedStore.createText(serialNote.head)
-      collab.body = $static.syncedStore.createText(serialNote.body)
+      noteCollab.head = $static.syncedStore.createText(serialNote.head)
+      noteCollab.body = $static.syncedStore.createText(serialNote.body)
 
 
 
@@ -143,19 +195,19 @@ export class AppSerialization {
       pull(collabKeys, 'head', 'body', 'notes', 'arrows')
       for (const collabKey of collabKeys)
         // @ts-ignore
-        collab[collabKey] = cloneDeep(serialNote[collabKey])
+        noteCollab[collabKey] = cloneDeep(serialNote[collabKey])
 
-      collab.zIndex = this.ctx.$app.page.data.collab.nextZIndex++
+      noteCollab.zIndex = this.ctx.$app.page.data.collab.nextZIndex++
 
 
 
 
       // Children
 
-      collab.noteIds = this._deserializeAux({
-        notes: serialNote.notes,
-        arrows: serialNote.arrows,
-      })
+      const deserializedChild = this._deserializeAux(serialNote)
+
+      noteCollab.noteIds = deserializedChild.noteIds
+      noteCollab.arrowIds = deserializedChild.arrowIds
 
 
       
@@ -164,7 +216,9 @@ export class AppSerialization {
       
       const noteId = uuidv4()
 
-      Vue.set(this.ctx.$app.page.notes.collab, noteId, collab)
+      Vue.set(this.ctx.$app.page.notes.collab, noteId, noteCollab)
+
+      noteMap.set(i, noteId)
 
       
 
@@ -175,26 +229,67 @@ export class AppSerialization {
 
 
 
-    return noteIds
+    // Deserialize arrows
+
+    const arrowIds = []
+
+    for (const serialArrow of serialContainer.arrows) {
+      const arrowCollab: IArrowCollab = {
+        start: {
+          noteId: noteMap.get(serialArrow.start.noteIndex ?? -1) ?? null,
+          pos: serialArrow.start.pos,
+        },
+        end: {
+          noteId: noteMap.get(serialArrow.end.noteIndex ?? -1) ?? null,
+          pos: serialArrow.end.pos,
+        },
+      }
+
+
+
+
+      const arrowId = uuidv4()
+
+      Vue.set(this.ctx.$app.page.arrows.collab, arrowId, arrowCollab)
+
+
+
+
+      arrowIds.push(arrowId)
+    }
+
+
+
+
+    return { noteIds, arrowIds }
   }
   deserialize(serialContainer: ISerialContainer,
-  destContainer: IContainerCollab, destIndex?: Nullable<number>): string[] {
+  destContainer: IContainerCollab, destIndex?: Nullable<number>): IContainerCollab {
     serialContainer = ISerialContainer.parse(serialContainer)
 
 
 
 
-    const noteIds = this._deserializeAux(serialContainer)
+    let result: IContainerCollab = { noteIds: [], arrowIds: [] }
+
+    this.ctx.$app.page.collab.doc.transact(() => {
+      result = this._deserializeAux(serialContainer)
 
 
 
-    
-    destIndex = destIndex ?? destContainer.noteIds.length
-    destContainer.noteIds.splice(destIndex, 0, ...noteIds)
+      
+      destIndex = destIndex ?? destContainer.noteIds.length
+      destContainer.noteIds.splice(destIndex, 0, ...result.noteIds)
 
 
 
 
-    return noteIds
+      destContainer.arrowIds.push(...result.arrowIds)
+    })
+
+
+
+
+    return result
   }
 }

@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { useContext } from "@nuxtjs/composition-api"
+import { Vec2 } from "~/plugins/static/vec2"
 
 const ctx = useContext()
 
@@ -35,10 +36,7 @@ function onPointerDown(event: PointerEvent) {
 
 function onDoubleClick(event: MouseEvent) {
   if (new Date().getTime() - lastPointerDownDate.getTime() > 400) {
-    ctx.$app.templates.showPopup({
-      x: event.clientX,
-      y: event.clientY,
-    })
+    ctx.$app.templates.showPopup(new Vec2(event.clientX, event.clientY))
     return
   }
 

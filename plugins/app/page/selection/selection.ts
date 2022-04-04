@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { Vec2 } from '~/plugins/static/vec2'
 import { Nullable } from "~/types/deep-notes"
 import { Arrow } from '../arrows/arrows'
 import { Elem, ElemType } from '../elems/elems'
@@ -21,6 +22,8 @@ export class AppSelection {
   notes!: Note[]
   arrows!: Arrow[]
   elems!: Elem[]
+
+  centerPos!: Vec2
 
 
 
@@ -49,7 +52,26 @@ export class AppSelection {
     $static.vue.computed(this, '$app.page.selection.arrows', () => 
       this.page.arrows.fromIds(this.arrowIds))
     $static.vue.computed(this, '$app.page.selection.elems', () => 
-      (this.arrows as Elem[]).concat(this.notes as Elem[]))
+      (this.notes as Elem[]).concat(this.arrows))
+
+
+
+
+    $static.vue.computed(this, '$app.page.selection.centerPos', (): Vec2 => {
+      if (this.elems.length === 0)
+        return new Vec2(this.page.camera.pos)
+
+      let centerPos = new Vec2(0, 0)
+
+      for (const note of this.notes)
+        centerPos = centerPos.add(note.worldCenter)
+      for (const arrow of this.arrows)
+        centerPos = centerPos.add(arrow.centerPos)
+
+      centerPos = centerPos.divScalar(this.elems.length)
+
+      return centerPos
+    })
   }
 
 

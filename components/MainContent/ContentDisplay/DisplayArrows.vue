@@ -8,8 +8,8 @@
       <g :transform="'scale(' + $app.page.camera.zoom + ') ' +
       'translate(' + -$app.page.camera.pos.x + ', ' + -$app.page.camera.pos.y + ')'">
         
-        <DisplayArrow v-for="arrow of $app.page.data.arrows" :key="arrow.id"
-        :arrow="arrow"/>
+        <DisplayArrow v-for="(arrow, index) of $app.page.data.arrows" :key="arrow.id"
+        :arrow="arrow" :index="index"/>
         
         <DisplayArrow v-if="$app.page.arrowCreation.active"
         :arrow="$app.page.arrowCreation.arrow"

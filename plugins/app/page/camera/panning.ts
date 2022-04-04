@@ -1,7 +1,6 @@
-import { Context } from "@nuxt/types"
-import { AppPage } from "../page"
 import { cloneDeep } from 'lodash'
-import { IVec2 } from "~/plugins/static/types"
+import { Vec2 } from "~/plugins/static/vec2"
+import { AppPage } from "../page"
 
 
 
@@ -9,7 +8,7 @@ import { IVec2 } from "~/plugins/static/types"
 export class AppPanning {
   page: AppPage
 
-  currentPos!: IVec2
+  currentPos!: Vec2
 
 
 
