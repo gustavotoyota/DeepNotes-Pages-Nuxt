@@ -382,15 +382,18 @@ export class Note extends Elem {
     })
     $static.vue.computed(this, 'note.width', {
       get: () => {
-        if (this.parent != null) {
-          if (this.parent.collab.horizontal || !this.parent.collab.stretchChildren)
-            return this.domSize.x
-          else
-            return 'auto'
-        } else if (this.domSize.x === 'expanded')
-          return this.collab.expandedSize.x
+        let width
+        if (this.domSize.x === 'expanded')
+          width = this.collab.expandedSize.x
         else
-          return this.domSize.x
+          width = this.domSize.x
+
+        if (this.parent == null
+        || this.parent.collab.horizontal
+        || !this.parent.collab.stretchChildren)
+          return width
+        else
+          return 'auto'
       },
       set: (value: string) => {
         if (this.domSize.x === 'expanded')
