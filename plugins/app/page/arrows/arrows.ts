@@ -21,8 +21,8 @@ export type IArrowEndpoint = z.infer<typeof IArrowEndpoint>
 
 
 export const IArrowCollab = z.object({
-  start: IArrowEndpoint.default(IArrowEndpoint.parse({})),
-  end: IArrowEndpoint.default(IArrowEndpoint.parse({})),
+  start: IArrowEndpoint.default({}),
+  end: IArrowEndpoint.default({}),
 })
 export type IArrowCollab = z.infer<typeof IArrowCollab>
 
@@ -37,9 +37,7 @@ export class Arrow extends Elem {
 
   startPos!: Vec2
   endPos!: Vec2
-
-
-
+  centerPos!: Vec2
 
   siblingIds!: string[]
   siblings!: Arrow[]
@@ -70,6 +68,8 @@ export class Arrow extends Elem {
       this.getEndpointWorldPos(this.collab.start))
     $static.vue.computed(this, 'arrow.endPos', () => 
       this.getEndpointWorldPos(this.collab.end))
+    $static.vue.computed(this, 'arrow.centerPos', () => 
+      this.startPos.lerp(this.endPos, 0.5))
 
 
 
@@ -173,10 +173,20 @@ export class AppArrows {
 
 
 
+  fromId(arrowId: string): Arrow {
+    return this.map[arrowId]
+  }
   fromIds(arrowIds: string[]): Arrow[] {
     return arrowIds
       .map(arrowId => this.map[arrowId] as Arrow)
       .filter(arrow => arrow != null)
+  }
+
+
+
+  
+  toId(arrow: Arrow): string {
+    return arrow.id
   }
   toIds(arrows: Arrow[]): string[] {
     return arrows.map(arrow => arrow.id)

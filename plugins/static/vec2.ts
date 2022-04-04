@@ -106,4 +106,11 @@ export class Vec2 {
   sqrt(): Vec2 {
     return new Vec2(Math.sqrt(this.x), Math.sqrt(this.y))
   }
+
+
+
+
+  lerp(vec: Vec2, t: number): Vec2 {
+    return this.add(vec.sub(this).mulScalar(t))
+  }
 }
