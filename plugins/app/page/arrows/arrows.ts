@@ -87,6 +87,9 @@ export class Arrow extends Elem {
 
       const note = this.page.notes.fromId(this.collab.start.noteId)
 
+      if (note == null)
+        return this.preStartPos
+
       return lineRectIntersection(
         new Line(this.preEndPos, this.preStartPos),
         note.worldRect.grow(10)
@@ -97,6 +100,9 @@ export class Arrow extends Elem {
         return this.preEndPos
 
       const note = this.page.notes.fromId(this.collab.end.noteId)
+
+      if (note == null)
+        return this.preEndPos
 
       return lineRectIntersection(
         new Line(this.preStartPos, this.preEndPos),
@@ -138,6 +144,9 @@ export class Arrow extends Elem {
       return new Vec2(endpoint.pos)
 
     const note = this.page.notes.fromId(endpoint.noteId)
+
+    if (note == null)
+      return new Vec2(endpoint.pos)
 
     return note.worldCenter
   }
