@@ -92,5 +92,7 @@ export class AppArrowCreation {
     Vue.set(this.page.arrows.collab, arrowId, cloneDeep(this.arrow.collab))
 
     this.page.data.collab.arrowIds.push(arrowId)
+
+    this.page.selection.set(this.page.arrows.fromId(arrowId))
   }.bind(this)
 }
