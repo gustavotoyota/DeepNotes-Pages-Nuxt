@@ -204,7 +204,10 @@ export class AppSerialization {
 
       // Children
 
-      noteCollab.noteIds = this._deserializeAux(serialNote).noteIds
+      const deserializedChild = this._deserializeAux(serialNote)
+
+      noteCollab.noteIds = deserializedChild.noteIds
+      noteCollab.arrowIds = deserializedChild.arrowIds
 
 
       
@@ -267,22 +270,26 @@ export class AppSerialization {
 
 
 
-    const { noteIds, arrowIds } = this._deserializeAux(serialContainer)
+    let result: IContainerCollab = { noteIds: [], arrowIds: [] }
+
+    this.ctx.$app.page.collab.doc.transact(() => {
+      result = this._deserializeAux(serialContainer)
 
 
 
-    
-    destIndex = destIndex ?? destContainer.noteIds.length
-    destContainer.noteIds.splice(destIndex, 0, ...noteIds)
-
-
-
-
-    destContainer.arrowIds.push(...arrowIds)
+      
+      destIndex = destIndex ?? destContainer.noteIds.length
+      destContainer.noteIds.splice(destIndex, 0, ...result.noteIds)
 
 
 
 
-    return { noteIds, arrowIds }
+      destContainer.arrowIds.push(...result.arrowIds)
+    })
+
+
+
+
+    return result
   }
 }

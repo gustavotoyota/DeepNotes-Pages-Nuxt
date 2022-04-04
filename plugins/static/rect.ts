@@ -42,7 +42,7 @@ export class Rect {
 
   
   get center(): Vec2 {
-    return this.topLeft.add(this.size.divScalar(2))
+    return this.topLeft.lerp(this.bottomRight, 0.5)
   }
 
 

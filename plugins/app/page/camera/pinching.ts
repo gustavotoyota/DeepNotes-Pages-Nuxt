@@ -79,7 +79,7 @@ export class AppPinching {
   private _getCenterAndDistance() {
     const pointers = Object.values(this.pointers)
 
-    const displayCenterPos = pointers[0].add(pointers[1]).divScalar(2)
+    const displayCenterPos = pointers[0].lerp(pointers[1], 0.5)
     const displayDistance = pointers[0].sub(pointers[1]).length()
 
     return { displayCenterPos, displayDistance }

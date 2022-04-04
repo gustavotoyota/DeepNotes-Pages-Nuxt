@@ -124,7 +124,7 @@ export class AppCamera {
   
   
     if (!this.lockPos)
-      this.pos = worldRect.topLeft.add(worldRect.bottomRight).divScalar(2)
+      this.pos = worldRect.topLeft.lerp(worldRect.bottomRight, 0.5)
   
   
     
