@@ -1,4 +1,4 @@
-import { reactive } from "@nuxtjs/composition-api"
+import { nextTick, reactive } from "@nuxtjs/composition-api"
 import { getYjsValue, SyncedArray, SyncedMap } from "@syncedstore/core"
 import { pull } from "lodash"
 import Vue from "vue"
@@ -121,11 +121,13 @@ export class Arrow extends Elem {
 
 
 
-    
-    if (this.collab.start.noteId != null)
-      this.page.notes.fromId(this.collab.start.noteId).outgoingArrows.push(this)
-    if (this.collab.end.noteId != null)
-      this.page.notes.fromId(this.collab.end.noteId).incomingArrows.push(this)
+      
+    nextTick(() => {
+      if (this.collab.start.noteId != null)
+        this.page.notes.fromId(this.collab.start.noteId).outgoingArrows.push(this)
+      if (this.collab.end.noteId != null)
+        this.page.notes.fromId(this.collab.end.noteId).incomingArrows.push(this)
+    })
   }
 
 
@@ -250,21 +252,37 @@ export class AppArrows {
         if (change.action !== 'delete')
           continue
 
+
+
+
         const arrow = this.map[arrowId]
 
+
+
+
         const startNoteId = change.oldValue._map.get('start').content.type._map.get('noteId').content.arr[0]
+        
         if (startNoteId != null) {
           const note = this.page.notes.fromId(startNoteId)
+          
           if (note != null)
             pull(note.outgoingArrows, arrow)
         }
+
+
+
         
         const endNoteId = change.oldValue._map.get('end').content.type._map.get('noteId').content.arr[0]
+        
         if (endNoteId != null) {
           const note = this.page.notes.fromId(endNoteId)
+
           if (note != null)
             pull(note.incomingArrows, arrow)
         }
+
+
+
 
         Vue.delete(this.map, arrowId)
       }
