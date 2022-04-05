@@ -388,11 +388,14 @@ export class Note extends Elem {
         else
           width = this.domSize.x
 
+        if (width === 'auto')
+          width = 'min-content'
+
         if (this.parent == null
         || this.parent.collab.horizontal
-        || !this.parent.collab.stretchChildren)
+        || !this.parent.collab.stretchChildren) {
           return width
-        else
+        } else
           return 'auto'
       },
       set: (value: string) => {
@@ -409,7 +412,7 @@ export class Note extends Elem {
       && this.parent.collab.stretchChildren)
         return '0px'
       
-      if (this.width === 'auto')
+      if (['auto', 'min-content'].includes(this.width))
         return 'auto'
       else
         return '0px'
