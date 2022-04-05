@@ -104,6 +104,7 @@ defineProps<{
   padding: 6px;
 
   display: flex;
+  align-content: flex-start;
   
   overflow: auto;
 
