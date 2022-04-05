@@ -1,6 +1,6 @@
 import { Context } from "@nuxt/types"
 import { Inject } from "@nuxt/types/app"
-import { onBeforeUnmount, onMounted, watch } from "@nuxtjs/composition-api"
+import { onBeforeUnmount, onMounted, onUnmounted, watch } from "@nuxtjs/composition-api"
 import { openDB } from 'idb'
 import { Note } from "./page/notes/notes"
 
@@ -124,6 +124,38 @@ export default async function (ctx: Context, inject: Inject) {
 
       onBeforeUnmount(() => {
         document.removeEventListener('paste', onPaste)
+      })
+
+
+
+
+      // Intercept internal page navigation
+
+      onMounted(() => {
+        document.addEventListener('click', onClick)
+      })
+
+      function onClick(event: MouseEvent) {
+        const target = event.target as Element
+
+        if (target.tagName !== 'A')
+          return
+
+        const href = target.getAttribute('href') ?? ''
+
+        if (!href.startsWith('https://pages.deepnotes.app'))
+          return
+        
+        if (event.ctrlKey)
+          return
+
+        event.preventDefault()
+
+        ctx.store.$router.push(`/${href.split('/').at(-1) ?? ''}`)
+      }
+
+      onUnmounted(() => {
+        document.removeEventListener('click', onClick)
       })
 
 
