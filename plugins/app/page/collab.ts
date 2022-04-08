@@ -115,12 +115,16 @@ export class AppCollab {
 
     // Keep page name updated on database
 
-    watch(() => this.page.data.collab.name, debounce(() => {
-      this.page.ctx.$axios.post('/api/page/update-name', {
+    const updatePageName = debounce((data: object) => {
+      this.page.ctx.$axios.post('/api/page/update-name', data)
+    }, 2000)
+
+    watch(() => this.page.data.collab.name, () => {
+      updatePageName({
         pageId: this.page.id,
         pageName: this.page.data.collab.name,
       })
-    }, 2000))
+    })
 
 
 
