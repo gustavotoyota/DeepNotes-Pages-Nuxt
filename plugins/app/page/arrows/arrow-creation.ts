@@ -4,7 +4,7 @@ import Vue from "vue";
 import { Vec2 } from "~/plugins/static/vec2";
 import { Note } from "../notes/notes";
 import { AppPage } from "../page";
-import { Arrow } from "./arrows";
+import { Arrow, IArrowEndpoint } from "./arrows";
 
 
 
@@ -39,12 +39,12 @@ export class AppArrowCreation {
 
 
 
-  start(note: Note, event: PointerEvent) {
+  start(start: IArrowEndpoint, event: PointerEvent) {
     this.active = true
 
     this.arrow.collab.start = {
-      noteId: note.id,
-      pos: new Vec2(0, 0),
+      noteId: start.noteId,
+      pos: new Vec2(start.pos),
     }
     this.arrow.collab.end = {
       noteId: null,
