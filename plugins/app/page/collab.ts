@@ -136,26 +136,6 @@ export class AppCollab {
 
 
 
-    // Save page data
-
-    const savePageData = debounce(() => {
-      if (this.page.ctx.isDev) {
-        console.log('Save page data')
-      } else {
-        this.page.ctx.$axios.post('/api/page/save', {
-          pageId: this.page.id,
-          pageData: this.page.ctx.$app.serialization.serialize(this.page.data.collab),
-        })
-      }
-    }, 2000)
-
-    savePageData()
-
-    this.page.collab.doc.on('update', savePageData)
-
-
-
-
     this.page.undoRedo.init()
 
 
