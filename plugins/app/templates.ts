@@ -35,52 +35,9 @@ export class AppTemplates {
 
 
 
-    $static.vue.ssrRef(this, '$app.templates.list', () => [
-      {
-        id: uuidv4(),
-        name: 'Body note',
-        visible: true,
+    $static.vue.ssrRef(this, '$app.templates.list', () => [])
 
-        data: {
-          hasHead: false,
-          hasBody: true,
-        },
-      },
-      {
-        id: uuidv4(),
-        name: 'Head note',
-        visible: true,
-
-        data: {
-          hasHead: true,
-          hasBody: false,
-        },
-      },
-      {
-        id: uuidv4(),
-        name: 'Head and body',
-        visible: true,
-
-        data: {
-          hasHead: true,
-          hasBody: true,
-        },
-      },
-      {
-        id: uuidv4(),
-        name: 'Container with head',
-        visible: true,
-
-        data: {
-          hasHead: true,
-          hasBody: false,
-
-          container: true,
-        },
-      },
-    ] as ITemplate[])
-
-    $static.vue.ssrRef(this, '$app.templates.defaultId', () => this.list[0].id)
+    $static.vue.ssrRef(this, '$app.templates.defaultId', () => null)
 
     $static.vue.computed(this, 'default', () => 
       this.list.find(template => template.id === this.defaultId))

@@ -96,8 +96,16 @@ export class AppProject {
 
 
 
-    this.ctx.$app.project.pathPages = data.pathPages
-    this.ctx.$app.project.recentPages = data.recentPages
+    this.pathPages = data.pathPages
+    this.recentPages = data.recentPages
+
+
+
+
+    if (this.ctx.$app.templates.defaultId == null) {
+      this.ctx.$app.templates.list = data.templates
+      this.ctx.$app.templates.defaultId = data.defaultTemplateId
+    }
   }
 
 
@@ -116,11 +124,11 @@ export class AppProject {
 
 
   bumpRecentPage(page: IPageRef) {
-    const index = this.ctx.$app.project.recentPages.findIndex(item => item.id == page.id)
+    const index = this.recentPages.findIndex(item => item.id == page.id)
     if (index >= 0)
-      this.ctx.$app.project.recentPages.splice(index, 1)
+      this.recentPages.splice(index, 1)
 
-    this.ctx.$app.project.recentPages.push(page)
+    this.recentPages.push(page)
   }
 
 
