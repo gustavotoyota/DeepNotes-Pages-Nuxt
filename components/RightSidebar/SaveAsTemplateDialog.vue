@@ -98,34 +98,41 @@ const items = computed(() => {
 
 
 
-function save() {
-  if (ctx.$app.page.activeElem.id != null) {
-    const templateNote = ctx.$app.serialization.serialize({
-      noteIds: [ctx.$app.page.activeElem.id],
-      arrowIds: [],
-    }).notes[0]
+async function save() {
+  dialog.value = false
 
 
 
 
-    if (isString(templateItem.value)) {
-      ctx.$app.templates.list.push({
-        id: uuidv4(),
-        name: templateItem.value,
-        visible: true,
-        data: templateNote,
-      })
-    } else {
-      const template = ctx.$app.templates.list.find(
-        item => item.id === templateItem.value.value) as ITemplate
+  const templateNote = ctx.$app.serialization.serialize({
+    noteIds: [ctx.$app.page.activeElem.id!],
+    arrowIds: [],
+  }).notes[0]
 
-      template.data = templateNote
+
+
+
+  let template: ITemplate
+
+  if (isString(templateItem.value)) {
+    template = {
+      id: uuidv4(),
+      name: templateItem.value,
+      visible: true,
+      data: templateNote,
     }
+
+    ctx.$app.templates.list.push(template)
+  } else {
+    template = ctx.$app.templates.list.find(
+      item => item.id === templateItem.value.value) as ITemplate
+
+    template.data = templateNote
   }
 
 
 
 
-  dialog.value = false
+  await ctx.$axios.post('/api/template/save', template)
 }
 </script>

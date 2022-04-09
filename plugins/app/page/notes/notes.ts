@@ -62,15 +62,11 @@ export class AppNotes {
 
   
   createFromTemplate(template: ITemplate, clientPos: Vec2) {
-    const { noteIds } = this.page.app.serialization.deserialize({
+    const noteId = this.page.app.serialization.deserialize({
       notes: [template.data],
       arrows: [],
-    }, this.page.data.collab)
-  
-
-
-
-    const noteId = noteIds[0]
+    }, this.page.data.collab).noteIds[0]
+    
     const note = this.page.notes.map[noteId]
 
     note.collab.pos = new Vec2(Infinity, Infinity)
