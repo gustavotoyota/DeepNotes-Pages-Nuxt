@@ -1,5 +1,5 @@
 import { Context } from "@nuxt/types"
-import { v4 as uuidv4 } from 'uuid'
+import { watch } from "@nuxtjs/composition-api"
 import { Vec2 } from "../static/vec2"
 import { ISerialNote } from "./serialization"
 
@@ -47,6 +47,24 @@ export class AppTemplates {
 
     $static.vue.ssrRef(this, '$app.templates.popupVisible', () => false)
     $static.vue.ssrRef(this, '$app.templates.popupPos', () => (new Vec2(0, 0)))
+  }
+
+
+
+
+  setup() {
+    watch([
+      () => this.list,
+      () => this.defaultId,
+    ], async () => {
+      await this.ctx.$axios.post('/api/template/update-settings', {
+        templates: this.list.map(template => ({
+          id: template.id,
+          visible: template.visible,
+        })),
+        defaultTemplateId: this.defaultId,
+      })
+    })
   }
 
 

@@ -100,7 +100,7 @@ export class AppProject {
     this.recentPages = data.recentPages
 
 
-
+    
 
     if (this.ctx.$app.templates.defaultId == null) {
       this.ctx.$app.templates.list = data.templates

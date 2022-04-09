@@ -104,6 +104,13 @@ export class AppCollab {
 
 
 
+    // Setup templates
+    
+    this.page.app.templates.setup()
+
+
+
+
     // Setup elements
     
     this.page.elems.setup()
