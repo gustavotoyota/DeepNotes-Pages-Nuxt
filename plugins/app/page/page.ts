@@ -1,5 +1,7 @@
 import { Context } from '@nuxt/types'
+import { watch } from '@nuxtjs/composition-api'
 import { Base64 } from 'js-base64'
+import { debounce } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
 import { App } from '../app'
@@ -229,6 +231,46 @@ export class AppPage {
     this.project.navigateTo(id, true)
 
     return id
+  }
+
+
+
+
+  observeName() {
+    // Keep path and recent page names updated
+
+    watch(() => this.data.collab.name, () => {
+      const pathRef = this.project.pathPages.find(
+        pageRef => pageRef.id == this.id)
+
+      if (pathRef != null)
+        pathRef.name = this.data.collab.name
+
+
+        
+
+      const recentRef = this.project.recentPages.find(
+        pageRef => pageRef.id == this.id)
+
+      if (recentRef != null)
+        recentRef.name = this.data.collab.name
+    }, { immediate: true })
+
+
+
+
+    // Keep page name updated on database
+
+    const updatePageName = debounce((data: object) => {
+      this.ctx.$axios.post('/api/page/update-name', data)
+    }, 2000)
+
+    watch(() => this.data.collab.name, () => {
+      updatePageName({
+        pageId: this.id,
+        pageName: this.data.collab.name,
+      })
+    })
   }
 }
 

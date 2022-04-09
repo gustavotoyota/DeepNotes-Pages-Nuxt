@@ -48,6 +48,23 @@ export class AppCamera {
 
 
 
+  setup(pageData: any) {
+    if (pageData.camera) {
+      this.pos = pageData.camera.pos
+      this.zoom = pageData.camera.zoom
+
+      this.lockPos = pageData.camera.lockPos
+      this.lockZoom = pageData.camera.lockZoom
+    } else
+      this.fitToScreen()
+
+    if (!this.page.ctx.isDev)
+      this.watchChanges()
+  }
+
+
+
+
   watchChanges() {
     watch([
       () => this.pos,

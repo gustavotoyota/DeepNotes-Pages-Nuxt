@@ -40,6 +40,22 @@ export class AppCollab {
 
 
 
+  reset(pageName: string) {
+    this.doc.transact(() => {
+      $static.vue.merge(this.page.data.collab, {
+        name: pageName,
+      
+        noteIds: [],
+        arrowIds: [],
+
+        nextZIndex: 0,
+      } as IPageCollab)
+    })
+  }
+
+
+
+
   async startSync() {
     const promises = []
 
@@ -69,78 +85,35 @@ export class AppCollab {
     if (pageData.stateUpdate)
       Y.applyUpdateV2(this.doc, pageData.stateUpdate)
     else if (this.page.data.collab.name == null)
-      this.page.resetCollab(this.page.data.name)
+      this.reset(this.page.data.name)
 
 
 
 
     // Setup camera
 
-    if (pageData.camera) {
-      this.page.camera.pos = pageData.camera.pos
-      this.page.camera.zoom = pageData.camera.zoom
-
-      this.page.camera.lockPos = pageData.camera.lockPos
-      this.page.camera.lockZoom = pageData.camera.lockZoom
-    } else
-      this.page.camera.fitToScreen()
-
-    if (!this.page.ctx.isDev)
-      this.page.camera.watchChanges()
+    this.page.camera.setup(pageData)
 
 
 
 
-    // Keep path and recent page names updated
+    // Setup page name
 
-    watch(() => this.page.data.collab.name, () => {
-      const pathRef = this.page.project.pathPages.find(
-        pageRef => pageRef.id == this.page.id)
-
-      if (pathRef != null)
-        pathRef.name = this.page.data.collab.name
-
-
-        
-
-      const recentRef = this.page.project.recentPages.find(
-        pageRef => pageRef.id == this.page.id)
-
-      if (recentRef != null)
-        recentRef.name = this.page.data.collab.name
-    }, { immediate: true })
+    this.page.observeName()
 
 
 
 
-    // Keep page name updated on database
-
-    const updatePageName = debounce((data: object) => {
-      this.page.ctx.$axios.post('/api/page/update-name', data)
-    }, 2000)
-
-    watch(() => this.page.data.collab.name, () => {
-      updatePageName({
-        pageId: this.page.id,
-        pageName: this.page.data.collab.name,
-      })
-    })
-
-
-
-
-    // Observe changes
+    // Setup elements
     
-    this.page.notes.createAndObserveIds(this.page.data.collab.noteIds, null)
-    this.page.notes.observeMap()
-
-    this.page.arrows.createAndObserveIds(this.page.data.collab.arrowIds, null)
-    this.page.arrows.observeMap()
+    this.page.elems.setup()
 
 
+    
 
+    // Setup undo/redo
 
-    this.page.undoRedo.init()
+    this.page.undoRedo.setup()
 
 
 

@@ -89,4 +89,15 @@ export class AppElems {
   constructor(page: AppPage) {
     this.page = page
   }
+
+
+
+
+  setup() {
+    this.page.notes.createAndObserveIds(this.page.data.collab.noteIds, null)
+    this.page.notes.observeMap()
+
+    this.page.arrows.createAndObserveIds(this.page.data.collab.arrowIds, null)
+    this.page.arrows.observeMap()
+  }
 }

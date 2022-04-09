@@ -40,7 +40,7 @@ export class AppUndoRedo {
 
 
 
-  init() {
+  setup() {
     this.undoManager = new Y.UndoManager([
         getYjsValue(this.page.collab.store.page) as Y.AbstractType<IPageCollab>,
         getYjsValue(this.page.collab.store.notes) as Y.AbstractType<INoteCollab>,
