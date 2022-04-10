@@ -238,10 +238,6 @@ export class Note extends Elem {
   worldRect!: Rect
   worldCenter!: Vec2
 
-  clientSize!: Vec2
-  clientRect!: Rect
-  clientCenter!: Vec2
-
   topSection!: NoteSection
   bottomSection!: NoteSection
   numSections!: number
@@ -316,20 +312,6 @@ export class Note extends Elem {
     ))
     $static.vue.computed(this, 'note.worldCenter', () => 
       this.worldRect.center)
-
-
-
-    
-    $static.vue.computed(this, 'note.clientSize', () => 
-      this.page.pos.worldToClient(this.worldSize))
-    $static.vue.computed(this, 'note.clientRect', () => (
-      new Rect(
-        this.page.pos.worldToClient(this.worldRect.topLeft),
-        this.page.pos.worldToClient(this.worldRect.bottomRight),
-      )
-    ))
-    $static.vue.computed(this, 'note.clientCenter', () => 
-      this.page.pos.worldToClient(this.worldCenter))
 
 
 
@@ -460,6 +442,24 @@ export class Note extends Elem {
       this.page.notes.fromIds(this.collab.noteIds))
     $static.vue.computed(this, 'note.arrows', () =>
       this.page.arrows.fromIds(this.collab.arrowIds))
+  }
+
+
+
+  
+
+
+  get clientSize() {
+    return this.page.pos.worldToClient(this.worldSize)
+  }
+  get clientRect() {
+    return new Rect(
+      this.page.pos.worldToClient(this.worldRect.topLeft),
+      this.page.pos.worldToClient(this.worldRect.bottomRight),
+    )
+  }
+  get clientCenter() {
+    return this.page.pos.worldToClient(this.worldCenter)
   }
 
 
