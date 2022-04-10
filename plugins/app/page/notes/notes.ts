@@ -69,7 +69,7 @@ export class AppNotes {
     
     const note = this.page.notes.map[noteId]
 
-    note.collab.pos = new Vec2(Infinity, Infinity)
+    note.collab.pos = new Vec2(Number.MAX_VALUE, Number.MAX_VALUE)
 
   
     
@@ -174,7 +174,7 @@ export const INoteCollab = IContainerCollab.extend({
 
   anchor: IVec2.default({ x: 0.5, y: 0.5 }),
 
-  pos: IVec2.default({ x: 0, y: 0 }),
+  pos: IVec2.default({ x: Infinity, y: Infinity }),
 
   hasHead: z.boolean().default(false),
   hasBody: z.boolean().default(true),
