@@ -20,7 +20,7 @@
     <v-list dense>
 
       <v-list-item
-      :href="$ctx.isDev ? 'http://192.168.1.3:60379/account' : 'https://deepnotes.app/account'">
+      :href="$ctx.isDev ? 'http://localhost:60379/account' : 'https://deepnotes.app/account'">
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>

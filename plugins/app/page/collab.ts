@@ -68,7 +68,7 @@ export class AppCollab {
     }
 
     this.websocketProvider = new WebsocketProvider(
-      this.page.ctx.isDev ? "ws://192.168.1.3:1234" : "wss://yjs-server.deepnotes.app/",
+      this.page.ctx.isDev ? "ws://localhost:1234" : "wss://yjs-server.deepnotes.app/",
       roomName, this.doc)
       
     promises.push(new Promise((resolve) => this.websocketProvider.on('sync', resolve)))

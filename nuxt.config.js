@@ -69,8 +69,8 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded 192.168.1.3:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: isDev ? 'http://192.168.1.3:21733' : 'https://app-server.deepnotes.app/',
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: isDev ? 'http://localhost:21733' : 'https://app-server.deepnotes.app/',
   },
 
   router: {
@@ -85,10 +85,10 @@ export default {
       },
     },
     redirect: {
-      login: isDev ? 'http://192.168.1.3:60379/login' : 'https://deepnotes.app/login',
-      callback: isDev ? 'http://192.168.1.3:60379/login' : 'https://deepnotes.app/login',
+      login: isDev ? 'http://localhost:60379/login' : 'https://deepnotes.app/login',
+      callback: isDev ? 'http://localhost:60379/login' : 'https://deepnotes.app/login',
       home: '/',
-      logout: isDev ? 'http://192.168.1.3:60379' : 'https://deepnotes.app/',
+      logout: isDev ? 'http://localhost:60379' : 'https://deepnotes.app/',
     },
     strategies: {
       local: {
