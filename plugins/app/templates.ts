@@ -52,24 +52,6 @@ export class AppTemplates {
 
 
 
-  setup() {
-    watch([
-      () => this.list,
-      () => this.defaultId,
-    ], async () => {
-      await this.ctx.$axios.post('/api/template/update-settings', {
-        templates: this.list.map(template => ({
-          id: template.id,
-          visible: template.visible,
-        })),
-        defaultTemplateId: this.defaultId,
-      })
-    })
-  }
-
-
-
-
   showPopup(pos: Vec2) {
     this.popupPos = pos
     this.popupVisible = true

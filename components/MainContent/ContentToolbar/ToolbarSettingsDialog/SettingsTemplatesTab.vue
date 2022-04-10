@@ -9,7 +9,7 @@
     <Gap height="16px"/>
 
     <div style="display: flex">
-      <v-btn @click="selectedTemplates = Array.from(Array(10)).map((e, i) => i)">
+      <v-btn @click="selectedTemplates = templates.map((item) => item.id)">
         Select all
       </v-btn>
 
@@ -35,13 +35,17 @@
 
           <v-list-item-group
           multiple
-          v-model="selectedTemplates">
+          :key="rerenderKey"
+          @change="onSelectionChange">
 
-            <draggable v-model="templates"
-            animation="200">
+            <draggable
+            v-model="templates"
+            animation="200"
+            @end="rerenderKey++; selectedTemplates = []">
             
               <v-list-item
-              v-for="template of templates" :key="template.id">
+              v-for="template of templates" :key="template.id"
+              :input-value="selectedTemplates.includes(template.id)">
                 <v-list-item-content>
                   <v-list-item-title>{{ template.name }}</v-list-item-title>
                 </v-list-item-content>
@@ -67,8 +71,8 @@
 
         <v-btn block
         :disabled="selectedTemplates.length !== 1
-        || defaultTemplateId === templates[selectedTemplates[0]].id"
-        @click="defaultTemplateId = templates[selectedTemplates[0]].id">
+        || defaultTemplateId === selectedTemplate.id"
+        @click="defaultTemplateId = selectedTemplate.id">
           Set as default
         </v-btn>
         
@@ -76,8 +80,8 @@
 
         <TemplatesTabRenameDialog
         :disabled="selectedTemplates.length !== 1"
-        :initial-name="selectedTemplates.length === 1 ? templates[selectedTemplates[0]].name : ''"
-        @rename="templates[selectedTemplates[0]].name = $event"/>
+        :initial-name="selectedTemplates.length === 1 ? selectedTemplate.name : ''"
+        @rename="selectedTemplate.name = $event"/>
         
         <Gap height="16px"/>
 
@@ -107,7 +111,7 @@
 
 
 <script setup lang="ts">
-import { ref, useContext } from '@nuxtjs/composition-api';
+import { computed, ref, useContext } from '@nuxtjs/composition-api';
 import Vue from 'vue';
 import { ITemplate } from '~/plugins/app/templates';
 
@@ -116,10 +120,22 @@ const ctx = useContext()
 
 
 
+const rerenderKey = ref(0)
+
+
+
+
 const templates = ref([] as ITemplate[])
 const defaultTemplateId = ref('')
 
-const selectedTemplates = ref([] as number[])
+const selectedTemplates = ref([] as string[])
+
+
+
+
+const selectedTemplate = computed(() =>
+  (templates.value.find(
+    (item) => item.id === selectedTemplates.value[0]) ?? { name: '' }) as ITemplate)
 
 
 
@@ -133,10 +149,19 @@ defineExpose({
 
 
 
+function onSelectionChange(value: number[]) {
+  selectedTemplates.value = value.map(
+    (item) => templates.value[item].id)
+}
+
+
+
+
 function toggleVisibility() {
   let allVisible = true
-  for (const index of selectedTemplates.value) {
-    const template = templates.value[index]
+  for (const templateId of selectedTemplates.value) {
+    const template = templates.value.find(
+      item => item.id === templateId) as ITemplate
 
     if (template.visible)
       continue
@@ -145,8 +170,12 @@ function toggleVisibility() {
     break
   }
 
-  for (const index of selectedTemplates.value)
-    templates.value[index].visible = !allVisible
+  for (const templateId of selectedTemplates.value) {
+    const template = templates.value.find(
+      item => item.id === templateId) as ITemplate
+
+    template.visible = !allVisible
+  }
 }
 
 
@@ -155,8 +184,11 @@ function toggleVisibility() {
 function deleteSelection() {
   // Check if default template is selected
 
-  for (const index of selectedTemplates.value) {
-    if (defaultTemplateId.value !== templates.value[index].id)
+  for (const templateId of selectedTemplates.value) {
+    const template = templates.value.find(
+      item => item.id === templateId) as ITemplate
+
+    if (defaultTemplateId.value !== template.id)
       continue
 
     ctx.$app.snackbar.show('Cannot delete default template', 'red')

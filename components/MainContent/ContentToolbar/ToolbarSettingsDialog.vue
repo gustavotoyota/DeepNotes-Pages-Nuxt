@@ -102,6 +102,7 @@
 <script setup lang="ts">
 import { onMounted, ref, useContext, watch } from '@nuxtjs/composition-api';
 import { cloneDeep } from 'lodash';
+import { ITemplate } from '~/plugins/app/templates';
 
 const ctx = useContext()
 
@@ -137,10 +138,36 @@ onMounted(() => {
 
 
 
-function save() {
+async function save() {
   dialog.value = false
+
+
+
+
+  const modifiedTemplates = []
+
+  for (const newTemplate of templatesTab.value.templates as ITemplate[]) {
+    const oldTemplate = ctx.$app.templates.list.find(
+      (item) => item.id === newTemplate.id) as ITemplate
+
+    if (newTemplate.name !== oldTemplate.name
+    || newTemplate.visible !== oldTemplate.visible)
+      modifiedTemplates.push(newTemplate)
+  }
+
+
+
 
   ctx.$app.templates.list = templatesTab.value.templates
   ctx.$app.templates.defaultId = templatesTab.value.defaultTemplateId
+
+
+
+  
+  await ctx.$axios.post('/api/template/update-settings', {
+    templateIds: ctx.$app.templates.list.map(template => template.id),
+    modifiedTemplates: modifiedTemplates,
+    defaultTemplateId: ctx.$app.templates.defaultId,
+  })
 }
 </script>
