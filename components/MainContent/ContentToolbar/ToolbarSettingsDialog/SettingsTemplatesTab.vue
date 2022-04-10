@@ -74,11 +74,10 @@
         
         <Gap height="16px"/>
 
-        <v-btn block
+        <TemplatesTabRenameDialog
         :disabled="selectedTemplates.length !== 1"
-        @click="">
-          Rename
-        </v-btn>
+        :initial-name="selectedTemplates.length === 1 ? templates[selectedTemplates[0]].name : ''"
+        @rename="templates[selectedTemplates[0]].name = $event"/>
         
         <Gap height="16px"/>
 
