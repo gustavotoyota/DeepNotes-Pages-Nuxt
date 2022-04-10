@@ -33,7 +33,7 @@ export class AppArrowCreation {
 
 
     
-    this.arrow = new Arrow(this.page, { addToMap: false })
+    this.arrow = new Arrow(this.page, { fake: true })
   }
 
 

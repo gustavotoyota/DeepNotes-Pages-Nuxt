@@ -89,6 +89,11 @@ export class AppNotes {
   createAndObserveChildren(noteId: string, parentId: Nullable<string>) {
     const note = new Note(this.page, noteId, parentId)
 
+    Vue.set(this.page.notes.map, note.id, note)
+
+
+
+
     this.createAndObserveIds(note.collab.noteIds, note.id)
     this.page.arrows.createAndObserveIds(note.collab.arrowIds, parentId)
   }

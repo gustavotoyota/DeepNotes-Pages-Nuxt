@@ -57,12 +57,11 @@ export class Arrow extends Elem {
   constructor(page: AppPage, options: {
     id?: string,
     parentId?: Nullable<string>,
-    addToMap?: boolean,
+    fake?: boolean,
   }) {
     super(page, {
       id: options.id,
       type: ElemType.ARROW,
-      addToMap: options.addToMap,
     })
 
 
@@ -116,7 +115,7 @@ export class Arrow extends Elem {
 
 
     
-    if (options.addToMap === false)
+    if (options.fake)
       return
 
 
@@ -230,10 +229,12 @@ export class AppArrows {
 
 
   create(arrowId: string, parentId: Nullable<string>) {
-    new Arrow(this.page, {
+    const arrow = new Arrow(this.page, {
       id: arrowId,
       parentId: parentId,
     })
+
+    Vue.set(this.page.arrows.map, arrow.id, arrow)
   }
   createAndObserveIds(arrowIds: string[], parentId: Nullable<string>) {
     for (const arrowId of arrowIds)

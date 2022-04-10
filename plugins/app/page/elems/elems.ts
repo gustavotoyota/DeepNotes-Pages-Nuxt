@@ -37,7 +37,6 @@ export class Elem {
     id?: string,
     type: ElemType,
     parentId?: Nullable<string>,
-    addToMap?: boolean,
   }) {
     this.page = page
 
@@ -59,15 +58,6 @@ export class Elem {
       else
         return this.page.notes.map[this.parentId]
     })
-
-
-    
-    
-    if (options.addToMap ?? true) {
-      const elems = this.page[`${this.type}s` as `${ElemType}s`]
-
-      Vue.set(elems.map, this.id, this)
-    }
   }
 }
 
