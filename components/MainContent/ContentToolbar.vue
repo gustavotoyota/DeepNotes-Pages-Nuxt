@@ -177,11 +177,11 @@
 
     <Gap width="4px"/>
     
-    <ContentToolbarSettings/>
+    <ToolbarSettingsDialog/>
 
     <Gap width="4px"/>
     
-    <ContentToolbarPopup/>
+    <ToolbarPopup/>
 
 
 
